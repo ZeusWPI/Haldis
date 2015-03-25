@@ -1,0 +1,15 @@
+ORDERS
+=======
+OrderID | Courier | Locatie | Starttijdstip | Eindtijstip | Comment
+
+Item
+=====
+ItemID | OrderID | User | Food
+
+Locaties
+======
+LocatieID | Naam | Adres | Telefoonnummer
+
+Food
+=====
+FoodID | LocatieID | Naam | Prijs 
