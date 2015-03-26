@@ -24,7 +24,7 @@ def logout():
     if 'zeus_token' in session:
         session.pop('zeus_token', None)
     logout_user()
-    return redirect(url_for('admin.index'))
+    return redirect(url_for('home'))
 
 
 def before_request():

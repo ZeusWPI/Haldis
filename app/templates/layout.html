@@ -15,7 +15,12 @@
               <li><a href="{{ url_for('home') }}">Home</a></li>
               <li><a href="{{ url_for('stats') }}">Stats</a></li>
               <li><a href="{{ url_for('about') }}">About</a></li>
-              <li><a href="{{ url_for('login') }}">Login</a></li>
+              {% if current_user.is_anonymous() %}
+                  <li><a href="{{ url_for('login') }}">Login</a></li>
+              {% else %}
+                  <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                  <li>{{ current_user.username }}</li>
+              {% endif %}
           </ul>
         </nav>
       </div>
