@@ -5,12 +5,11 @@ db.drop_all()
 db.create_all()
 
 feli = User()
-feli.configure("feliciaan", True, True)
+feli.configure("feliciaan", True, 0)
 db.session.add(feli)
 
-don = User()
-don.configure("don", True, True)
-db.session.add(don)
+wout = User()
+wout.configure('wout', True, 0)
 
 # To future developers, add yourself here
 

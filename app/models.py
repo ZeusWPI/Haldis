@@ -9,9 +9,8 @@ class User(db.Model):
     courrier = db.relationship('Courrier', backref='courrier', lazy='dynamic')
     logactions = db.relationship('LogAction', backref='user', lazy='dynamic')
 
-    def configure(self, username, allowed, admin, bias):
+    def configure(self, username, admin, bias):
         self.username = username
-        self.allowed = allowed
         self.admin = admin
         self.bias = bias
 
