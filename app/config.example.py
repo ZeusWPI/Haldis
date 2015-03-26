@@ -7,6 +7,6 @@ class Configuration(object):
     SECRET_KEY = '<change>'
     SLACK_WEBHOOK = '<add url>'
     PROCESS = 'python test.py'
-    LOGFILE = 'slotmachien.log'
+    LOGFILE = 'foodbot.log'
     ZEUS_KEY = '<fill in>'
     ZEUS_SECRET = '<fill in>'
