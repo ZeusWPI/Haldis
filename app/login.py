@@ -1,12 +1,10 @@
-from flask import redirect, request, url_for, abort, session
+from flask import redirect, abort, session, url_for
 from flask.ext.login import LoginManager, current_user, logout_user
-from flask_oauthlib.client import OAuth
 
-import requests
 
-from app import app, db, logger, cache
+from app import app
 from models import User
-from zeus import oauth, zeus_login
+from zeus import zeus_login
 
 login_manager = LoginManager()
 login_manager.init_app(app)

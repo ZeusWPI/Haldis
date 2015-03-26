@@ -1,13 +1,12 @@
-from flask import Flask, redirect, url_for, session, request, jsonify, flash, request
-from flask.ext.login import LoginManager, login_user, current_user, logout_user
-from flask.ext.admin import helpers
+from flask import redirect, url_for, session, jsonify, flash, request
+from flask.ext.login import login_user
 from flask_oauthlib.client import OAuth, OAuthException
 import json
 import requests
 
 
 from app import app, db
-from models import User, Token
+from models import User
 
 oauth = OAuth(app)
 
@@ -30,7 +29,7 @@ def zeus_login():
         return zeus.authorize(callback='http://zeus.ugent.be/foodbot/login/zeus/authorized')
 
 
-@app.route('/slotmachien/login/zeus/authorized')
+@app.route('/foodbot/login/zeus/authorized')
 def authorized():
     resp = zeus.authorized_response()
     if resp is None:
@@ -63,20 +62,7 @@ def get_zeus_oauth_token():
 
 def login_and_redirect_user(user):
     login_user(user)
-    # add_token(resp['access_token'], user)
-    content_type = request.headers.get('Content-Type', None)
-    if content_type and content_type in 'application/json':
-        token = add_token(user)
-        return jsonify({'token': token.token})
     return redirect(url_for("admin.index"))
-
-
-def add_token(user):
-    token = Token()
-    token.configure(user)
-    db.session.add(token)
-    db.session.commit()
-    return token
 
 
 def create_user(username):

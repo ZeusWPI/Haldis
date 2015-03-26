@@ -1,8 +1,7 @@
-from flask import Blueprint, request, jsonify, redirect, url_for
-
+from flask import url_for, render_template
 
 from app import app
-from login import before_request
+
 
 
 @app.route('/')

@@ -1,7 +1,3 @@
-import uuid
-from datetime import date, timedelta
-
-
 from app import db
 
 # Create database models

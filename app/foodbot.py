@@ -1,9 +1,3 @@
-from app import app, db
-
-from admin import admin
-from login import login_manager
-from models import *
-from utils import start_process
 from views import *
 
 
