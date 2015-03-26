@@ -7,7 +7,6 @@ from app import app, db
 from models import User, Location, Food, Order, OrderItem
 
 
-
 class ModelBaseView(ModelView):
 
     def is_accessible(self):

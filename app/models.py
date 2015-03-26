@@ -1,5 +1,6 @@
 from app import db
 
+
 # Create database models
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -76,7 +77,6 @@ class Order(db.Model):
     starttime = db.Column(db.DateTime)
     stoptime = db.Column(db.DateTime)
     orders = db.relationship('OrderItem', backref='order', lazy='dynamic')
-
 
     def configure(self, courrier, location, starttime, stoptime):
         self.courrier = courrier
