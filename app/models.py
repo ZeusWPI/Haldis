@@ -6,8 +6,7 @@ class User(db.Model):
     username = db.Column(db.String(80), unique=True)
     admin = db.Column(db.Boolean)
     bias = db.Column(db.Integer)
-    courrier = db.relationship('Courrier', backref='courrier', lazy='dynamic')
-    logactions = db.relationship('LogAction', backref='user', lazy='dynamic')
+    orders = db.relationship('Order', backref='courrier', lazy='dynamic')
 
     def configure(self, username, admin, bias):
         self.username = username
@@ -51,6 +50,7 @@ class Location(db.Model):
     def __repr__(self):
         return '%s: %s' % (self.name, self.address)
 
+
 class Food(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     location_id = db.Column(db.Integer, db.ForeignKey('location.id'))
@@ -65,13 +65,14 @@ class Food(db.Model):
     def __repr__(self):
         return '%s' % self.name
 
+
 class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     courrier_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     location_id = db.Column(db.Integer, db.ForeignKey('location.id'))
     starttime = db.Column(db.DateTime)
     stoptime = db.Column(db.DateTime)
-    orders = db.relationship('OrdreItem', backref='order', lazy='dynamic')
+    orders = db.relationship('OrderItem', backref='order', lazy='dynamic')
 
 
     def configure(self, courrier, location, starttime, stoptime):

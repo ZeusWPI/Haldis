@@ -58,4 +58,5 @@ target/
 # ConfigFile
 app/config.py
 
-
+# Do not add db file
+*.db
