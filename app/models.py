@@ -6,7 +6,8 @@ class User(db.Model):
     username = db.Column(db.String(80), unique=True)
     admin = db.Column(db.Boolean)
     bias = db.Column(db.Integer)
-    orders = db.relationship('Order', backref='courrier', lazy='dynamic')
+    runs = db.relationship('Order', backref='courrier', lazy='dynamic')
+    orders = db.relationship('OrderItem', backref='user', lazy='dynamic')
 
     def configure(self, username, admin, bias):
         self.username = username
@@ -56,6 +57,8 @@ class Food(db.Model):
     location_id = db.Column(db.Integer, db.ForeignKey('location.id'))
     name = db.Column(db.String(120))
     price = db.Column(db.Integer)
+    orders = db.relationship('OrderItem', backref='food', lazy='dynamic')
+
 
     def configure(self, location, name, price):
         self.location = location
@@ -83,6 +86,7 @@ class Order(db.Model):
 
     def __repr__(self):
         return 'Order'
+
 
 class OrderItem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
