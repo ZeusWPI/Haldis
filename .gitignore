@@ -32,8 +32,7 @@ var/
 pip-log.txt
 pip-delete-this-directory.txt
 
-# Unit test / coverage reports
-htmlcov/
+# Unit test / coverage reportshtmlcov/
 .tox/
 .coverage
 .cache
@@ -52,3 +51,11 @@ docs/_build/
 
 # PyBuilder
 target/
+
+# PyCharm
+.idea/
+
+# ConfigFile
+app/config.py
+
+

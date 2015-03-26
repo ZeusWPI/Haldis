@@ -1,14 +1,18 @@
 ORDERS
 =======
-OrderID | Courier | Locatie | Starttijdstip | Eindtijstip | Comment
+OrderID | User | LocatieID | Starttijdstip | Eindtijstip | Comment
 
 Item
 =====
-ItemID | OrderID | User | Food
+ItemID | OrderID | User | FoodID
 
 Locaties
 ======
-LocatieID | Naam | Adres | Telefoonnummer
+LocatieID | Naam | Adres | Coordinaten(2.0) | Website
+
+LocatieMetaData
+===============
+LocatieID | Key | Value
 
 Food
 =====
