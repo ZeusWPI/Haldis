@@ -7,5 +7,5 @@ class Configuration(object):
     SECRET_KEY = '<change>'
     SLACK_WEBHOOK = '<add url>'
     LOGFILE = 'foodbot.log'
-    ZEUS_KEY = '<fill in>'
-    ZEUS_SECRET = '<fill in>'
+    ZEUS_KEY = ''
+    ZEUS_SECRET = ''
