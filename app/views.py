@@ -1,5 +1,5 @@
 from flask import url_for, render_template, abort
-from flask.ext.login import current_user
+from flask.ext.login import current_user, login_required
 from datetime import datetime
 
 from app import app
@@ -21,11 +21,13 @@ def about():
 
 
 @app.route('/stats/')
+@login_required
 def stats():
    return render_template('stats.html')
 
 
 @app.route('/order/<int:id>')
+@login_required
 def order(id):
     order = Order.query.filter(Order.id == id).first()
     if order is not None:
@@ -34,6 +36,7 @@ def order(id):
 
 if app.debug:  # add route information
     @app.route('/routes')
+    @login_required
     def list_routes():
         import urllib
         output = []
