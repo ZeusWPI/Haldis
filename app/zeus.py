@@ -60,7 +60,7 @@ def get_zeus_oauth_token():
 
 def login_and_redirect_user(user):
     login_user(user)
-    return redirect(url_for("admin.index"))
+    return redirect(url_for("home"))
 
 
 def create_user(username):

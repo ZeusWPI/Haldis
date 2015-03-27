@@ -1,16 +1,24 @@
-<!DOCTYPE html>
-<html>
-  <head lang="en">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>FoodBot</title>
+{% extends "bootstrap/base.html" %}
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+{% set navbar = [
+    ('home', 'Home'),
+    ('orders', 'Orders'),
+    ('about', 'About'),
+    ('stats', 'Stats'),
+] -%}
+{% if not current_user.is_anonymous() and current_user.is_admin() -%}
+    {% set navbar = navbar + [('admin.index', 'Admin')] -%}
+{% endif -%}
+{% set active_page = active_page|default('index') -%}
+
+{% block title %}
+    FoodBot
+{% endblock %}
+{% block styles %}
+    {{ super() }}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-
-  </head>
-  <body>
+{% endblock %}
+{% block navbar %}
     <nav class="navbar navbar-default navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
@@ -24,9 +32,11 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><a href="{{ url_for('home') }}">Home</a></li>
-            <li><a href="{{ url_for('about') }}">About</a></li>
-            <li><a href="{{ url_for('stats') }}">Stats</a></li>
+            {% for id, text in navbar -%}
+                <li class="{{ 'active' if id == active_page else '' }}">
+                    <a href="{{ url_for(id) }}">{{ text|e }}</a>
+                </li>
+            {% endfor -%}
           </ul>
           <ul class="nav navbar-nav navbar-right">
               {% if current_user.is_anonymous() %}
@@ -39,13 +49,11 @@
          </div><!--/.nav-collapse -->
       </div>
     </nav>
+{% endblock %}
+
+{% block content -%}
     <div class="container">
-      {% block content %}
-      {% endblock %}
+    {% block container -%}
+    {%- endblock %}
     </div>
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-  </body>
-</html>
+{%- endblock %}

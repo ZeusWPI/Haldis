@@ -1,0 +1,14 @@
+{% extends "home.html" %}
+{% block container %}
+{{ super() }}
+<div class="row">
+    <div class="col-md-4">
+        <h3>Open orders:</h3>
+    <ul>
+        {% for order in orders %}
+            <li><a href="{{ url_for('order', id=order.id) }}">{{ order.location.name }}-{{ order.stoptime }}</a></li>
+        {% endfor %}
+    </ul>
+    </div>
+</div>
+{% endblock %}

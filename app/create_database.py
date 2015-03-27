@@ -9,7 +9,8 @@ feli.configure("feliciaan", True, 0)
 db.session.add(feli)
 
 destro = User()
-destro.configure('destro', True, 0)
+destro.configure('wout', True, 0)
+db.session.add(destro)
 
 # To future developers, add yourself here
 
