@@ -65,13 +65,7 @@ def login_and_redirect_user(user):
 
 def create_user(username):
     user = User()
-    user.configure(username, False)
+    user.configure(username, False, 1)
     db.session.add(user)
     db.session.commit()
-    # EASTER EGG
-    text = 'Welcome ' + username + '!'
-    js = json.dumps({'text': text})
-    url = app.config['SLACK_WEBHOOK']
-    if len(url) > 0:
-        requests.post(url, data=js)
     return user

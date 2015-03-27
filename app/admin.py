@@ -29,6 +29,7 @@ class LocationAdminModel(ModelBaseView):
 
 admin = Admin(app, name='FoodBot', url='/admin', template_mode='bootstrap3')
 
+
 admin.add_view(UserAdminModel(User, db.session))
 admin.add_view(LocationAdminModel(Location, db.session))
 admin.add_view(ModelBaseView(Food, db.session))

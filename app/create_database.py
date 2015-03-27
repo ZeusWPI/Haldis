@@ -8,8 +8,8 @@ feli = User()
 feli.configure("feliciaan", True, 0)
 db.session.add(feli)
 
-wout = User()
-wout.configure('wout', True, 0)
+destro = User()
+destro.configure('destro', True, 0)
 
 # To future developers, add yourself here
 
