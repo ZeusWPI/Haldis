@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-md-12"><!-- Shitty html-->
+        <h3>Order {{ order.id }}</h3>
+        Courrier: {{ order.courrier.username }}<br/>
+        Location: <a href="{{ order.location.website }}">{{ order.location.name }}</a><br/>
+        Starttime: {{ order.starttime }}<br/>
+        Stoptime: {{  order.stoptime }}<br/>
+        <h3>Orders</h3>
+        {% for item in order.orders %}
+            {{ item.user.username }} - {{ item.food.name }} - {{ item.food.price|euro }}<br/>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

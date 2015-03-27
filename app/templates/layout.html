@@ -1,3 +1,12 @@
+{% set navbar = [
+    ('home', 'Home'),
+    ('about', 'About'),
+    ('stats', 'Stats'),
+] -%}
+{% if current_user.is_admin() -%}
+    {% set navbar = navbar + [('admin.index', 'Admin')] -%}
+{% endif -%}
+{% set active_page = active_page|default('index') -%}
 <!DOCTYPE html>
 <html>
   <head lang="en">
@@ -24,9 +33,11 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><a href="{{ url_for('home') }}">Home</a></li>
-            <li><a href="{{ url_for('about') }}">About</a></li>
-            <li><a href="{{ url_for('stats') }}">Stats</a></li>
+            {% for id, text in navbar -%}
+                <li class="{{ 'active' if id == active_page else '' }}">
+                    <a href="{{ url_for(id) }}">{{ text|e }}</a>
+                </li>
+            {% endfor -%}
           </ul>
           <ul class="nav navbar-nav navbar-right">
               {% if current_user.is_anonymous() %}

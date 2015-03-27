@@ -43,6 +43,8 @@ class Location(db.Model):
     address = db.Column(db.String(254))
     website = db.Column(db.String(120))
     food = db.relationship('Food', backref='location', lazy='dynamic')
+    orders = db.relationship('Order', backref='location', lazy='dynamic')
+
 
     def configure(self, name, address, website):
         self.name = name
@@ -85,7 +87,7 @@ class Order(db.Model):
         self.stoptime = stoptime
 
     def __repr__(self):
-        return 'Order'
+        return 'Order %s' % (self.location.name)
 
 
 class OrderItem(db.Model):
