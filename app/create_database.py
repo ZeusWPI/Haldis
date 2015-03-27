@@ -10,6 +10,7 @@ db.session.add(feli)
 
 wout = User()
 wout.configure('wout', True, 0)
+db.session.add(wout)
 
 # To future developers, add yourself here
 
