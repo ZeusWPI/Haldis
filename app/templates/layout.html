@@ -1,35 +1,51 @@
 <!DOCTYPE html>
 <html>
   <head lang="en">
-      <meta charset="UTF-8">
-      <title>FoodBot</title>
-      <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>FoodBot</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+
   </head>
   <body>
-   
-    <header>
+    <nav class="navbar navbar-default navbar-fixed-top">
       <div class="container">
-        <h1 class="logo">FOODBOT</h1>
-        <nav>
-          <ul class="menu">
-              <li><a href="{{ url_for('home') }}">Home</a></li>
-              <li><a href="{{ url_for('stats') }}">Stats</a></li>
-              <li><a href="{{ url_for('about') }}">About</a></li>
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="{{ url_for('home') }}">FOODBOT</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('about') }}">About</a></li>
+            <li><a href="{{ url_for('stats') }}">Stats</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
               {% if current_user.is_anonymous() %}
                   <li><a href="{{ url_for('login') }}">Login</a></li>
               {% else %}
+                  <li><a href="#">{{ current_user.username }}</a></li>
                   <li><a href="{{ url_for('logout') }}">Logout</a></li>
-                  <li>{{ current_user.username }}</li>
               {% endif %}
           </ul>
-        </nav>
+         </div><!--/.nav-collapse -->
       </div>
-    </header>
-     
+    </nav>
     <div class="container">
       {% block content %}
       {% endblock %}
     </div>
-     
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
   </body>
 </html>
