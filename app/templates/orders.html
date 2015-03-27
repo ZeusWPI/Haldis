@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+{% set active_page = "orders" -%}
+
+{% block container %}
+    <div class="row">
+        <div class="col-md-7">
+            <h3>Open orders:</h3>
+            <ul>
+                {% for order in orders %}
+                    <li><a href="{{ url_for('order', id=order.id) }}">{{ order.location.name }}-{{ order.stoptime }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-md-push-2">
+            <a class="btn btn-large btn-default" href="{{ url_for('order_create') }}">Create new order</a>
+        </div>
+    </div>
+{% endblock %}

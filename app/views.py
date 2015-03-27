@@ -1,8 +1,9 @@
-from flask import url_for, render_template, abort
+from flask import url_for, render_template, abort, redirect, request
 from flask.ext.login import current_user, login_required
 from datetime import datetime
 
-from app import app
+from app import app, db
+from forms import OrderForm
 from models import Order
 
 
@@ -10,7 +11,7 @@ from models import Order
 @app.route('/')
 def home():
    if not current_user.is_anonymous():
-        orders = Order.query.filter(Order.stoptime > datetime.now()).all()
+        orders = Order.query.filter((Order.stoptime > datetime.now()) | (Order.stoptime == None)).all()
         return render_template('home_loggedin.html', orders=orders)
    return render_template('home.html')
 
@@ -33,6 +34,28 @@ def order(id):
     if order is not None:
         return render_template('order.html', order=order)
     return abort(404)
+
+@app.route('/order/create', methods=['GET', 'POST'])
+@login_required
+def order_create():
+    orderForm = OrderForm()
+    orderForm.populate()
+    if orderForm.validate_on_submit():
+        order = Order()
+        orderForm.populate_obj(order)
+        db.session.add(order)
+        db.session.commit()
+        print(order.id)
+        return redirect(url_for('home'))
+
+    return render_template('order_form.html', form=orderForm)
+
+@app.route('/order')
+@login_required
+def orders():
+    orders = Order.query.filter((Order.stoptime > datetime.now()) | (Order.stoptime == None)).all()
+    return render_template('orders.html', orders=orders)
+
 
 if app.debug:  # add route information
     @app.route('/routes')

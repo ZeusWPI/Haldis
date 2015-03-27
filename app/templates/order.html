@@ -1,5 +1,7 @@
 {% extends "layout.html" %}
-{% block content %}
+{% set active_page = "orders" -%}
+
+{% block container %}
 <div class="row">
     <div class="col-md-12"><!-- Shitty html-->
         <h3>Order {{ order.id }}</h3>

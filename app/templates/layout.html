@@ -1,5 +1,8 @@
+{% extends "bootstrap/base.html" %}
+
 {% set navbar = [
     ('home', 'Home'),
+    ('orders', 'Orders'),
     ('about', 'About'),
     ('stats', 'Stats'),
 ] -%}
@@ -7,19 +10,15 @@
     {% set navbar = navbar + [('admin.index', 'Admin')] -%}
 {% endif -%}
 {% set active_page = active_page|default('index') -%}
-<!DOCTYPE html>
-<html>
-  <head lang="en">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>FoodBot</title>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+{% block title %}
+    FoodBot
+{% endblock %}
+{% block styles %}
+    {{ super() }}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-
-  </head>
-  <body>
+{% endblock %}
+{% block navbar %}
     <nav class="navbar navbar-default navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
@@ -50,13 +49,11 @@
          </div><!--/.nav-collapse -->
       </div>
     </nav>
+{% endblock %}
+
+{% block content -%}
     <div class="container">
-      {% block content %}
-      {% endblock %}
+    {% block container -%}
+    {%- endblock %}
     </div>
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-  </body>
-</html>
+{%- endblock %}
