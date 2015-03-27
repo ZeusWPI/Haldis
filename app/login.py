@@ -14,12 +14,12 @@ login_manager.init_app(app)
 def load_user(userid):
     return User.query.filter_by(id=userid).first()
 
-@app.route('/foodbot/login')
+@app.route('/login')
 def login():
     return zeus_login()
 
 
-@app.route('/foodbot/logout')
+@app.route('/logout')
 def logout():
     if 'zeus_token' in session:
         session.pop('zeus_token', None)

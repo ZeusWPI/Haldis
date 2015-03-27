@@ -25,11 +25,9 @@ zeus = oauth.remote_app(
 def zeus_login():
     if app.debug:
         return zeus.authorize(callback=url_for('authorized', _external=True))
-    else: # temporary solution because it otherwise gives trouble on the pi because of proxies and such
-        return zeus.authorize(callback='http://zeus.ugent.be/foodbot/login/zeus/authorized')
 
 
-@app.route('/foodbot/login/zeus/authorized')
+@app.route('/login/zeus/authorized')
 def authorized():
     resp = zeus.authorized_response()
     if resp is None:
