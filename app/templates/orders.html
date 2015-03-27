@@ -1,9 +1,10 @@
 {% extends 'layout.html' %}
 {% set active_page = "orders" -%}
 
+{% import "bootstrap/wtf.html" as wtf %}
 {% block container %}
     <div class="row">
-        <div class="col-md-7">
+        <div class="col-md-5">
             <h3>Open orders:</h3>
             <ul>
                 {% for order in orders %}
@@ -11,8 +12,9 @@
                 {% endfor %}
             </ul>
         </div>
-        <div class="col-md-push-2">
-            <a class="btn btn-large btn-default" href="{{ url_for('order_create') }}">Create new order</a>
+        <div class="col-md-push-1 col-md-6">
+                {{ wtf.quick_form(form, action=url_for('order_create'), button_map={'submit_button': 'primary'}, form_type='horizontal') }}
+        </div>
         </div>
     </div>
 {% endblock %}

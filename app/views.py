@@ -45,8 +45,7 @@ def order_create():
         orderForm.populate_obj(order)
         db.session.add(order)
         db.session.commit()
-        print(order.id)
-        return redirect(url_for('home'))
+        return redirect(url_for('order', id=order.id))
 
     return render_template('order_form.html', form=orderForm)
 
@@ -54,7 +53,9 @@ def order_create():
 @login_required
 def orders():
     orders = Order.query.filter((Order.stoptime > datetime.now()) | (Order.stoptime == None)).all()
-    return render_template('orders.html', orders=orders)
+    orderForm = OrderForm()
+    orderForm.populate()
+    return render_template('orders.html', orders=orders, form=orderForm)
 
 
 if app.debug:  # add route information
