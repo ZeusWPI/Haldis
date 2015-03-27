@@ -1,3 +1,4 @@
+from datetime import datetime
 from app import db
 
 
@@ -103,3 +104,12 @@ class OrderItem(db.Model):
 
     def __repr__(self):
         return 'OrderItem'
+
+    def can_delete(self, order_id, user_id):
+        if self.user_id != user_id:
+            return False
+        if int(self.order_id) != int(order_id):
+            return False
+        if self.order.stoptime and self.order.stoptime < datetime.now():
+            return False
+        return True

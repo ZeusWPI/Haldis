@@ -1,18 +1,25 @@
 {% extends "layout.html" %}
 {% set active_page = "orders" -%}
 
+{% import "bootstrap/wtf.html" as wtf %}
 {% block container %}
 <div class="row">
-    <div class="col-md-12"><!-- Shitty html-->
+    <div class="col-md-7"><!-- Shitty html-->
         <h3>Order {{ order.id }}</h3>
         Courrier: {{ order.courrier.username }}<br/>
         Location: <a href="{{ order.location.website }}">{{ order.location.name }}</a><br/>
         Starttime: {{ order.starttime }}<br/>
         Stoptime: {{  order.stoptime }}<br/>
+        Total price: {{ total_price|euro }}
         <h3>Orders</h3>
         {% for item in order.orders %}
-            {{ item.user.username }} - {{ item.food.name }} - {{ item.food.price|euro }}<br/>
+            {{ item.user.username }} - {{ item.food.name }} - {{ item.food.price|euro }}
+            {% if item.can_delete(order.id, current_user.id) -%}<a href="{{ url_for('.delete_item', order_id=order.id, item_id=item.id) }}"><span class="glyphicon glyphicon-remove"></span></a>{%- endif %}<br/>
         {% endfor %}
+    </div>
+    <div class="col-md-push-1 col-md-4">
+        <h4>Order:</h4>
+        {{ wtf.quick_form(form, action=url_for('.order_create'), button_map={'submit_button': 'primary'}, form_type='horizontal') }}
     </div>
 </div>
 {% endblock %}

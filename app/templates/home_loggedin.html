@@ -6,7 +6,7 @@
         <h3>Open orders:</h3>
     <ul>
         {% for order in orders %}
-            <li><a href="{{ url_for('order', id=order.id) }}">{{ order.location.name }}-{{ order.stoptime }}</a></li>
+            <li><a href="{{ url_for('order_bp.order', id=order.id) }}">{{ order.location.name }}-{{ order.stoptime }}</a></li>
         {% endfor %}
     </ul>
     </div>
