@@ -1,5 +1,5 @@
 __author__ = 'feliciaan'
-from flask import url_for, render_template, abort, redirect, Blueprint
+from flask import url_for, render_template, abort, redirect, Blueprint, flash
 from flask.ext.login import current_user, login_required
 from datetime import datetime
 
@@ -71,6 +71,22 @@ def delete_item(order_id, item_id):
         db.session.delete(item)
         db.session.commit()
         return redirect(url_for('.order', id=order_id))
+    abort(404)
+
+
+@order_bp.route('/<id>/volunteer')
+@login_required
+def volunteer(id):
+    order = Order.query.filter(Order.id == id).first()
+    if order is not None:
+        print(order.courrier_id)
+        if order.courrier_id == 0:
+            order.courrier_id = current_user.id
+            db.session.commit()
+            flash("Thank you for volunteering!")
+        else:
+            flash("Volunteering not possible!")
+        return redirect(url_for('.order', id=id))
     abort(404)
 
 app.register_blueprint(order_bp, url_prefix='/order')

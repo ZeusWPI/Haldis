@@ -6,7 +6,11 @@
 <div class="row">
     <div class="col-md-7"><!-- Shitty html-->
         <h3>Order {{ order.id }}</h3>
-        Courrier: {{ order.courrier.username }}<br/>
+        Courrier: {{ order.courrier.username }}
+        {% if order.courrier == None %}
+            <a href="{{ url_for('.volunteer', id=order.id) }}" class="btn btn-primary">Volunteer</a>
+        {% endif %}
+        <br/>
         Location: <a href="{{ order.location.website }}">{{ order.location.name }}</a><br/>
         Starttime: {{ order.starttime }}<br/>
         Stoptime: {{  order.stoptime }}<br/>
@@ -19,7 +23,7 @@
     </div>
     <div class="col-md-push-1 col-md-4">
         <h4>Order:</h4>
-        {{ wtf.quick_form(form, action=url_for('.order_create'), button_map={'submit_button': 'primary'}, form_type='horizontal') }}
+        {{ wtf.quick_form(form, action=url_for('.order_item_create', id=order.id), button_map={'submit_button': 'primary'}, form_type='horizontal') }}
     </div>
 </div>
 {% endblock %}
