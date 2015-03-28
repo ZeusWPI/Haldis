@@ -1,0 +1,12 @@
+{% macro render_order(order) -%}
+<div class="row darker">
+    <div class="col-md-9">
+        <h5>{{ order.location.name }}</h5>
+        <p><b>Status:</b> {{ order.stoptime|countdown }}<br/>
+        <b>Orders:</b> {{ order.items.count() }}</p>
+    </div>
+    <div class="col-md-3">
+        <a class="btn btn-primary align-bottom full-width" href="{{ url_for('order_bp.order', id=order.id) }}">Open</a>
+    </div>
+</div>
+{%- endmacro %}
