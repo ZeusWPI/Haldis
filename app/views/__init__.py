@@ -24,7 +24,6 @@ def about():
 
 
 @app.route('/stats/')
-@login_required
 def stats():
    return render_template('stats.html')
 
