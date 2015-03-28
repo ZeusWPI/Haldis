@@ -12,13 +12,16 @@ def euro(value):
     return result
 
 @app.template_filter('countdown')
-def countdown(value):
+def countdown(value, only_positive=True, show_text=True):
     delta = value - datetime.now()
-    if delta.total_seconds() < 0:
+    if delta.total_seconds() < 0 and only_positive:
         return "closed"
     hours, remainder = divmod(delta.seconds, 3600)
     minutes, seconds = divmod(remainder, 60)
-    return 'closes in %02d:%02d:%02d' % (hours, minutes, seconds)
+    time = '%02d:%02d:%02d' % (hours, minutes, seconds)
+    if show_text:
+        return 'closes in ' + time
+    return time
 
 @app.errorhandler(404)
 def handle404(e):
