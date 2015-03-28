@@ -41,7 +41,8 @@ def order(id):
         form = OrderItemForm()
         form.populate(order.location)
         total_price = sum([o.food.price for o in order.orders])
-        return render_template('order.html', order=order, form=form, total_price=total_price)
+        total_payments = order.group_by_user_pay()
+        return render_template('order.html', order=order, form=form, total_price=total_price, total_payments=total_payments)
     return abort(404)
 
 

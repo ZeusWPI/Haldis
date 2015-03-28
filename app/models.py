@@ -1,4 +1,6 @@
 from datetime import datetime
+from collections import defaultdict
+
 from app import db
 
 
@@ -90,6 +92,17 @@ class Order(db.Model):
     def __repr__(self):
         return 'Order %s' % (self.location.name)
 
+    def group_by_user(self):
+        group = defaultdict(list)
+        for item in self.orders:
+            group[item.user_id] += [item.food]
+        return group
+
+    def group_by_user_pay(self):
+        group = defaultdict(int)
+        for item in self.orders:
+            group[item.user] += item.food.price
+        return group
 
 class OrderItem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
