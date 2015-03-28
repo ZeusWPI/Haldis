@@ -9,7 +9,7 @@ feli.configure("feliciaan", True, 0)
 db.session.add(feli)
 
 destro = User()
-destro.configure('wout', True, 0)
+destro.configure('destro', True, 0)
 db.session.add(destro)
 
 burrito = Location()
