@@ -41,7 +41,7 @@ def order(id):
     if order is not None:
         form = OrderItemForm()
         form.populate(order.location)
-        total_price = sum([o.food.price for o in order.orders])
+        total_price = sum([o.product.price for o in order.items])
         total_payments = order.group_by_user_pay()
         return render_template('order.html', order=order, form=form, total_price=total_price, total_payments=total_payments)
     return abort(404)
@@ -98,12 +98,12 @@ def close_order(id):
     order = Order.query.filter(Order.id == id).first()
     if order is not None:
         if (current_user.id == order.courrier_id or current_user.is_admin()) \
-                and order.stoptime is None:
+                and order.stoptime is None or (order.stoptime > datetime.now()):
             order.stoptime = datetime.now()
-            print(order.courrier_id)
             if order.courrier_id == 0 or order.courrier_id is None:
-                order.courrier_id = select_user(order.orders).id
-                print(order.courrier_id)
+                courrier = select_user(order.items)
+                if courrier is not None:
+                    order.courrier_id = courrier.id
             db.session.commit()
             return redirect(url_for('.order', id=id))
     abort(401)

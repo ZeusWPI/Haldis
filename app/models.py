@@ -11,7 +11,7 @@ class User(db.Model):
     admin = db.Column(db.Boolean)
     bias = db.Column(db.Integer)
     runs = db.relationship('Order', backref='courrier', lazy='dynamic')
-    orders = db.relationship('OrderItem', backref='user', lazy='dynamic')
+    orderItems = db.relationship('OrderItem', backref='user', lazy='dynamic')
 
     def configure(self, username, admin, bias):
         self.username = username
@@ -45,9 +45,8 @@ class Location(db.Model):
     name = db.Column(db.String(120))
     address = db.Column(db.String(254))
     website = db.Column(db.String(120))
-    food = db.relationship('Food', backref='location', lazy='dynamic')
+    products = db.relationship('Product', backref='location', lazy='dynamic')
     orders = db.relationship('Order', backref='location', lazy='dynamic')
-
 
     def configure(self, name, address, website):
         self.name = name
@@ -58,12 +57,12 @@ class Location(db.Model):
         return '%s: %s' % (self.name, self.address)
 
 
-class Food(db.Model):
+class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     location_id = db.Column(db.Integer, db.ForeignKey('location.id'))
     name = db.Column(db.String(120))
     price = db.Column(db.Integer)
-    orders = db.relationship('OrderItem', backref='food', lazy='dynamic')
+    orderItems = db.relationship('OrderItem', backref='product', lazy='dynamic')
 
 
     def configure(self, location, name, price):
@@ -81,7 +80,7 @@ class Order(db.Model):
     location_id = db.Column(db.Integer, db.ForeignKey('location.id'))
     starttime = db.Column(db.DateTime)
     stoptime = db.Column(db.DateTime)
-    orders = db.relationship('OrderItem', backref='order', lazy='dynamic')
+    items = db.relationship('OrderItem', backref='order', lazy='dynamic')
 
     def configure(self, courrier, location, starttime, stoptime):
         self.courrier = courrier
@@ -94,26 +93,26 @@ class Order(db.Model):
 
     def group_by_user(self):
         group = defaultdict(list)
-        for item in self.orders:
-            group[item.user_id] += [item.food]
+        for item in self.items:
+            group[item.user_id] += [item.product]
         return group
 
     def group_by_user_pay(self):
         group = defaultdict(int)
-        for item in self.orders:
-            group[item.user] += item.food.price
+        for item in self.items:
+            group[item.user] += item.product.price
         return group
 
 class OrderItem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     order_id = db.Column(db.Integer, db.ForeignKey('order.id'))
-    food_id = db.Column(db.Integer, db.ForeignKey('food.id'))
+    product_id = db.Column(db.Integer, db.ForeignKey('product.id'))
 
-    def configure(self, user, order, food):
+    def configure(self, user, order, product):
         self.user = user
         self.order = order
-        self.food = food
+        self.product = product
 
     def __repr__(self):
         return 'OrderItem'

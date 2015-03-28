@@ -19,8 +19,8 @@
         Stoptime: {{  order.stoptime }}<br/>
         Total price: {{ total_price|euro }}
         <h3>Orders</h3>
-        {% for item in order.orders %}
-            {{ item.user.username }} - {{ item.food.name }} - {{ item.food.price|euro }}
+        {% for item in order.items %}
+            {{ item.user.username }} - {{ item.product.name }} - {{ item.product.price|euro }}
             {% if item.can_delete(order.id, current_user.id) -%}<a href="{{ url_for('.delete_item', order_id=order.id, item_id=item.id) }}"><span class="glyphicon glyphicon-remove"></span></a>{%- endif %}<br/>
         {% endfor %}
         <h3>Debts</h3>

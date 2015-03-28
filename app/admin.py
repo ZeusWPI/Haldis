@@ -4,7 +4,7 @@ from flask.ext import login
 
 
 from app import app, db
-from models import User, Location, Food, Order, OrderItem
+from models import User, Location, Product, Order, OrderItem
 
 
 class ModelBaseView(ModelView):
@@ -32,6 +32,6 @@ admin = Admin(app, name='FoodBot', url='/admin', template_mode='bootstrap3')
 
 admin.add_view(UserAdminModel(User, db.session))
 admin.add_view(LocationAdminModel(Location, db.session))
-admin.add_view(ModelBaseView(Food, db.session))
+admin.add_view(ModelBaseView(Product, db.session))
 admin.add_view(ModelBaseView(Order, db.session))
 admin.add_view(ModelBaseView(OrderItem, db.session))

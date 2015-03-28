@@ -28,8 +28,8 @@ class OrderForm(Form):
 
 
 class OrderItemForm(Form):
-    food_id = SelectField('Item', coerce=int)
+    product_id = SelectField('Item', coerce=int)
     submit_button = SubmitField('Submit')
 
     def populate(self, location):
-        self.food_id.choices = [(i.id, (i.name + ": " + euro(i.price))) for i in location.food]
+        self.product_id.choices = [(i.id, (i.name + ": " + euro(i.price))) for i in location.products]
