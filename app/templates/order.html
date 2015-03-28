@@ -6,7 +6,7 @@
 <div class="row">
     <div class="col-md-7"><!-- Shitty html-->
         <h3>Order {{ order.id }}
-            {% if (current_user.id == order.courrier_id and (not order.stoptime)) or current_user.is_admin() -%}
+            {% if order.can_close(current_user.id) -%}
             <a class="btn btn-danger" href="{{ url_for('.close_order', id=order.id) }}">Close</a><br/>
         {%- endif %}</h3>
         Courrier: {{ order.courrier.username }}
@@ -28,9 +28,11 @@
             {{ key }} - {{ value|euro }}<br/>
         {% endfor %}
     </div>
+    {% if form -%}
     <div class="col-md-push-1 col-md-4">
         <h4>Order:</h4>
         {{ wtf.quick_form(form, action=url_for('.order_item_create', id=order.id), button_map={'submit_button': 'primary'}, form_type='horizontal') }}
     </div>
+    {%- endif %}
 </div>
 {% endblock %}

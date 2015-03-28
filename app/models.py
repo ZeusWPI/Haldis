@@ -104,6 +104,17 @@ class Order(db.Model):
             group[item.get_name()] += item.product.price
         return group
 
+    def can_close(self, user_id):
+        if self.stoptime and self.stoptime < datetime.now():
+            return False
+        user = None
+        if user_id:
+            user = User.query.filter_by(id=user_id).first()
+            print(user)
+        if self.courrier_id == user_id or (user and user.is_admin()):
+            return True
+        return False
+
 class OrderItem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))

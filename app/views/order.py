@@ -45,6 +45,8 @@ def order(id):
     else:
         form = AnonOrderItemForm()
     form.populate(order.location)
+    if order.stoptime and order.stoptime < datetime.now():
+        form = None
     total_price = sum([o.product.price for o in order.items])
     total_payments = order.group_by_user_pay()
     return render_template('order.html', order=order, form=form, total_price=total_price, total_payments=total_payments)
@@ -54,6 +56,8 @@ def order(id):
 def order_item_create(id):
     order = Order.query.filter(Order.id == id).first()
     if order is None:
+        abort(404)
+    if order.stoptime and order.stoptime < datetime.now():
         abort(404)
     form = None
     if not current_user.is_anonymous():
@@ -107,12 +111,13 @@ def volunteer(id):
 def close_order(id):
     order = Order.query.filter(Order.id == id).first()
     if order is None:
-        abort(401)
+        abort(404)
     if (current_user.id == order.courrier_id or current_user.is_admin()) \
             and order.stoptime is None or (order.stoptime > datetime.now()):
         order.stoptime = datetime.now()
         if order.courrier_id == 0 or order.courrier_id is None:
             courrier = select_user(order.items)
+            print(courrier)
             if courrier is not None:
                 order.courrier_id = courrier.id
         db.session.commit()
@@ -123,7 +128,9 @@ app.register_blueprint(order_bp, url_prefix='/order')
 
 def select_user(items):
     user = None
-    items = list(items)
+    # remove non users
+    items = [i for i in items if i.user_id]
+
     if len(items) <= 0:
         return None
 
