@@ -54,7 +54,7 @@ class Location(db.Model):
         self.website = website
 
     def __repr__(self):
-        return '%s: %s' % (self.name, self.address)
+        return '%s' % (self.name)
 
 
 class Product(db.Model):
@@ -71,7 +71,7 @@ class Product(db.Model):
         self.price = price
 
     def __repr__(self):
-        return '%s' % self.name
+        return '%s from %s' % (self.name, self.location)
 
 
 class Order(db.Model):
@@ -90,7 +90,7 @@ class Order(db.Model):
         self.stoptime = stoptime
 
     def __repr__(self):
-        return 'Order %s' % (self.location.name)
+        return 'Order %d @ %s' % (self.id, self.location.name)
 
     def group_by_user(self):
         group = defaultdict(list)
