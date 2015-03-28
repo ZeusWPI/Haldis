@@ -5,10 +5,10 @@
 {% block container %}
 <div class="row">
     <div class="col-md-7"><!-- Shitty html-->
-        <h3>Order {{ order.id }}</h3>
-        {% if (current_user.id == order.courrier_id or current_user.is_admin()) and not order.stoptime -%}
+        <h3>Order {{ order.id }}
+            {% if (current_user.id == order.courrier_id and (not order.stoptime)) or current_user.is_admin() -%}
             <a class="btn btn-danger" href="{{ url_for('.close_order', id=order.id) }}">Close</a><br/>
-        {%- endif %}
+        {%- endif %}</h3>
         Courrier: {{ order.courrier.username }}
         {% if order.courrier == None %}
             <a href="{{ url_for('.volunteer', id=order.id) }}" class="btn btn-primary">Volunteer</a>
