@@ -80,6 +80,7 @@ class Order(db.Model):
     location_id = db.Column(db.Integer, db.ForeignKey('location.id'))
     starttime = db.Column(db.DateTime)
     stoptime = db.Column(db.DateTime)
+    public = db.Column(db.Boolean, default=True)
     items = db.relationship('OrderItem', backref='order', lazy='dynamic')
 
     def configure(self, courrier, location, starttime, stoptime):
@@ -94,13 +95,13 @@ class Order(db.Model):
     def group_by_user(self):
         group = defaultdict(list)
         for item in self.items:
-            group[item.user_id] += [item.product]
+            group[item.get_name()] += [item.product]
         return group
 
     def group_by_user_pay(self):
         group = defaultdict(int)
         for item in self.items:
-            group[item.user] += item.product.price
+            group[item.get_name()] += item.product.price
         return group
 
 class OrderItem(db.Model):
@@ -108,20 +109,26 @@ class OrderItem(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     order_id = db.Column(db.Integer, db.ForeignKey('order.id'))
     product_id = db.Column(db.Integer, db.ForeignKey('product.id'))
+    name = db.Column(db.String(120))
 
     def configure(self, user, order, product):
         self.user = user
         self.order = order
         self.product = product
 
-    def __repr__(self):
-        return 'OrderItem'
+    def get_name(self):
+        if self.user_id is not None and self.user_id > 0:
+            return self.user.username
+        return self.name
 
-    def can_delete(self, order_id, user_id):
-        if self.user_id != user_id:
-            return False
+    def __repr__(self):
+        return 'Order %d: %s wants %s' % (self.order_id, self.get_name(), self.product.name)
+
+    def can_delete(self, order_id, user_id, name):
         if int(self.order_id) != int(order_id):
             return False
         if self.order.stoptime and self.order.stoptime < datetime.now():
             return False
-        return True
+        if self.user_id == user_id or self.name == name:
+            return True
+        return False

@@ -5,4 +5,14 @@
     <h2>Welcome to FoodBot</h2>
     <h3>This is the home page for FoodBot</h3>
   </div>
+  <div class="row">
+    <div class="col-md-4">
+        <h3>Open orders:</h3>
+        <ul>
+            {% for order in orders %}
+                <li><a href="{{ url_for('order_bp.order', id=order.id) }}">{{ order.location.name }}-{{ order.stoptime }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+  </div>
 {% endblock %}

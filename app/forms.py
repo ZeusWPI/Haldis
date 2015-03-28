@@ -1,7 +1,8 @@
 from datetime import datetime, timedelta
+from flask import session
 from flask.ext.login import current_user
 from flask_wtf import Form
-from wtforms import SelectField, DateTimeField, validators, SubmitField, HiddenField
+from wtforms import SelectField, DateTimeField, validators, SubmitField, StringField
 from models import User, Location
 from utils import euro
 
@@ -33,3 +34,24 @@ class OrderItemForm(Form):
 
     def populate(self, location):
         self.product_id.choices = [(i.id, (i.name + ": " + euro(i.price))) for i in location.products]
+
+
+class AnonOrderItemForm(OrderItemForm):
+    name = StringField('Name', validators=[validators.required()])
+
+    def populate(self, location):
+        OrderItemForm.populate(self, location)
+        if self.name.data is None:
+            self.name.data = session.get('anon_name', None)
+
+    def validate(self):
+        rv = OrderForm.validate(self)
+        if not rv:
+            return False
+
+        # check if we have a user with this name
+        user = User.query.filter_by(username=self.name.data).first()
+        if user is not None:
+            self.name.errors.append('Name already in use')
+            return False
+        return True

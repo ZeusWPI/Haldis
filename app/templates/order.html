@@ -10,7 +10,7 @@
             <a class="btn btn-danger" href="{{ url_for('.close_order', id=order.id) }}">Close</a><br/>
         {%- endif %}</h3>
         Courrier: {{ order.courrier.username }}
-        {% if order.courrier == None %}
+        {% if order.courrier == None and not current_user.is_anonymous() %}
             <a href="{{ url_for('.volunteer', id=order.id) }}" class="btn btn-primary">Volunteer</a>
         {% endif %}
         <br/>
@@ -20,12 +20,12 @@
         Total price: {{ total_price|euro }}
         <h3>Orders</h3>
         {% for item in order.items %}
-            {{ item.user.username }} - {{ item.product.name }} - {{ item.product.price|euro }}
-            {% if item.can_delete(order.id, current_user.id) -%}<a href="{{ url_for('.delete_item', order_id=order.id, item_id=item.id) }}"><span class="glyphicon glyphicon-remove"></span></a>{%- endif %}<br/>
+            {{ item.get_name() }} - {{ item.product.name }} - {{ item.product.price|euro }}
+            {% if item.can_delete(order.id, current_user.id, session.get('anon_name', '')) -%}<a href="{{ url_for('.delete_item', order_id=order.id, item_id=item.id) }}"><span class="glyphicon glyphicon-remove"></span></a>{%- endif %}<br/>
         {% endfor %}
         <h3>Debts</h3>
         {% for key, value in total_payments.items() %}
-            {{ key.username }} - {{ value|euro }}<br/>
+            {{ key }} - {{ value|euro }}<br/>
         {% endfor %}
     </div>
     <div class="col-md-push-1 col-md-4">

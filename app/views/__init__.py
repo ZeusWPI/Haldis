@@ -12,10 +12,7 @@ import views.order
 
 @app.route('/')
 def home():
-   if not current_user.is_anonymous():
-        orders = Order.query.filter((Order.stoptime > datetime.now()) | (Order.stoptime == None)).all()
-        return render_template('home_loggedin.html', orders=orders)
-   return render_template('home.html')
+    return render_template('home.html', orders=views.order.get_orders())
 
 
 @app.route('/about/')
