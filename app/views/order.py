@@ -1,6 +1,7 @@
 __author__ = 'feliciaan'
 from flask import url_for, render_template, abort, redirect, Blueprint, flash
 from flask.ext.login import current_user, login_required
+import random
 from datetime import datetime
 
 from app import app, db
@@ -90,4 +91,36 @@ def volunteer(id):
         return redirect(url_for('.order', id=id))
     abort(404)
 
+
+@order_bp.route('/<id>/close')
+@login_required
+def close_order(id):
+    order = Order.query.filter(Order.id == id).first()
+    if order is not None:
+        if (current_user.id == order.courrier_id or current_user.is_admin()) \
+                and order.stoptime is None:
+            order.stoptime = datetime.now()
+            print(order.courrier_id)
+            if order.courrier_id == 0 or order.courrier_id is None:
+                order.courrier_id = select_user(order.orders).id
+                print(order.courrier_id)
+            db.session.commit()
+            return redirect(url_for('.order', id=id))
+    abort(401)
+
 app.register_blueprint(order_bp, url_prefix='/order')
+
+
+def select_user(items):
+    user = None
+    items = list(items)
+    if len(items) <= 0:
+        return None
+
+    while user is None:
+        item = random.choice(items)
+        user = item.user
+        if random.randint(user.bias, 100) < 80:
+            user = None
+
+    return user
