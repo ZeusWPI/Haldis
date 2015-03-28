@@ -4,35 +4,49 @@
 {% import "bootstrap/wtf.html" as wtf %}
 {% block container %}
 <div class="row">
-    <div class="col-md-7"><!-- Shitty html-->
+    <div class="col-md-push-1 col-md-4 darker"><!-- Shitty html-->
         <h3>Order {{ order.id }}
             {% if order.can_close(current_user.id) -%}
             <a class="btn btn-danger" href="{{ url_for('.close_order', id=order.id) }}">Close</a><br/>
         {%- endif %}</h3>
         Courrier: {{ order.courrier.username }}
         {% if order.courrier == None and not current_user.is_anonymous() %}
-            <a href="{{ url_for('.volunteer', id=order.id) }}" class="btn btn-primary">Volunteer</a>
+            <a href="{{ url_for('.volunteer', id=order.id) }}" class="btn btn-primary btn-sm">Volunteer</a>
         {% endif %}
         <br/>
         Location: <a href="{{ order.location.website }}">{{ order.location.name }}</a><br/>
         Starttime: {{ order.starttime }}<br/>
         Stoptime: {{  order.stoptime }}<br/>
         Total price: {{ total_price|euro }}
-        <h3>Orders</h3>
-        {% for item in order.items %}
-            {{ item.get_name() }} - {{ item.product.name }} - {{ item.product.price|euro }}
-            {% if item.can_delete(order.id, current_user.id, session.get('anon_name', '')) -%}<a href="{{ url_for('.delete_item', order_id=order.id, item_id=item.id) }}"><span class="glyphicon glyphicon-remove"></span></a>{%- endif %}<br/>
-        {% endfor %}
-        <h3>Debts</h3>
-        {% for key, value in total_payments.items() %}
-            {{ key }} - {{ value|euro }}<br/>
-        {% endfor %}
     </div>
     {% if form -%}
-    <div class="col-md-push-1 col-md-4">
+    <div class="col-md-push-3 col-md-4 darker">
         <h4>Order:</h4>
         {{ wtf.quick_form(form, action=url_for('.order_item_create', id=order.id), button_map={'submit_button': 'primary'}, form_type='horizontal') }}
     </div>
     {%- endif %}
+</div>
+<div class="row">
+    <div class="col-md-push-1 col-md-4 darker">
+            <h3>Orders</h3>
+            {% for item in order.items %}
+                {{ item.get_name() }} - {{ item.product.name }} - {{ item.product.price|euro }}
+                {% if item.can_delete(order.id, current_user.id, session.get('anon_name', '')) -%}<a href="{{ url_for('.delete_item', order_id=order.id, item_id=item.id) }}"><span class="glyphicon glyphicon-remove"></span></a>{%- endif %}<br/>
+            {% endfor %}
+    </div>
+    <div class="col-md-push-3 col-md-4 darker">
+        <h3>Ordered products:</h3>
+        {% for key, value in order.group_by_product().items() %}
+            {{ key }} - {{ value }}<br/>
+        {% endfor %}
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-push-1 col-md-4 darker">
+            <h3>Debts</h3>
+            {% for key, value in order.group_by_user_pay().items() %}
+                {{ key }} - {{ value|euro }}<br/>
+            {% endfor %}
+    </div>
 </div>
 {% endblock %}

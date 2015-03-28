@@ -2,19 +2,20 @@
 {% set active_page = "orders" -%}
 
 {% import "bootstrap/wtf.html" as wtf %}
+{% import "utils.html" as util -%}
+
 {% block container %}
     <div class="row">
         <div class="col-md-5">
             <h3>Open orders:</h3>
-            <ul>
-                {% for order in orders %}
-                    <li><a href="{{ url_for('.order', id=order.id) }}">{{ order.location.name }}-{{ order.stoptime }}</a></li>
-                {% endfor %}
-            </ul>
+            {% for order in orders %}
+                {{ util.render_order(order) }}
+            {% endfor %}
         </div>
     {% if not current_user.is_anonymous() %}
         <div class="col-md-push-1 col-md-6">
-                {{ wtf.quick_form(form, action=url_for('.order_create'), button_map={'submit_button': 'primary'}, form_type='horizontal') }}
+            <h3>Create new order:</h3>
+            {{ wtf.quick_form(form, action=url_for('.order_create'), button_map={'submit_button': 'primary'}, form_type='horizontal') }}
         </div>
     {% endif %}
         </div>

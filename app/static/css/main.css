@@ -2,3 +2,19 @@
 body {
   padding-top: 70px;
 }
+
+.darker {
+   background-color: #fafafa;
+   margin-top: 10px;
+   padding-bottom: 5px;
+}
+
+@media (min-width: 992px) {
+    .align-bottom {
+        margin-top: 2.5em;
+    }
+}
+
+.full-width {
+    width: 100%;
+}

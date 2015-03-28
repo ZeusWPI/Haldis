@@ -104,6 +104,12 @@ class Order(db.Model):
             group[item.get_name()] += item.product.price
         return group
 
+    def group_by_product(self):
+        group = defaultdict(int)
+        for item in self.items:
+            group[item.product.name] += 1
+        return group
+
     def can_close(self, user_id):
         if self.stoptime and self.stoptime < datetime.now():
             return False

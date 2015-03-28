@@ -48,8 +48,7 @@ def order(id):
     if order.stoptime and order.stoptime < datetime.now():
         form = None
     total_price = sum([o.product.price for o in order.items])
-    total_payments = order.group_by_user_pay()
-    return render_template('order.html', order=order, form=form, total_price=total_price, total_payments=total_payments)
+    return render_template('order.html', order=order, form=form, total_price=total_price)
 
 
 @order_bp.route('/<id>/create', methods=['GET', 'POST'])
@@ -143,8 +142,10 @@ def select_user(items):
 
     return user
 
-def get_orders(expression=(Order.stoptime > datetime.now()) | (Order.stoptime == None)):
+def get_orders(expression=None):
     orders = []
+    if expression is None:
+        expression = (Order.stoptime > datetime.now()) | (Order.stoptime == None)
     if not current_user.is_anonymous():
         orders = Order.query.filter(expression).all()
     else:
