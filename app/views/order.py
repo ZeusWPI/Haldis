@@ -143,10 +143,10 @@ def select_user(items):
 
     return user
 
-def get_orders():
+def get_orders(expression=(Order.stoptime > datetime.now()) | (Order.stoptime == None)):
     orders = []
     if not current_user.is_anonymous():
-        orders = Order.query.filter((Order.stoptime > datetime.now()) | (Order.stoptime == None)).all()
+        orders = Order.query.filter(expression).all()
     else:
-        orders = Order.query.filter(((Order.stoptime > datetime.now()) | (Order.stoptime == None) & (Order.public == True))).all()
+        orders = Order.query.filter((expression & (Order.public == True))).all()
     return orders

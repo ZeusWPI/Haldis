@@ -14,5 +14,13 @@
             {% endfor %}
         </ul>
     </div>
+    <div class="col-md-4 col-md-push-4">
+        <h3>Recently closed orders:</h3>
+        <ul>
+            {% for order in recently_closed %}
+                <li><a href="{{ url_for('order_bp.order', id=order.id) }}">{{ order.location.name }}-{{ order.stoptime }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
   </div>
 {% endblock %}

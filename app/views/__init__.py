@@ -2,17 +2,19 @@ __author__ = 'feliciaan'
 
 from flask import url_for, render_template, abort, redirect, request
 from flask.ext.login import current_user, login_required
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from app import app, db
 from models import Order, OrderItem
 
 # import views
-import views.order
+from views.order import get_orders
 
 @app.route('/')
 def home():
-    return render_template('home.html', orders=views.order.get_orders())
+    prev_day = datetime.now() - timedelta(days=1)
+    recently_closed = get_orders(((Order.stoptime > prev_day) & (Order.stoptime < datetime.now())))
+    return render_template('home.html', orders=get_orders(), recently_closed=recently_closed)
 
 
 @app.route('/about/')
