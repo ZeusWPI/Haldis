@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from flask.ext.login import current_user
 from flask_wtf import Form
 from wtforms import SelectField, DateTimeField, validators, SubmitField, HiddenField
 from models import User, Location
@@ -15,8 +16,11 @@ class OrderForm(Form):
     submit_button = SubmitField('Submit')
 
     def populate(self):
-        self.courrier_id.choices = [(0, None)] + \
-                                   [(u.id, u.username) for u in User.query.order_by('username')]
+        if current_user.is_admin():
+            self.courrier_id.choices = [(0, None)] + \
+                                       [(u.id, u.username) for u in User.query.order_by('username')]
+        else:
+            self.courrier_id.choices = [(0, None), (current_user.id, current_user.username)]
         self.location_id.choices = [(l.id, l.name)
                                     for l in Location.query.order_by('name')]
         if self.stoptime.data is None:

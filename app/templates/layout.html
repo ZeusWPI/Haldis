@@ -1,8 +1,9 @@
 {% extends "bootstrap/base.html" %}
+{% import "bootstrap/utils.html" as utils %}
 
 {% set navbar = [
     ('home', 'Home'),
-    ('orders', 'Orders'),
+    ('order_bp.orders', 'Orders'),
     ('about', 'About'),
     ('stats', 'Stats'),
 ] -%}
@@ -52,6 +53,7 @@
 {% endblock %}
 
 {% block content -%}
+    {{ utils.flashed_messages() }}
     <div class="container">
     {% block container -%}
     {%- endblock %}
