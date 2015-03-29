@@ -37,6 +37,9 @@ def order(id, form=None):
     order = Order.query.filter(Order.id == id).first()
     if order is None:
         abort(404)
+    if current_user.is_anonymous() and not order.public:
+        flash('Please login to see this order.', 'info')
+        abort(401)
     if form is None:
         form = AnonOrderItemForm() if current_user.is_anonymous() else OrderItemForm()
         form.populate(order.location)
@@ -53,6 +56,9 @@ def order_item_create(id):
         abort(404)
     if current_order.stoptime and current_order.stoptime < datetime.now():
         abort(404)
+    if current_user.is_anonymous() and not order.public:
+        flash('Please login to see this order.', 'info')
+        abort(401)
     form = AnonOrderItemForm() if current_user.is_anonymous() else OrderItemForm()
     form.populate(current_order.location)
     if form.validate_on_submit():
@@ -65,7 +71,7 @@ def order_item_create(id):
             session['anon_name'] = item.name
         db.session.add(item)
         db.session.commit()
-        flash('Ordered %s' % (item.product.name), 'info')
+        flash('Ordered %s' % (item.product.name), 'success')
         return redirect(url_for('.order', id=id))
     return order(id, form=form)
 
@@ -135,6 +141,7 @@ def select_user(items):
                 user = None
 
     return user
+
 
 def get_orders(expression=None):
     orders = []
