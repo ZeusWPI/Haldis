@@ -28,7 +28,7 @@
 </div>
 <div class="row">
     <div class="col-md-push-1 col-md-4 darker">
-            <h3>Orders</h3>
+            <h3>Items</h3>
             {% for item in order.items %}
                 {{ item.get_name() }} - {{ item.product.name }} - {{ item.product.price|euro }}
                 {% if item.can_delete(order.id, current_user.id, session.get('anon_name', '')) -%}<a href="{{ url_for('.delete_item', order_id=order.id, item_id=item.id) }}"><span class="glyphicon glyphicon-remove"></span></a>{%- endif %}<br/>

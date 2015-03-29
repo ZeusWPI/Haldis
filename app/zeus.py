@@ -23,8 +23,7 @@ zeus = oauth.remote_app(
 
 
 def zeus_login():
-    if app.debug:
-        return zeus.authorize(callback=url_for('authorized', _external=True))
+    return zeus.authorize(callback=url_for('authorized', _external=True))
 
 
 @app.route('/login/zeus/authorized')
@@ -50,7 +49,7 @@ def authorized():
         return login_and_redirect_user(user)
 
     flash("You're not allowed to enter, please contact a system administrator")
-    return redirect(url_for("admin.index"))
+    return redirect(url_for("home"))
 
 
 @zeus.tokengetter
