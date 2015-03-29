@@ -9,13 +9,13 @@
     <h3>This is the home page for FoodBot</h3>
   </div>
   <div class="row">
-    <div class="col-md-4">
+    <div class="col-sm-5">
         <h3>Open orders:</h3>
         {% for order in orders %}
             {{ util.render_order(order) }}
         {% endfor %}
     </div>
-    <div class="col-md-4 col-md-push-4">
+    <div class="col-sm-5 col-sm-push-2">
         <h3>Recently closed orders:</h3>
        {% for order in recently_closed %}
             {{ util.render_order(order) }}

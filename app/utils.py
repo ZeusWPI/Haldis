@@ -23,6 +23,10 @@ def countdown(value, only_positive=True, show_text=True):
         return 'closes in ' + time
     return time
 
+@app.template_filter('year')
+def current_year(value):
+    return str(datetime.now().year)
+
 @app.errorhandler(404)
 def handle404(e):
     return render_template('errors/404.html'), 404
