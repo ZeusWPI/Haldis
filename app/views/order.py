@@ -74,6 +74,7 @@ def order_item_create(id):
             session['anon_name'] = item.name
         db.session.add(item)
         db.session.commit()
+        flash('Ordered %s' % (item.product.name), 'info')
         return redirect(url_for('.order', id=id))
     return render_template('order_form.html', form=form, url=url_for(".order_item_create", id=id))
 
@@ -84,8 +85,10 @@ def delete_item(order_id, item_id):
     if not current_user.is_anonymous():
         id = current_user.id
     if item.can_delete(order_id, id, session.get('anon_name', '')):
+        product_name = item.product.name
         db.session.delete(item)
         db.session.commit()
+        flash('Deleted %s' % product_name, 'info')
         return redirect(url_for('.order', id=order_id))
     abort(404)
 

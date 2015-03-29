@@ -53,7 +53,8 @@
 {% endblock %}
 
 {% block content -%}
-    {{ utils.flashed_messages() }}
+    {{ utils.flashed_messages(container=True) }}
+
     <div class="container">
     {% block container -%}
     {%- endblock %}
