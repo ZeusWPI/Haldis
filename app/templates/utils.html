@@ -10,3 +10,13 @@
     </div>
 </div>
 {%- endmacro %}
+
+{% macro render_form_field_errors(field) %}
+{%- if field.errors %}
+    {%- for error in field.errors %}
+        <p class="help-block">{{error}}</p>
+    {%- endfor %}
+{%- elif field.description -%}
+    <p class="help-block">{{field.description|safe}}</p>
+{%- endif %}
+{% endmacro %}

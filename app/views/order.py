@@ -31,7 +31,7 @@ def order_create():
         db.session.commit()
         return redirect(url_for('.order', id=order.id))
 
-    return render_template('order_form.html', form=orderForm, url=url_for(".order_create"))
+    return render_template('orders_form.html', form=orderForm, url=url_for(".order_create"))
 
 
 @order_bp.route('/<id>')
@@ -76,7 +76,7 @@ def order_item_create(id):
         db.session.commit()
         flash('Ordered %s' % (item.product.name), 'info')
         return redirect(url_for('.order', id=id))
-    return render_template('order_form.html', form=form, url=url_for(".order_item_create", id=id))
+    return render_template('order_form.html', form=form, order=order)
 
 @order_bp.route('/<order_id>/<item_id>/delete')
 def delete_item(order_id, item_id):

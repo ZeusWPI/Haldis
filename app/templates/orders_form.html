@@ -1,0 +1,9 @@
+{% extends "layout.html" %}
+{% set active_page = "orders" -%}
+
+{% import "bootstrap/wtf.html" as wtf %}
+{% block container %}
+<div class="row">
+    {{ wtf.quick_form(form, action=url, button_map={'submit_button': 'primary'}) }}
+</div>
+{% endblock %}

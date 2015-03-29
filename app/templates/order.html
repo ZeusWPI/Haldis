@@ -1,7 +1,6 @@
 {% extends "layout.html" %}
 {% set active_page = "orders" -%}
 
-{% import "bootstrap/wtf.html" as wtf %}
 {% block container %}
 <div class="row">
     <div class="col-md-push-1 col-md-4 darker"><!-- Shitty html-->
@@ -15,14 +14,13 @@
         {% endif %}
         <br/>
         location: <a href="{{ order.location.website }}">{{ order.location.name }}</a><br/>
-        opened on {{ order.starttime }}<br/>
         <b>status:</b> {% if order.stoptime %}{{  order.stoptime|countdown }}{% else %}open{% endif %}<br/>
         total price: {{ total_price|euro }}
     </div>
     {% if form -%}
     <div class="col-md-push-3 col-md-4 darker">
         <h4>Order:</h4>
-        {{ wtf.quick_form(form, action=url_for('.order_item_create', id=order.id), button_map={'submit_button': 'primary'}, form_type='horizontal') }}
+        {% include "order_form.html" with context %}
     </div>
     {%- endif %}
 </div>
