@@ -11,15 +11,14 @@ from forms import OrderItemForm, OrderForm, AnonOrderItemForm
 order_bp = Blueprint('order_bp', 'order')
 
 @order_bp.route('/')
-def orders():
-    orderForm = None
-    if not current_user.is_anonymous():
-        orderForm = OrderForm()
-        orderForm.populate()
-    return render_template('orders.html', orders=get_orders(), form=orderForm)
+def orders(form=None):
+    if form is None and not current_user.is_anonymous():
+        form = OrderForm()
+        form.populate()
+    return render_template('orders.html', orders=get_orders(), form=form)
 
 
-@order_bp.route('/create', methods=['GET', 'POST'])
+@order_bp.route('/create', methods=['POST'])
 @login_required
 def order_create():
     orderForm = OrderForm()
@@ -30,40 +29,32 @@ def order_create():
         db.session.add(order)
         db.session.commit()
         return redirect(url_for('.order', id=order.id))
-
-    return render_template('orders_form.html', form=orderForm, url=url_for(".order_create"))
+    return orders(form=orderForm)
 
 
 @order_bp.route('/<id>')
-def order(id):
+def order(id, form=None):
     order = Order.query.filter(Order.id == id).first()
     if order is None:
         abort(404)
-    form = None
-    if not current_user.is_anonymous():
-        form = OrderItemForm()
-    else:
-        form = AnonOrderItemForm()
-    form.populate(order.location)
+    if form is None:
+        form = AnonOrderItemForm() if current_user.is_anonymous() else OrderItemForm()
+        form.populate(order.location)
     if order.stoptime and order.stoptime < datetime.now():
         form = None
     total_price = sum([o.product.price for o in order.items])
     return render_template('order.html', order=order, form=form, total_price=total_price)
 
 
-@order_bp.route('/<id>/create', methods=['GET', 'POST'])
+@order_bp.route('/<id>/create', methods=['POST'])
 def order_item_create(id):
-    order = Order.query.filter(Order.id == id).first()
-    if order is None:
+    current_order = Order.query.filter(Order.id == id).first()
+    if current_order is None:
         abort(404)
-    if order.stoptime and order.stoptime < datetime.now():
+    if current_order.stoptime and current_order.stoptime < datetime.now():
         abort(404)
-    form = None
-    if not current_user.is_anonymous():
-        form = OrderItemForm()
-    else:
-        form = AnonOrderItemForm()
-    form.populate(order.location)
+    form = AnonOrderItemForm() if current_user.is_anonymous() else OrderItemForm()
+    form.populate(current_order.location)
     if form.validate_on_submit():
         item = OrderItem()
         form.populate_obj(item)
@@ -76,7 +67,7 @@ def order_item_create(id):
         db.session.commit()
         flash('Ordered %s' % (item.product.name), 'info')
         return redirect(url_for('.order', id=id))
-    return render_template('order_form.html', form=form, order=order)
+    return order(id, form=form)
 
 @order_bp.route('/<order_id>/<item_id>/delete')
 def delete_item(order_id, item_id):
@@ -148,7 +139,7 @@ def select_user(items):
 def get_orders(expression=None):
     orders = []
     if expression is None:
-        expression = (Order.stoptime > datetime.now()) | (Order.stoptime == None)
+        expression = ((datetime.now() > Order.starttime) & (Order.stoptime > datetime.now()) | (Order.stoptime == None))
     if not current_user.is_anonymous():
         orders = Order.query.filter(expression).all()
     else:

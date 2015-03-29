@@ -12,8 +12,8 @@ __author__ = 'feliciaan'
 class OrderForm(Form):
     courrier_id = SelectField('Courrier', coerce=int)
     location_id = SelectField('Location', coerce=int, validators=[validators.required()])
-    starttime = DateTimeField('Starttime', default=datetime.now)
-    stoptime = DateTimeField('Stoptime')
+    starttime = DateTimeField('Starttime', default=datetime.now, format='%d-%m-%Y %H:%M')
+    stoptime = DateTimeField('Stoptime', format='%d-%m-%Y %H:%M')
     submit_button = SubmitField('Submit')
 
     def populate(self):

@@ -1,9 +1,11 @@
 {% extends "layout.html" %}
 {% set active_page = "orders" -%}
 
+{% import "utils.html" as util %}
+
 {% block container %}
 <div class="row">
-    <div class="col-md-push-1 col-md-4 darker"><!-- Shitty html-->
+    <div class="col-md-push-1 col-md-10 darker"><!-- Shitty html-->
         <h3>Order {{ order.id }}
             {% if order.can_close(current_user.id) -%}
             <a class="btn btn-danger" href="{{ url_for('.close_order', id=order.id) }}">Close</a><br/>
@@ -18,9 +20,26 @@
         total price: {{ total_price|euro }}
     </div>
     {% if form -%}
-    <div class="col-md-push-3 col-md-4 darker">
+    <div class="col-md-push-1 col-md-10 darker">
         <h4>Order:</h4>
-        {% include "order_form.html" with context %}
+        <form method="post" action="{{ url_for('.order_item_create', id=order.id) }}">
+            {{ form.csrf_token }}
+            <div class="form-group {{ 'has-errors' if form.product_id.errors else ''}}">
+                {{ form.product_id.label(class='control-label') }}
+                {{ form.product_id(class='form-control select') }}
+                {{ util.render_form_field_errors(form.product_id) }}
+            </div>
+            {% if current_user.is_anonymous() %}
+                <div class="form-group{{ ' has-error' if form.name.errors }}{{ ' required' if form.name.flags.required }}">
+                    {{ form.name.label(class='control-label') }}
+                    {{ form.name(class='form-control') }}
+                    {{ util.render_form_field_errors(form.name) }}
+                </div>
+            {% endif %}
+            <div class="form-group">
+                 {{ form.submit_button(class='btn btn-primary') }}
+            </div>
+        </form>
     </div>
     {%- endif %}
 </div>
@@ -47,4 +66,16 @@
             {% endfor %}
     </div>
 </div>
+{% endblock %}
+
+{% block styles %}
+    {{ super() }}
+    <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-rc.2/css/select2.min.css" rel="stylesheet" />
+{% endblock %}
+{% block scripts %}
+    {{ super() }}
+    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-rc.2/js/select2.min.js"></script>
+    <script type="text/javascript">
+        $('.select').select2();
+    </script>
 {% endblock %}
