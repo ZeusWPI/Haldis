@@ -1,5 +1,6 @@
 from models import *
 from app import db
+from itertools import product
 
 db.drop_all()
 db.create_all()
@@ -32,7 +33,7 @@ db.session.add(medium_pak_frieten)
 ############################################
 #           Chinees autogenerate           #
 ############################################
-zetmelen = ["Nasi", "Babi"]
+zetmelen = ["Nasi", "Bami"]
 vlezen = ["Rundsvlees", "Varkensvlees"]
 sauzen = ["Balisaus", "Yu siang saus", "Gon boa saus", "Curry saus", "Oestersaus", "Zwarte pepersaus",
           "Champignons", "Chinese champignons", "A la Maleisïe"]
@@ -40,20 +41,18 @@ specials = ["Kippenbolletjes zoetzuur", "varkenbolletjes zoetzuur", "Nazi Babi P
            "Diverse groenten met bami(Vegetarisch)", "Diverse groenten met nazi(Vegetarisch)"]
 
 chinees = Location()
-chinees.configure("Chinees", "Top-4-straat Keknet-city", "http://oceangarden.byethost3.com/studentenmenus.html")
+chinees.configure("Oceans's Garden", "Top-4-straat Keknet-city", "http://oceangarden.byethost3.com/studentenmenus.html")
 
-def create_entry(zetmeel, vlees="", saus=""):
+def chinees_create_entry(zetmeel, vlees="", saus=""):
     entry = Product()
     entry.configure(chinees, "{} {} {}".format(zetmeel, vlees, saus).rstrip(), 550)
     db.session.add(entry)
 
-for zetmeel in zetmelen:
-    for vlees in vlezen:
-        for saus in sauzen:
-            create_entry(zetmeel, vlees, saus)
+for zetmeel, vlees, saus in product(zetmelen, vlezen, sauzen):
+    chinees_create_entry(zetmeel, vlees, saus)
 
 for special in specials:
-    create_entry(special)
+    chinees_create_entry(special)
 #############################################
 
 # commit all the things
