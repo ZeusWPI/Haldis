@@ -29,5 +29,32 @@ medium_pak_frieten.configure(blauw_kotje, "Medium Pak Frieten", 220)
 db.session.add(medium_pak_frieten)
 # To future developers, add yourself here
 
+############################################
+#           Chinees autogenerate           #
+############################################
+zetmelen = ["Nasi", "Babi"]
+vlezen = ["Rundsvlees", "Varkensvlees"]
+sauzen = ["Balisaus", "Yu siang saus", "Gon boa saus", "Curry saus", "Oestersaus", "Zwarte pepersaus",
+          "Champignons", "Chinese champignons", "A la Maleisïe"]
+specials = ["Kippenbolletjes zoetzuur", "varkenbolletjes zoetzuur", "Nazi Babi Pangang", "Bami Babi Pangang",
+           "Diverse groenten met bami(Vegetarisch)", "Diverse groenten met nazi(Vegetarisch)"]
+
+chinees = Location()
+chinees.configure("Chinees", "Top-4-straat Keknet-city", "http://oceangarden.byethost3.com/studentenmenus.html")
+
+def create_entry(zetmeel, vlees="", saus=""):
+    entry = Product()
+    entry.configure(chinees, "{} {} {}".format(zetmeel, vlees, saus).rstrip(), 550)
+    db.session.add(entry)
+
+for zetmeel in zetmelen:
+    for vlees in vlezen:
+        for saus in sauzen:
+            create_entry(zetmeel, vlees, saus)
+
+for special in specials:
+    create_entry(special)
+#############################################
+
 # commit all the things
 db.session.commit()
