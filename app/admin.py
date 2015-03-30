@@ -27,7 +27,7 @@ class LocationAdminModel(ModelBaseView):
     form_columns = ('name', 'address', 'website')
 
 
-admin = Admin(app, name='FoodBot', url='/admin', template_mode='bootstrap3')
+admin = Admin(app, name='James', url='/admin', template_mode='bootstrap3')
 
 
 admin.add_view(UserAdminModel(User, db.session))
