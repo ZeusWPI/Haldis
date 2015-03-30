@@ -23,6 +23,7 @@
 
 {% block scripts %}
     {{ super() }}
+    <script src="{{ url_for('static', filename='js/timer.js') }}"></script>
     <script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
 {% endblock %}
 

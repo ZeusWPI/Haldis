@@ -42,6 +42,7 @@ specials = ["Kippenbolletjes zoetzuur", "varkenbolletjes zoetzuur", "Nazi Babi P
 
 chinees = Location()
 chinees.configure("Oceans's Garden", "Top-4-straat Keknet-city", "http://oceangarden.byethost3.com/studentenmenus.html")
+db.session.add(chinees)
 
 def chinees_create_entry(zetmeel, vlees="", saus=""):
     entry = Product()

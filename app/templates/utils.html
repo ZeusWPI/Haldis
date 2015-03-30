@@ -2,7 +2,7 @@
 <div class="row darker">
     <div class="col-md-9">
         <h5>{{ order.location.name }}</h5>
-        <p><b>Status:</b> {{ order.stoptime|countdown }}<br/>
+        <p><b>Status:</b> <span class="time">{{ order.stoptime|countdown }}</span><br/>
         <b>Orders:</b> {{ order.items.count() }}</p>
     </div>
     <div class="col-md-3">
