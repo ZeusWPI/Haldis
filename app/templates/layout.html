@@ -42,7 +42,7 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             {% for id, text in navbar -%}
-                <li class="{{ 'active' if id == active_page else '' }}">
+                <li class="{{ 'active' if active_page in id else '' }}">
                     <a href="{{ url_for(id) }}">{{ text|e }}</a>
                 </li>
             {% endfor -%}
