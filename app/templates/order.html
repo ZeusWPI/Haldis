@@ -24,8 +24,8 @@
         <h4>Order:</h4>
         <form method="post" action="{{ url_for('.order_item_create', id=order.id) }}">
             {{ form.csrf_token }}
-            <div class="form-group {{ 'has-errors' if form.product_id.errors else ''}}">
-                {{ form.product_id.label(class='control-label') }}
+            <div class="form-group select2-container select2 {{ 'has-errors' if form.product_id.errors}}">
+                {{ form.product_id.label(class='control-label') }}<br>
                 {{ form.product_id(class='form-control select') }}
                 {{ util.render_form_field_errors(form.product_id) }}
             </div>
@@ -36,7 +36,7 @@
                     {{ util.render_form_field_errors(form.name) }}
                 </div>
             {% endif %}
-            <div class="form-group">
+            <div class="form-group" style="padding-top: 8px;">
                  {{ form.submit_button(class='btn btn-primary') }}
             </div>
         </form>
@@ -71,6 +71,7 @@
 {% block styles %}
     {{ super() }}
     <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-rc.2/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/select2-bootstrap.min.css') }}">
 {% endblock %}
 {% block scripts %}
     {{ super() }}

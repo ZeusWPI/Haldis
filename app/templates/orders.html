@@ -17,12 +17,12 @@
             <h3>Create new order:</h3>
             <form method="post" action="{{ url_for('.order_create') }}">
                 {{ form.csrf_token }}
-                <div class="form-group {{ 'has-errors' if form.courrier_id.errors else ''}}">
-                    {{ form.courrier_id.label(class='control-label') }}
+                <div class="form-group select2 {{ 'has-errors' if form.courrier_id.errors else ''}}">
+                    {{ form.courrier_id.label(class='control-label') }}<br>
                     {{ form.courrier_id(class='form-control select') }}
                     {{ util.render_form_field_errors(form.courrier_id) }}
                 </div>
-                <div class="form-group {{ 'has-errors' if form.location_id.errors else ''}}{{ ' required' if form.location_id.flags.required }}">
+                <div class="form-group select2 {{ 'has-errors' if form.location_id.errors else ''}}{{ ' required' if form.location_id.flags.required }}">
                     {{ form.location_id.label(class='control-label') }}
                     {{ form.location_id(class='form-control select') }}
                     {{ util.render_form_field_errors(form.location_id) }}
@@ -63,6 +63,7 @@
     {{ super() }}
     <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-rc.2/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-datetimepicker.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/select2-bootstrap.min.css') }}">
 {%- endblock %}
 {% block scripts -%}
     {{ super() }}
