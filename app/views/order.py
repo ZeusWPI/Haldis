@@ -56,7 +56,7 @@ def order_item_create(id):
         abort(404)
     if current_order.stoptime and current_order.stoptime < datetime.now():
         abort(404)
-    if current_user.is_anonymous() and not order.public:
+    if current_user.is_anonymous() and not current_order.public:
         flash('Please login to see this order.', 'info')
         abort(401)
     form = AnonOrderItemForm() if current_user.is_anonymous() else OrderItemForm()
