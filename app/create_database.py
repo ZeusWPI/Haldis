@@ -15,6 +15,7 @@ db.session.add(destro)
 
 iepoev = User()
 iepoev.configure('iepoev', True, 1)
+db.session.add(iepoev)
 
 burrito = Location()
 burrito.configure("Burrito Bar", "Top-4-straat Keknet-city", "burritofest.com")
