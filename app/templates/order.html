@@ -1,0 +1,82 @@
+{% extends "layout.html" %}
+{% set active_page = "orders" -%}
+
+{% import "utils.html" as util %}
+
+{% block container %}
+<div class="row">
+    <div class="col-md-push-1 col-md-10 darker"><!-- Shitty html-->
+        <h3>Order {{ order.id }}
+            {% if order.can_close(current_user.id) -%}
+                <a class="btn btn-danger pull-right" href="{{ url_for('.close_order', id=order.id) }}">Close</a><br/>
+        {%- endif %}</h3>
+        courrier: {{ order.courrier.username }}
+        {% if order.courrier == None and not current_user.is_anonymous() %}
+            <a href="{{ url_for('.volunteer', id=order.id) }}" class="btn btn-primary btn-sm">Volunteer</a>
+        {% endif %}
+        <br/>
+        location: <a href="{{ order.location.website }}">{{ order.location.name }}</a><br/>
+        <b>status:</b> {% if order.stoptime %}<span class="time">{{  order.stoptime|countdown }}</span>{% else %}open{% endif %}<br/>
+        total price: {{ total_price|euro }}
+    </div>
+    {% if form -%}
+    <div class="col-md-push-1 col-md-10 darker">
+        <h4>Order:</h4>
+        <form method="post" action="{{ url_for('.order_item_create', id=order.id) }}">
+            {{ form.csrf_token }}
+            <div class="form-group select2-container select2 {{ 'has-errors' if form.product_id.errors}}">
+                {{ form.product_id.label(class='control-label') }}<br>
+                {{ form.product_id(class='form-control select') }}
+                {{ util.render_form_field_errors(form.product_id) }}
+            </div>
+            {% if current_user.is_anonymous() %}
+                <div class="form-group{{ ' has-error' if form.name.errors }}{{ ' required' if form.name.flags.required }}">
+                    {{ form.name.label(class='control-label') }}
+                    {{ form.name(class='form-control') }}
+                    {{ util.render_form_field_errors(form.name) }}
+                </div>
+            {% endif %}
+            <div class="form-group" style="padding-top: 8px;">
+                 {{ form.submit_button(class='btn btn-primary') }}
+            </div>
+        </form>
+    </div>
+    {%- endif %}
+</div>
+<div class="row">
+    <div class="col-md-push-1 col-md-4 darker">
+            <h3>Items</h3>
+            {% for item in order.items %}
+                {{ item.get_name() }} - {{ item.product.name }} - {{ item.product.price|euro }}
+                {% if item.can_delete(order.id, current_user.id, session.get('anon_name', '')) -%}<a href="{{ url_for('.delete_item', order_id=order.id, item_id=item.id) }}"><span class="glyphicon glyphicon-remove"></span></a>{%- endif %}<br/>
+            {% endfor %}
+    </div>
+    <div class="col-md-push-3 col-md-4 darker">
+        <h3>Ordered products:</h3>
+        {% for key, value in order.group_by_product().items() %}
+            {{ key }} - {{ value }}<br/>
+        {% endfor %}
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-push-1 col-md-4 darker">
+            <h3>Debts</h3>
+            {% for key, value in order.group_by_user_pay().items() %}
+                {{ key }} - {{ value|euro }}<br/>
+            {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block styles %}
+    {{ super() }}
+    <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-rc.2/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/select2-bootstrap.min.css') }}">
+{% endblock %}
+{% block scripts %}
+    {{ super() }}
+    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-rc.2/js/select2.min.js"></script>
+    <script type="text/javascript">
+        $('.select').select2();
+    </script>
+{% endblock %}
