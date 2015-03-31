@@ -14,6 +14,7 @@ login_manager.init_app(app)
 def load_user(userid):
     return User.query.filter_by(id=userid).first()
 
+
 @app.route('/login')
 def login():
     return zeus_login()

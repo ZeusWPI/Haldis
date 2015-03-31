@@ -1,6 +1,5 @@
 # config
 
-
 class Configuration(object):
     SQLALCHEMY_DATABASE_URI = 'sqlite:///james.db'
     DEBUG = True
