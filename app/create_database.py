@@ -16,22 +16,6 @@ db.session.add(destro)
 iepoev = User()
 iepoev.configure('iepoev', True, 1)
 db.session.add(iepoev)
-
-burrito = Location()
-burrito.configure("Burrito Bar", "Top-4-straat Keknet-city", "burritofest.com")
-db.session.add(burrito)
-
-blauw_kotje = Location()
-blauw_kotje.configure("'t Blauw Kotje", "Top-5-straat Keknet-city", "frietfest.com")
-db.session.add(blauw_kotje)
-
-chili_con_carne = Product()
-chili_con_carne.configure(burrito, "Chili Con Carne", 550)
-db.session.add(chili_con_carne)
-
-medium_pak_frieten = Product()
-medium_pak_frieten.configure(blauw_kotje, "Medium Pak Frieten", 220)
-db.session.add(medium_pak_frieten)
 # To future developers, add yourself here
 
 ############################################
@@ -45,7 +29,7 @@ specials = ["Kippenbolletjes zoetzuur", "varkenbolletjes zoetzuur", "Nazi Babi P
            "Diverse groenten met bami(Vegetarisch)", "Diverse groenten met nazi(Vegetarisch)"]
 
 chinees = Location()
-chinees.configure("Oceans's Garden", "Top-4-straat Keknet-city", "http://oceangarden.byethost3.com/studentenmenus.html")
+chinees.configure("Oceans's Garden", "Zwijnaardsesteenweg 399 9000 Gent, tel: 09/222.72.74", "http://oceangarden.byethost3.com/studentenmenus.html")
 db.session.add(chinees)
 
 def chinees_create_entry(zetmeel, vlees="", saus=""):
@@ -59,6 +43,23 @@ for zetmeel, vlees, saus in product(zetmelen, vlezen, sauzen):
 for special in specials:
     chinees_create_entry(special)
 #############################################
+
+############################################
+#           Simpizza autogenerate           #
+############################################
+pizzas = ['Bolognese de luxe', 'Hawaï', 'Popeye', 'Pepperoni', 'Seafood', 'Hot pizzaaah!!!', 'Salmon delight',
+          'Full option', 'Pitza kebab', 'Multi cheese', '4 Seasons', 'Mega fish', 'Creamy multi cheese',
+          'Green fiësta', 'Chicken bbq', 'Funky chicken', 'Veggie', 'Meat lovers', 'Scampi mampi', 'Tabasco',
+          'Chicken time', 'Meatballs', 'Tuna', 'Anchovy', 'Calzone', 'Bbq meatballs', 'Creamy chicken', 'Hot bolognese']
+
+simpizza = Location()
+simpizza.configure("Sim-pizza", "De Pintelaan 252 9000 Gent, tel: 09/321.02.00", "http://simpizza.be")
+db.session.add(simpizza)
+
+for pizza in pizzas:
+    entry = Product()
+    entry.configure(simpizza, pizza, 1195)
+    db.session.add(entry)
 
 # commit all the things
 db.session.commit()
