@@ -53,6 +53,7 @@ def chinees_create_entry(zetmeel, vlees="", saus=""):
     entry.configure(chinees, "{} {} {}".format(zetmeel, vlees, saus).rstrip(), 550)
     db.session.add(entry)
 
+
 for zetmeel, vlees, saus in product(zetmelen, vlezen, sauzen):
     chinees_create_entry(zetmeel, vlees, saus)
 

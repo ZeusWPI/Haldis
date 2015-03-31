@@ -24,5 +24,6 @@ class PrefixFix(object):
         environ['PATH_INFO'] = path[len(self.script_name):]
         return self.app(environ, start_response)
 
+
 if not app.debug:
     app.wsgi_app = PrefixFix(app.wsgi_app, '/james')

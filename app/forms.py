@@ -35,6 +35,7 @@ class OrderItemForm(Form):
     def populate(self, location):
         self.product_id.choices = [(i.id, (i.name + ": " + euro(i.price))) for i in location.products]
 
+
 class AnonOrderItemForm(OrderItemForm):
     name = StringField('Name', validators=[validators.required()])
 
@@ -42,6 +43,7 @@ class AnonOrderItemForm(OrderItemForm):
         OrderItemForm.populate(self, location)
         if self.name.data is None:
             self.name.data = session.get('anon_name', None)
+
 
     def validate(self):
         rv = OrderForm.validate(self)

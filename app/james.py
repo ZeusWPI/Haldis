@@ -1,8 +1,3 @@
-# TEMPORARY ## SHOULD BE DELETED AFTER KELDER.ZEUS HAS THEIR CERTIFICATE
-import os
-os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
-
-
 from views import *
 
 from app import app, db
@@ -13,8 +8,6 @@ from models import *
 from forms import *
 from utils import *
 from views import *
-
-
 
 
 if __name__ == '__main__':
