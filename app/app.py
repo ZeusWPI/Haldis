@@ -34,4 +34,3 @@ if not app.debug:
     logger = logging.getLogger('werkzeug')
     logger.addHandler(timedFileHandler)
     app.logger.addHandler(timedFileHandler)
-
