@@ -10,8 +10,7 @@ from utils import *
 from views import *
 
 
-if __name__ == '__main__':
-	if app.debug:
-		app.run(host='0.0.0.0', port=80)
-	else:
-		app.run()
+if app.debug:
+	app.run(host='0.0.0.0', port=80)
+else:
+	app.run()
