@@ -32,7 +32,7 @@
             {% if current_user.is_anonymous() %}
                 <div class="form-group{{ ' has-error' if form.name.errors }}{{ ' required' if form.name.flags.required }}">
                     {{ form.name.label(class='control-label') }}
-                    {{ form.name(class='form-control') }}
+                    {{ form.name(class='form-control', placeholder='Fill in your name...') }}
                     {{ util.render_form_field_errors(form.name) }}
                 </div>
             {% endif %}
