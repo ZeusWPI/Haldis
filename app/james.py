@@ -1,6 +1,6 @@
 from views import *
 
-from app import app, db, logger
+from app import app, db
 
 from admin import admin
 from login import login_manager
