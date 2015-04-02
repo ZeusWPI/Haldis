@@ -1,3 +1,5 @@
+import logging
+from logging.handlers import TimedRotatingFileHandler
 from flask import Flask
 from flask.ext.bootstrap import Bootstrap, StaticCDN
 from flask.ext.sqlalchemy import SQLAlchemy
@@ -27,3 +29,9 @@ class PrefixFix(object):
 
 if not app.debug:
     app.wsgi_app = PrefixFix(app.wsgi_app, '/james')
+    timedFileHandler = TimedRotatingFileHandler(app.config['LOGFILE'], when='midnight', backupCount=100)
+    timedFileHandler.setLevel(logging.INFO)
+    logger = logging.getLogger('werkzeug')
+    logger.addHandler(timedFileHandler)
+    app.logger.addHandler(timedFileHandler)
+
