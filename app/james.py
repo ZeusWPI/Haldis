@@ -1,6 +1,6 @@
 from views import *
 
-from app import app, db
+from app import app, db, logger
 
 from admin import admin
 from login import login_manager
@@ -9,8 +9,4 @@ from forms import *
 from utils import *
 from views import *
 
-
-if app.debug:
-	app.run(host='0.0.0.0', port=80)
-else:
-	app.run()
+app.run()
