@@ -76,7 +76,7 @@ class Product(db.Model):
 
 class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    courrier_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    courrier_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
     location_id = db.Column(db.Integer, db.ForeignKey('location.id'))
     starttime = db.Column(db.DateTime)
     stoptime = db.Column(db.DateTime)
