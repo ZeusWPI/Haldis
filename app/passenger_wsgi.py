@@ -9,4 +9,4 @@ if sys.executable != INTERP:
 
 sys.path.append(os.getcwd())
 
-from james import app as application
+from haldis import app as application

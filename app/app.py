@@ -28,7 +28,7 @@ class PrefixFix(object):
 
 
 if not app.debug:
-    app.wsgi_app = PrefixFix(app.wsgi_app, '/james')
+    app.wsgi_app = PrefixFix(app.wsgi_app, '/haldis')
     timedFileHandler = TimedRotatingFileHandler(app.config['LOGFILE'], when='midnight', backupCount=100)
     timedFileHandler.setLevel(logging.DEBUG)
     logger = logging.getLogger('werkzeug')
