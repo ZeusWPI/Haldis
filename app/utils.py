@@ -35,7 +35,7 @@ def handle404(e):
 def handle401(e):
     return render_template('errors/401.html'), 401
 
-‡
+
 class AnonymouseUser:
     def is_active(self):
         return False
