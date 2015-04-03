@@ -7,7 +7,7 @@ from app import db
 # Create database models
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
     admin = db.Column(db.Boolean)
     bias = db.Column(db.Integer)
     runs = db.relationship('Order', backref='courrier', lazy='dynamic')
@@ -124,7 +124,7 @@ class Order(db.Model):
 class OrderItem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    order_id = db.Column(db.Integer, db.ForeignKey('order.id'))
+    order_id = db.Column(db.Integer, db.ForeignKey('order.id'), nullable=False)
     product_id = db.Column(db.Integer, db.ForeignKey('product.id'))
     name = db.Column(db.String(120))
 
