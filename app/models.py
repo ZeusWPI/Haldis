@@ -42,7 +42,7 @@ class User(db.Model):
 
 class Location(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(120))
+    name = db.Column(db.String(120), nullable=False)
     address = db.Column(db.String(254))
     website = db.Column(db.String(120))
     products = db.relationship('Product', backref='location', lazy='dynamic')
@@ -60,8 +60,8 @@ class Location(db.Model):
 class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     location_id = db.Column(db.Integer, db.ForeignKey('location.id'))
-    name = db.Column(db.String(120))
-    price = db.Column(db.Integer)
+    name = db.Column(db.String(120), nullable=False)
+    price = db.Column(db.Integer, nullable=False)
     orderItems = db.relationship('OrderItem', backref='product', lazy='dynamic')
 
 
@@ -71,7 +71,7 @@ class Product(db.Model):
         self.price = price
 
     def __repr__(self):
-        return '%s from %s' % (self.name, self.location)
+        return '%s (€%d)from %s' % (self.name, self.price/100, self.location or 'None')
 
 
 class Order(db.Model):
@@ -90,7 +90,7 @@ class Order(db.Model):
         self.stoptime = stoptime
 
     def __repr__(self):
-        return 'Order %d @ %s' % (self.id, self.location.name)
+        return 'Order %d @ %s' % (self.id, self.location.name or 'None')
 
     def group_by_user(self):
         group = defaultdict(list)
@@ -139,7 +139,7 @@ class OrderItem(db.Model):
         return self.name
 
     def __repr__(self):
-        return 'Order %d: %s wants %s' % (self.order_id, self.get_name(), self.product.name)
+        return 'Order %d: %s wants %s' % (self.order_id or 0, self.get_name(), self.product.name or 'None')
 
     def can_delete(self, order_id, user_id, name):
         if int(self.order_id) != int(order_id):
