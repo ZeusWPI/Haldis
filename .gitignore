@@ -1,6 +1,5 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
-*.py[cod]
 
 # C extensions
 *.so
@@ -58,7 +57,7 @@ target/
 # ConfigFile
 app/config.py
 
-# Do not add db file
+# Do not add database file
 *.db
 
 tmp/
