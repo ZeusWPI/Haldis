@@ -62,6 +62,7 @@ def init():
         recreate_from_scratch()
     else:
         add_to_current()
+    commit()
 
 
 init()

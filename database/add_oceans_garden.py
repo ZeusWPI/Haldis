@@ -11,8 +11,8 @@ sauzen = ["Balisaus", "Yu siang saus", "Gon boa saus", "Curry saus", "Oestersaus
 specials = ["Nasi Kippenbolletjes Zoetzuur", "Bami Kippenbolletjes Zoetzuur",
             "Nasi Varkenbolletjes Zoetzuur", "Bami Varkenbolletjes Zoetzuur",
             "Nasi Babi Pangang", "Bami Babi Pangang",
-            "Diverse groenten met Bami",
-            "Diverse groenten met Nasi"]
+            "Diverse Groenten met Bami",
+            "Diverse Groenten met Nasi"]
 
 
 def add():
