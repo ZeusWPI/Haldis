@@ -2,7 +2,7 @@ from app import db
 from database import add_oceans_garden, add_admins, add_simpizza
 
 
-locations = {"Admins": add_admins.add(), "Ocean's Garden": add_oceans_garden.add(), "SimPizza": add_simpizza.add()}
+entry_sets = {"Admins": add_admins.add, "Ocean's Garden": add_oceans_garden.add, "SimPizza": add_simpizza.add}
 yes = ["yes", "y", "Y"]
 no = ["no", "n", "N"]
 
@@ -19,21 +19,21 @@ def check_if_overwrite():
 
 
 def add_all():
-    for loc in locations.keys():
-        print("Adding {}.".format(loc))
-        locations[loc]()
+    for entry_set in entry_sets.keys():
+        print("Adding {}.".format(entry_set))
+        entry_sets[entry_set]()
 
 
 def recreate_from_scratch():
     confirmation = "Are you very very sure? (Will delete previous entry's!) (y/N) "
     check = "I acknowledge any repercussions!"
-    if input(confirmation) in yes and input('Type: "{}" ').format(check) == check:
+    if input(confirmation) in yes and input("Type: '{}' ".format(check)) == check:
         print("Overwriting the database!")
         add_all()
 
 
 def add_to_current():
-    available = [loc for loc in locations.keys()]
+    available = [entry_set for entry_set in entry_sets]
 
     def add_numbers():
         return "  ".join(["{}({}), ".format(loc, i) for i, loc in enumerate(available)]).rstrip(", ")
@@ -48,7 +48,7 @@ def add_to_current():
         elif answer in [str(x) for x in range(len(available))]:
             answer = int(answer)
             print("Adding {}.".format(available[answer]))
-            locations[available[answer]]()
+            entry_sets[str(available[answer])]()
             del available[answer]
         else:
             print("Not a valid answer.")
