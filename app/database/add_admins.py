@@ -3,9 +3,6 @@ from models import User
 
 
 def add():
-    db.drop_all()
-    db.create_all()
-
     feli = User()
     feli.configure("feliciaan", True, 0)
     db.session.add(feli)

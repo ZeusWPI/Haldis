@@ -1,5 +1,5 @@
 from app import db
-from database import add_oceans_garden, add_admins, add_simpizza
+import add_oceans_garden, add_admins, add_simpizza
 
 
 entry_sets = {"Admins": add_admins.add, "Ocean's Garden": add_oceans_garden.add, "SimPizza": add_simpizza.add}
@@ -28,8 +28,10 @@ def recreate_from_scratch():
     confirmation = "Are you very very sure? (Will delete previous entry's!) (y/N) "
     check = "I acknowledge any repercussions!"
     if input(confirmation) in yes and input("Type: '{}' ".format(check)) == check:
-        print("Overwriting the database!")
-        add_all()
+        print("Resetting the database!")
+        db.drop_all()
+        db.create_all()
+        add_to_current()
 
 
 def add_to_current():
@@ -43,6 +45,7 @@ def add_to_current():
         answer = input("Available: {}  : ".format(add_numbers()))
         if answer == "A":
             add_all()
+            available = []
         elif answer == "C":
             pass
         elif answer in [str(x) for x in range(len(available))]:
