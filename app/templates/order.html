@@ -10,7 +10,7 @@
             {% if order.can_close(current_user.id) -%}
                 <a class="btn btn-danger pull-right" href="{{ url_for('.close_order', id=order.id) }}">Close</a><br/>
         {%- endif %}</h3>
-        courrier: {{ order.courrier.username }}
+        courier: {{ order.courrier.username }}
         {% if order.courrier == None and not current_user.is_anonymous() %}
             <a href="{{ url_for('.volunteer', id=order.id) }}" class="btn btn-primary btn-sm">Volunteer</a>
         {% endif %}
