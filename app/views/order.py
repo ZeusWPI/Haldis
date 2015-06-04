@@ -1,6 +1,6 @@
 
 __author__ = 'feliciaan'
-from flask import url_for, render_template, abort, redirect, Blueprint, flash, session
+from flask import url_for, render_template, abort, redirect, Blueprint, flash, session, request
 from flask.ext.login import current_user, login_required
 import random
 from datetime import datetime
@@ -50,6 +50,20 @@ def order(id, form=None):
     debts = sum([o.product.price for o in order.items if not o.paid])
     return render_template('order.html', order=order, form=form, total_price=total_price, debts=debts)
 
+
+@order_bp.route('/<id>/edit', methods=['GET', 'POST'])
+@login_required
+def order_edit(id):
+    order = Order.query.filter(Order.id == id).first()
+    if order is None:
+        abort(404)
+    orderForm = OrderForm(obj=order)
+    orderForm.populate()
+    if orderForm.validate_on_submit():
+        orderForm.populate_obj(order)
+        db.session.commit()
+        return redirect(url_for('.order', id=order.id))
+    return render_template('order_edit.html', form=orderForm, order_id=id)
 
 @order_bp.route('/<id>/create', methods=['POST'])
 def order_item_create(id):

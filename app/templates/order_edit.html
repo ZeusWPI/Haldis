@@ -1,0 +1,79 @@
+{% extends 'layout.html' %}
+{% set active_page = "orders" -%}
+
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "utils.html" as util -%}
+
+{% block container %}
+    <div class="row">
+    {% if not current_user.is_anonymous() %}
+        <div class="col-md-push-4 col-md-6">
+            <h3>Create new order:</h3>
+        <div class="row darker">
+            <div class="col-sm-12">
+                <form method="post" action="{{ url_for('.order_edit', id=order_id) }}">
+                    {{ form.csrf_token }}
+                    <div class="form-group select2 {{ 'has-errors' if form.courrier_id.errors else ''}}">
+                        {{ form.courrier_id.label(class='control-label') }}<br>
+                        {{ form.courrier_id(class='form-control select') }}
+                        {{ util.render_form_field_errors(form.courrier_id) }}
+                    </div>
+                    <div class="form-group select2 {{ 'has-errors' if form.location_id.errors else ''}}{{ ' required' if form.location_id.flags.required }}">
+                        {{ form.location_id.label(class='control-label') }}
+                        {{ form.location_id(class='form-control select') }}
+                        {{ util.render_form_field_errors(form.location_id) }}
+                    </div>
+                    {% if current_user.is_admin() %}
+                        <div class="form-group{{ ' has-error' if form.starttime.errors }}{{ ' required' if form.starttime.flags.required }}{{ ' hidden' if not current_user.is_admin() }}">
+                            {{ form.starttime.label(class='control-label') }}
+                            <div class='input-group date' class='datetimepicker'>
+                                {{ form.starttime(class='form-control datetimepicker') }}
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                            {{ util.render_form_field_errors(form.starttime) }}
+                        </div>
+                    {% endif %}
+                    <div class="form-group{{ ' has-error' if form.stoptime.errors }}{{ ' required' if form.stoptime.flags.required }}{{ ' hidden' if not current_user.is_admin() }}">
+                        {{ form.stoptime.label(class='control-label') }}
+                        <div class='input-group date' class='datetimepicker'>
+                            {{ form.stoptime(class='form-control datetimepicker') }}
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                        {{ util.render_form_field_errors(form.stoptime) }}
+                    </div>
+                    <div class="form-group">
+                         {{ form.submit_button(class='btn btn-primary') }}
+                    </div>
+                </form>
+            </div>
+        </div>
+        </div>
+    {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block styles -%}
+    {{ super() }}
+    <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-rc.2/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-datetimepicker.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/select2-bootstrap.min.css') }}">
+{%- endblock %}
+{% block scripts -%}
+    {{ super() }}
+    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-rc.2/js/select2.min.js"></script>
+    <script src="{{ url_for('static', filename='js/moment.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap-datetimepicker.min.js') }}"></script>
+    <script type="text/javascript">
+        $.ready(function(){
+            $('.select').select2();
+            $('.datetimepicker').datetimepicker({
+                format: 'DD-MM-YYYY HH:mm'
+            });
+        }());
+    </script>
+{%- endblock %}

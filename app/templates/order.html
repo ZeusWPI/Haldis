@@ -11,6 +11,7 @@
         <h3>Order {{ order.id }}
             {% if courier_or_admin -%}
                 <a class="btn btn-danger pull-right" href="{{ url_for('.close_order', id=order.id) }}">Close</a><br/>
+                <a class="btn btn-warning pull-right" href="{{ url_for('.order_edit', id=order.id) }}">Edit</a>
         {%- endif %}</h3>
         courier: {{ order.courrier.username }}
         {% if order.courrier == None and not current_user.is_anonymous() %}
