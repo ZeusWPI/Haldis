@@ -24,7 +24,7 @@ class UserAdminModel(ModelBaseView):
 class LocationAdminModel(ModelBaseView):
     column_searchable_list = ('name', 'address', 'website')
     inline_models = None
-    form_columns = ('name', 'address', 'website')
+    form_columns = ('name', 'address', 'website', 'telephone')
 
 
 admin = Admin(app, name='Haldis', url='/admin', template_mode='bootstrap3')

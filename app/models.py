@@ -45,6 +45,7 @@ class Location(db.Model):
     name = db.Column(db.String(120), nullable=False)
     address = db.Column(db.String(254))
     website = db.Column(db.String(120))
+    telephone = db.Column(db.String(20), nullable=True)
     products = db.relationship('Product', backref='location', lazy='dynamic')
     orders = db.relationship('Order', backref='location', lazy='dynamic')
 

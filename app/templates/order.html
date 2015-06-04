@@ -17,6 +17,9 @@
         {% endif %}
         <br/>
         location: <a href="{{ order.location.website }}">{{ order.location.name }}</a><br/>
+        {% if order.location.telephone != None %}
+            telephone: <a href="tel://{{ order.location.telephone }}">{{ order.location.telephone }}</a><br/>
+        {% endif %}
         <b>status:</b> {% if order.stoptime %}<span class="time">{{  order.stoptime|countdown }}</span>{% else %}open{% endif %}<br/>
         total price: {{ total_price|euro }}
     </div>
