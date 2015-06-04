@@ -53,6 +53,8 @@ def order(id, form=None):
 @login_required
 def order_edit(id):
     order = Order.query.filter(Order.id == id).first()
+    if current_user.id is not order.courrier_id and not current_user.is_admin():
+        abort(401)
     if order is None:
         abort(404)
     orderForm = OrderForm(obj=order)
