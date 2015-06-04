@@ -1,3 +1,7 @@
+import json
+from threading import Thread
+import requests
+
 __author__ = 'feliciaan'
 from flask import url_for, render_template, abort, redirect, Blueprint, flash, session
 from flask.ext.login import current_user, login_required
@@ -28,6 +32,7 @@ def order_create():
         orderForm.populate_obj(order)
         db.session.add(order)
         db.session.commit()
+        post_order_to_webhook(order)
         return redirect(url_for('.order', id=order.id))
     return orders(form=orderForm)
 
@@ -152,3 +157,38 @@ def get_orders(expression=None):
     else:
         orders = Order.query.filter((expression & (Order.public == True))).all()
     return orders
+
+
+def post_order_to_webhook(order_item):
+    message = '<{}|Open here>New order for {}. Deadline in {} minutes.'.format(
+            url_for('.order', id=order_item.id, _external=True),
+            order_item.location.name,
+            remaining_minutes(order_item.stoptime))
+    webhookthread = WebhookSenderThread(message)
+    webhookthread.start()
+
+
+class WebhookSenderThread(Thread):
+
+    def __init__(self, message):
+        super(WebhookSenderThread, self).__init__()
+        self.message = message
+
+    def run(self):
+        self.slack_webhook()
+
+    def slack_webhook(self):
+        js = json.dumps({'text': self.message})
+        url = app.config['SLACK_WEBHOOK']
+        if len(url) > 0:
+            requests.post(url, data=js)
+        else:
+            app.logger.info(str(js))
+
+
+def remaining_minutes(value):
+    delta = value - datetime.now()
+    if delta.total_seconds() < 0:
+        return "0"
+    minutes, _ = divmod(delta.total_seconds(), 60)
+    return "%02d" % minutes
