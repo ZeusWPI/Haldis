@@ -65,7 +65,6 @@ class Product(db.Model):
     price = db.Column(db.Integer, nullable=False)
     orderItems = db.relationship('OrderItem', backref='product', lazy='dynamic')
 
-
     def configure(self, location, name, price):
         self.location = location
         self.name = name
@@ -94,15 +93,14 @@ class Order(db.Model):
         return 'Order %d @ %s' % (self.id, self.location.name or 'None')
 
     def group_by_user(self):
-        group = defaultdict(list)
+        group = dict()
         for item in self.items:
-            group[item.get_name()] += [item.product]
-        return group
-
-    def group_by_user_pay(self):
-        group = defaultdict(int)
-        for item in self.items:
-            group[item.get_name()] += item.product.price
+            user = group.get(item.get_name(), dict())
+            user["total"] = user.get("totalm", 0) + item.product.price
+            user["to_pay"] = user.get("to_pay", 0) + item.product.price if not item.paid else 0
+            user["paid"] = user.get("paid", True) and item.paid
+            user["products"] = user.get("products", []) + [item.product]
+            group[item.get_name()] = user
         return group
 
     def group_by_product(self):
@@ -122,11 +120,13 @@ class Order(db.Model):
             return True
         return False
 
+
 class OrderItem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     order_id = db.Column(db.Integer, db.ForeignKey('order.id'), nullable=False)
     product_id = db.Column(db.Integer, db.ForeignKey('product.id'))
+    paid = db.Column(db.Boolean, default=False)
     name = db.Column(db.String(120))
 
     def configure(self, user, order, product):
