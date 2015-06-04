@@ -96,7 +96,7 @@ class Order(db.Model):
         group = dict()
         for item in self.items:
             user = group.get(item.get_name(), dict())
-            user["total"] = user.get("totalm", 0) + item.product.price
+            user["total"] = user.get("total", 0) + item.product.price
             user["to_pay"] = user.get("to_pay", 0) + item.product.price if not item.paid else 0
             user["paid"] = user.get("paid", True) and item.paid
             user["products"] = user.get("products", []) + [item.product]
