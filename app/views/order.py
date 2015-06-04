@@ -53,6 +53,8 @@ def order(id, form=None):
 @login_required
 def order_edit(id):
     order = Order.query.filter(Order.id == id).first()
+    if current_user.id is not order.courrier_id and not current_user.is_admin():
+        abort(401)
     if order is None:
         abort(404)
     orderForm = OrderForm(obj=order)
@@ -62,6 +64,7 @@ def order_edit(id):
         db.session.commit()
         return redirect(url_for('.order', id=order.id))
     return render_template('order_edit.html', form=orderForm, order_id=id)
+
 
 @order_bp.route('/<id>/create', methods=['POST'])
 def order_item_create(id):
@@ -88,7 +91,6 @@ def order_item_create(id):
         flash('Ordered %s' % (item.product.name), 'success')
         return redirect(url_for('.order', id=id))
     return order(id, form=form)
-
 
 
 @order_bp.route('/<order_id>/<item_id>/delete')
