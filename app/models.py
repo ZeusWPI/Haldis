@@ -10,7 +10,8 @@ class User(db.Model):
     username = db.Column(db.String(80), unique=True, nullable=False)
     admin = db.Column(db.Boolean)
     bias = db.Column(db.Integer)
-    runs = db.relationship('Order', backref='courrier', lazy='dynamic')
+    runs = db.relation('Order', backref='courrier', primaryjoin='Order.courrier_id==User.id',
+                       foreign_keys='Order.courrier_id')
     orderItems = db.relationship('OrderItem', backref='user', lazy='dynamic')
 
     def configure(self, username, admin, bias):
@@ -76,7 +77,7 @@ class Product(db.Model):
 
 class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    courrier_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
+    courrier_id = db.Column(db.Integer, nullable=True)
     location_id = db.Column(db.Integer, db.ForeignKey('location.id'))
     starttime = db.Column(db.DateTime)
     stoptime = db.Column(db.DateTime)
