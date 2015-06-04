@@ -6,27 +6,12 @@
 
 {% block container %}
     <div class="row">
-        <div class="col-md-5">
-        {% if orders|count > 0 -%}
-            <h3>Open orders:</h3>
-            {% for order in orders %}
-                {{ util.render_order(order) }}
-            {% endfor %}
-        {% else %}
-            <h4>No orders available.</h4>
-            {% if not current_user.is_anonymous() %}
-                To create an order, fill in the form on the right.
-            {% else %}
-                Login to create an order, or ask someone else.
-            {% endif %}
-        {%- endif %}
-        </div>
     {% if not current_user.is_anonymous() %}
-        <div class="col-md-push-1 col-md-6">
+        <div class="col-md-push-4 col-md-6">
             <h3>Create new order:</h3>
         <div class="row darker">
             <div class="col-sm-12">
-                <form method="post" action="{{ url_for('.order_create') }}">
+                <form method="post" action="{{ url_for('.order_edit', id=order_id) }}">
                     {{ form.csrf_token }}
                     <div class="form-group select2 {{ 'has-errors' if form.courrier_id.errors else ''}}">
                         {{ form.courrier_id.label(class='control-label') }}<br>

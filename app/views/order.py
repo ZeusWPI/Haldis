@@ -1,15 +1,14 @@
+__author__ = 'feliciaan'
 import json
 from threading import Thread
 import requests
-
-__author__ = 'feliciaan'
-from flask import url_for, render_template, abort, redirect, Blueprint, flash, session
+from flask import url_for, render_template, abort, redirect, Blueprint, flash, session, request
 from flask.ext.login import current_user, login_required
 import random
 from datetime import datetime
 
 from app import app, db
-from models import Order, OrderItem
+from models import Order, OrderItem, User
 from forms import OrderItemForm, OrderForm, AnonOrderItemForm
 
 order_bp = Blueprint('order_bp', 'order')
@@ -51,7 +50,25 @@ def order(id, form=None):
     if order.stoptime and order.stoptime < datetime.now():
         form = None
     total_price = sum([o.product.price for o in order.items])
-    return render_template('order.html', order=order, form=form, total_price=total_price)
+    debts = sum([o.product.price for o in order.items if not o.paid])
+    return render_template('order.html', order=order, form=form, total_price=total_price, debts=debts)
+
+
+@order_bp.route('/<id>/edit', methods=['GET', 'POST'])
+@login_required
+def order_edit(id):
+    order = Order.query.filter(Order.id == id).first()
+    if current_user.id is not order.courrier_id and not current_user.is_admin():
+        abort(401)
+    if order is None:
+        abort(404)
+    orderForm = OrderForm(obj=order)
+    orderForm.populate()
+    if orderForm.validate_on_submit():
+        orderForm.populate_obj(order)
+        db.session.commit()
+        return redirect(url_for('.order', id=order.id))
+    return render_template('order_edit.html', form=orderForm, order_id=id)
 
 
 @order_bp.route('/<id>/create', methods=['POST'])
@@ -80,6 +97,41 @@ def order_item_create(id):
         return redirect(url_for('.order', id=id))
     return order(id, form=form)
 
+
+@order_bp.route('/<order_id>/<item_id>/paid')
+@login_required
+def item_paid(order_id, item_id):
+    item = OrderItem.query.filter(OrderItem.id == item_id).first()
+    id = current_user.id
+    if item.order.courrier_id == id or current_user.admin:
+        item.paid = True
+        db.session.commit()
+        flash('Paid %s by %s' % (item.product.name, item.user.username), 'success')
+        return redirect(url_for('.order', id=order_id))
+    abort(404)
+
+
+@order_bp.route('/<order_id>/<user_name>/user_paid')
+@login_required
+def items_user_paid(order_id, user_name):
+    user = User.query.filter(User.username == user_name).first()
+    items = []
+    if user:
+        items = OrderItem.query.filter((OrderItem.user_id == user.id) & (OrderItem.order_id == order_id))
+    else:
+        items = OrderItem.query.filter((OrderItem.name == user_name) & (OrderItem.order_id == order_id))
+    current_order = Order.query.filter(Order.id == order_id).first()
+    for item in items:
+        print(item)
+    if current_order.courrier_id == current_user.id or current_user.admin:
+        for item in items:
+            item.paid = True
+        db.session.commit()
+        flash('Paid %d items for %s' % (items.count(), item.get_name()), 'success')
+        return redirect(url_for('.order', id=order_id))
+    abort(404)
+
+
 @order_bp.route('/<order_id>/<item_id>/delete')
 def delete_item(order_id, item_id):
     item = OrderItem.query.filter(OrderItem.id == item_id).first()
@@ -90,7 +142,7 @@ def delete_item(order_id, item_id):
         product_name = item.product.name
         db.session.delete(item)
         db.session.commit()
-        flash('Deleted %s' % product_name, 'info')
+        flash('Deleted %s' % product_name, 'success')
         return redirect(url_for('.order', id=order_id))
     abort(404)
 
@@ -160,10 +212,18 @@ def get_orders(expression=None):
 
 
 def post_order_to_webhook(order_item):
-    message = '<{}|Open here>New order for {}. Deadline in {} minutes.'.format(
-            url_for('.order', id=order_item.id, _external=True),
-            order_item.location.name,
-            remaining_minutes(order_item.stoptime))
+    message = ''
+    if order_item.courrier is not None:
+        message = '{3} is going to {1}, order <{0}|here>! Deadline in {2} minutes!'.format(
+                url_for('.order', id=order_item.id, _external=True),
+                order_item.location.name,
+                remaining_minutes(order_item.stoptime),
+                order_item.courrier.username.title())
+    else:
+        message = '<{}|Open here.> New order for {}. Deadline in {} minutes.'.format(
+                url_for('.order', id=order_item.id, _external=True),
+                order_item.location.name,
+                remaining_minutes(order_item.stoptime))
     webhookthread = WebhookSenderThread(message)
     webhookthread.start()
 
