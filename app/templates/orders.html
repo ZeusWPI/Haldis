@@ -7,10 +7,19 @@
 {% block container %}
     <div class="row">
         <div class="col-md-5">
+        {% if orders|count > 0 -%}
             <h3>Open orders:</h3>
             {% for order in orders %}
                 {{ util.render_order(order) }}
             {% endfor %}
+        {% else %}
+            <h4>No orders available.</h4>
+            {% if not current_user.is_anonymous() %}
+                To create an order, fill in the form on the right.
+            {% else %}
+                Login to create an order, or ask someone else.
+            {% endif %}
+        {%- endif %}
         </div>
     {% if not current_user.is_anonymous() %}
         <div class="col-md-push-1 col-md-6">

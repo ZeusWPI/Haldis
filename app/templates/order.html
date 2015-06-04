@@ -1,5 +1,7 @@
 {% extends "layout.html" %}
 {% set active_page = "orders" -%}
+{% set order_items = order.group_by_user() -%}
+{% set courier_or_admin = order.can_close(current_user.id) -%}
 
 {% import "utils.html" as util %}
 
@@ -7,7 +9,7 @@
 <div class="row">
     <div class="col-md-push-1 col-md-10 darker"><!-- Shitty html-->
         <h3>Order {{ order.id }}
-            {% if order.can_close(current_user.id) -%}
+            {% if courier_or_admin -%}
                 <a class="btn btn-danger pull-right" href="{{ url_for('.close_order', id=order.id) }}">Close</a><br/>
                 <a class="btn btn-warning pull-right" href="{{ url_for('.order_edit', id=order.id) }}">Edit</a>
         {%- endif %}</h3>
@@ -21,7 +23,7 @@
             telephone: <a href="tel://{{ order.location.telephone }}">{{ order.location.telephone }}</a><br/>
         {% endif %}
         <b>status:</b> {% if order.stoptime %}<span class="time">{{  order.stoptime|countdown }}</span>{% else %}open{% endif %}<br/>
-        total price: {{ total_price|euro }}
+        total price: {{ total_price|euro }} {% if courier_or_admin %}- remaining debts: {{ debts|euro }}{% endif %}
     </div>
     {% if form -%}
     <div class="col-md-push-1 col-md-10 darker">
@@ -48,26 +50,50 @@
     {%- endif %}
 </div>
 <div class="row">
-    <div class="col-md-push-1 col-md-4 darker">
-            <h3>Items</h3>
-            {% for item in order.items %}
-                {{ item.get_name() }} - {{ item.product.name }} - {{ item.product.price|euro }}
-                {% if item.can_delete(order.id, current_user.id, session.get('anon_name', '')) -%}<a href="{{ url_for('.delete_item', order_id=order.id, item_id=item.id) }}"><span class="glyphicon glyphicon-remove"></span></a>{%- endif %}<br/>
-            {% endfor %}
+    <div class="col-md-push-1 col-md-5 darker">
+        <h3>Items</h3>
+        <table class="table table-hover table-condensed">
+            <thead>
+                <tr><th>Name</th><th>Item</th><th>Price</th>{% if courier_or_admin %}<th>Paid?</th>{% endif %}<th>Delete</th></tr>
+            </thead>
+            <tbody>
+            {% for item in order.items -%}
+                <tr>
+                    <td>{{ item.get_name() }}</td>
+                    <td>{{ item.product.name }}</td>
+                    <td>{{ item.product.price|euro }}</td>
+                    {% if courier_or_admin %}<td>{% if not item.paid %} <a class="btn btn-xs btn-primary" href="{{ url_for('.item_paid', order_id=order.id, item_id=item.id) }}">Pay</a> {% else %} <span class="glyphicon glyphicon-chevron-down"></span> {% endif %}</td>{% endif %}
+                    <td>{% if item.can_delete(order.id, current_user.id, session.get('anon_name', '')) or courier_or_admin -%}<a href="{{ url_for('.delete_item', order_id=order.id, item_id=item.id) }}"><span class="glyphicon glyphicon-remove"></span></a>{%- endif %}<br/></td>
+                </tr>
+            {%- endfor %}
+            </tbody>
+        </table>
     </div>
-    <div class="col-md-push-3 col-md-4 darker">
+    <div class="col-md-push-2 col-md-4 darker">
         <h3>Ordered products:</h3>
-        {% for key, value in order.group_by_product().items() %}
+        {% for key, value in order.group_by_product().items() -%}
             {{ key }} - {{ value }}<br/>
-        {% endfor %}
+        {%- endfor %}
     </div>
 </div>
 <div class="row">
-    <div class="col-md-push-1 col-md-4 darker">
+    <div class="col-md-push-1 col-md-5 darker">
             <h3>Debts</h3>
-            {% for key, value in order.group_by_user_pay().items() %}
-                {{ key }} - {{ value|euro }}<br/>
-            {% endfor %}
+            <table class="table table-hover table-condensed">
+                <thead>
+                    <tr><th>Name</th><th>Total</th><th>To pay</th>{% if courier_or_admin %}<th>Paid?</th>{% endif %}</tr>
+                </thead>
+                <tbody>
+                {% for key, value in order_items.items() -%}
+                    <tr>
+                        <td>{{ key }}</td>
+                        <td>{{ value["total"]|euro }}</td>
+                        <td>{{ value["to_pay"]|euro }}</td>
+                        {% if courier_or_admin %}<td>{% if not value["to_pay"] == 0 %} <a class="btn btn-xs btn-primary" href="{{ url_for('.items_user_paid', order_id=order.id, user_name=key) }}">Pay</a> {% else %} <span class="glyphicon glyphicon-chevron-down"></span> {% endif %}</td>{% endif %}
+                    </tr>
+                {%- endfor %}
+                </tbody>
+            </table>
     </div>
 </div>
 {% endblock %}
