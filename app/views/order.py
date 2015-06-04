@@ -63,6 +63,7 @@ def order_edit(id):
         return redirect(url_for('.order', id=order.id))
     return render_template('order_edit.html', form=orderForm, order_id=id)
 
+
 @order_bp.route('/<id>/create', methods=['POST'])
 def order_item_create(id):
     current_order = Order.query.filter(Order.id == id).first()
@@ -88,7 +89,6 @@ def order_item_create(id):
         flash('Ordered %s' % (item.product.name), 'success')
         return redirect(url_for('.order', id=id))
     return order(id, form=form)
-
 
 
 @order_bp.route('/<order_id>/<item_id>/delete')
