@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% set active_page = "orders" -%}
 {% set order_items = order.group_by_user() -%}
-{% set courier_or_admin = order.can_close(current_user.id) -%}
+{% set courier_or_admin = not current_user.is_anonymous() and (current_user.is_admin() or current_user.id == order.courrier_id) -%}
 
 {% import "utils.html" as util %}
 
@@ -9,8 +9,9 @@
 <div class="row">
     <div class="col-md-push-1 col-md-10 darker" id="info"><!-- Shitty html-->
         <h3 id="order-title">Order {{ order.id }}
-            {% if courier_or_admin -%}
+            {% if order.can_close(current_user.id) -%}
                 <a class="btn btn-danger pull-right" href="{{ url_for('.close_order', id=order.id) }}">Close</a><br/>
+            {% endif %}{% if courier_or_admin %}
                 <a class="btn btn-warning pull-right" href="{{ url_for('.order_edit', id=order.id) }}">Edit</a>
         {%- endif %}</h3>
         courier: {{ order.courrier.username }}
@@ -63,7 +64,7 @@
                     <td>{{ item.product.name }}</td>
                     <td>{{ item.product.price|euro }}</td>
                     {% if courier_or_admin %}<td>{% if not item.paid %} <a class="btn btn-xs btn-primary" href="{{ url_for('.item_paid', order_id=order.id, item_id=item.id) }}">Pay</a> {% else %} <span class="glyphicon glyphicon-chevron-down"></span> {% endif %}</td>{% endif %}
-                    <td>{% if item.can_delete(order.id, current_user.id, session.get('anon_name', '')) or courier_or_admin -%}<a href="{{ url_for('.delete_item', order_id=order.id, item_id=item.id) }}"><span class="glyphicon glyphicon-remove"></span></a>{%- endif %}<br/></td>
+                    <td>{% if item.can_delete(order.id, current_user.id, session.get('anon_name', '')) -%}<a href="{{ url_for('.delete_item', order_id=order.id, item_id=item.id) }}"><span class="glyphicon glyphicon-remove"></span></a>{%- endif %}<br/></td>
                 </tr>
             {%- endfor %}
             </tbody>
