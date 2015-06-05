@@ -26,6 +26,11 @@ def about():
 def stats():
    return render_template('stats.html')
 
+@app.route('/profile/')
+@login_required
+def profile():
+    return render_template('profile.html')
+
 
 if app.debug:  # add route information
     @app.route('/routes')

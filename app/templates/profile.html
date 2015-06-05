@@ -1,0 +1,6 @@
+{% extends "layout.html" -%}
+{% set active_page = "profile" -%}
+
+{% block container %}
+  <h1>{{ current_user.username }}</h1>
+{% endblock %}
