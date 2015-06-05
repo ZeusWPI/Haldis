@@ -1,5 +1,6 @@
 {% extends "bootstrap/base.html" %}
 {% import "bootstrap/utils.html" as utils %}
+{% import "bootstrap/google.html" as google %}
 
 {% set navbar = [
     ('home', 'Home'),
@@ -18,11 +19,13 @@
 
 {% block styles %}
     {{ super() }}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" media="screen">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/print.css') }}" media="print">
 {% endblock %}
 
 {% block scripts %}
     {{ super() }}
+    {{ google.uanalytics('UA-25444917-9') }}
     <script src="{{ url_for('static', filename='js/timer.js') }}"></script>
     <script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
 {% endblock %}

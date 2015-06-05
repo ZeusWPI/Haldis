@@ -1,0 +1,15 @@
+@media print {
+    nav, form, footer, .btn, #form, #debts {
+        display: none;
+    }
+    #items {
+        display: flex;
+    }
+    #items-list {
+        order: 2;
+    }
+    #items-ordered {
+        order: 1;
+        margin-right: 50px;
+    }
+}
