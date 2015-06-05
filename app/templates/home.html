@@ -20,7 +20,7 @@
         {% else %}
             <h4>No orders available.</h4>
             {% if not current_user.is_anonymous() %}
-                To create an order, fill in the form on the right.
+                To create an order, fill in the form <a href="{{ url_for("order_bp.orders") }}">here</a>.
             {% else %}
                 Login to create an order, or ask someone else.
             {% endif %}
