@@ -7,8 +7,8 @@
 
 {% block container %}
 <div class="row">
-    <div class="col-md-push-1 col-md-10 darker"><!-- Shitty html-->
-        <h3>Order {{ order.id }}
+    <div class="col-md-push-1 col-md-10 darker" id="info"><!-- Shitty html-->
+        <h3 id="order-title">Order {{ order.id }}
             {% if courier_or_admin -%}
                 <a class="btn btn-danger pull-right" href="{{ url_for('.close_order', id=order.id) }}">Close</a><br/>
                 <a class="btn btn-warning pull-right" href="{{ url_for('.order_edit', id=order.id) }}">Edit</a>
@@ -26,7 +26,7 @@
         total price: {{ total_price|euro }} {% if courier_or_admin %}- remaining debts: {{ debts|euro }}{% endif %}
     </div>
     {% if form -%}
-    <div class="col-md-push-1 col-md-10 darker">
+    <div class="col-md-push-1 col-md-10 darker" id="form">
         <h4>Order:</h4>
         <form method="post" action="{{ url_for('.order_item_create', id=order.id) }}">
             {{ form.csrf_token }}
@@ -49,8 +49,8 @@
     </div>
     {%- endif %}
 </div>
-<div class="row">
-    <div class="col-md-push-1 col-md-5 darker">
+<div class="row" id="items">
+    <div class="col-md-push-1 col-md-5 darker" id="items-list">
         <h3>Items</h3>
         <table class="table table-hover table-condensed">
             <thead>
@@ -69,7 +69,7 @@
             </tbody>
         </table>
     </div>
-    <div class="col-md-push-2 col-md-4 darker">
+    <div class="col-md-push-2 col-md-4 darker" id="items-ordered">
         <h3>Ordered products:</h3>
         {% for key, value in order.group_by_product().items() -%}
             {{ key }} - {{ value }}<br/>
@@ -77,7 +77,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-md-push-1 col-md-5 darker">
+    <div class="col-md-push-1 col-md-5 darker" id="debts">
             <h3>Debts</h3>
             <table class="table table-hover table-condensed">
                 <thead>
@@ -102,6 +102,7 @@
     {{ super() }}
     <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-rc.2/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/select2-bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/print.css') }}">
 {% endblock %}
 {% block scripts %}
     {{ super() }}
