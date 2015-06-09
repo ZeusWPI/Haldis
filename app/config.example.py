@@ -8,3 +8,5 @@ class Configuration(object):
     LOGFILE = 'haldis.log'
     ZEUS_KEY = ''
     ZEUS_SECRET = ''
+    AIRBRAKE_ID = ''
+    AIRBRAKE_KEY = ''
