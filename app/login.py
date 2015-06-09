@@ -12,6 +12,8 @@ login_manager.init_app(app)
 
 @login_manager.user_loader
 def load_user(userid):
+    1/0
+
     return User.query.filter_by(id=userid).first()
 
 
