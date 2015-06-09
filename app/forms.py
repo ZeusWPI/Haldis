@@ -44,7 +44,6 @@ class AnonOrderItemForm(OrderItemForm):
         if self.name.data is None:
             self.name.data = session.get('anon_name', None)
 
-
     def validate(self):
         rv = OrderForm.validate(self)
         if not rv:

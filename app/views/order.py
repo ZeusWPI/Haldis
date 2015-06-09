@@ -106,7 +106,7 @@ def item_paid(order_id, item_id):
     if item.order.courrier_id == id or current_user.admin:
         item.paid = True
         db.session.commit()
-        flash('Paid %s by %s' % (item.product.name, item.user.username), 'success')
+        flash('Paid %s by %s' % (item.product.name, item.get_name()), 'success')
         return redirect(url_for('.order', id=order_id))
     abort(404)
 

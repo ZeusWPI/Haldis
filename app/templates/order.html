@@ -9,11 +9,13 @@
 <div class="row">
     <div class="col-md-push-1 col-md-10 darker" id="info"><!-- Shitty html-->
         <h3 id="order-title">Order {{ order.id }}
+        <div class="pull-right">
             {% if order.can_close(current_user.id) -%}
-                <a class="btn btn-danger pull-right" href="{{ url_for('.close_order', id=order.id) }}">Close</a><br/>
+                <a class="btn btn-danger" href="{{ url_for('.close_order', id=order.id) }}">Close</a>
             {% endif %}{% if courier_or_admin %}
-                <a class="btn btn-warning pull-right" href="{{ url_for('.order_edit', id=order.id) }}">Edit</a>
-        {%- endif %}</h3>
+                <a class="btn btn-warning" href="{{ url_for('.order_edit', id=order.id) }}">Edit</a>
+        {%- endif %}
+        </div></h3>
         courier: {{ order.courrier.username }}
         {% if order.courrier == None and not current_user.is_anonymous() %}
             <a href="{{ url_for('.volunteer', id=order.id) }}" class="btn btn-primary btn-sm">Volunteer</a>
@@ -101,14 +103,18 @@
 
 {% block styles %}
     {{ super() }}
-    <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-rc.2/css/select2.min.css" rel="stylesheet" />
+    <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/select2-bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/print.css') }}">
 {% endblock %}
 {% block scripts %}
     {{ super() }}
-    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-rc.2/js/select2.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
     <script type="text/javascript">
-        $('.select').select2();
+        $('.select').select2({
+            'sorter': function(results) {
+                return results.sort();
+            }
+        });
     </script>
 {% endblock %}
