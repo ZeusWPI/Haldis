@@ -27,7 +27,7 @@
         {%- endif %}
     </div>
     <div class="col-sm-5 col-sm-push-2">
-        {% if orders|count > 0 -%}
+        {% if recently_closed|count > 0 -%}
             <h3>Recently closed orders:</h3>
             {% for order in recently_closed %}
                 {{ util.render_order(order) }}
