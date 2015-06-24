@@ -18,3 +18,7 @@ body {
 .full-width {
     width: 100%;
 }
+
+.product .extras {
+    padding-left: 20px;
+}

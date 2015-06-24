@@ -30,6 +30,7 @@ class OrderForm(Form):
 
 class OrderItemForm(Form):
     product_id = SelectField('Item', coerce=int)
+    extra = StringField('Extra')
     submit_button = SubmitField('Submit')
 
     def populate(self, location):

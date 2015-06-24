@@ -38,6 +38,11 @@
                 {{ form.product_id(class='form-control select') }}
                 {{ util.render_form_field_errors(form.product_id) }}
             </div>
+            <div class="form-group {{ 'has-errors' if form.product_id.errors }}">
+                {{ form.extra.label(class='control-label') }}<br>
+                {{ form.extra(class='form-control', placeholder='Fill in extras, when applicable') }}
+                {{ util.render_form_field_errors(form.extra) }}
+            </div>
             {% if current_user.is_anonymous() %}
                 <div class="form-group{{ ' has-error' if form.name.errors }}{{ ' required' if form.name.flags.required }}">
                     {{ form.name.label(class='control-label') }}
@@ -57,7 +62,7 @@
         <h3>Items</h3>
         <table class="table table-hover table-condensed">
             <thead>
-                <tr><th>Name</th><th>Item</th><th>Price</th>{% if courier_or_admin %}<th>Paid?</th>{% endif %}<th>Delete</th></tr>
+                <tr><th>Name</th><th>Item</th><th>Price</th><th>Extra</th>{% if courier_or_admin %}<th>Paid?</th>{% endif %}<th>Delete</th></tr>
             </thead>
             <tbody>
             {% for item in order.items -%}
@@ -65,6 +70,7 @@
                     <td>{{ item.get_name() }}</td>
                     <td>{{ item.product.name }}</td>
                     <td>{{ item.product.price|euro }}</td>
+                    <td>{{ item.extra if item.extra }}</td>
                     {% if courier_or_admin %}<td>{% if not item.paid %} <a class="btn btn-xs btn-primary" href="{{ url_for('.item_paid', order_id=order.id, item_id=item.id) }}">Pay</a> {% else %} <span class="glyphicon glyphicon-chevron-down"></span> {% endif %}</td>{% endif %}
                     <td>{% if item.can_delete(order.id, current_user.id, session.get('anon_name', '')) -%}<a href="{{ url_for('.delete_item', order_id=order.id, item_id=item.id) }}"><span class="glyphicon glyphicon-remove"></span></a>{%- endif %}<br/></td>
                 </tr>
@@ -75,7 +81,16 @@
     <div class="col-md-push-2 col-md-4 darker" id="items-ordered">
         <h3>Ordered products:</h3>
         {% for key, value in order.group_by_product().items() -%}
-            {{ key }} - {{ value }}<br/>
+            <div class="product">
+                {{ key }}: {{ value["count"] }}
+                {% if value["extras"] -%}
+                    <div class="extras">
+                    {% for extra in value["extras"] -%}
+                        <div>{{ extra }}</div>
+                    {% endfor %}
+                    </div>
+                {%- endif %}
+            </div>
         {%- endfor %}
     </div>
 </div>
