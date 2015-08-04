@@ -102,12 +102,18 @@ class Order(db.Model):
             user["paid"] = user.get("paid", True) and item.paid
             user["products"] = user.get("products", []) + [item.product]
             group[item.get_name()] = user
+
         return group
 
     def group_by_product(self):
-        group = defaultdict(int)
+        group = dict()
         for item in self.items:
-            group[item.product.name] += 1
+            product = group.get(item.product.name, dict())
+            product['count'] = product.get("count", 0) + 1
+            if item.extra:
+                product["extras"] = product.get("extras", []) + [item.extra]
+            group[item.product.name] = product
+
         return group
 
     def can_close(self, user_id):
@@ -128,6 +134,7 @@ class OrderItem(db.Model):
     order_id = db.Column(db.Integer, db.ForeignKey('order.id'), nullable=False)
     product_id = db.Column(db.Integer, db.ForeignKey('product.id'))
     paid = db.Column(db.Boolean, default=False)
+    extra = db.Column(db.String(254), nullable=True)
     name = db.Column(db.String(120))
 
     def configure(self, user, order, product):
