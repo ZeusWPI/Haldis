@@ -21,6 +21,11 @@ class UserAdminModel(ModelBaseView):
     inline_models = None
 
 
+class ProductAdminModel(ModelBaseView):
+    column_searchable_list = ('name',)
+    inline_models = None
+
+
 class LocationAdminModel(ModelBaseView):
     column_searchable_list = ('name', 'address', 'website')
     inline_models = None
@@ -32,6 +37,6 @@ admin = Admin(app, name='Haldis', url='/admin', template_mode='bootstrap3')
 
 admin.add_view(UserAdminModel(User, db.session))
 admin.add_view(LocationAdminModel(Location, db.session))
-admin.add_view(ModelBaseView(Product, db.session))
+admin.add_view(ProductAdminModel(Product, db.session))
 admin.add_view(ModelBaseView(Order, db.session))
 admin.add_view(ModelBaseView(OrderItem, db.session))
