@@ -50,7 +50,7 @@
                             {{ util.render_form_field_errors(form.starttime) }}
                         </div>
                     {% endif %}
-                    <div class="form-group{{ ' has-error' if form.stoptime.errors }}{{ ' required' if form.stoptime.flags.required }}{{ ' hidden' if not current_user.is_admin() }}">
+                    <div class="form-group{{ ' has-error' if form.stoptime.errors }}{{ ' required' if form.stoptime.flags.required }}">
                         {{ form.stoptime.label(class='control-label') }}
                         <div class='input-group date' class='datetimepicker'>
                             {{ form.stoptime(class='form-control datetimepicker') }}

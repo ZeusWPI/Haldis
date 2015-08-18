@@ -3,6 +3,7 @@ from logging.handlers import TimedRotatingFileHandler
 from flask import Flask
 from flask.ext.bootstrap import Bootstrap, StaticCDN
 from flask.ext.sqlalchemy import SQLAlchemy
+from flask_debugtoolbar import DebugToolbarExtension
 
 from airbrake import Airbrake, AirbrakeHandler
 
@@ -15,6 +16,8 @@ Bootstrap(app)
 app.extensions['bootstrap']['cdns']['bootstrap'] = StaticCDN()
 
 db = SQLAlchemy(app)
+
+toolbar = DebugToolbarExtension(app)
 
 class PrefixFix(object):
 
