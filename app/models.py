@@ -132,8 +132,9 @@ class OrderItem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     order_id = db.Column(db.Integer, db.ForeignKey('order.id'), nullable=False)
-    product_id = db.Column(db.Integer, db.ForeignKey('product.id'))
-    paid = db.Column(db.Boolean, default=False)
+    product_id = db.Column(db.Integer, db.ForeignKey('product.id'),
+                           nullable=False)
+    paid = db.Column(db.Boolean, default=False, nullable=False)
     extra = db.Column(db.String(254), nullable=True)
     name = db.Column(db.String(120))
 
