@@ -137,12 +137,13 @@ def delete_item(order_id, item_id):
     item = OrderItem.query.filter(OrderItem.id == item_id).first()
     id = None
     if not current_user.is_anonymous():
+        print("%s tries to delete orders" % (current_user.username))
         id = current_user.id
     if item.can_delete(order_id, id, session.get('anon_name', '')):
         product_name = item.product.name
         db.session.delete(item)
         db.session.commit()
-        flash('Deleted %s' % product_name, 'success')
+        flash('Deleted %s' % (product_name), 'success')
         return redirect(url_for('.order', id=order_id))
     abort(404)
 

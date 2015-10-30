@@ -156,6 +156,9 @@ class OrderItem(db.Model):
             return False
         if self.order.stoptime and self.order.stoptime < datetime.now():
             return False
-        if self.user_id == user_id or self.name == name:
+        if self.user is not None and self.user_id == user_id:
+            return True
+        user = User.query.filter(User.id == user_id).first()
+        if user and user.is_admin():
             return True
         return False
