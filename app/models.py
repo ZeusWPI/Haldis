@@ -158,6 +158,8 @@ class OrderItem(db.Model):
             return False
         if self.user is not None and self.user_id == user_id:
             return True
+        if user_id is None:
+            return False
         user = User.query.filter(User.id == user_id).first()
         if user and user.is_admin():
             return True

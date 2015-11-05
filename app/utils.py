@@ -37,6 +37,8 @@ def handle401(e):
 
 
 class AnonymouseUser:
+    id = None
+
     def is_active(self):
         return False
 
