@@ -51,7 +51,7 @@ if not app.debug:
         api_key=app.config['AIRBRAKE_KEY']
     )
     # ugly hack to make this work for out errbit
-    airbrake._api_url = "http://zeus-errbit.ilion.me/api/v3/projects/{}/notices".format(airbrake.project_id)
+    airbrake._api_url = "http://errbit.awesomepeople.tv/api/v3/projects/{}/notices".format(airbrake.project_id)
 
     airbrakelogger.addHandler(
         AirbrakeHandler(airbrake=airbrake)
