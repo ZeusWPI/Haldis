@@ -149,10 +149,10 @@ class OrderItem(db.Model):
         return self.name
 
     def __repr__(self):
-        product = None
+        product_name = None
         if self.product:
-            product = self.product
-        return 'Order %d: %s wants %s' % (self.order_id or 0, self.get_name(), product.name or 'None')
+            product_name = self.product.name
+        return 'Order %d: %s wants %s' % (self.order_id or 0, self.get_name(), product_name or 'None')
 
     def can_delete(self, order_id, user_id, name):
         if int(self.order_id) != int(order_id):
