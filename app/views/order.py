@@ -215,16 +215,16 @@ def get_orders(expression=None):
 def post_order_to_webhook(order_item):
     message = ''
     if order_item.courrier is not None:
-        message = '{3} is going to {1}, order <{0}|here>! Deadline in {2} minutes!'.format(
+        message = '<!channel|@channel> {3} is going to {1}, order <{0}|here>! Deadline in {2} minutes!'.format(
                 url_for('.order', id=order_item.id, _external=True),
                 order_item.location.name,
                 remaining_minutes(order_item.stoptime),
                 order_item.courrier.username.title())
     else:
-        message = '<{}|Open here.> New order for {}. Deadline in {} minutes.'.format(
-                url_for('.order', id=order_item.id, _external=True),
+        message = '<!channel|@channel> New order for {}. Deadline in {} minutes. <{}|Open here.>'.format(
                 order_item.location.name,
-                remaining_minutes(order_item.stoptime))
+                remaining_minutes(order_item.stoptime),
+                url_for('.order', id=order_item.id, _external=True))
     webhookthread = WebhookSenderThread(message)
     webhookthread.start()
 
