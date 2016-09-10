@@ -1,15 +1,21 @@
 from flask import render_template
 
-from fatmodels import FatLocation, FatOrder, FatOrderItem, FatUser
+from fatmodels import FatLocation, FatOrder, FatOrderItem, FatUser, FatProduct
 from app import app
 
 
 @app.route('/stats/')
 def stats():
     data = {
-        'order_amount': FatOrder.amount(),
-        'location_amount': FatLocation.amount(),
-        'user_amount': FatUser.amount(),
-        'orderitem_amount': FatOrderItem.amount()
+        'amount': {
+            'orders': FatOrder.amount(),
+            'locations': FatLocation.amount(),
+            'users': FatUser.amount(),
+            'orderitems': FatOrderItem.amount(),
+            'products': FatProduct.amount(),
+        },
+        'top4': {
+            'products': FatProduct.top4()
+        }
     }
     return render_template('stats.html', data=data)
