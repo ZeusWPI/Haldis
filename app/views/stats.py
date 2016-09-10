@@ -13,9 +13,6 @@ def stats():
             'users': FatUser.amount(),
             'orderitems': FatOrderItem.amount(),
             'products': FatProduct.amount(),
-        },
-        'top4': {
-            'products': FatProduct.top4()
         }
     }
     return render_template('stats.html', data=data)
