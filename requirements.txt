@@ -1,5 +1,5 @@
 Flask==0.10.1
-Flask-Admin==1.1.0
+Flask-Admin==1.4.2
 Flask-Bootstrap==3.3.4.1
 Flask-DebugToolbar==0.10.0
 Flask-Login==0.2.11
