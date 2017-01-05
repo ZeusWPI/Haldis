@@ -13,7 +13,7 @@ Mako==1.0.1
 MarkupSafe==0.23
 PyMySQL==0.7.9
 SQLAlchemy==1.1.4
-WTForms==2.0.2
+WTForms==2.1
 Werkzeug==0.11.15
 airbrake==1.1.4
 alembic==0.8.9
