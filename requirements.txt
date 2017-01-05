@@ -14,7 +14,7 @@ MarkupSafe==0.23
 PyMySQL==0.7.9
 SQLAlchemy==1.1.4
 WTForms==2.0.2
-Werkzeug==0.10.4
+Werkzeug==0.11.15
 airbrake==1.1.4
 alembic==0.7.6
 blinker==1.3
