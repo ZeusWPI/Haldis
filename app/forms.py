@@ -1,8 +1,10 @@
 from datetime import datetime, timedelta
 from flask import session
-from flask.ext.login import current_user
-from flask_wtf import Form
+from flask_login import current_user
+from flask_wtf import FlaskForm as Form
 from wtforms import SelectField, DateTimeField, validators, SubmitField, StringField
+
+
 from models import User, Location
 from utils import euro
 

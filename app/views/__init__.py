@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 
 from flask import url_for, render_template, abort
-from flask.ext.login import login_required
+from flask_login import login_required
 
 from app import app
 from models import Order, Location
