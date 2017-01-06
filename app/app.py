@@ -1,8 +1,8 @@
 import logging
 from logging.handlers import TimedRotatingFileHandler
 from flask import Flask
-from flask.ext.bootstrap import Bootstrap, StaticCDN
-from flask.ext.sqlalchemy import SQLAlchemy
+from flask_bootstrap import Bootstrap, StaticCDN
+from flask_sqlalchemy import SQLAlchemy
 from flask_debugtoolbar import DebugToolbarExtension
 
 from airbrake import Airbrake, AirbrakeHandler

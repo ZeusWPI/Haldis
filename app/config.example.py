@@ -2,6 +2,7 @@
 
 class Configuration(object):
     SQLALCHEMY_DATABASE_URI = 'sqlite:///haldis.db'
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
     DEBUG = True
     SECRET_KEY = '<change>'
     SLACK_WEBHOOK = '<add url>'

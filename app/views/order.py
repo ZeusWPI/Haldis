@@ -3,7 +3,7 @@ import json
 from threading import Thread
 import requests
 from flask import url_for, render_template, abort, redirect, Blueprint, flash, session, request
-from flask.ext.login import current_user, login_required
+from flask_login import current_user, login_required
 import random
 from datetime import datetime
 

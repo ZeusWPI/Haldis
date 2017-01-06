@@ -8,8 +8,8 @@ from models import *
 from forms import *
 from utils import *
 from views import *
-from flask.ext.migrate import Migrate, MigrateCommand
-from flask.ext.script import Manager
+from flask_migrate import Migrate, MigrateCommand
+from flask_script import Manager
 
 if __name__ == '__main__':
     # do it here, because make accessing db changes only possible when executing the program directly

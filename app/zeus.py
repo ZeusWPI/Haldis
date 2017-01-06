@@ -1,5 +1,5 @@
 from flask import redirect, url_for, session, jsonify, flash, request
-from flask.ext.login import login_user
+from flask_login import login_user
 from flask_oauthlib.client import OAuth, OAuthException
 import json
 import requests

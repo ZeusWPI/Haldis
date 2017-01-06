@@ -1,5 +1,5 @@
 from flask import redirect, abort, session, url_for
-from flask.ext.login import LoginManager, current_user, logout_user
+from flask_login import LoginManager, current_user, logout_user
 
 
 from app import app
