@@ -20,6 +20,6 @@ alembic==0.8.9
 blinker==1.4
 itsdangerous==0.24
 oauthlib==2.0.1
-requests==2.12.4
+requests==2.12.5
 requests-oauthlib==0.7.0
 six==1.10.0
