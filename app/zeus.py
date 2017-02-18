@@ -15,10 +15,10 @@ zeus = oauth.remote_app(
     consumer_key=app.config['ZEUS_KEY'],
     consumer_secret=app.config['ZEUS_SECRET'],
     request_token_params={},
-    base_url='https://kelder.zeus.ugent.be/oauth/api/',
+    base_url='https://adams.ugent.be/oauth/api/',
     access_token_method='POST',
-    access_token_url='https://kelder.zeus.ugent.be/oauth/oauth2/token/',
-    authorize_url='https://kelder.zeus.ugent.be/oauth/oauth2/authorize/'
+    access_token_url='https://adams.ugent.be/oauth/oauth2/token/',
+    authorize_url='https://adams.ugent.be/oauth/oauth2/authorize/'
 )
 
 
