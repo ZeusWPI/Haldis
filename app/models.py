@@ -91,7 +91,10 @@ class Order(db.Model):
         self.stoptime = stoptime
 
     def __repr__(self):
-        return 'Order %d @ %s' % (self.id, self.location.name or 'None')
+        if self.location:
+            return 'Order %d @ %s' % (self.id, self.location.name or 'None')
+        else:
+            return 'Order %d' % (self.id)
 
     def group_by_user(self):
         group = dict()
