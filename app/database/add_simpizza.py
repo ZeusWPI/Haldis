@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from models import Location, Product
 from app import db
 
