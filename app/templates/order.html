@@ -78,7 +78,7 @@
         </table>
     </div>
     <div class="col-md-push-2 col-md-4 darker" id="items-ordered">
-        <h3>Ordered products: {% len(order.items) %}</h3>
+        <h3>Ordered products: {{ order.len() }}</h3>
         {% for key, value in order.group_by_product().items() -%}
             <div class="product">
                 {{ key }}: {{ value["count"] }}

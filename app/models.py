@@ -110,6 +110,12 @@ class Order(db.Model):
 
         return group
 
+    def len(self):
+        size = 0
+        for _ in self.items:
+            size = size + 1
+        return size
+
     def group_by_product(self):
         group = dict()
         for item in self.items:
