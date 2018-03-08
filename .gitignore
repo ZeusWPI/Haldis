@@ -54,6 +54,7 @@ target/
 
 # PyCharm
 .idea/
+.vscode/
 
 # ConfigFile
 app/config.py
