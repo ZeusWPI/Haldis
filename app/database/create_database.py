@@ -14,7 +14,7 @@ def commit():
 
 
 def check_if_overwrite():
-    answer = raw_input("Do you want to overwrite the previous database? (y/N) ")
+    answer = input("Do you want to overwrite the previous database? (y/N) ")
     return answer in yes
 
 
@@ -27,7 +27,7 @@ def add_all():
 def recreate_from_scratch():
     confirmation = "Are you very very sure? (Will delete previous entries!) (y/N) "
     check = "I acknowledge any repercussions!"
-    if raw_input(confirmation) in yes and raw_input("Type: '{}' ".format(check)) == check:
+    if input(confirmation) in yes and input("Type: '{}' ".format(check)) == check:
         print("Resetting the database!")
         db.drop_all()
         db.create_all()
@@ -40,9 +40,9 @@ def add_to_current():
     def add_numbers():
         return "  ".join(["{}({}), ".format(loc, i) for i, loc in enumerate(available)]).rstrip(", ")
 
-    while raw_input("Do you still want to add something? (Y/n) ") not in no:
+    while input("Do you still want to add something? (Y/n) ") not in no:
         print("What do you want to add? (Use numbers, or A for all, or C for chancel)   ")
-        answer = raw_input("Available: {}  : ".format(add_numbers()))
+        answer = input("Available: {}  : ".format(add_numbers()))
         if answer == "A":
             add_all()
             available = []
