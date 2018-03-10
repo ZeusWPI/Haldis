@@ -25,7 +25,7 @@ def add_all():
 
 
 def recreate_from_scratch():
-    confirmation = "Are you very very sure? (Will delete previous entry's!) (y/N) "
+    confirmation = "Are you very very sure? (Will delete previous entries!) (y/N) "
     check = "I acknowledge any repercussions!"
     if input(confirmation) in yes and input("Type: '{}' ".format(check)) == check:
         print("Resetting the database!")

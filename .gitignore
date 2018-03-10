@@ -1,5 +1,6 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
+*.pyc
 
 # C extensions
 *.so
@@ -53,6 +54,7 @@ target/
 
 # PyCharm
 .idea/
+.vscode/
 
 # ConfigFile
 app/config.py
