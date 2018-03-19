@@ -32,6 +32,9 @@
     <div class="col-md-push-1 col-md-10 darker" id="form">
         <h4>Order:</h4>
         <form method="post" action="{{ url_for('.order_item_create', id=order.id) }}">
+          <span class="pull-right">
+            <a class="btn btn-primary" onclick="chooseRandom()">Choose for me</a>
+          </span>
             {{ form.csrf_token }}
             <div class="form-group select2-container select2 {{ 'has-errors' if form.product_id.errors}}">
                 {{ form.product_id.label(class='control-label') }}<br>
@@ -125,10 +128,16 @@
     {{ super() }}
     <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
     <script type="text/javascript">
-        $('.select').select2({
+        var select = $('.select').select2({
             'sorter': function(results) {
                 return results.sort();
             }
         });
+        var options = select[0].options;
+        function chooseRandom() {
+          var index = Math.floor((Math.random() * options.length))
+          var choice = options[index]
+          select.val(choice.value).trigger("change")
+        }
     </script>
 {% endblock %}
