@@ -12,6 +12,6 @@ Local hosting steps
 1. Run `pip install -r requirements.txt`
 2. Copy `config.example.py` to `config.py`
 3. Copy the python files from `database/` to `app/` (yes, it's sad, I know)
-4. Run `python database.py` in `app/` (if you want to fill the DB with sample data be sure to answer `Y` to `Do you still want to add something?`)
+4. Run `python create_database.py` in `app/` (if you want to fill the DB with sample data be sure to answer `Y` to `Do you still want to add something?`)
 5. Run `rm -f add_admins.py* add_oceans_garden.py* add_simpizza.py* create_database.py*` in `app/`
 6. Run `python haldis.py runserver`
