@@ -1,8 +1,8 @@
 from app import db
-import add_oceans_garden, add_admins, add_simpizza
+import add_oceans_garden, add_admins, add_simpizza, add_primadonna
 
 
-entry_sets = {"Admins": add_admins.add, "Ocean's Garden": add_oceans_garden.add, "SimPizza": add_simpizza.add}
+entry_sets = {"Admins": add_admins.add, "Ocean's Garden": add_oceans_garden.add, "SimPizza": add_simpizza.add, "Primadonna": add_primadonna.add}
 yes = ["yes", "y", "Y"]
 no = ["no", "n", "N"]
 
@@ -41,7 +41,7 @@ def add_to_current():
         return "  ".join(["{}({}), ".format(loc, i) for i, loc in enumerate(available)]).rstrip(", ")
 
     while input("Do you still want to add something? (Y/n) ") not in no:
-        print("What do you want to add? (Use numbers, or A for all, or C for chancel)   ")
+        print("What do you want to add? (Use numbers, or A for all, or C for cancel)   ")
         answer = input("Available: {}  : ".format(add_numbers()))
         if answer == "A":
             add_all()
