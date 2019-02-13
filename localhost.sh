@@ -1,7 +1,7 @@
 #!/bin/bash
 # A simple file to run all instructions from the README
 ## this should be run in the root of the repository
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 cd app
 cp config.example.py config.py
 cp -t . database/*

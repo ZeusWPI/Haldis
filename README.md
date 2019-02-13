@@ -18,4 +18,4 @@ Local hosting steps
 7. Run `python haldis.py runserver`
 
 ---
-Or run `./localhost.sh` in the root of the git folder
+Or run `./localhost.sh` in the root of the git folder (in linux)
