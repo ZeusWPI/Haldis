@@ -1,7 +1,8 @@
 from datetime import datetime, timedelta
 
-from flask import url_for, render_template, abort
+from flask import url_for, render_template, abort, send_from_directory
 from flask_login import login_required
+import os
 
 from app import app
 from models import Order, Location
@@ -43,6 +44,11 @@ def about():
 @login_required
 def profile():
     return render_template('profile.html')
+
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/x-icon')
 
 
 if app.debug:  # add route information
