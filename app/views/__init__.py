@@ -48,7 +48,10 @@ def profile():
 
 @app.route('/favicon.ico')
 def favicon():
-    return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/x-icon')
+    if len(get_orders((Order.stoptime > datetime.now()))) == 0:
+        return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/x-icon')
+    else:
+        return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon_orange.ico', mimetype='image/x-icon')
 
 
 if app.debug:  # add route information
