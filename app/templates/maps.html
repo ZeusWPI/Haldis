@@ -66,9 +66,15 @@
                 lat = data.features[0].geometry.coordinates[1];
                 lon = data.features[0].geometry.coordinates[0];
                 
-                L.marker([lat, lon], {icon: marker_icon}).addTo(map)
-                    .bindPopup(location.name + ', '  + location.address)
-                    .openPopup();
+                let marker = L.marker([lat, lon], {icon: marker_icon}).addTo(map)
+                    .bindPopup(location.name + ', '  + location.address);
+
+                marker.on('mouseover', function(env) {
+                        marker.openPopup();
+                    });
+                marker.on('mouseout', function(env){
+                    marker.closePopup();
+                });
             }
     };
 
