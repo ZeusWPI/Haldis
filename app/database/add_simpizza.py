@@ -11,7 +11,7 @@ pizzas = ['Bolognese de luxe', 'Hawaï', 'Popeye', 'Pepperoni', 'Seafood', 'Hot 
 
 def add():
     simpizza = Location()
-    simpizza.configure("Sim-pizza", "De Pintelaan 252 9000 Gent, tel: 09/321.02.00", "http://simpizza.be")
+    simpizza.configure("Sim-pizza", "De Pintelaan 252 9000 Gent", "tel: 09/321.02.00", "http://simpizza.be")
     db.session.add(simpizza)
 
     for pizza in pizzas:

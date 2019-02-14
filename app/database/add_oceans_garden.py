@@ -18,7 +18,7 @@ specials = ["Nasi Kippenbolletjes Zoetzuur", "Bami Kippenbolletjes Zoetzuur",
 def add():
     chinees = Location()
     chinees.configure("Oceans's Garden",
-                      "Zwijnaardsesteenweg 399 9000 Gent, tel: 09/222.72.74",
+                      "Zwijnaardsesteenweg 399 9000 Gent", "tel: 09/222.72.74",
                       "http://oceangarden.byethost3.com/studentenmenus.html")
     db.session.add(chinees)
 

@@ -45,7 +45,7 @@ pizzasTA = {
 
 def addTA():
     primadonna_takeaway = Location()
-    primadonna_takeaway.configure("Primadonna (takeaway laten bezorgen)", "Overpoortstraat 46 9000 Gent, tel: 0475 40 13 00", "https://www.takeaway.com/be-en/prima-donna")
+    primadonna_takeaway.configure("Primadonna (takeaway laten bezorgen)", "Overpoortstraat 46 9000 Gent", "tel: 0475 40 13 00", "https://www.takeaway.com/be-en/prima-donna")
     db.session.add(primadonna_takeaway)
 
     for pizza, price in pizzasTA.items():
@@ -93,7 +93,7 @@ pizzasAfhalen = {
 
 def addAfhalen():
     primadonna_afhalen = Location()
-    primadonna_afhalen.configure("Primadonna (bellen en afhalen)", "Overpoortstraat 46 9000 Gent, tel: 0475 40 13 00", "http://primadonnagent.be/Menu.html")
+    primadonna_afhalen.configure("Primadonna (bellen en afhalen)", "Overpoortstraat 46 9000 Gent", "tel: 0475 40 13 00", "http://primadonnagent.be/Menu.html")
     db.session.add(primadonna_afhalen)
 
     for pizza, price in pizzasAfhalen.items():
