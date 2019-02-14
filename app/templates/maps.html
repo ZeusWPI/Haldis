@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+{% set active_page = "locations" -%}
+
+{% import "utils.html" as util %}
+{% block styles %}
+{{ super() }}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/leaflet.css') }}">
+{% endblock %}
+
+{% block scripts %}
+{{super()}}
+<script src="{{ url_for('static', filename='js/leaflet.js')}}" ></script>
+{% endblock %}
+
+{% block container %}
+ 
+{% endblock %}
