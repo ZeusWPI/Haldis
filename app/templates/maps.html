@@ -52,16 +52,7 @@
 
     let callback = function OSMCallBack(location, data){
             var lat, lon;
-            if (data.features.length < 1) {
-                lat = 51.0538286;
-                lon = 3.7250121;
-                var className = 'is-invisible';
-                var el = document.getElementById('map-error');
-                if (el.classList)
-                    el.classList.remove(className);
-                else
-                    el.className = el.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
-            } else {
+            if (data.features.length >= 1 ) { 
                 var place = data.features[0].properties;
                 lat = data.features[0].geometry.coordinates[1];
                 lon = data.features[0].geometry.coordinates[0];
