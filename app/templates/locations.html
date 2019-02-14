@@ -15,7 +15,7 @@
             {% for loc in locations -%}
                 <tr>
                     <td><a href="{{ url_for('location', id=loc.id) }}">{{ loc.name }}</a></td>
-                    <td>{{ loc.address }}  {{ loc.telephone }}<td>
+                    <td>{{ loc.address }}<td>
                     <td><a href="{{ loc.website}}"><span class="glyphicon glyphicon-link"></span></a></td>
                 </tr>
             {%- endfor %}
