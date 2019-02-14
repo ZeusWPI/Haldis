@@ -20,20 +20,21 @@
 <script src="{{ url_for('static', filename='js/leaflet.js')}}"></script>
 
 <script>
-    var map = L.map('mapid').setView([51.0231183, 3.708106], 13);
+    var map = L.map('mapid').setView([
+                    51.0231119,3.7102741], 14);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 
 
-    function performRequest(url, success_callback) {
+    function performRequest(url, location, success_callback) {
         var request = new XMLHttpRequest();
         request.open('GET', url, true);
         request.onload = function () {
             if (this.status >= 200 && this.status < 400) {
                 // Success!
                 var data = JSON.parse(this.response);
-                success_callback(data);
+                success_callback(location, data);
             } else {
                 // We reached our target server, but it returned an error
             }
@@ -44,7 +45,12 @@
         request.send();
     }
 
-    let callback = function OSMCallBack(data){
+    let marker_icon = L.icon({
+        iconUrl: "{{url_for('static', filename='images/marker-icon.png')}}",
+        shadowUrl: "{{url_for('static', filename='images/marker-shadow.png')}}"
+    });
+
+    let callback = function OSMCallBack(location, data){
             var lat, lon;
             if (data.features.length < 1) {
                 lat = 51.0538286;
@@ -59,8 +65,9 @@
                 var place = data.features[0].properties;
                 lat = data.features[0].geometry.coordinates[1];
                 lon = data.features[0].geometry.coordinates[0];
-                L.marker([lat, lon]).addTo(map)
-                    .bindPopup(place.name + ', ' + place.street + ' ' + place.housenumber)
+                
+                L.marker([lat, lon], {icon: marker_icon}).addTo(map)
+                    .bindPopup(location.name + ', '  + location.address)
                     .openPopup();
             }
     };
@@ -79,7 +86,9 @@
     {%- endfor %}
 
     for (let loc of locations) {
-        performRequest("https://photon.komoot.de/api/?limit=1&q=" + loc.address, callback)
+        performRequest("https://photon.komoot.de/api/?limit=1&q=" + loc.address, loc,  callback)
     };
+
+
 </script>
 {% endblock %}
