@@ -25,6 +25,7 @@
         {% if order.location.telephone != None %}
             telephone: <a href="tel://{{ order.location.telephone }}">{{ order.location.telephone }}</a><br/>
         {% endif %}
+        start: {{ order.starttime.strftime("%d/%m/%Y %H:%M") }}<br>
         {% if order.stoptime %}
             closing time: {{ order.stoptime.strftime("%H:%M") }} (<span class="time">{{  order.stoptime|countdown }}</span>)
         {% else %}open{% endif %}<br/>
