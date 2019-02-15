@@ -25,7 +25,9 @@
         {% if order.location.telephone != None %}
             telephone: <a href="tel://{{ order.location.telephone }}">{{ order.location.telephone }}</a><br/>
         {% endif %}
-        <b>status:</b> {% if order.stoptime %}<span class="time">{{  order.stoptime|countdown }}</span>{% else %}open{% endif %}<br/>
+        {% if order.stoptime %}
+            closing time: {{ order.stoptime.strftime("%H:%M") }} (<span class="time">{{  order.stoptime|countdown }}</span>)
+        {% else %}open{% endif %}<br/>
         total price: {{ total_price|euro }} {% if courier_or_admin %}- remaining debts: {{ debts|euro }}{% endif %}
     </div>
     {% if form -%}
