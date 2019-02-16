@@ -8,7 +8,7 @@ __author__ = 'feliciaan'
 
 @app.template_filter('euro')
 def euro(value):
-    result = '€' + str(value/100)
+    result = '€ {:.2f}'.format(round(value/100,2))
     return result
 
 @app.template_filter('countdown')
