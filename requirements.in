@@ -1,0 +1,12 @@
+Flask
+Flask-Login
+Flask-Bootstrap
+Flask-SQLAlchemy
+Flask-DebugToolbar
+airbrake
+Flask-WTF
+Flask-OAuthlib
+Flask-Admin
+Flask-Migrate
+Flask-Script
+pip-tools
