@@ -6,8 +6,10 @@ if [ ! -d "venv" ]; then
     echo "No venv found, creating a new one"
     python -m venv venv
 fi
-
 source venv/bin/activate
+
+echo "Installing pip-tools"
+pip install pip-tools
 
 echo "Downloading dependencies"
 pip-sync
