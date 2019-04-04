@@ -50,10 +50,11 @@ class Location(db.Model):
     products = db.relationship('Product', backref='location', lazy='dynamic')
     orders = db.relationship('Order', backref='location', lazy='dynamic')
 
-    def configure(self, name, address, website):
+    def configure(self, name, address, telephone, website):
         self.name = name
         self.address = address
         self.website = website
+        self.telephone = telephone
 
     def __repr__(self):
         return '%s' % (self.name)

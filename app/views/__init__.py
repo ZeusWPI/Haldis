@@ -21,6 +21,13 @@ def home():
                            recently_closed=recently_closed)
 
 
+@app.route('/map', defaults= {'id': None})
+@app.route('/map/<int:id>')
+def map(id):
+    locs = Location.query.order_by('name') 
+    return render_template('maps.html', locations= locs)  
+
+
 @app.route('/location')
 def locations():
     locs = Location.query.order_by('name')
