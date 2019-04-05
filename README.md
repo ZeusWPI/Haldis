@@ -17,18 +17,27 @@ This will create a virtual environment, install the necessary dependencies and w
 If you are using a database other then sqlite you will first need to configure the correct uri to the database in the generated 'config.py' file.
 Afterwards upgrade the database to the latest version using 
 
-    python haldis.py db upgrade
+    python app/haldis.py db upgrade
     
 You can now still seed the database by running
 
     ./populate-db.sh
     
 in the root folder of the project.
+
+
+Activate the virtual environment using
+
+    source venv/bin/activate
+
+Finally run the webserver with
+
+    python app/haldis.py runserver
     
 ## Development
 
 ### Changing the database
 
 1. Update models located in 'app/models.py'
-2. Run `python haldis.py db migrate` to create a new migration.
-3. Apply the changes to the database using `python haldis.py db upgrade`
+2. Run `python app/haldis.py db migrate` to create a new migration.
+3. Apply the changes to the database using `python app/haldis.py db upgrade`
