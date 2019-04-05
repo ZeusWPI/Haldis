@@ -10,7 +10,7 @@ Be lazier today!
 
 There is a special script to get started with the project. Just run it in the root of the project.
 
-    first-setup.sh
+    ./first-setup.sh
     
 This will create a virtual environment, install the necessary dependencies and will give you the option to seed the database.
 
