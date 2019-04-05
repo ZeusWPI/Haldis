@@ -170,7 +170,7 @@ def close_order(id):
     if order is None:
         abort(404)
     if (current_user.id == order.courrier_id or current_user.is_admin()) \
-            and order.stoptime is None or (order.stoptime > datetime.now()):
+            and (order.stoptime is None or (order.stoptime > datetime.now())):
         order.stoptime = datetime.now()
         if order.courrier_id == 0 or order.courrier_id is None:
             courrier = select_user(order.items)
