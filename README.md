@@ -1,22 +1,13 @@
 Haldis
 =======
-- Contact
 [![chat mattermost](https://img.shields.io/badge/chat-mattermost-blue.svg)](https://mattermost.zeus.gent/zeus/channels/haldis)
 
-- Website
 ![Mozilla HTTP Observatory Grade](https://img.shields.io/mozilla-observatory/grade-score/haldis.zeus.gent.svg?publish)
 ![Website](https://img.shields.io/website/https/haldis.zeus.gent.svg)
 
-- Stats
-![GitHub top language](https://img.shields.io/github/languages/top/zeuswpi/haldis.svg)
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/zeuswpi/haldis.svg)
-
-- Repo activity
+![GitHub last commit](https://img.shields.io/github/last-commit/zeuswpi/haldis.svg)
 ![GitHub issues](https://img.shields.io/github/issues/zeuswpi/haldis.svg)
 ![GitHub pull requests](https://img.shields.io/github/issues-pr/zeuswpi/haldis.svg)
-![GitHub contributors](https://img.shields.io/github/contributors/zeuswpi/haldis.svg)
-
-![GitHub last commit](https://img.shields.io/github/last-commit/zeuswpi/haldis.svg)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/y/zeuswpi/haldis.svg)
 
 Haldis is your friendly neighbourhood servant. He exists so lazy fucks like you and me don't need to keep tabs of who is ordering what from where.
