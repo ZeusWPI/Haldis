@@ -45,8 +45,8 @@ Finally run the webserver with
 ### Adding dependencies/libraries
 
 1. Add new dependency to the `requirements.in` file
-2. Run `pip-compile` to add freeze the dependency in the `requirements.txt` file together with it's own deps
-3. Run `pip-sync` to download the library
+2. Run `pip-compile` to freeze the dependency into the `requirements.txt` file together with it's own deps
+3. Run `pip-sync` to download frozen deps
 
 ### Updating dependencies
 Run `pip-compile --upgrade`
