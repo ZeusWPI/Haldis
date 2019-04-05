@@ -1,9 +1,8 @@
 Haldis
 =======
-[![chat mattermost](https://img.shields.io/badge/chat-mattermost-blue.svg)](https://mattermost.zeus.gent/zeus/channels/haldis)
-
-![Mozilla HTTP Observatory Grade](https://img.shields.io/mozilla-observatory/grade-score/haldis.zeus.gent.svg?publish)
+[![chat mattermost](https://img.shields.io/badge/chat-mattermost-blue.svg)](https://mattermost.zeus.gent/zeus/channels/haldis) | 
 ![Website](https://img.shields.io/website/https/haldis.zeus.gent.svg)
+![Mozilla HTTP Observatory Grade](https://img.shields.io/mozilla-observatory/grade-score/haldis.zeus.gent.svg?publish)
 
 ![GitHub last commit](https://img.shields.io/github/last-commit/zeuswpi/haldis.svg)
 ![GitHub issues](https://img.shields.io/github/issues/zeuswpi/haldis.svg)
