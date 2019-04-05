@@ -1,21 +1,62 @@
 Haldis
 =======
+[![chat mattermost](https://img.shields.io/badge/chat-mattermost-blue.svg)](https://mattermost.zeus.gent/zeus/channels/haldis)
+![Website](https://img.shields.io/website/https/haldis.zeus.gent.svg)
+![Mozilla HTTP Observatory Grade](https://img.shields.io/mozilla-observatory/grade-score/haldis.zeus.gent.svg?publish)
+
+![GitHub last commit](https://img.shields.io/github/last-commit/zeuswpi/haldis.svg)
+![GitHub issues](https://img.shields.io/github/issues/zeuswpi/haldis.svg)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/zeuswpi/haldis.svg)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/y/zeuswpi/haldis.svg)
 
 Haldis is your friendly neighbourhood servant. He exists so lazy fucks like you and me don't need to keep tabs of who is ordering what from where.
 Start an order and let people add items with a simple mouse-click!
 No more calculating prices and making lists!
 Be lazier today!
 
-Local hosting steps
-===================
-0. This is a Python 3 project so make sure to use python 3 and pip3 everywhere
-1. Run `pip install -r requirements.txt`
-2. `cd app`
-3. Copy `config.example.py` to `config.py`
-4. Copy the python files from `database/` to `app/` (yes, it's sad, I know)
-5. Run `python create_database.py` in `app/` (if you want to fill the DB with sample data be sure to answer `Y` to `Do you still want to add something?`)
-6. Run `rm -f add_* create_database.py*` in `app/`
-7. Run `python haldis.py runserver`
+## Local setup
 
----
-Or run `./first-setup.sh` in the root of the git folder (in linux)
+There is a special script to get started with the project. Just run it in the root of the project.
+
+    ./first-setup.sh
+    
+This will create a virtual environment, install the necessary dependencies and will give you the option to seed the database.
+
+If you are using a database other then sqlite you will first need to configure the correct uri to the database in the generated 'config.py' file.
+Afterwards upgrade the database to the latest version using 
+
+    python app/haldis.py db upgrade
+    
+You can now still seed the database by running
+
+    ./populate-db.sh
+    
+in the root folder of the project.
+
+
+Activate the virtual environment using
+
+    source venv/bin/activate
+
+Finally run the webserver with
+
+    python app/haldis.py runserver
+    
+## Development
+
+### Changing the database
+
+1. Update models located in 'app/models.py'
+2. Run `python app/haldis.py db migrate` to create a new migration.
+3. Apply the changes to the database using `python app/haldis.py db upgrade`
+
+### Adding dependencies/libraries
+
+1. Add new dependency to the `requirements.in` file
+2. Run `pip-compile` to freeze the dependency into the `requirements.txt` file together with it's own deps
+3. Run `pip-sync` to download frozen deps
+
+### Updating dependencies
+Run `pip-compile --upgrade`
+
+For more information about managing the dependencies see [jazzband/pip-tools: A set of tools to keep your pinned Python dependencies fresh.](https://github.com/jazzband/pip-tools)
