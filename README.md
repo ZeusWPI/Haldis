@@ -41,3 +41,14 @@ Finally run the webserver with
 1. Update models located in 'app/models.py'
 2. Run `python app/haldis.py db migrate` to create a new migration.
 3. Apply the changes to the database using `python app/haldis.py db upgrade`
+
+### Adding dependencies/libraries
+
+1. Add new dependency to the `requirements.in` file
+2. Run `pip-compile` to add freeze the dependency in the `requirements.txt` file together with it's own deps
+3. Run `pip-sync` to download the library
+
+### Updating dependencies
+Run `pip-compile --upgrade`
+
+For more information about managing the dependencies see [jazzband/pip-tools: A set of tools to keep your pinned Python dependencies fresh.](https://github.com/jazzband/pip-tools)
