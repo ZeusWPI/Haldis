@@ -23,13 +23,16 @@
  let locations = [];
  let loc = {};
 
- {% for loc in locations -%}
+{% for loc in locations -%}
+    {% if loc.address %}
     loc = {
         "address": "{{loc.address}}",
         "name": "{{loc.name}}"
     };
- locations.push(loc);
- {%- endfor %}
+    locations.push(loc);
+
+    {% endif %}
+{%- endfor %}
 
  loadmap(locations);
 </script>
