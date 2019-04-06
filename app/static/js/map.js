@@ -27,7 +27,8 @@ function performRequest(url, location, success_callback) {
 
 let marker_icon = L.icon({
     iconUrl: "/static/images/marker-icon.png",
-    shadowUrl: "/static/images/marker-shadow.png"
+    shadowUrl: "/static/images/marker-shadow.png",
+    iconAnchor: [12, 41]
 });
 
 let callback = function OSMCallBack(location, data) {
