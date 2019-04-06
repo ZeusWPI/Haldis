@@ -11,6 +11,7 @@ from airbrake import Airbrake, AirbrakeHandler
 app = Flask(__name__)
 app.config.from_object('config.Configuration')
 Bootstrap(app)
+app.config['BOOTSTRAP_SERVE_LOCAL'] = True
 
 # use our own bootstrap theme
 app.extensions['bootstrap']['cdns']['bootstrap'] = StaticCDN()
