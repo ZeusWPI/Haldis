@@ -1,12 +1,11 @@
 {% extends "bootstrap/base.html" %}
 {% import "bootstrap/utils.html" as utils %}
-{% import "bootstrap/google.html" as google %}
 
 {% set navbar = [
     ('home', 'Home'),
     ('order_bp.orders', 'Orders'),
     ('locations', 'Locations'),
-    ('map', 'Map'), 
+    ('map', 'Map'),
     ('about', 'About'),
     ('stats', 'Stats'),
 ] -%}
@@ -27,7 +26,6 @@
 
 {% block scripts %}
     {{ super() }}
-    {{ google.uanalytics('UA-25444917-9') }}
     <script src="{{ url_for('static', filename='js/timer.js') }}"></script>
     <script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
 {% endblock %}
