@@ -33,7 +33,7 @@ requests-oauthlib==1.1.0  # via flask-oauthlib
 requests==2.21.0          # via airbrake, requests-oauthlib
 six==1.12.0               # via python-dateutil
 sqlalchemy==1.3.2         # via alembic, flask-sqlalchemy
-urllib3==1.24.1           # via requests
+urllib3==1.24.2           # via requests
 visitor==0.1.3            # via flask-bootstrap
 werkzeug==0.15.2          # via flask, flask-debugtoolbar
 wtforms==2.2.1            # via flask-admin, flask-wtf
