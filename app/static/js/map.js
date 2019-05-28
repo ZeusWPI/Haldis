@@ -41,7 +41,7 @@ let callback = function OSMCallBack(location, data) {
         let marker = L.marker([lat, lon], {
                 icon: marker_icon
             }).addTo(map)
-            .bindPopup(location.name + ', ' + location.address);
+            .bindPopup(location.name + ', ' + location.address, {offset: new L.Point(0, -16)});
 
         marker.on('mouseover', function(env) {
             marker.openPopup();
