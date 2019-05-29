@@ -39,7 +39,7 @@ def location(id):
     loc = Location.query.filter(Location.id == id).first()
     if loc is None:
         abort(404)
-    return render_template('location.html', location=loc)
+    return render_template('location.html', location=loc, title=loc.name)
 
 
 @app.route('/about/')

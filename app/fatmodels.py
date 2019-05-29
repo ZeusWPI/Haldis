@@ -1,9 +1,9 @@
-from models import User, Location, Order, OrderItem, Product
-from sqlalchemy.sql import func, desc
+from sqlalchemy.sql import desc, func
+
+from models import Location, Order, OrderItem, Product, User
 
 
 class FatModel:
-
     @classmethod
     def all(cls):
         return cls.query.all()
@@ -13,7 +13,8 @@ class FatModel:
         return cls.query.count()
 
 
-class FatLocation(Location, FatModel): pass
+class FatLocation(Location, FatModel):
+    pass
 
 
 class FatOrder(Order, FatModel):
@@ -30,14 +31,15 @@ class FatOrder(Order, FatModel):
             with_entities(Order.id, func.count(OrderItem.user_id).label('total'))
 
 
-class FatUser(User, FatModel): pass
+class FatUser(User, FatModel):
+    pass
 
 
-class FatOrderItem(OrderItem, FatModel): pass
+class FatOrderItem(OrderItem, FatModel):
+    pass
 
 
 class FatProduct(Product, FatModel):
-
     @classmethod
     def top4(cls):
         top4 = OrderItem.query\
