@@ -15,7 +15,10 @@
 {% set active_page = active_page|default('index') -%}
 
 {% block title %}
-    Haldis - {{ active_page|capitalize }}
+Haldis - {{ active_page|capitalize }}
+    {% if title %}
+        - {{ title }}
+    {% endif %}
 {% endblock %}
 
 {% block styles %}
