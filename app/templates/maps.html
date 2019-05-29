@@ -27,7 +27,8 @@
     {% if loc.address %}
     loc = {
         "address": "{{loc.address}}",
-        "name": "{{loc.name}}"
+        "name": "{{loc.name}}",
+	"url": "{{ url_for('location', id=loc.id) }}"
     };
     locations.push(loc);
 
