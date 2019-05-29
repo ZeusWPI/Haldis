@@ -32,16 +32,19 @@ let marker_icon = L.icon({
 });
 
 let callback = function OSMCallBack(location, data) {
-    var lat, lon;
+    let lat, lon;
     if (data.features.length >= 1) {
-        var place = data.features[0].properties;
+        let place = data.features[0].properties;
         lat = data.features[0].geometry.coordinates[1];
         lon = data.features[0].geometry.coordinates[0];
 
         let marker = L.marker([lat, lon], {
                 icon: marker_icon
             }).addTo(map)
-            .bindPopup(location.name + ', ' + location.address, {offset: new L.Point(0, -16)});
+            .bindPopup(location.name + ', ' + location.address, {offset: new L.Point(0, -16)}).on('click', function () {
+                let win = window.open(location.url, '_blank');
+                win.focus();
+            });
 
         marker.on('mouseover', function(env) {
             marker.openPopup();
@@ -58,5 +61,5 @@ function loadmap(locations) {
     for (let loc of locations) {
         let request_uri = "https://photon.komoot.de/api/?limit=1&q=" + loc.address;
         performRequest(request_uri, loc, callback);
-    };
+    }
 }
