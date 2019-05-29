@@ -53,6 +53,15 @@ def order(id, form=None):
     debts = sum([o.product.price for o in order.items if not o.paid])
     return render_template('order.html', order=order, form=form, total_price=total_price, debts=debts)
 
+@order_bp.route('/<id>/items')
+def items_showcase(id, form=None):
+    order = Order.query.filter(Order.id == id).first()
+    if order is None:
+        abort(404)
+    if current_user.is_anonymous() and not order.public:
+        flash('Please login to see this order.', 'info')
+        abort(401)
+    return render_template('order_items.html', order=order)
 
 @order_bp.route('/<id>/edit', methods=['GET', 'POST'])
 @login_required
