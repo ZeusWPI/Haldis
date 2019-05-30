@@ -9,8 +9,11 @@
         <h3>Location: {{ location.name }}</h3>
         <span class="glyphicon glyphicon-home"></span>: {{ location.address }} <br/>
         <span class="glyphicon glyphicon-phone"></span>: {{ location.telephone }} <br/>
-        <span class="glyphicon glyphicon-link"></span>: <a href="{{ location.website}}">{{ location.website }}</a>
+        <span class="glyphicon glyphicon-link"></span>: <a href="{{ location.website}}">{{ location.website }}</a> <br/>
+        <a href="{{ url_for("order_bp.orders", location_id=location.id) }}" class="btn btn-primary btn-sm">Create order</a>
     </div>
+</div>
+<div class="row">
     <div class="col-md-push-1 col-md-10 darker">
         <h3 id="order-title">Products</h3>
         <table class="table table-hover table-condensed">
