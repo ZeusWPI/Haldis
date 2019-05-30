@@ -7,9 +7,9 @@
 <div class="row" xmlns="http://www.w3.org/1999/html">
     <div class="col-md-push-1 col-md-5 darker">
         <h3>{{ location.name }}</h3>
-        <span class="glyphicon glyphicon-home"></span>: {{ location.address }} <br/>
-        <span class="glyphicon glyphicon-phone"></span>: {{ location.telephone }} <br/>
-        <span class="glyphicon glyphicon-link"></span>: <a href="{{ location.website}}">{{ location.website }}</a>
+        <span class="glyphicon glyphicon-home"></span> {{ location.address }} <br/>
+        <span class="glyphicon glyphicon-phone"></span> {{ location.telephone }} <br/>
+        <span class="glyphicon glyphicon-link"></span> <a href="{{ location.website}}">{{ location.website }}</a>
     </div>
     <div class="col-md-push-1 col-md-5">
         {% if location.address %}
@@ -55,6 +55,7 @@
       loc = {
           "address": "{{location.address}}",
           "name": "{{location.name}}",
+          "url": "{{location.website}}",
           "center": true,
       };
       locations.push(loc);
