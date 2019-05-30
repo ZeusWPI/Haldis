@@ -3,6 +3,10 @@ body {
   padding-top: 70px;
 }
 
+.padding-top {
+  padding-top: 10px;
+}
+
 .darker {
    background-color: #fafafa;
    margin-top: 10px;
