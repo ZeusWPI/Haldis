@@ -10,7 +10,9 @@
         <span class="glyphicon glyphicon-home"></span> {{ location.address }} <br/>
         <span class="glyphicon glyphicon-phone"></span> {{ location.telephone }} <br/>
         <span class="glyphicon glyphicon-link"></span> <a href="{{ location.website}}">{{ location.website }}</a>
-        <a href="{{ url_for("order_bp.orders", location_id=location.id) }}" class="btn btn-primary btn-sm">Create order</a>
+        {% if not current_user.is_anonymous() %}
+            <a href="{{ url_for("order_bp.orders", location_id=location.id) }}" class="btn btn-primary btn-sm">Create order</a>
+        {% endif %}
     </div>
     <div class="col-md-push-1 col-md-5 padding-top">
         {% if location.address %}

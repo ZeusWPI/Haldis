@@ -18,7 +18,9 @@
                     <td>{{ loc.address }}<td>
                     <td><a href="{{ loc.website}}"><span class="glyphicon glyphicon-link"></span></a></td>
                     <td>
-                        <a href="{{ url_for("order_bp.orders", location_id=loc.id) }}" class="btn btn-primary btn-xs">Create order</a>
+                        {% if not current_user.is_anonymous() %}
+                            <a href="{{ url_for("order_bp.orders", location_id=loc.id) }}" class="btn btn-primary btn-xs">Create order</a>
+                        {% endif %}
                     </td>
                 </tr>
             {%- endfor %}
