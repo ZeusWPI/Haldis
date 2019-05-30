@@ -33,7 +33,7 @@ div.box:hover {
     cursor: pointer;
     opacity: .9;
     /*border-bottom: #f44346 1px solid !important;*/
-    box-shadow: -5px 5px 5px #888888;
+    box-shadow: 2px 4px 4px -1px #888888;
 }
 
 a.divLink {
