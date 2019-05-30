@@ -5,12 +5,19 @@
 
 {% block container %}
 <div class="row" xmlns="http://www.w3.org/1999/html">
-    <div class="col-md-push-1 col-md-10 darker">
-        <h3>Location: {{ location.name }}</h3>
+    <div class="col-md-push-1 col-md-5 darker">
+        <h3>{{ location.name }}</h3>
         <span class="glyphicon glyphicon-home"></span>: {{ location.address }} <br/>
         <span class="glyphicon glyphicon-phone"></span>: {{ location.telephone }} <br/>
         <span class="glyphicon glyphicon-link"></span>: <a href="{{ location.website}}">{{ location.website }}</a>
     </div>
+    <div class="col-md-push-1 col-md-5 darker">
+        {% if location.address %}
+            <div class="small-map" id="mapid"></div>
+        {% endif %}
+    </div>
+</div>
+<div class="row">
     <div class="col-md-push-1 col-md-10 darker">
         <h3 id="order-title">Products</h3>
         <table class="table table-hover table-condensed">
@@ -28,4 +35,31 @@
         </table>
     </div>
 </div>
+{% endblock %}
+
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/leaflet.css') }}">
+<link rel="stylesheet" href="{{url_for('static', filename='css/map.css')}}">
+{% endblock %}
+
+{% block scripts %}
+{{super()}}
+
+{% if location.address %}
+  <script src="{{ url_for('static', filename='js/leaflet.js')}}"></script>
+  <script src="{{ url_for('static', filename='js/map.js' ) }}"></script>
+  <script>
+      let locations = [];
+
+      loc = {
+          "address": "{{location.address}}",
+          "name": "{{location.name}}",
+          "center": true,
+      };
+      locations.push(loc);
+
+      loadmap(locations);
+  </script>
+{% endif %}
 {% endblock %}
