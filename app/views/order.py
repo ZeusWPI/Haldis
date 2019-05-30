@@ -17,6 +17,9 @@ order_bp = Blueprint('order_bp', 'order')
 def orders(form=None):
     if form is None and not current_user.is_anonymous():
         form = OrderForm()
+        location_id = request.args.get('location_id')
+        form.location_id.default = location_id
+        form.process()
         form.populate()
     return render_template('orders.html', orders=get_orders(), form=form)
 
