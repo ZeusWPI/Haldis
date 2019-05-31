@@ -83,8 +83,9 @@
             </tbody>
         </table>
     </div>
-    <div class="col-md-push-2 col-md-4 darker" id="items-ordered">
+    <div class="col-md-push-2 col-md-4 darker box" id="items-ordered">
         <h3>Ordered products: {{ order.items.count() }}</h3>
+        <a class="divLink" href="{{ url_for('.items_showcase', id=order.id) }}"></a>
         {% for key, value in order.group_by_product().items() -%}
             <div class="product">
                 {{ key }}: {{ value["count"] }}
