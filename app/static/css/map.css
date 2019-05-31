@@ -1,4 +1,9 @@
-#mapid {
+.large-map {
     min-height: 400px;
     height: 600px;
+}
+
+.small-map {
+    min-height: 150px;
+    height: 250px;
 }

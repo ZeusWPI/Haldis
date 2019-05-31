@@ -3,6 +3,10 @@ body {
   padding-top: 70px;
 }
 
+.padding-top {
+  padding-top: 10px;
+}
+
 .darker {
    background-color: #fafafa;
    margin-top: 10px;
@@ -21,6 +25,21 @@ body {
 
 .product .extras {
     padding-left: 20px;
+}
+
+
+@media(min-width: 768px) and (max-width: 991px){
+    /* Make sure the small map in the location page has the same with as the block above */
+    .sm-no-side-padding {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+}
+
+@media(min-width: 992px){
+    .md-no-right-padding {
+        padding-right: 0px;
+    }
 }
 
 .showcase .product {

@@ -1,10 +1,10 @@
-var map = L.map('mapid').setView([
-    51.0231119, 3.7102741
-], 14);
+var map = L.map('mapid');
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 
+
+let base_request_uri = "https://photon.komoot.de/api/?limit=1&q=";
 
 function performRequest(url, location, success_callback) {
     var request = new XMLHttpRequest();
@@ -52,6 +52,10 @@ let callback = function OSMCallBack(location, data) {
         marker.on('mouseout', function(env) {
             marker.closePopup();
         });
+
+        if (location.center) {
+            map.setView([lat, lon], 14);
+        }
     } else {
         console.log(`Location ${JSON.stringify(location, null, 2)} returned no features, are you sure this is a valid address?`);
     }
@@ -59,7 +63,7 @@ let callback = function OSMCallBack(location, data) {
 
 function loadmap(locations) {
     for (let loc of locations) {
-        let request_uri = "https://photon.komoot.de/api/?limit=1&q=" + loc.address;
+        let request_uri = base_request_uri + loc.address;
         performRequest(request_uri, loc, callback);
     }
 }

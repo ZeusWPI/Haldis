@@ -5,13 +5,18 @@
 
 {% block container %}
 <div class="row" xmlns="http://www.w3.org/1999/html">
-    <div class="col-md-push-1 col-md-10 darker">
-        <h3>Location: {{ location.name }}</h3>
-        <span class="glyphicon glyphicon-home"></span>: {{ location.address }} <br/>
-        <span class="glyphicon glyphicon-phone"></span>: {{ location.telephone }} <br/>
-        <span class="glyphicon glyphicon-link"></span>: <a href="{{ location.website}}">{{ location.website }}</a> <br/>
+    <div class="col-md-push-1 col-md-5 darker">
+        <h3>{{ location.name }}</h3>
+        <span class="glyphicon glyphicon-home"></span> {{ location.address }} <br/>
+        <span class="glyphicon glyphicon-phone"></span> {{ location.telephone }} <br/>
+        <span class="glyphicon glyphicon-link"></span> <a href="{{ location.website}}">{{ location.website }}</a>
         {% if not current_user.is_anonymous() %}
             <a href="{{ url_for("order_bp.orders", location_id=location.id) }}" class="btn btn-primary btn-sm">Create order</a>
+        {% endif %}
+    </div>
+    <div class="col-md-push-1 col-md-5 padding-top sm-no-side-padding md-no-right-padding">
+        {% if location.address %}
+            <div class="small-map" id="mapid"></div>
         {% endif %}
     </div>
 </div>
@@ -33,4 +38,32 @@
         </table>
     </div>
 </div>
+{% endblock %}
+
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/leaflet.css') }}">
+<link rel="stylesheet" href="{{url_for('static', filename='css/map.css')}}">
+{% endblock %}
+
+{% block scripts %}
+{{super()}}
+
+{% if location.address %}
+  <script src="{{ url_for('static', filename='js/leaflet.js')}}"></script>
+  <script src="{{ url_for('static', filename='js/map.js' ) }}"></script>
+  <script>
+      let locations = [];
+
+      loc = {
+          "address": "{{location.address}}",
+          "name": "{{location.name}}",
+          "url": "{{location.website}}",
+          "center": true,
+      };
+      locations.push(loc);
+
+      loadmap(locations);
+  </script>
+{% endif %}
 {% endblock %}
