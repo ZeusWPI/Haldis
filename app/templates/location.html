@@ -14,7 +14,7 @@
             <a href="{{ url_for("order_bp.orders", location_id=location.id) }}" class="btn btn-primary btn-sm">Create order</a>
         {% endif %}
     </div>
-    <div class="col-md-push-1 col-md-5 padding-top">
+    <div class="col-md-push-1 col-md-5 padding-top sm-no-side-padding md-no-right-padding">
         {% if location.address %}
             <div class="small-map" id="mapid"></div>
         {% endif %}

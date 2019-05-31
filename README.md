@@ -22,7 +22,8 @@ This will create a virtual environment, install the necessary dependencies and w
 If you are using a database other then sqlite you will first need to configure the correct uri to the database in the generated 'config.py' file.
 Afterwards upgrade the database to the latest version using 
 
-    python app/haldis.py db upgrade
+    cd app
+    python haldis.py db upgrade
     
 You can now still seed the database by running
 
