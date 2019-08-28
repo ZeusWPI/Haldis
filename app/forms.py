@@ -1,20 +1,25 @@
 from datetime import datetime, timedelta
+
 from flask import session
 from flask_login import current_user
 from flask_wtf import FlaskForm as Form
-from wtforms import SelectField, DateTimeField, validators, SubmitField, StringField
+from wtforms import (DateTimeField, SelectField, StringField, SubmitField,
+                     validators)
 
-
-from models import User, Location
-from utils import euro
+from models import Location, User
+from utils import euro_string
 
 __author__ = 'feliciaan'
 
 
 class OrderForm(Form):
     courrier_id = SelectField('Courrier', coerce=int)
-    location_id = SelectField('Location', coerce=int, validators=[validators.required()])
-    starttime = DateTimeField('Starttime', default=datetime.now, format='%d-%m-%Y %H:%M')
+    location_id = SelectField('Location',
+                              coerce=int,
+                              validators=[validators.required()])
+    starttime = DateTimeField('Starttime',
+                              default=datetime.now,
+                              format='%d-%m-%Y %H:%M')
     stoptime = DateTimeField('Stoptime', format='%d-%m-%Y %H:%M')
     submit_button = SubmitField('Submit')
 
@@ -23,7 +28,9 @@ class OrderForm(Form):
             self.courrier_id.choices = [(0, None)] + \
                                        [(u.id, u.username) for u in User.query.order_by('username')]
         else:
-            self.courrier_id.choices = [(0, None), (current_user.id, current_user.username)]
+            self.courrier_id.choices = [(0, None),
+                                        (current_user.id,
+                                         current_user.username)]
         self.location_id.choices = [(l.id, l.name)
                                     for l in Location.query.order_by('name')]
         if self.stoptime.data is None:
@@ -36,7 +43,9 @@ class OrderItemForm(Form):
     submit_button = SubmitField('Submit')
 
     def populate(self, location):
-        self.product_id.choices = [(i.id, (i.name + ": " + euro(i.price))) for i in location.products]
+        self.product_id.choices = [(i.id,
+                                    (i.name + ": " + euro_string(i.price)))
+                                   for i in location.products]
 
 
 class AnonOrderItemForm(OrderItemForm):

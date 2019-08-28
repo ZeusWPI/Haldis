@@ -11,14 +11,14 @@
         <h3 id="order-title">Order {{ order.id }}
         <div class="pull-right">
             {% if order.can_close(current_user.id) -%}
-                <a class="btn btn-danger" href="{{ url_for('.close_order', id=order.id) }}">Close</a>
+                <a class="btn btn-danger" href="{{ url_for('order_bp.close_order', id=order.id) }}">Close</a>
             {% endif %}{% if courier_or_admin %}
-                <a class="btn btn-warning" href="{{ url_for('.order_edit', id=order.id) }}">Edit</a>
+                <a class="btn btn-warning" href="{{ url_for('order_bp.order_edit', id=order.id) }}">Edit</a>
         {%- endif %}
         </div></h3>
         courier: {{ order.courrier.username }}
         {% if order.courrier == None and not current_user.is_anonymous() %}
-            <a href="{{ url_for('.volunteer', id=order.id) }}" class="btn btn-primary btn-sm">Volunteer</a>
+            <a href="{{ url_for('order_bp.volunteer', id=order.id) }}" class="btn btn-primary btn-sm">Volunteer</a>
         {% endif %}
         <br/>
         location: <a href="{{ order.location.website }}">{{ order.location.name }}</a><br/>
@@ -34,7 +34,7 @@
     {% if form -%}
     <div class="col-md-push-1 col-md-10 darker" id="form">
         <h4>Order:</h4>
-        <form method="post" action="{{ url_for('.order_item_create', id=order.id) }}">
+        <form method="post" action="{{ url_for('order_bp.order_item_create', id=order.id) }}">
           <span class="pull-right">
             <a class="btn btn-primary" onclick="chooseRandom()">Choose for me</a>
           </span>
@@ -76,8 +76,8 @@
                     <td>{{ item.get_name() }}</td>
                     <td><span title="{{ item.extra if item.extra }}">{{ item.product.name }}{{ "*" if item.extra }}</span></td>
                     <td>{{ item.product.price|euro }}</td>
-                    {% if courier_or_admin %}<td>{% if not item.paid %} <a class="btn btn-xs btn-primary" href="{{ url_for('.item_paid', order_id=order.id, item_id=item.id) }}">Pay</a> {% else %} <span class="glyphicon glyphicon-chevron-down"></span> {% endif %}</td>{% endif %}
-                    <td>{% if item.can_delete(order.id, current_user.id, session.get('anon_name', '')) -%}<a href="{{ url_for('.delete_item', order_id=order.id, item_id=item.id) }}"><span class="glyphicon glyphicon-remove"></span></a>{%- endif %}<br/></td>
+                    {% if courier_or_admin %}<td>{% if not item.paid %} <a class="btn btn-xs btn-primary" href="{{ url_for('order_bp.item_paid', order_id=order.id, item_id=item.id) }}">Pay</a> {% else %} <span class="glyphicon glyphicon-chevron-down"></span> {% endif %}</td>{% endif %}
+                    <td>{% if item.can_delete(order.id, current_user.id, session.get('anon_name', '')) -%}<a href="{{ url_for('order_bp.delete_item', order_id=order.id, item_id=item.id) }}"><span class="glyphicon glyphicon-remove"></span></a>{%- endif %}<br/></td>
                 </tr>
             {%- endfor %}
             </tbody>
@@ -85,7 +85,7 @@
     </div>
     <div class="col-md-push-2 col-md-4 darker box" id="items-ordered">
         <h3>Ordered products: {{ order.items.count() }}</h3>
-        <a class="divLink" href="{{ url_for('.items_showcase', id=order.id) }}"></a>
+        <a class="divLink" href="{{ url_for('order_bp.items_showcase', id=order.id) }}"></a>
         {% for key, value in order.group_by_product().items() -%}
             <div class="product">
                 {{ key }}: {{ value["count"] }}
@@ -113,7 +113,7 @@
                         <td>{{ key }}</td>
                         <td>{{ value["total"]|euro }}</td>
                         <td>{{ value["to_pay"]|euro }}</td>
-                        {% if courier_or_admin %}<td>{% if not value["to_pay"] == 0 %} <a class="btn btn-xs btn-primary" href="{{ url_for('.items_user_paid', order_id=order.id, user_name=key) }}">Pay</a> {% else %} <span class="glyphicon glyphicon-chevron-down"></span> {% endif %}</td>{% endif %}
+                        {% if courier_or_admin %}<td>{% if not value["to_pay"] == 0 %} <a class="btn btn-xs btn-primary" href="{{ url_for('order_bp.items_user_paid', order_id=order.id, user_name=key) }}">Pay</a> {% else %} <span class="glyphicon glyphicon-chevron-down"></span> {% endif %}</td>{% endif %}
                     </tr>
                 {%- endfor %}
                 </tbody>

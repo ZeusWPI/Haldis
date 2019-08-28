@@ -1,31 +1,30 @@
-from flask import redirect, abort, session, url_for
-from flask_login import LoginManager, current_user, logout_user
+from flask import abort, Blueprint
+from flask import redirect, session, url_for
+from flask_login import current_user, logout_user
 
-
-from app import app
 from models import User
 from zeus import zeus_login
 
-login_manager = LoginManager()
-login_manager.init_app(app)
+auth_bp = Blueprint('auth_bp', __name__)
 
 
-@login_manager.user_loader
-def load_user(userid):
-    return User.query.filter_by(id=userid).first()
+def init_login(app):
+    @app.login_manager.user_loader
+    def load_user(userid):
+        return User.query.filter_by(id=userid).first()
 
 
-@app.route('/login')
+@auth_bp.route('/login')
 def login():
     return zeus_login()
 
 
-@app.route('/logout')
+@auth_bp.route('/logout')
 def logout():
     if 'zeus_token' in session:
         session.pop('zeus_token', None)
     logout_user()
-    return redirect(url_for('home'))
+    return redirect(url_for('general_bp.home'))
 
 
 def before_request():

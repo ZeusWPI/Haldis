@@ -1,10 +1,13 @@
+from flask import Blueprint
+from flask import current_app as app
 from flask import render_template
 
-from fatmodels import FatLocation, FatOrder, FatOrderItem, FatUser, FatProduct
-from app import app
+from fatmodels import FatLocation, FatOrder, FatOrderItem, FatProduct, FatUser
+
+stats_blueprint = Blueprint('stats_blueprint', __name__)
 
 
-@app.route('/stats/')
+@stats_blueprint.route('/')
 def stats():
     data = {
         'amount': {
