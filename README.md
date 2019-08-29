@@ -58,3 +58,7 @@ Finally run the webserver with
 Run `pip-compile --upgrade`
 
 For more information about managing the dependencies see [jazzband/pip-tools: A set of tools to keep your pinned Python dependencies fresh.](https://github.com/jazzband/pip-tools)
+
+## Authors
+
+* **Feliciaan De Palmenaer** - *Initial work* - [Github](https://github.com/feliciaan)
