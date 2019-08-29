@@ -9,8 +9,6 @@ from wtforms import (DateTimeField, SelectField, StringField, SubmitField,
 from models import Location, User
 from utils import euro_string
 
-__author__ = 'feliciaan'
-
 
 class OrderForm(Form):
     courrier_id = SelectField('Courrier', coerce=int)

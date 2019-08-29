@@ -1,4 +1,3 @@
-__author__ = 'feliciaan'
 import random
 from datetime import datetime
 
