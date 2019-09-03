@@ -9,7 +9,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 from flask_login import LoginManager
 from flask_migrate import Migrate, MigrateCommand
 from flask_oauthlib.client import OAuth, OAuthException
-from flask_script import Manager
+from flask_script import Manager, Server
 
 from admin import init_admin
 from login import init_login
@@ -31,7 +31,7 @@ def create_app():
     add_template_filters(app)
 
     # TODO do we need to return and then run the manager?
-    return app
+    return manager
 
 
 def register_plugins(app, debug: bool):
@@ -66,6 +66,7 @@ def register_plugins(app, debug: bool):
     migrate = Migrate(app, db)
     manager = Manager(app)
     manager.add_command('db', MigrateCommand)
+    manager.add_command('runserver', Server(port=8000))
 
     # Add admin interface
     init_admin(app, db)
@@ -144,5 +145,6 @@ def add_template_filters(app):
 
 # For usage when you directly call the script with python
 if __name__ == '__main__':
-    app = create_app()
-    app.run(threaded=True, host='0.0.0.0')
+    manager = create_app()
+    manager.run()
+    #app.run(threaded=True, host='0.0.0.0')
