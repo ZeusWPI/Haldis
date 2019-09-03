@@ -147,4 +147,3 @@ def add_template_filters(app):
 if __name__ == '__main__':
     manager = create_app()
     manager.run()
-    #app.run(threaded=True, host='0.0.0.0')
