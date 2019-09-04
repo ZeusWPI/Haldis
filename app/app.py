@@ -111,6 +111,7 @@ def add_routes(application):
     from views.order import order_bp
     from views.general import general_bp
     from views.stats import stats_blueprint
+    from views.debug import debug_bp
     from login import auth_bp
     from zeus import oauth_bp
 
@@ -119,6 +120,9 @@ def add_routes(application):
     application.register_blueprint(stats_blueprint, url_prefix='/stats')
     application.register_blueprint(auth_bp, url_prefix='/')
     application.register_blueprint(oauth_bp, url_prefix='/')
+
+    if application.debug:
+        application.register_blueprint(debug_bp, url_prefix='/debug')
 
 
 def add_template_filters(app):
