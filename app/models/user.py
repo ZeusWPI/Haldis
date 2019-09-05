@@ -1,11 +1,13 @@
+from sqlalchemy import Integer, String, Boolean
+
 from models import db
 
 
 class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
-    admin = db.Column(db.Boolean)
-    bias = db.Column(db.Integer)
+    id = db.Column(Integer, primary_key=True)
+    username = db.Column(String(80), unique=True, nullable=False)
+    admin = db.Column(Boolean)
+    bias = db.Column(Integer)
     runs = db.relation('Order',
                        backref='courrier',
                        primaryjoin='Order.courrier_id==User.id',
@@ -33,4 +35,4 @@ class User(db.Model):
         return str(self.id)
 
     def __repr__(self):
-        return '%s' % self.username
+        return '%s'.format(self.username)

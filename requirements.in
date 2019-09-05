@@ -9,3 +9,5 @@ Flask-OAuthlib
 Flask-Admin
 Flask-Migrate
 Flask-Script
+pymysql
+black

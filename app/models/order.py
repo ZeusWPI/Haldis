@@ -1,17 +1,20 @@
 from datetime import datetime
 
+from sqlalchemy import Column
+from sqlalchemy.orm import relationship
+
 from .database import db
 from .user import User
 
 
 class Order(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    courrier_id = db.Column(db.Integer, nullable=True)
-    location_id = db.Column(db.Integer, db.ForeignKey('location.id'))
-    starttime = db.Column(db.DateTime)
-    stoptime = db.Column(db.DateTime)
-    public = db.Column(db.Boolean, default=True)
-    items = db.relationship('OrderItem', backref='order', lazy='dynamic')
+    id = Column(db.Integer, primary_key=True)
+    courrier_id = Column(db.Integer, nullable=True)
+    location_id = Column(db.Integer, db.ForeignKey('location.id'))
+    starttime = Column(db.DateTime)
+    stoptime = Column(db.DateTime)
+    public = Column(db.Boolean, default=True)
+    items = relationship('OrderItem', backref='order', lazy='dynamic')
 
     def configure(self, courrier, location, starttime, stoptime):
         self.courrier = courrier
@@ -21,9 +24,9 @@ class Order(db.Model):
 
     def __repr__(self):
         if self.location:
-            return 'Order %d @ %s' % (self.id, self.location.name or 'None')
+            return 'Order %d @ %s'.format(self.id, self.location.name or 'None')
         else:
-            return 'Order %d' % (self.id)
+            return 'Order %d'.format(self.id)
 
     def group_by_user(self):
         group = dict()

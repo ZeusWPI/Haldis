@@ -14,3 +14,5 @@ from .order import Order
 from .orderitem import OrderItem
 from .product import Product
 from .user import User
+from .attribute import Attribute
+from .attributeValues import AttributeValues

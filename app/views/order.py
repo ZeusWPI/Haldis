@@ -21,7 +21,20 @@ def orders(form=None):
         form.location_id.default = location_id
         form.process()
         form.populate()
-    return render_template('orders.html', orders=get_orders(), form=form)
+
+    orders = []
+    if expression is None:
+        expression = ((datetime.now() > Order.starttime) &
+                      (Order.stoptime > datetime.now()) |
+                      (Order.stoptime == None))
+    if not current_user.is_anonymous():
+        orders = Order.query.filter(expression).all()
+    else:
+        orders = Order.query.filter(
+            (expression & (Order.public == True))).all()
+    return orders
+
+    return render_template('orders.html', orders=orders, form=form)
 
 
 @order_bp.route('/create', methods=['POST'])
@@ -222,17 +235,3 @@ def select_user(items):
                 user = None
 
     return user
-
-
-def get_orders(expression=None):
-    orders = []
-    if expression is None:
-        expression = ((datetime.now() > Order.starttime) &
-                      (Order.stoptime > datetime.now()) |
-                      (Order.stoptime == None))
-    if not current_user.is_anonymous():
-        orders = Order.query.filter(expression).all()
-    else:
-        orders = Order.query.filter(
-            (expression & (Order.public == True))).all()
-    return orders
