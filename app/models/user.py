@@ -14,6 +14,7 @@ class User(db.Model):
                        foreign_keys='Order.courrier_id')
     orderItems = db.relationship('OrderItem', backref='user', lazy='dynamic')
 
+
     def configure(self, username, admin, bias):
         self.username = username
         self.admin = admin

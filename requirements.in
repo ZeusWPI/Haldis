@@ -9,5 +9,10 @@ Flask-OAuthlib
 Flask-Admin
 Flask-Migrate
 Flask-Script
+<<<<<<< HEAD
 pymysql
 black
+=======
+black
+pymysql
+>>>>>>> black

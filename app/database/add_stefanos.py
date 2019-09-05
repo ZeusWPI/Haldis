@@ -2,13 +2,13 @@ from models import Location, Product
 from app import db
 
 bickies = {
-    "Bicky Burger Original":330,
-    "Bicky Burger":300,
-    "Bicky Glenniei":330,
-    "Bicky Capoentje":330,
-    "Bicky Chicken":350,
-    "Bicky Fish":350,
-    "Bicky Veggie":350,
+    "Bicky Burger Original": 330,
+    "Bicky Burger": 300,
+    "Bicky Glenniei": 330,
+    "Bicky Capoentje": 330,
+    "Bicky Chicken": 350,
+    "Bicky Fish": 350,
+    "Bicky Veggie": 350,
 }
 
 saus = {
@@ -66,7 +66,7 @@ specials = {
     "Molleke Dubbel": 1200,
     "Stefano": 650,
     "Stefano Dubbel": 800,
-    "Picasso": 1350
+    "Picasso": 1350,
 }
 
 vlezekes = {
@@ -93,20 +93,21 @@ vlezekes = {
     "Mini Lucifers": 300,
     "Ragouzi": 250,
     "stoofvlees": 450,
-
 }
 
-friet = {
-    "Klein pak": 200,
-    "Midden pak": 250,
-    "Groot pak": 300,
-}
+friet = {"Klein pak": 200, "Midden pak": 250, "Groot pak": 300}
 
 data = [special_bickies, specials, vlezekes, friet]
 
+
 def add():
     stefanos = Location()
-    stefanos.configure("Stefano's Place", "Overpoortstraat 12 9000 Gent", "tel: geen", "https://www.facebook.com/pages/category/Fast-Food-Restaurant/Stefanos-Place-370774480004139/")
+    stefanos.configure(
+        "Stefano's Place",
+        "Overpoortstraat 12 9000 Gent",
+        "tel: geen",
+        "https://www.facebook.com/pages/category/Fast-Food-Restaurant/Stefanos-Place-370774480004139/",
+    )
     db.session.add(stefanos)
 
     # sommige bickies kunde met een schel kaas bestellen
@@ -116,7 +117,7 @@ def add():
         db.session.add(bicky)
 
         bicky_cheese = Product()
-        bicky_cheese.configure(stefanos, name +  " cheese", price + 30)
+        bicky_cheese.configure(stefanos, name + " cheese", price + 30)
         db.session.add(bicky_cheese)
 
     for dict in data:
@@ -132,5 +133,5 @@ def add():
         db.session.add(saus)
 
         saus_apart = Product()
-        saus_apart.configure(stefanos, name +  " apart", price + 10)
+        saus_apart.configure(stefanos, name + " apart", price + 10)
         db.session.add(saus_apart)

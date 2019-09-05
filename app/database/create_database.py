@@ -7,7 +7,7 @@ entry_sets = {
     "Ocean's Garden": add_oceans_garden.add,
     "SimPizza": add_simpizza.add,
     "Primadonna": add_primadonna.add,
-    "Fitchen": add_fitchen.add
+    "Fitchen": add_fitchen.add,
 }
 
 yes = ["yes", "y", "Y"]
@@ -45,10 +45,14 @@ def add_to_current():
     available = [entry_set for entry_set in entry_sets]
 
     def add_numbers():
-        return "  ".join(["{}({}), ".format(loc, i) for i, loc in enumerate(available)]).rstrip(", ")
+        return "  ".join(
+            ["{}({}), ".format(loc, i) for i, loc in enumerate(available)]
+        ).rstrip(", ")
 
     while input("Do you still want to add something? (Y/n) ") not in no:
-        print("What do you want to add? (Use numbers, or A for all, or C for cancel)   ")
+        print(
+            "What do you want to add? (Use numbers, or A for all, or C for cancel)   "
+        )
         answer = input("Available: {}  : ".format(add_numbers()))
         if answer == "A":
             add_all()
@@ -66,8 +70,8 @@ def add_to_current():
 
 
 def init():
-    print('Database modification script!')
-    print('=============================\n\n')
+    print("Database modification script!")
+    print("=============================\n\n")
     if check_if_overwrite():
         recreate_from_scratch()
     else:
