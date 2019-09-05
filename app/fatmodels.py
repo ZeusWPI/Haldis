@@ -25,10 +25,11 @@ class FatOrder(Order, FatModel):
     #  even if they get reduced by the disctinct afterwards.
     @classmethod
     def items_per_order(cls):
-        return Order.query.\
-            join(OrderItem).\
-            group_by(Order.id).\
-            with_entities(Order.id, func.count(OrderItem.user_id).label('total'))
+        return (
+            Order.query.join(OrderItem)
+            .group_by(Order.id)
+            .with_entities(Order.id, func.count(OrderItem.user_id).label("total"))
+        )
 
 
 class FatUser(User, FatModel):
@@ -42,15 +43,15 @@ class FatOrderItem(OrderItem, FatModel):
 class FatProduct(Product, FatModel):
     @classmethod
     def top4(cls):
-        top4 = OrderItem.query\
-            .join(Product)\
-            .join(Location)\
-            .group_by(Product.id)\
-            .with_entities(Product.name,
-                           Location.name,
-                           func.count(Product.id).label('count')
-                           )\
-            .order_by(desc('count'))\
+        top4 = (
+            OrderItem.query.join(Product)
+            .join(Location)
+            .group_by(Product.id)
+            .with_entities(
+                Product.name, Location.name, func.count(Product.id).label("count")
+            )
+            .order_by(desc("count"))
             .limit(4)
+        )
         for top in top4:
             print(top)

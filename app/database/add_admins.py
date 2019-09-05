@@ -8,15 +8,15 @@ def add():
     db.session.add(feli)
 
     destro = User()
-    destro.configure('destro', True, 0)
+    destro.configure("destro", True, 0)
     db.session.add(destro)
 
     iepoev = User()
-    iepoev.configure('iepoev', True, 1)
+    iepoev.configure("iepoev", True, 1)
     db.session.add(iepoev)
 
     flynn = User()
-    flynn.configure('flynn', True, 0)
+    flynn.configure("flynn", True, 0)
     db.session.add(flynn)
 
     # To future developers, add yourself here

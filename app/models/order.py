@@ -7,11 +7,11 @@ from .user import User
 class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     courrier_id = db.Column(db.Integer, nullable=True)
-    location_id = db.Column(db.Integer, db.ForeignKey('location.id'))
+    location_id = db.Column(db.Integer, db.ForeignKey("location.id"))
     starttime = db.Column(db.DateTime)
     stoptime = db.Column(db.DateTime)
     public = db.Column(db.Boolean, default=True)
-    items = db.relationship('OrderItem', backref='order', lazy='dynamic')
+    items = db.relationship("OrderItem", backref="order", lazy="dynamic")
 
     def configure(self, courrier, location, starttime, stoptime):
         self.courrier = courrier
@@ -21,17 +21,18 @@ class Order(db.Model):
 
     def __repr__(self):
         if self.location:
-            return 'Order %d @ %s' % (self.id, self.location.name or 'None')
+            return "Order %d @ %s" % (self.id, self.location.name or "None")
         else:
-            return 'Order %d' % (self.id)
+            return "Order %d" % (self.id)
 
     def group_by_user(self):
         group = dict()
         for item in self.items:
             user = group.get(item.get_name(), dict())
             user["total"] = user.get("total", 0) + item.product.price
-            user["to_pay"] = user.get(
-                "to_pay", 0) + item.product.price if not item.paid else 0
+            user["to_pay"] = (
+                user.get("to_pay", 0) + item.product.price if not item.paid else 0
+            )
             user["paid"] = user.get("paid", True) and item.paid
             user["products"] = user.get("products", []) + [item.product]
             group[item.get_name()] = user
@@ -42,7 +43,7 @@ class Order(db.Model):
         group = dict()
         for item in self.items:
             product = group.get(item.product.name, dict())
-            product['count'] = product.get("count", 0) + 1
+            product["count"] = product.get("count", 0) + 1
             if item.extra:
                 product["extras"] = product.get("extras", []) + [item.extra]
             group[item.product.name] = product
