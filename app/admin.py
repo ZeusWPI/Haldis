@@ -14,23 +14,23 @@ class ModelBaseView(ModelView):
 
 
 class UserAdminModel(ModelBaseView):
-    column_searchable_list = ('username', )
+    column_searchable_list = ("username",)
     inline_models = None
 
 
 class ProductAdminModel(ModelBaseView):
-    column_searchable_list = ('name', )
+    column_searchable_list = ("name",)
     inline_models = None
 
 
 class LocationAdminModel(ModelBaseView):
-    column_searchable_list = ('name', 'address', 'website')
+    column_searchable_list = ("name", "address", "website")
     inline_models = None
-    form_columns = ('name', 'address', 'website', 'telephone')
+    form_columns = ("name", "address", "website", "telephone")
 
 
 def init_admin(app, db):
-    admin = Admin(app, name='Haldis', url='/admin', template_mode='bootstrap3')
+    admin = Admin(app, name="Haldis", url="/admin", template_mode="bootstrap3")
 
     admin.add_view(UserAdminModel(User, db.session))
     admin.add_view(LocationAdminModel(Location, db.session))

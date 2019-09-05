@@ -7,8 +7,8 @@ class Location(db.Model):
     address = db.Column(db.String(254))
     website = db.Column(db.String(120))
     telephone = db.Column(db.String(20), nullable=True)
-    products = db.relationship('Product', backref='location', lazy='dynamic')
-    orders = db.relationship('Order', backref='location', lazy='dynamic')
+    products = db.relationship("Product", backref="location", lazy="dynamic")
+    orders = db.relationship("Order", backref="location", lazy="dynamic")
 
     def configure(self, name, address, telephone, website):
         self.name = name
@@ -17,4 +17,4 @@ class Location(db.Model):
         self.telephone = telephone
 
     def __repr__(self):
-        return '%s' % (self.name)
+        return "%s" % (self.name)

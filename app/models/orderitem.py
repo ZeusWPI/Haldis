@@ -6,13 +6,14 @@ from .user import User
 
 class OrderItem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    order_id = db.Column(db.Integer, db.ForeignKey('order.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    order_id = db.Column(db.Integer, db.ForeignKey("order.id"), nullable=False)
     product_id = db.Column(
-        db.Integer, db.ForeignKey('product.id'),
-        nullable=True)  # TODO make false after init migration
-    paid = db.Column(db.Boolean, default=False,
-                     nullable=True)  # TODO make false after init migration
+        db.Integer, db.ForeignKey("product.id"), nullable=True
+    )  # TODO make false after init migration
+    paid = db.Column(
+        db.Boolean, default=False, nullable=True
+    )  # TODO make false after init migration
     extra = db.Column(db.String(254), nullable=True)
     name = db.Column(db.String(120))
 
@@ -30,8 +31,11 @@ class OrderItem(db.Model):
         product_name = None
         if self.product:
             product_name = self.product.name
-        return 'Order %d: %s wants %s' % (self.order_id or 0, self.get_name(),
-                                          product_name or 'None')
+        return "Order %d: %s wants %s" % (
+            self.order_id or 0,
+            self.get_name(),
+            product_name or "None",
+        )
 
     def can_delete(self, order_id, user_id, name):
         if int(self.order_id) != int(order_id):

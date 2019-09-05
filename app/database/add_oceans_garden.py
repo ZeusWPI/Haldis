@@ -5,21 +5,38 @@ from itertools import product
 
 zetmelen = ["Nasi", "Bami"]
 vlezen = ["Rundsvlees", "Varkensvlees", "Kippenstukkjes"]
-sauzen = ["Balisaus", "Yu siang saus", "Gon boa saus", "Curry saus", "Oestersaus", "Zwarte pepersaus",
-          "Champignons", "Chinese champignons", "A la Maleisïe"]
+sauzen = [
+    "Balisaus",
+    "Yu siang saus",
+    "Gon boa saus",
+    "Curry saus",
+    "Oestersaus",
+    "Zwarte pepersaus",
+    "Champignons",
+    "Chinese champignons",
+    "A la Maleisïe",
+]
 
-specials = ["Nasi Kippenbolletjes Zoetzuur", "Bami Kippenbolletjes Zoetzuur",
-            "Nasi Varkenbolletjes Zoetzuur", "Bami Varkenbolletjes Zoetzuur",
-            "Nasi Babi Pangang", "Bami Babi Pangang",
-            "Diverse Groenten met Bami",
-            "Diverse Groenten met Nasi"]
+specials = [
+    "Nasi Kippenbolletjes Zoetzuur",
+    "Bami Kippenbolletjes Zoetzuur",
+    "Nasi Varkenbolletjes Zoetzuur",
+    "Bami Varkenbolletjes Zoetzuur",
+    "Nasi Babi Pangang",
+    "Bami Babi Pangang",
+    "Diverse Groenten met Bami",
+    "Diverse Groenten met Nasi",
+]
 
 
 def add():
     chinees = Location()
-    chinees.configure("Oceans's Garden",
-                      "Zwijnaardsesteenweg 399 9000 Gent", "tel: 09/222.72.74",
-                      "http://oceangarden.byethost3.com/studentenmenus.html")
+    chinees.configure(
+        "Oceans's Garden",
+        "Zwijnaardsesteenweg 399 9000 Gent",
+        "tel: 09/222.72.74",
+        "http://oceangarden.byethost3.com/studentenmenus.html",
+    )
     db.session.add(chinees)
 
     def chinees_create_entry(name):
