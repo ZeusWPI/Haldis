@@ -1,14 +1,11 @@
+import flask_login as login
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
-import flask_login as login
 
-
-from app import app, db
-from models import User, Location, Product, Order, OrderItem
+from models import Location, Order, OrderItem, Product, User
 
 
 class ModelBaseView(ModelView):
-
     def is_accessible(self):
         if login.current_user.is_anonymous():
             return False
@@ -17,12 +14,12 @@ class ModelBaseView(ModelView):
 
 
 class UserAdminModel(ModelBaseView):
-    column_searchable_list = ('username',)
+    column_searchable_list = ('username', )
     inline_models = None
 
 
 class ProductAdminModel(ModelBaseView):
-    column_searchable_list = ('name',)
+    column_searchable_list = ('name', )
     inline_models = None
 
 
@@ -32,11 +29,11 @@ class LocationAdminModel(ModelBaseView):
     form_columns = ('name', 'address', 'website', 'telephone')
 
 
-admin = Admin(app, name='Haldis', url='/admin', template_mode='bootstrap3')
+def init_admin(app, db):
+    admin = Admin(app, name='Haldis', url='/admin', template_mode='bootstrap3')
 
-
-admin.add_view(UserAdminModel(User, db.session))
-admin.add_view(LocationAdminModel(Location, db.session))
-admin.add_view(ProductAdminModel(Product, db.session))
-admin.add_view(ModelBaseView(Order, db.session))
-admin.add_view(ModelBaseView(OrderItem, db.session))
+    admin.add_view(UserAdminModel(User, db.session))
+    admin.add_view(LocationAdminModel(Location, db.session))
+    admin.add_view(ProductAdminModel(Product, db.session))
+    admin.add_view(ModelBaseView(Order, db.session))
+    admin.add_view(ModelBaseView(OrderItem, db.session))

@@ -29,4 +29,4 @@ cd ..
 echo -e "${B} Seeding database ${E}"
 ./populate-db.sh
 
-echo -e "${B} Activate your venv using 'source venv/bin/activate'.\nThen run the server with 'python app/haldis.py runserver' ${E}"
+echo -e "${B} Activate your venv using 'source venv/bin/activate'.\nThen run the server with 'python app/app.py runserver' ${E}"
