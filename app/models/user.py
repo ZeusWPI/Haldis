@@ -8,12 +8,13 @@ class User(db.Model):
     username = db.Column(String(80), unique=True, nullable=False)
     admin = db.Column(Boolean)
     bias = db.Column(Integer)
-    runs = db.relation('Order',
-                       backref='courrier',
-                       primaryjoin='Order.courrier_id==User.id',
-                       foreign_keys='Order.courrier_id')
-    orderItems = db.relationship('OrderItem', backref='user', lazy='dynamic')
-
+    runs = db.relation(
+        "Order",
+        backref="courrier",
+        primaryjoin="Order.courrier_id==User.id",
+        foreign_keys="Order.courrier_id",
+    )
+    orderItems = db.relationship("OrderItem", backref="user", lazy="dynamic")
 
     def configure(self, username, admin, bias):
         self.username = username
@@ -36,4 +37,4 @@ class User(db.Model):
         return str(self.id)
 
     def __repr__(self):
-        return '%s'.format(self.username)
+        return "%s".format(self.username)

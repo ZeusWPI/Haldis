@@ -9,16 +9,16 @@ from .user import User
 
 class OrderItem(db.Model):
     id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('user.id'))
-    order_id = Column(Integer, ForeignKey('order.id'), nullable=False)
+    user_id = Column(Integer, ForeignKey("user.id"))
+    order_id = Column(Integer, ForeignKey("order.id"), nullable=False)
     product_id = Column(
-        Integer, ForeignKey('product.id'),
-        nullable=True)  # TODO make false after init migration
-    paid = Column(Boolean, default=False,
-                     nullable=True)  # TODO make false after init migration
+        Integer, ForeignKey("product.id"), nullable=True
+    )  # TODO make false after init migration
+    paid = Column(
+        Boolean, default=False, nullable=True
+    )  # TODO make false after init migration
     extra = Column(String(254), nullable=True)
     name = Column(String(120))
-
 
     def configure(self, user, order, product):
         self.user = user
@@ -34,9 +34,9 @@ class OrderItem(db.Model):
         product_name = None
         if self.product:
             product_name = self.product.name
-        return 'Order %d: %s wants %s'.format(self.order_id or 0, self.get_name(),
-                                          product_name or 'None')
-
+        return "Order %d: %s wants %s".format(
+            self.order_id or 0, self.get_name(), product_name or "None"
+        )
 
     def can_delete(self, order_id, user_id, name):
         if int(self.order_id) != int(order_id):

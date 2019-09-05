@@ -13,7 +13,7 @@ class SelectionType(enum.Enum):
 class Attribute(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False)
-    location_id = db.Column(db.Integer, db.ForeignKey('location.id'))
+    location_id = db.Column(db.Integer, db.ForeignKey("location.id"))
     selection_type = db.Column(Enum(SelectionType))
 
     values = db.relationship("AttributeValues", back_populates="attribute")
@@ -23,4 +23,4 @@ class Attribute(db.Model):
         self.single_type = single_type
 
     def __repr__(self):
-        return '%s'.format(self.name)
+        return "%s".format(self.name)
