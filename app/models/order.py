@@ -1,6 +1,8 @@
+import typing
 from datetime import datetime
 
 from .database import db
+from .location import Location
 from .user import User
 
 
@@ -13,34 +15,34 @@ class Order(db.Model):
     public = db.Column(db.Boolean, default=True)
     items = db.relationship("OrderItem", backref="order", lazy="dynamic")
 
-    def configure(self, courrier, location, starttime, stoptime):
+    def configure(self, courrier: User, location: Location,
+                  starttime: db.DateTime, stoptime: db.DateTime) -> None:
         self.courrier = courrier
         self.location = location
         self.starttime = starttime
         self.stoptime = stoptime
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         if self.location:
             return "Order %d @ %s" % (self.id, self.location.name or "None")
         else:
             return "Order %d" % (self.id)
 
-    def group_by_user(self):
-        group = dict()
+    def group_by_user(self) -> typing.Dict[str, typing.Any]:
+        group: typing.Dict[str, typing.Any] = dict()
         for item in self.items:
             user = group.get(item.get_name(), dict())
             user["total"] = user.get("total", 0) + item.product.price
-            user["to_pay"] = (
-                user.get("to_pay", 0) + item.product.price if not item.paid else 0
-            )
+            user["to_pay"] = (user.get("to_pay", 0) + item.product.price if
+                              not item.paid else 0)
             user["paid"] = user.get("paid", True) and item.paid
             user["products"] = user.get("products", []) + [item.product]
             group[item.get_name()] = user
 
         return group
 
-    def group_by_product(self):
-        group = dict()
+    def group_by_product(self) -> typing.Dict[str, typing.Any]:
+        group: typing.Dict[str, typing.Any] = dict()
         for item in self.items:
             product = group.get(item.product.name, dict())
             product["count"] = product.get("count", 0) + 1
@@ -50,7 +52,7 @@ class Order(db.Model):
 
         return group
 
-    def can_close(self, user_id):
+    def can_close(self, user_id: int) -> bool:
         if self.stoptime and self.stoptime < datetime.now():
             return False
         user = None
