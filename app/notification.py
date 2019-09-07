@@ -7,7 +7,7 @@ from flask import current_app as app
 from flask import url_for
 
 
-def post_order_to_webhook(order_item):
+def post_order_to_webhook(order_item) -> None:
     message = ""
     if order_item.courrier is not None:
         message = "<!channel|@channel> {3} is going to {1}, order <{0}|here>! Deadline in {2} minutes!".format(
@@ -27,14 +27,14 @@ def post_order_to_webhook(order_item):
 
 
 class WebhookSenderThread(Thread):
-    def __init__(self, message):
+    def __init__(self, message: str) -> None:
         super(WebhookSenderThread, self).__init__()
         self.message = message
 
-    def run(self):
+    def run(self) -> None:
         self.slack_webhook()
 
-    def slack_webhook(self):
+    def slack_webhook(self) -> None:
         js = json.dumps({"text": self.message})
         url = app.config["SLACK_WEBHOOK"]
         if len(url) > 0:
@@ -43,7 +43,7 @@ class WebhookSenderThread(Thread):
             app.logger.info(str(js))
 
 
-def remaining_minutes(value):
+def remaining_minutes(value) -> str:
     delta = value - datetime.now()
     if delta.total_seconds() < 0:
         return "0"

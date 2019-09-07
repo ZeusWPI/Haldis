@@ -1,6 +1,10 @@
-from flask import current_app, flash, redirect, request, session, url_for, Blueprint
+import typing
+
+from flask import (Blueprint, current_app, flash, redirect, request, session,
+                   url_for)
 from flask_login import login_user
-from flask_oauthlib.client import OAuthException, OAuth
+from flask_oauthlib.client import OAuth, OAuthException
+from werkzeug.wrappers import Response
 
 from models import User, db
 
@@ -14,7 +18,9 @@ def zeus_login():
 
 
 @oauth_bp.route("/login/zeus/authorized")
-def authorized():
+def authorized() -> typing.Any:
+    # type is 'typing.Union[str, Response]', but this errors due to
+    #   https://github.com/python/mypy/issues/7187
     resp = current_app.zeus.authorized_response()
     if resp is None:
         return "Access denied: reason=%s error=%s" % (
@@ -60,12 +66,12 @@ def init_oauth(app):
     return zeus
 
 
-def login_and_redirect_user(user):
+def login_and_redirect_user(user) -> Response:
     login_user(user)
     return redirect(url_for("general_bp.home"))
 
 
-def create_user(username):
+def create_user(username) -> User:
     user = User()
     user.configure(username, False, 1)
     db.session.add(user)

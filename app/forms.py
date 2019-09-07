@@ -3,7 +3,8 @@ from datetime import datetime, timedelta
 from flask import session
 from flask_login import current_user
 from flask_wtf import FlaskForm as Form
-from wtforms import DateTimeField, SelectField, StringField, SubmitField, validators
+from wtforms import (DateTimeField, SelectField, StringField, SubmitField,
+                     validators)
 
 from models import Location, User
 from utils import euro_string
@@ -20,7 +21,7 @@ class OrderForm(Form):
     stoptime = DateTimeField("Stoptime", format="%d-%m-%Y %H:%M")
     submit_button = SubmitField("Submit")
 
-    def populate(self):
+    def populate(self) -> None:
         if current_user.is_admin():
             self.courrier_id.choices = [(0, None)] + [
                 (u.id, u.username) for u in User.query.order_by("username")
@@ -42,7 +43,7 @@ class OrderItemForm(Form):
     extra = StringField("Extra")
     submit_button = SubmitField("Submit")
 
-    def populate(self, location):
+    def populate(self, location: Location) -> None:
         self.product_id.choices = [
             (i.id, (i.name + ": " + euro_string(i.price))) for i in location.products
         ]
@@ -51,12 +52,12 @@ class OrderItemForm(Form):
 class AnonOrderItemForm(OrderItemForm):
     name = StringField("Name", validators=[validators.required()])
 
-    def populate(self, location):
+    def populate(self, location: Location) -> None:
         OrderItemForm.populate(self, location)
         if self.name.data is None:
             self.name.data = session.get("anon_name", None)
 
-    def validate(self):
+    def validate(self) -> bool:
         rv = OrderForm.validate(self)
         if not rv:
             return False

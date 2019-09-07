@@ -1,4 +1,5 @@
 import logging
+import typing
 from datetime import datetime
 from logging.handlers import TimedRotatingFileHandler
 
@@ -19,7 +20,7 @@ from utils import euro_string
 from zeus import init_oauth
 
 
-def create_app():
+def create_app() -> Manager:
     app = Flask(__name__)
 
     # Load the config file
@@ -34,7 +35,7 @@ def create_app():
     return manager
 
 
-def register_plugins(app, debug: bool):
+def register_plugins(app: Flask, debug: bool) -> Manager:
     # Register Airbrake and enable the logrotation
     if not app.debug:
         timedFileHandler = TimedRotatingFileHandler(
@@ -96,17 +97,17 @@ def register_plugins(app, debug: bool):
     return manager
 
 
-def add_handlers(app):
+def add_handlers(app: Flask) -> None:
     @app.errorhandler(404)
-    def handle404(e):
+    def handle404(e) -> typing.Tuple[str, int]:
         return render_template("errors/404.html"), 404
 
     @app.errorhandler(401)
-    def handle401(e):
+    def handle401(e) -> typing.Tuple[str, int]:
         return render_template("errors/401.html"), 401
 
 
-def add_routes(application):
+def add_routes(application: Flask) -> None:
     # import views  # TODO convert to blueprint
     # import views.stats  # TODO convert to blueprint
 
@@ -127,9 +128,9 @@ def add_routes(application):
         application.register_blueprint(debug_bp, url_prefix="/debug")
 
 
-def add_template_filters(app):
+def add_template_filters(app: Flask) -> None:
     @app.template_filter("countdown")
-    def countdown(value, only_positive=True, show_text=True):
+    def countdown(value, only_positive: bool = True, show_text: bool = True) -> str:
         delta = value - datetime.now()
         if delta.total_seconds() < 0 and only_positive:
             return "closed"
@@ -141,11 +142,11 @@ def add_template_filters(app):
         return time
 
     @app.template_filter("year")
-    def current_year(value):
+    def current_year(value: typing.Any) -> str:
         return str(datetime.now().year)
 
     @app.template_filter("euro")
-    def euro(value):
+    def euro(value: int) -> None:
         euro_string(value)
 
 
