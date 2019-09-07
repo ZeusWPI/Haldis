@@ -46,7 +46,7 @@ pizzasTA = {
 }
 
 
-def addTA():
+def addTA() -> None:
     primadonna_takeaway = Location()
     primadonna_takeaway.configure(
         "Primadonna (takeaway laten bezorgen)",
@@ -101,7 +101,7 @@ pizzasAfhalen = {
 }
 
 
-def addAfhalen():
+def addAfhalen() -> None:
     primadonna_afhalen = Location()
     primadonna_afhalen.configure(
         "Primadonna (bellen en afhalen)",

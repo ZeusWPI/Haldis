@@ -33,7 +33,7 @@ pizzas = [
 ]
 
 
-def add():
+def add() -> None:
     simpizza = Location()
     simpizza.configure(
         "Sim-pizza",

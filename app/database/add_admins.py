@@ -2,7 +2,7 @@ from app import db
 from models import User
 
 
-def add():
+def add() -> None:
     feli = User()
     feli.configure("feliciaan", True, 0)
     db.session.add(feli)

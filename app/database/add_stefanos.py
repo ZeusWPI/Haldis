@@ -11,7 +11,7 @@ bickies = {
     "Bicky Veggie": 350,
 }
 
-saus = {
+sauskes = {
     "american": 70,
     "andalouse": 70,
     "bicky saus": 70,
@@ -100,7 +100,7 @@ friet = {"Klein pak": 200, "Midden pak": 250, "Groot pak": 300}
 data = [special_bickies, specials, vlezekes, friet]
 
 
-def add():
+def add() -> None:
     stefanos = Location()
     stefanos.configure(
         "Stefano's Place",
@@ -127,7 +127,7 @@ def add():
             db.session.add(item)
 
     # saus in een potteke bestellen is 10 cent extra
-    for name, price in saus.items():
+    for name, price in sauskes.items():
         saus = Product()
         saus.configure(stefanos, name, price)
         db.session.add(saus)
