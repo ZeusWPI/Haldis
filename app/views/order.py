@@ -1,6 +1,7 @@
+from werkzeug.wrappers import Response
 import random
 from datetime import datetime
-
+import typing
 # from flask import current_app as app
 from flask import (
     Blueprint,
@@ -11,7 +12,9 @@ from flask import (
     request,
     session,
     url_for,
+    wrappers,
 )
+import werkzeug
 from flask_login import current_user, login_required
 
 from forms import AnonOrderItemForm, OrderForm, OrderItemForm
@@ -22,7 +25,7 @@ order_bp = Blueprint("order_bp", "order")
 
 
 @order_bp.route("/")
-def orders(form=None):
+def orders(form: OrderForm = None) -> str:
     if form is None and not current_user.is_anonymous():
         form = OrderForm()
         location_id = request.args.get("location_id")
@@ -34,7 +37,7 @@ def orders(form=None):
 
 @order_bp.route("/create", methods=["POST"])
 @login_required
-def order_create():
+def order_create() -> typing.Union[str, Response]:
     orderForm = OrderForm()
     orderForm.populate()
     if orderForm.validate_on_submit():
@@ -48,7 +51,7 @@ def order_create():
 
 
 @order_bp.route("/<id>")
-def order(id, form=None):
+def order(id: int, form: OrderForm = None) -> str:
     order = Order.query.filter(Order.id == id).first()
     if order is None:
         abort(404)
@@ -56,19 +59,19 @@ def order(id, form=None):
         flash("Please login to see this order.", "info")
         abort(401)
     if form is None:
-        form = AnonOrderItemForm() if current_user.is_anonymous() else OrderItemForm()
+        form = AnonOrderItemForm() if current_user.is_anonymous() \
+            else OrderItemForm()
         form.populate(order.location)
     if order.stoptime and order.stoptime < datetime.now():
         form = None
     total_price = sum([o.product.price for o in order.items])
     debts = sum([o.product.price for o in order.items if not o.paid])
-    return render_template(
-        "order.html", order=order, form=form, total_price=total_price, debts=debts
-    )
+    return render_template("order.html", order=order, form=form,
+                           total_price=total_price, debts=debts)
 
 
 @order_bp.route("/<id>/items")
-def items_showcase(id, form=None):
+def items_showcase(id: int, form: OrderForm = None) -> str:
     order = Order.query.filter(Order.id == id).first()
     if order is None:
         abort(404)
@@ -80,9 +83,10 @@ def items_showcase(id, form=None):
 
 @order_bp.route("/<id>/edit", methods=["GET", "POST"])
 @login_required
-def order_edit(id):
+def order_edit(id: int) -> typing.Union[str, Response]:
     order = Order.query.filter(Order.id == id).first()
-    if current_user.id is not order.courrier_id and not current_user.is_admin():
+    if current_user.id is not order.courrier_id and \
+            not current_user.is_admin():
         abort(401)
     if order is None:
         abort(404)
@@ -96,7 +100,9 @@ def order_edit(id):
 
 
 @order_bp.route("/<id>/create", methods=["POST"])
-def order_item_create(id):
+def order_item_create(id: int) -> typing.Any:
+    # type is 'typing.Union[str, Response]', but this errors due to
+    #   https://github.com/python/mypy/issues/7187
     current_order = Order.query.filter(Order.id == id).first()
     if current_order is None:
         abort(404)
@@ -105,7 +111,8 @@ def order_item_create(id):
     if current_user.is_anonymous() and not current_order.public:
         flash("Please login to see this order.", "info")
         abort(401)
-    form = AnonOrderItemForm() if current_user.is_anonymous() else OrderItemForm()
+    form = AnonOrderItemForm() if current_user.is_anonymous() \
+        else OrderItemForm()
     form.populate(current_order.location)
     if form.validate_on_submit():
         item = OrderItem()
@@ -124,22 +131,24 @@ def order_item_create(id):
 
 @order_bp.route("/<order_id>/<item_id>/paid")
 @login_required
-def item_paid(order_id, item_id):
+def item_paid(order_id: int, item_id: int) -> typing.Optional[Response]:
     item = OrderItem.query.filter(OrderItem.id == item_id).first()
     id = current_user.id
     if item.order.courrier_id == id or current_user.admin:
         item.paid = True
         db.session.commit()
-        flash("Paid %s by %s" % (item.product.name, item.get_name()), "success")
+        flash("Paid %s by %s" % (item.product.name, item.get_name()),
+              "success")
         return redirect(url_for("order_bp.order", id=order_id))
     abort(404)
 
 
 @order_bp.route("/<order_id>/<user_name>/user_paid")
 @login_required
-def items_user_paid(order_id, user_name):
+def items_user_paid(order_id: int,
+                    user_name: str) -> typing.Optional[Response]:
     user = User.query.filter(User.username == user_name).first()
-    items = []
+    items: typing.List[OrderItem] = []
     if user:
         items = OrderItem.query.filter(
             (OrderItem.user_id == user.id) & (OrderItem.order_id == order_id)
@@ -155,13 +164,16 @@ def items_user_paid(order_id, user_name):
         for item in items:
             item.paid = True
         db.session.commit()
-        flash("Paid %d items for %s" % (items.count(), item.get_name()), "success")
+        flash("Paid %d items for %s" %
+              (len(items), item.get_name()), "success")
         return redirect(url_for("order_bp.order", id=order_id))
     abort(404)
 
 
 @order_bp.route("/<order_id>/<item_id>/delete")
-def delete_item(order_id, item_id):
+def delete_item(order_id: int, item_id: int) -> typing.Any:
+    # type is 'typing.Optional[Response]', but this errors due to
+    #   https://github.com/python/mypy/issues/7187
     item = OrderItem.query.filter(OrderItem.id == item_id).first()
     id = None
     if not current_user.is_anonymous():
@@ -178,7 +190,7 @@ def delete_item(order_id, item_id):
 
 @order_bp.route("/<id>/volunteer")
 @login_required
-def volunteer(id):
+def volunteer(id: int) -> Response:
     order = Order.query.filter(Order.id == id).first()
     if order is None:
         abort(404)
@@ -193,7 +205,7 @@ def volunteer(id):
 
 @order_bp.route("/<id>/close")
 @login_required
-def close_order(id):
+def close_order(id: int) -> typing.Optional[Response]:
     order = Order.query.filter(Order.id == id).first()
     if order is None:
         abort(404)
@@ -208,9 +220,13 @@ def close_order(id):
                 order.courrier_id = courrier.id
         db.session.commit()
         return redirect(url_for("order_bp.order", id=id))
+    # The line below is to make sure mypy doesn't say
+    #   "Missing return statement"
+    #   https://github.com/python/mypy/issues/4223
+    return None
 
 
-def select_user(items):
+def select_user(items) -> typing.Optional[User]:
     user = None
     # remove non users
     items = [i for i in items if i.user_id]
@@ -228,8 +244,8 @@ def select_user(items):
     return user
 
 
-def get_orders(expression=None):
-    orders = []
+def get_orders(expression=None) -> typing.List[Order]:
+    orders: typing.List[OrderForm] = []
     if expression is None:
         expression = (datetime.now() > Order.starttime) & (
             Order.stoptime > datetime.now()
@@ -237,5 +253,6 @@ def get_orders(expression=None):
     if not current_user.is_anonymous():
         orders = Order.query.filter(expression).all()
     else:
-        orders = Order.query.filter((expression & (Order.public == True))).all()
+        orders = Order.query.filter(
+            (expression & (Order.public == True))).all()
     return orders
