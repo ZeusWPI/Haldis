@@ -15,8 +15,13 @@ class Order(db.Model):
     public = db.Column(db.Boolean, default=True)
     items = db.relationship("OrderItem", backref="order", lazy="dynamic")
 
-    def configure(self, courrier: User, location: Location,
-                  starttime: db.DateTime, stoptime: db.DateTime) -> None:
+    def configure(
+        self,
+        courrier: User,
+        location: Location,
+        starttime: db.DateTime,
+        stoptime: db.DateTime,
+    ) -> None:
         self.courrier = courrier
         self.location = location
         self.starttime = starttime
@@ -33,8 +38,9 @@ class Order(db.Model):
         for item in self.items:
             user = group.get(item.get_name(), dict())
             user["total"] = user.get("total", 0) + item.product.price
-            user["to_pay"] = (user.get("to_pay", 0) + item.product.price if
-                              not item.paid else 0)
+            user["to_pay"] = (
+                user.get("to_pay", 0) + item.product.price if not item.paid else 0
+            )
             user["paid"] = user.get("paid", True) and item.paid
             user["products"] = user.get("products", []) + [item.product]
             group[item.get_name()] = user

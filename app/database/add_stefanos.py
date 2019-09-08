@@ -1,5 +1,5 @@
-from models import Location, Product
 from app import db
+from models import Location, Product
 
 bickies = {
     "Bicky Burger Original": 330,

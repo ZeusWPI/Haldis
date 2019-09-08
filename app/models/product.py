@@ -8,8 +8,7 @@ class Product(db.Model):
     location_id = db.Column(db.Integer, db.ForeignKey("location.id"))
     name = db.Column(db.String(120), nullable=False)
     price = db.Column(db.Integer, nullable=False)
-    orderItems = db.relationship("OrderItem",
-                                 backref="product", lazy="dynamic")
+    orderItems = db.relationship("OrderItem", backref="product", lazy="dynamic")
 
     def configure(self, location: Location, name: str, price: int) -> None:
         self.location = location

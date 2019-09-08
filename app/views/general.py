@@ -7,7 +7,6 @@ from flask import render_template, send_from_directory, url_for
 from flask_login import login_required
 
 from models import Location, Order
-
 # import views
 from views.order import get_orders
 

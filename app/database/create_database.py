@@ -1,6 +1,9 @@
+import add_admins
+import add_fitchen
+import add_oceans_garden
+import add_primadonna
+import add_simpizza
 from app import db
-import add_oceans_garden, add_admins, add_simpizza, add_primadonna, add_fitchen
-
 
 entry_sets = {
     "Admins": add_admins.add,

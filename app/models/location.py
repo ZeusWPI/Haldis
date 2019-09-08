@@ -12,8 +12,9 @@ class Location(db.Model):
     products = db.relationship("Product", backref="location", lazy="dynamic")
     orders = db.relationship("Order", backref="location", lazy="dynamic")
 
-    def configure(self, name: str, address: str,
-                  telephone: typing.Optional[str], website: str) -> None:
+    def configure(
+        self, name: str, address: str, telephone: typing.Optional[str], website: str
+    ) -> None:
         self.name = name
         self.address = address
         self.website = website

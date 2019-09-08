@@ -1,7 +1,7 @@
-from models import Location, Product
-from app import db
 from itertools import product
 
+from app import db
+from models import Location, Product
 
 zetmelen = ["Nasi", "Bami"]
 vlezen = ["Rundsvlees", "Varkensvlees", "Kippenstukkjes"]
