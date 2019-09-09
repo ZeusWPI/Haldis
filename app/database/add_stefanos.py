@@ -1,3 +1,4 @@
+"Script to add Stefanos to Haldis"
 from app import db
 from models import Location, Product
 
@@ -101,12 +102,13 @@ data = [special_bickies, specials, vlezekes, friet]
 
 
 def add() -> None:
+    "Add Stefanos to the database"
     stefanos = Location()
     stefanos.configure(
         "Stefano's Place",
         "Overpoortstraat 12 9000 Gent",
         "tel: geen",
-        "https://www.facebook.com/pages/category/Fast-Food-Restaurant/Stefanos-Place-370774480004139/",
+        "https://www.facebook.com/pages/category/Fast-Food-Restaurant/Stefanos-Place-370774480004139/",  # pylint: disable=C0301
     )
     db.session.add(stefanos)
 
@@ -120,8 +122,8 @@ def add() -> None:
         bicky_cheese.configure(stefanos, name + " cheese", price + 30)
         db.session.add(bicky_cheese)
 
-    for dict in data:
-        for name, price in dict.items():
+    for dictionary in data:
+        for name, price in dictionary.items():
             item = Product()
             item.configure(stefanos, name, price)
             db.session.add(item)

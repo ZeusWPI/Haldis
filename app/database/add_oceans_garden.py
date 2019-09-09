@@ -1,3 +1,4 @@
+"Script to add Ocean Garden to Haldis"
 from itertools import product
 
 from app import db
@@ -30,6 +31,7 @@ specials = [
 
 
 def add() -> None:
+    "Add Ocean Garden to the database"
     chinees = Location()
     chinees.configure(
         "Oceans's Garden",
