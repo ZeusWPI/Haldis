@@ -1,6 +1,5 @@
-from models import Location, Product
 from app import db
-
+from models import Location, Product
 
 pizzas = [
     "Bolognese de luxe",
@@ -33,7 +32,7 @@ pizzas = [
 ]
 
 
-def add():
+def add() -> None:
     simpizza = Location()
     simpizza.configure(
         "Sim-pizza",

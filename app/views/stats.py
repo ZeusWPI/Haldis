@@ -8,7 +8,7 @@ stats_blueprint = Blueprint("stats_blueprint", __name__)
 
 
 @stats_blueprint.route("/")
-def stats():
+def stats() -> str:
     data = {
         "amount": {
             "orders": FatOrder.amount(),

@@ -1,3 +1,5 @@
+import typing
+
 from sqlalchemy.sql import desc, func
 
 from models import Location, Order, OrderItem, Product, User
@@ -42,7 +44,7 @@ class FatOrderItem(OrderItem, FatModel):
 
 class FatProduct(Product, FatModel):
     @classmethod
-    def top4(cls):
+    def top4(cls) -> None:
         top4 = (
             OrderItem.query.join(Product)
             .join(Location)

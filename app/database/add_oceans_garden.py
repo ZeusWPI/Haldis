@@ -1,7 +1,7 @@
-from models import Location, Product
-from app import db
 from itertools import product
 
+from app import db
+from models import Location, Product
 
 zetmelen = ["Nasi", "Bami"]
 vlezen = ["Rundsvlees", "Varkensvlees", "Kippenstukkjes"]
@@ -29,7 +29,7 @@ specials = [
 ]
 
 
-def add():
+def add() -> None:
     chinees = Location()
     chinees.configure(
         "Oceans's Garden",
@@ -39,12 +39,12 @@ def add():
     )
     db.session.add(chinees)
 
-    def chinees_create_entry(name):
+    def chinees_create_entry(name) -> None:
         entry = Product()
         entry.configure(chinees, name, 550)
         db.session.add(entry)
 
-    def chinees_create_regulat(zetmeel, vlees="", saus=""):
+    def chinees_create_regulat(zetmeel, vlees="", saus="") -> None:
         chinees_create_entry("{} {} {}".format(zetmeel, vlees, saus).rstrip())
 
     for z, v, s in product(zetmelen, vlezen, sauzen):

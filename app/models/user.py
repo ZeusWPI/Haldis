@@ -14,25 +14,25 @@ class User(db.Model):
     )
     orderItems = db.relationship("OrderItem", backref="user", lazy="dynamic")
 
-    def configure(self, username, admin, bias):
+    def configure(self, username: str, admin: bool, bias: int) -> None:
         self.username = username
         self.admin = admin
         self.bias = bias
 
-    def is_authenticated(self):
+    def is_authenticated(self) -> bool:
         return True
 
-    def is_active(self):
+    def is_active(self) -> bool:
         return True
 
-    def is_admin(self):
+    def is_admin(self) -> bool:
         return self.admin
 
-    def is_anonymous(self):
+    def is_anonymous(self) -> bool:
         return False
 
-    def get_id(self):
+    def get_id(self) -> str:
         return str(self.id)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return "%s" % self.username

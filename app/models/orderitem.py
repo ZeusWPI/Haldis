@@ -1,6 +1,8 @@
 from datetime import datetime
 
 from .database import db
+from .order import Order
+from .product import Product
 from .user import User
 
 
@@ -17,17 +19,17 @@ class OrderItem(db.Model):
     extra = db.Column(db.String(254), nullable=True)
     name = db.Column(db.String(120))
 
-    def configure(self, user, order, product):
+    def configure(self, user: User, order: Order, product: Product) -> None:
         self.user = user
         self.order = order
         self.product = product
 
-    def get_name(self):
+    def get_name(self) -> str:
         if self.user_id is not None and self.user_id > 0:
             return self.user.username
         return self.name
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         product_name = None
         if self.product:
             product_name = self.product.name
@@ -37,7 +39,7 @@ class OrderItem(db.Model):
             product_name or "None",
         )
 
-    def can_delete(self, order_id, user_id, name):
+    def can_delete(self, order_id: int, user_id: int, name: str) -> bool:
         if int(self.order_id) != int(order_id):
             return False
         if self.order.stoptime and self.order.stoptime < datetime.now():

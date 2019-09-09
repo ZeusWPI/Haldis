@@ -1,6 +1,5 @@
-from models import Location, Product
 from app import db
-
+from models import Location, Product
 
 menuitems = [
     "Spicy Chicken",
@@ -23,7 +22,7 @@ menuitems = [
 pricedict = {"Small": 799, "Medium": 999, "Large": 1199}
 
 
-def add():
+def add() -> None:
     simpizza = Location()
     simpizza.configure("Fitchen", "?", "?", "https://www.fitchen.be/")
     db.session.add(simpizza)

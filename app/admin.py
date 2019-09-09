@@ -1,12 +1,14 @@
 import flask_login as login
+from flask import Flask
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
+from flask_sqlalchemy import SQLAlchemy
 
 from models import Location, Order, OrderItem, Product, User
 
 
 class ModelBaseView(ModelView):
-    def is_accessible(self):
+    def is_accessible(self) -> bool:
         if login.current_user.is_anonymous():
             return False
 
@@ -29,7 +31,7 @@ class LocationAdminModel(ModelBaseView):
     form_columns = ("name", "address", "website", "telephone")
 
 
-def init_admin(app, db):
+def init_admin(app: Flask, db: SQLAlchemy) -> None:
     admin = Admin(app, name="Haldis", url="/admin", template_mode="bootstrap3")
 
     admin.add_view(UserAdminModel(User, db.session))

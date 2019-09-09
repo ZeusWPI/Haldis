@@ -8,7 +8,7 @@ debug_bp = Blueprint("debug_bp", __name__)
 
 @debug_bp.route("/routes")
 @login_required
-def list_routes():
+def list_routes() -> str:
     import urllib
 
     output = []

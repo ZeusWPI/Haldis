@@ -1,4 +1,4 @@
-def euro_string(value):
+def euro_string(value: int) -> str:
     """
     Convert cents to string formatted euro
     """
