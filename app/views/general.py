@@ -1,3 +1,4 @@
+"Script to generate the general views of Haldis"
 import os
 from datetime import datetime, timedelta
 
@@ -15,6 +16,7 @@ general_bp = Blueprint("general_bp", __name__)
 
 @general_bp.route("/")
 def home() -> str:
+    "Generate the home view"
     prev_day = datetime.now() - timedelta(days=1)
     recently_closed = get_orders(
         ((Order.stoptime > prev_day) & (Order.stoptime < datetime.now()))
@@ -24,22 +26,24 @@ def home() -> str:
     )
 
 
-@general_bp.route("/map", defaults={"id": None})
-@general_bp.route("/map/<int:id>")
-def map(id) -> str:
+@general_bp.route("/map")
+def map_view() -> str:
+    "Generate the map view"
     locs = Location.query.order_by("name")
     return render_template("maps.html", locations=locs)
 
 
 @general_bp.route("/location")
 def locations() -> str:
+    "Generate the location view"
     locs = Location.query.order_by("name")
     return render_template("locations.html", locations=locs)
 
 
-@general_bp.route("/location/<int:id>")
-def location(id) -> str:
-    loc = Location.query.filter(Location.id == id).first()
+@general_bp.route("/location/<int:location_id>")
+def location(location_id) -> str:
+    "Generate the location view given an id"
+    loc = Location.query.filter(Location.id == location_id).first()
     if loc is None:
         abort(404)
     return render_template("location.html", location=loc, title=loc.name)
@@ -47,18 +51,22 @@ def location(id) -> str:
 
 @general_bp.route("/about/")
 def about() -> str:
+    "Generate the about view"
     return render_template("about.html")
 
 
 @general_bp.route("/profile/")
 @login_required
 def profile() -> str:
+    "Generate the profile view"
     return render_template("profile.html")
 
 
 @general_bp.route("/favicon.ico")
 def favicon() -> str:
-    if len(get_orders((Order.stoptime > datetime.now()))) == 0:
+    "Generate the favicon"
+    # pylint: disable=R1705
+    if not get_orders((Order.stoptime > datetime.now())):
         return send_from_directory(
             os.path.join(str(app.root_path), "static"),
             "favicon.ico",

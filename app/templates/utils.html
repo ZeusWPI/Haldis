@@ -9,7 +9,7 @@
         <b>Orders:</b> {{ order.items.count() }}</p>
     </div>
     <div class="col-md-4 col-lg-3">
-        <a class="btn btn-primary btn-block align-bottom" href="{{ url_for('order_bp.order', id=order.id) }}">Expand</a>
+        <a class="btn btn-primary btn-block align-bottom" href="{{ url_for('order_bp.order', order_id=order.id) }}">Expand</a>
     </div>
 </div>
 {%- endmacro %}

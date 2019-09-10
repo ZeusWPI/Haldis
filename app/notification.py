@@ -11,7 +11,7 @@ def post_order_to_webhook(order_item) -> None:
     message = ""
     if order_item.courrier is not None:
         message = "<!channel|@channel> {3} is going to {1}, order <{0}|here>! Deadline in {2} minutes!".format(
-            url_for("order_bp.order", id=order_item.id, _external=True),
+            url_for("order_bp.order_from_id", order_id=order_item.id, _external=True),
             order_item.location.name,
             remaining_minutes(order_item.stoptime),
             order_item.courrier.username.title(),
@@ -20,7 +20,7 @@ def post_order_to_webhook(order_item) -> None:
         message = "<!channel|@channel> New order for {}. Deadline in {} minutes. <{}|Open here.>".format(
             order_item.location.name,
             remaining_minutes(order_item.stoptime),
-            url_for("order_bp.order", id=order_item.id, _external=True),
+            url_for("order_bp.order_from_id", order_id=order_item.id, _external=True),
         )
     webhookthread = WebhookSenderThread(message, app.config["SLACK_WEBHOOK"])
     webhookthread.start()
