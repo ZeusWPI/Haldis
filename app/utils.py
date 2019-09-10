@@ -1,3 +1,6 @@
+"Script which contains several utils for Haldis"
+
+
 def euro_string(value: int) -> str:
     """
     Convert cents to string formatted euro

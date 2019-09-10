@@ -1,7 +1,8 @@
+"Main Haldis script"
 import logging
+from logging.handlers import TimedRotatingFileHandler
 import typing
 from datetime import datetime
-from logging.handlers import TimedRotatingFileHandler
 
 from airbrake import Airbrake, AirbrakeHandler
 from flask import Flask, render_template
@@ -21,21 +22,24 @@ from zeus import init_oauth
 
 
 def create_app() -> Manager:
+    "Create the Haldis application"
     app = Flask(__name__)
 
     # Load the config file
     app.config.from_object("config.Configuration")
 
-    manager = register_plugins(app, debug=app.debug)
+    app_manager = register_plugins(app)
     add_handlers(app)
     add_routes(app)
     add_template_filters(app)
 
     # TODO do we need to return and then run the manager?
-    return manager
+    return app_manager
 
 
-def register_plugins(app: Flask, debug: bool) -> Manager:
+def register_plugins(app: Flask) -> Manager:
+    "Register all the plugins to Haldis"
+    # pylint: disable=W0612
     # Register Airbrake and enable the logrotation
     if not app.debug:
         timedFileHandler = TimedRotatingFileHandler(
@@ -51,11 +55,10 @@ def register_plugins(app: Flask, debug: bool) -> Manager:
         airbrakelogger = logging.getLogger("airbrake")
 
         # Airbrake
-        airbrake = Airbrake(
-            project_id=app.config["AIRBRAKE_ID"], api_key=app.config["AIRBRAKE_KEY"]
-        )
+        airbrake = Airbrake(project_id=app.config["AIRBRAKE_ID"],
+                            api_key=app.config["AIRBRAKE_KEY"])
         # ugly hack to make this work for out errbit
-        airbrake._api_url = "http://errbit.awesomepeople.tv/api/v3/projects/{}/notices".format(
+        airbrake._api_url = "http://errbit.awesomepeople.tv/api/v3/projects/{}/notices".format(  # pylint: disable=C0301,W0212
             airbrake.project_id
         )
 
@@ -67,9 +70,9 @@ def register_plugins(app: Flask, debug: bool) -> Manager:
 
     # Initialize Flask-Migrate
     migrate = Migrate(app, db)
-    manager = Manager(app)
-    manager.add_command("db", MigrateCommand)
-    manager.add_command("runserver", Server(port=8000))
+    app_manager = Manager(app)
+    app_manager.add_command("db", MigrateCommand)
+    app_manager.add_command("runserver", Server(port=8000))
 
     # Add admin interface
     init_admin(app, db)
@@ -103,10 +106,12 @@ def register_plugins(app: Flask, debug: bool) -> Manager:
     if not app.debug:
         app.config.update(SESSION_COOKIE_SECURE=True)
 
-    return manager
+    return app_manager
 
 
 def add_handlers(app: Flask) -> None:
+    "Add handlers for 4xx error codes"
+    # pylint: disable=W0612,W0613
     @app.errorhandler(404)
     def handle404(e) -> typing.Tuple[str, int]:
         return render_template("errors/404.html"), 404
@@ -117,6 +122,7 @@ def add_handlers(app: Flask) -> None:
 
 
 def add_routes(application: Flask) -> None:
+    "Add all routes to Haldis"
     # import views  # TODO convert to blueprint
     # import views.stats  # TODO convert to blueprint
 
@@ -138,8 +144,12 @@ def add_routes(application: Flask) -> None:
 
 
 def add_template_filters(app: Flask) -> None:
+    "Add functions which can be used in the templates"
+    # pylint: disable=W0612
     @app.template_filter("countdown")
-    def countdown(value, only_positive: bool = True, show_text: bool = True) -> str:
+    def countdown(value, only_positive: bool = True,
+                  show_text: bool = True) -> str:
+        "A function which returns time until the order is done"
         delta = value - datetime.now()
         if delta.total_seconds() < 0 and only_positive:
             return "closed"
@@ -151,12 +161,19 @@ def add_template_filters(app: Flask) -> None:
         return time
 
     @app.template_filter("year")
-    def current_year(value: typing.Any) -> str:
+    def current_year(value: typing.Any) -> str:  # pylint: disable=W0613
+        "A function which returns the current year"
         return str(datetime.now().year)
 
     @app.template_filter("euro")
+<<<<<<< HEAD
     def euro(value: int) -> str:
         return euro_string(value)
+=======
+    def euro(value: int) -> None:
+        "A function which converts a value to its euro_string"
+        euro_string(value)
+>>>>>>> Fix pylint for Haldis
 
 
 # For usage when you directly call the script with python
