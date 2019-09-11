@@ -155,8 +155,8 @@ def add_template_filters(app: Flask) -> None:
         return str(datetime.now().year)
 
     @app.template_filter("euro")
-    def euro(value: int) -> None:
-        euro_string(value)
+    def euro(value: int) -> str:
+        return euro_string(value)
 
 
 # For usage when you directly call the script with python

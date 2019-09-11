@@ -119,7 +119,7 @@ def order_item_create(id: int) -> typing.Any:
     return order(id, form=form)
 
 
-@order_bp.route("/<order_id>/<item_id>/paid")
+@order_bp.route("/<order_id>/<item_id>/paid", methods=["POST"])
 @login_required
 def item_paid(order_id: int, item_id: int) -> typing.Optional[Response]:
     item = OrderItem.query.filter(OrderItem.id == item_id).first()
@@ -132,7 +132,7 @@ def item_paid(order_id: int, item_id: int) -> typing.Optional[Response]:
     abort(404)
 
 
-@order_bp.route("/<order_id>/<user_name>/user_paid")
+@order_bp.route("/<order_id>/<user_name>/user_paid", methods=["POST"])
 @login_required
 def items_user_paid(order_id: int, user_name: str) -> typing.Optional[Response]:
     user = User.query.filter(User.username == user_name).first()
@@ -140,11 +140,11 @@ def items_user_paid(order_id: int, user_name: str) -> typing.Optional[Response]:
     if user:
         items = OrderItem.query.filter(
             (OrderItem.user_id == user.id) & (OrderItem.order_id == order_id)
-        )
+        ).all()
     else:
         items = OrderItem.query.filter(
             (OrderItem.name == user_name) & (OrderItem.order_id == order_id)
-        )
+        ).all()
     current_order = Order.query.filter(Order.id == order_id).first()
     for item in items:
         print(item)
@@ -157,7 +157,7 @@ def items_user_paid(order_id: int, user_name: str) -> typing.Optional[Response]:
     abort(404)
 
 
-@order_bp.route("/<order_id>/<item_id>/delete")
+@order_bp.route("/<order_id>/<item_id>/delete", methods=["POST"])
 def delete_item(order_id: int, item_id: int) -> typing.Any:
     # type is 'typing.Optional[Response]', but this errors due to
     #   https://github.com/python/mypy/issues/7187
@@ -175,7 +175,7 @@ def delete_item(order_id: int, item_id: int) -> typing.Any:
     abort(404)
 
 
-@order_bp.route("/<id>/volunteer")
+@order_bp.route("/<id>/volunteer", methods=["POST"])
 @login_required
 def volunteer(id: int) -> Response:
     order = Order.query.filter(Order.id == id).first()
@@ -190,7 +190,7 @@ def volunteer(id: int) -> Response:
     return redirect(url_for("order_bp.order", id=id))
 
 
-@order_bp.route("/<id>/close")
+@order_bp.route("/<id>/close", methods=["POST"])
 @login_required
 def close_order(id: int) -> typing.Optional[Response]:
     order = Order.query.filter(Order.id == id).first()
