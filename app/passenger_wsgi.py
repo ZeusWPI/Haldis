@@ -1,18 +1,16 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import os
 import sys
 
-from app import create_app
-
-INTERP = os.path.expanduser("~/env/bin/python")
+INTERP = os.path.expanduser("~/env/bin/python3")
 if sys.executable != INTERP:
     os.execl(INTERP, INTERP, *sys.argv)
 
 sys.path.append(os.getcwd())
-
-application = create_app()
+from app import create_app
+application = create_app().app
 
 # For running on the server with passenger etc
 if __name__ == "__main__":
-    application.run(port=8000)
+    application.run()
