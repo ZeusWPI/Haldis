@@ -94,6 +94,15 @@ def register_plugins(app: Flask, debug: bool) -> Manager:
     # Load the flask debug toolbar
     toolbar = DebugToolbarExtension(app)
 
+    # Make cookies more secure
+    app.config.update(
+        SESSION_COOKIE_HTTPONLY=True,
+        SESSION_COOKIE_SAMESITE='Lax',
+    )
+
+    if not app.debug:
+        app.config.update(SESSION_COOKIE_SECURE=True)
+
     return manager
 
 
