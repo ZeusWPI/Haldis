@@ -6,7 +6,7 @@ class Configuration(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     DEBUG = True
     SECRET_KEY = "<change>"
-    SLACK_WEBHOOK = "<add url>"
+    SLACK_WEBHOOK = None
     LOGFILE = "haldis.log"
     ZEUS_KEY = "tomtest"
     ZEUS_SECRET = "blargh"

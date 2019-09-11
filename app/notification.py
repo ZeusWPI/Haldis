@@ -22,30 +22,29 @@ def post_order_to_webhook(order_item) -> None:
             remaining_minutes(order_item.stoptime),
             url_for("order_bp.order", id=order_item.id, _external=True),
         )
-    webhookthread = WebhookSenderThread(message)
+    webhookthread = WebhookSenderThread(message, app.config["SLACK_WEBHOOK"])
     webhookthread.start()
 
 
 class WebhookSenderThread(Thread):
-    def __init__(self, message: str) -> None:
+    def __init__(self, message: str, url: str) -> None:
         super(WebhookSenderThread, self).__init__()
         self.message = message
+        self.url = url
 
     def run(self) -> None:
         self.slack_webhook()
 
     def slack_webhook(self) -> None:
-        js = json.dumps({"text": self.message})
-        url = app.config["SLACK_WEBHOOK"]
-        if len(url) > 0:
-            requests.post(url, data=js)
+        if self.url:
+            requests.post(url, json={"text": self.message})
         else:
-            app.logger.info(str(js))
+            print(self.message)
 
 
 def remaining_minutes(value) -> str:
     delta = value - datetime.now()
     if delta.total_seconds() < 0:
         return "0"
-    minutes, _ = divmod(delta.total_seconds(), 60)
+    minutes = delta.total_seconds() // 60
     return "%02d" % minutes
