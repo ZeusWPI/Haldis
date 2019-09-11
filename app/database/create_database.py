@@ -3,7 +3,7 @@ import add_fitchen
 import add_oceans_garden
 import add_primadonna
 import add_simpizza
-from app import db
+from app import db, create_app
 
 entry_sets = {
     "Admins": add_admins.add,
@@ -71,8 +71,10 @@ def add_to_current() -> None:
             print("Not a valid answer.")
     print("Thank you for adding, come again!")
 
+manager = create_app()
 
-def init() -> None:
+@manager.command
+def setup_database():
     print("Database modification script!")
     print("=============================\n\n")
     if check_if_overwrite():
@@ -82,4 +84,4 @@ def init() -> None:
     commit()
 
 
-init()
+manager.run()
