@@ -39,9 +39,9 @@ def add_all() -> None:
 
 def recreate_from_scratch() -> None:
     "Recreate a completely new database"
-    confirmation = "Are you very very sure? (Will delete previous entries!) (y/N) "  # pylint: disable=C0301
+    confirmation = "Are you very very sure? (Will delete previous entries!) (y/N) "
     check = "I acknowledge any repercussions!"
-    if input(confirmation) in yes and input("Type: '{}' ".format(check)) == check:  # pylint: disable=C0301
+    if input(confirmation) in yes and input("Type: '{}' ".format(check)) == check:
         print("Resetting the database!")
         db.drop_all()
         db.create_all()
@@ -58,14 +58,14 @@ def add_to_current() -> None:
         ).rstrip(", ")
 
     while input("Do you still want to add something? (Y/n) ") not in no:
-        print("What do you want to add? (Use numbers, or A for all, or C for cancel)   ")  # pylint: disable=C0301
+        print("What do you want to add? (Use numbers, or A for all, or C for cancel)   ")
         answer = input("Available: {}  : ".format(add_numbers()))
         if answer == "A":
             add_all()
             available = []
         elif answer == "C":
             pass
-        elif answer.isnumeric() and answer in [str(x) for x in range(len(available))]:  # pylint: disable=C0301
+        elif answer.isnumeric() and answer in [str(x) for x in range(len(available))]:
             answer_index = int(answer)
             print("Adding {}.".format(available[answer_index]))
             entry_sets[str(available[answer_index])]()

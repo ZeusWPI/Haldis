@@ -147,7 +147,7 @@ def item_paid(order_id: int, item_id: int) -> typing.Optional[Response]:
 @order_bp.route("/<order_id>/<user_name>/user_paid", methods=["POST"])
 @login_required
 # pylint: disable=R1710
-def items_user_paid(order_id: int, user_name: str) -> typing.Optional[Response]:  # pylint:disable=C0301
+def items_user_paid(order_id: int, user_name: str) -> typing.Optional[Response]:
     "Indicate payment status for a user in an order"
     user = User.query.filter(User.username == user_name).first()
     items: typing.List[OrderItem] = []

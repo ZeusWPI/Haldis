@@ -58,7 +58,7 @@ def register_plugins(app: Flask) -> Manager:
         airbrake = Airbrake(project_id=app.config["AIRBRAKE_ID"],
                             api_key=app.config["AIRBRAKE_KEY"])
         # ugly hack to make this work for out errbit
-        airbrake._api_url = "http://errbit.awesomepeople.tv/api/v3/projects/{}/notices".format(  # pylint: disable=C0301,W0212
+        airbrake._api_url = "http://errbit.awesomepeople.tv/api/v3/projects/{}/notices".format(  # pylint: disable=W0212
             airbrake.project_id
         )
 
