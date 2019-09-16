@@ -37,7 +37,7 @@ class WebhookSenderThread(Thread):
 
     def slack_webhook(self) -> None:
         if self.url:
-            requests.post(url, json={"text": self.message})
+            requests.post(self.url, json={"text": self.message})
         else:
             print(self.message)
 
