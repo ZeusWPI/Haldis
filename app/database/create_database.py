@@ -15,8 +15,8 @@ entry_sets = {
     "Fitchen": add_fitchen.add,
 }
 
-yes = ["yes", "y", "Y"]
-no = ["no", "n", "N"]
+yes = ["yes", "y"]
+no = ["no", "n"]
 
 
 # Commit all the things
@@ -27,7 +27,7 @@ def commit() -> None:
 
 def check_if_overwrite() -> bool:
     answer = input("Do you want to overwrite the previous database? (y/N) ")
-    return answer in yes
+    return answer.lower() in yes
 
 
 def add_all() -> None:
@@ -39,11 +39,13 @@ def add_all() -> None:
 def recreate_from_scratch() -> None:
     confirmation = "Are you very very sure? (Will delete previous entries!) (y/N) "
     check = "I acknowledge any repercussions!"
-    if input(confirmation) in yes and input("Type: '{}' ".format(check)) == check:
+    if input(confirmation).lower() in yes and input("Type: '{}' ".format(check)).lower() == check:
         print("Resetting the database!")
         db.drop_all()
         db.create_all()
         add_to_current()
+    else:
+        print("You cancelled.")
 
 
 def add_to_current() -> None:
@@ -54,15 +56,15 @@ def add_to_current() -> None:
             ["{}({}), ".format(loc, i) for i, loc in enumerate(available)]
         ).rstrip(", ")
 
-    while input("Do you still want to add something? (Y/n) ") not in no:
+    while input("Do you still want to add something? (Y/n) ").lower() not in no:
         print(
             "What do you want to add? (Use numbers, or A for all, or C for cancel)   "
         )
         answer = input("Available: {}  : ".format(add_numbers()))
-        if answer == "A":
+        if answer.lower() == "a":
             add_all()
             available = []
-        elif answer == "C":
+        elif answer.lower() == "c":
             pass
         elif answer.isnumeric() and answer in [str(x) for x in range(len(available))]:
             answer_index = int(answer)
