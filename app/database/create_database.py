@@ -3,10 +3,12 @@ import add_fitchen
 import add_oceans_garden
 import add_primadonna
 import add_simpizza
+import add_testlocation
 from app import db, create_app
 
 entry_sets = {
     "Admins": add_admins.add,
+    "Testlocation": add_testlocation.add,
     "Ocean's Garden": add_oceans_garden.add,
     "SimPizza": add_simpizza.add,
     "Primadonna": add_primadonna.add,
