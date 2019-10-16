@@ -30,7 +30,6 @@ Haldis - {{ active_page|capitalize }}
 {% block scripts %}
     {{ super() }}
     <script src="{{ url_for('static', filename='js/timer.js') }}"></script>
-    <script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
 {% endblock %}
 
 {% block navbar %}
@@ -77,9 +76,8 @@ Haldis - {{ active_page|capitalize }}
     <footer>
     <hr>
     <div class="container">
-        <div class="pull-right">Made with ❤ by <a href="http://zeus.ugent.be">Zeus WPI</a></div>
-        <div class="pull-left"><a class="github-button" href="https://github.com/ZeusWPI/haldis" data-icon="octicon-star" data-style="mega" data-count-href="/ZeusWPI/Haldis/stargazers" data-count-api="/repos/ZeusWPI/Haldis#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star ZeusWPI/Haldis on GitHub">Star</a></div>
-        <div class="text-center"><a href="http://github.com/ZeusWPI/Haldis">© {{ ""|year }}</a></div>
+        <div class="pull-left">Made with ❤ by <a href="http://zeus.ugent.be">Zeus WPI</a></div>
+        <div class="pull-right"><a href="http://github.com/ZeusWPI/Haldis">© {{ ""|year }}</a></div>
     </div>
     </footer>
 {%- endblock %}

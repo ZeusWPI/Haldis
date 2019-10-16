@@ -2,6 +2,9 @@
 __pycache__/
 *.pyc
 
+# Static type checker cache
+.mypy_cache/
+
 # C extensions
 *.so
 
