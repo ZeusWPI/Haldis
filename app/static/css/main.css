@@ -1,7 +1,134 @@
 /* Custom CSS */
+:root {
+	--dGray0:#B0B0B8;
+    --dGray1:#8E8E93;
+    --dGray2:#636366;
+    --dGray3:#48484A;
+    --dGray4:#3A3A3C;
+    --dGray5:#2C2C2E;
+    --dGray6:#1C1C1E;
+    --dBlue:#0A84FF;
+}
+
+.darkmode {
+	background-color: var(--dGray5);
+	color: var(--dGray1);
+}
+.darkmode a {
+	color: var(--dBlue);
+}
+.darkmode .navbar {
+	background-color: var(--dGray6);
+}
+.darkmode .navbar-default .navbar-nav .active a{
+	background-color: var(--dGray4);
+	color: var(--dGray1);
+}
+.darkmode .navbar-default .navbar-nav .active a:hover{
+	background-color: var(--dGray3);
+	color: var(--dGray0);
+}
+.darkmode .navbar-default .navbar-nav li a,.darkmode .navbar-default .navbar-brand{
+	color: var(--dGray1);
+}
+.darkmode .navbar-default .navbar-nav li a:hover,.darkmode .navbar-default .navbar-brand:hover{
+	color: var(--dGray0);
+}
+.darkmode hr{
+	border-top: 1px solid var(--dGray2);
+}
+
+.darkmode h1, .darkmode h2, .darkmode h3{
+	color: var(--dGray0);
+}
+
+.darkmode h4, .darkmode h5{
+	color: var(--dGray1);
+}
+
+.darkmode h6, .darkmode .h1, .darkmode .h2, .darkmode .h3, .darkmode .h4, .darkmode .h5, .darkmode .h6 {
+	color: var(--dGray3);
+}
+.darkmode .jumbotron, .darkmode .darker {
+	background-color: var(--dGray4)!important;
+}
+.darkmode .table tbody tr td {
+	border-top: 1px solid var(--dGray3);
+}
+.darkmode .table thead tr th {
+	border-bottom: 2px solid var(--dGray2);
+}
+
+.enter_darkmode a {
+	text-align: center;
+}
+
+
+@media (prefers-color-scheme: dark) {
+	body {
+		background-color: var(--dGray5);
+		color: var(--dGray1);
+	}
+	a {
+		color: var(--dBlue);
+	}
+	.navbar {
+		background-color: var(--dGray6);
+	}
+	.navbar-default .navbar-nav .active a{
+		background-color: var(--dGray4);
+		color: var(--dGray1);
+	}
+	.navbar-default .navbar-nav .active a:hover{
+		background-color: var(--dGray3);
+		color: var(--dGray0);
+	}
+	.navbar-default .navbar-nav li a,.navbar-default .navbar-brand{
+		color: var(--dGray1);
+	}
+	.navbar-default .navbar-nav li a:hover,.navbar-default .navbar-brand:hover{
+		color: var(--dGray0);
+	}
+	hr{
+		border-top: 1px solid var(--dGray2);
+	}
+
+	h1, h2, h3{
+		color: var(--dGray0);
+	}
+
+	h4, h5{
+		color: var(--dGray1);
+	}
+
+	h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+		color: var(--dGray3);
+	}
+	.jumbotron, .darker {
+		background-color: var(--dGray4)!important;
+	}
+	.table tbody tr td {
+		border-top: 1px solid var(--dGray3);
+	}
+	.table thead tr th {
+		border-bottom: 2px solid var(--dGray2);
+	}
+}
+
 body {
   padding-top: 70px;
 }
+
+.footerWrapper {
+	display: flex;
+	justify-content: space-between;
+}
+
+.darkCheck:checked ~ body {
+		background-color: var(--dGray5);
+		color: var(--dGray1);
+}
+
 
 .padding-top {
   padding-top: 10px;
@@ -51,7 +178,6 @@ div.box:hover {
     cursor: hand;
     cursor: pointer;
     opacity: .9;
-    /*border-bottom: #f44346 1px solid !important;*/
     box-shadow: 2px 4px 4px -1px #888888;
 }
 
