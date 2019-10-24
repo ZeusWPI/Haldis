@@ -17,6 +17,9 @@
 .darkmode a {
 	color: var(--dBlue);
 }
+.darkmode .btn {
+	color: var(--dGray0);
+}
 .darkmode .navbar {
 	background-color: var(--dGray6);
 }
@@ -61,58 +64,6 @@
 
 .enter_darkmode a {
 	text-align: center;
-}
-
-
-@media (prefers-color-scheme: dark) {
-	body {
-		background-color: var(--dGray5);
-		color: var(--dGray1);
-	}
-	a {
-		color: var(--dBlue);
-	}
-	.navbar {
-		background-color: var(--dGray6);
-	}
-	.navbar-default .navbar-nav .active a{
-		background-color: var(--dGray4);
-		color: var(--dGray1);
-	}
-	.navbar-default .navbar-nav .active a:hover{
-		background-color: var(--dGray3);
-		color: var(--dGray0);
-	}
-	.navbar-default .navbar-nav li a,.navbar-default .navbar-brand{
-		color: var(--dGray1);
-	}
-	.navbar-default .navbar-nav li a:hover,.navbar-default .navbar-brand:hover{
-		color: var(--dGray0);
-	}
-	hr{
-		border-top: 1px solid var(--dGray2);
-	}
-
-	h1, h2, h3{
-		color: var(--dGray0);
-	}
-
-	h4, h5{
-		color: var(--dGray1);
-	}
-
-	h6, .h1, .h2, .h3, .h4, .h5, .h6 {
-		color: var(--dGray3);
-	}
-	.jumbotron, .darker {
-		background-color: var(--dGray4)!important;
-	}
-	.table tbody tr td {
-		border-top: 1px solid var(--dGray3);
-	}
-	.table thead tr th {
-		border-bottom: 2px solid var(--dGray2);
-	}
 }
 
 body {
