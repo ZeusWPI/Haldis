@@ -11,16 +11,16 @@
         <h3 id="order-title">Order {{ order.id }}
         <div class="pull-right">
             {% if order.can_close(current_user.id) -%}
-            <form action="{{ url_for('order_bp.close_order', id=order.id) }}" method="post" style="display:inline">
+            <form action="{{ url_for('order_bp.close_order', order_id=order.id) }}" method="post" style="display:inline">
                 <input type="submit" class="btn btn-danger" value="Close"></input>
             </form>
             {% endif %}{% if courier_or_admin %}
-                <a class="btn btn-warning" href="{{ url_for('order_bp.order_edit', id=order.id) }}">Edit</a>
+                <a class="btn btn-warning" href="{{ url_for('order_bp.order_edit', order_id=order.id) }}">Edit</a>
         {%- endif %}
         </div></h3>
         courier: {{ order.courrier.username }}
         {% if order.courrier == None and not current_user.is_anonymous() %}
-        <form action="{{ url_for('order_bp.volunteer', id=order.id) }}" method="post" style="display:inline">
+        <form action="{{ url_for('order_bp.volunteer', order_id=order.id) }}" method="post" style="display:inline">
             <input type="submit" class="btn btn-primary btn-sm" value="Volunteer"></input>
         </form>
         {% endif %}
@@ -38,7 +38,7 @@
     {% if form -%}
     <div class="col-md-push-1 col-md-10 darker" id="form">
         <h4>Order:</h4>
-        <form method="post" action="{{ url_for('order_bp.order_item_create', id=order.id) }}">
+        <form method="post" action="{{ url_for('order_bp.order_item_create', order_id=order.id) }}">
           <span class="pull-right">
             <a class="btn btn-primary" onclick="chooseRandom()">Choose for me</a>
           </span>
@@ -99,7 +99,7 @@
     </div>
     <div class="col-md-push-2 col-md-4 darker box" id="items-ordered">
         <h3>Ordered products: {{ order.items.count() }}</h3>
-        <a class="divLink" href="{{ url_for('order_bp.items_showcase', id=order.id) }}"></a>
+        <a class="divLink" href="{{ url_for('order_bp.items_showcase', order_id=order.id) }}"></a>
         {% for key, value in order.group_by_product().items() -%}
             <div class="product">
                 {{ key }}: {{ value["count"] }}

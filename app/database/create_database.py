@@ -1,3 +1,4 @@
+"Script for interaction and changes to the database"
 import add_admins
 import add_fitchen
 import add_oceans_garden
@@ -19,24 +20,27 @@ yes = ["yes", "y"]
 no = ["no", "n"]
 
 
-# Commit all the things
 def commit() -> None:
+    "Commit all the things to the database"
     db.session.commit()
     print("Committing successful")
 
 
 def check_if_overwrite() -> bool:
+    "Check if the user wants to overwrite the previous database"
     answer = input("Do you want to overwrite the previous database? (y/N) ")
     return answer.lower() in yes
 
 
 def add_all() -> None:
-    for entry_set in entry_sets.keys():
+    "Add all possible entries in the entry_sets to the database"
+    for entry_set, function in entry_sets.items():
         print("Adding {}.".format(entry_set))
-        entry_sets[entry_set]()
+        function()
 
 
 def recreate_from_scratch() -> None:
+    "Recreate a completely new database"
     confirmation = "Are you very very sure? (Will delete previous entries!) (y/N) "
     if input(confirmation) in yes:
         print("Resetting the database!")
@@ -48,6 +52,7 @@ def recreate_from_scratch() -> None:
 
 
 def add_to_current() -> None:
+    "Add things to the current database"
     available = [entry_set for entry_set in entry_sets]
 
     def add_numbers() -> str:
@@ -77,7 +82,8 @@ def add_to_current() -> None:
 manager = create_app()
 
 @manager.command
-def setup_database():
+def setup_database(): #type: None
+    "Start the database interaction script"
     print("Database modification script!")
     print("=============================\n\n")
     if check_if_overwrite():

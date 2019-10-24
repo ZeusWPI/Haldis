@@ -1,3 +1,7 @@
+"AnonymouseUser for people who are not logged in the normal way"
+# pylint: disable=R0201,C0111
+
+
 class AnonymouseUser:
     id = None
 

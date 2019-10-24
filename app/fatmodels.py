@@ -28,9 +28,9 @@ class FatOrder(Order, FatModel):
     @classmethod
     def items_per_order(cls):
         return (
-            Order.query.join(OrderItem)
-            .group_by(Order.id)
-            .with_entities(Order.id, func.count(OrderItem.user_id).label("total"))
+            Order.query.join(OrderItem).group_by(Order.id)
+            .with_entities(Order.id,
+                           func.count(OrderItem.user_id).label("total"))
         )
 
 
@@ -50,7 +50,8 @@ class FatProduct(Product, FatModel):
             .join(Location)
             .group_by(Product.id)
             .with_entities(
-                Product.name, Location.name, func.count(Product.id).label("count")
+                Product.name, Location.name, func.count(
+                    Product.id).label("count")
             )
             .order_by(desc("count"))
             .limit(4)

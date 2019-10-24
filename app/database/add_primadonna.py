@@ -1,8 +1,10 @@
+"Script to add Primadonna to Haldis"
 from app import db
 from models import Location, Product
 
 
 def add():
+    "Add Primadonna to the database"
     addTA()
     addAfhalen()
 
@@ -47,6 +49,7 @@ pizzasTA = {
 
 
 def addTA() -> None:
+    "Add Primadonna on takeaway.com to the database"
     primadonna_takeaway = Location()
     primadonna_takeaway.configure(
         "Primadonna (takeaway laten bezorgen)",
@@ -102,6 +105,7 @@ pizzasAfhalen = {
 
 
 def addAfhalen() -> None:
+    "Add Primadonna to takeaway to the database"
     primadonna_afhalen = Location()
     primadonna_afhalen.configure(
         "Primadonna (bellen en afhalen)",

@@ -1,5 +1,7 @@
-# This file will expose what we want from the models module
-# This will probably be everything. But putting the imports here makes it possible to import all models in one line like this:
+"The base file for everything related to the models"
+# This file will expose what we want from the models module.
+# This will probably be everything. But putting the imports here makes it possible to import all
+# models in one line like this:
 #
 # from models import User, Item, ...
 #

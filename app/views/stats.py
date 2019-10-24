@@ -1,3 +1,4 @@
+"Script to generate the stats related views of Haldis"
 from flask import Blueprint
 from flask import current_app as app
 from flask import render_template
@@ -9,6 +10,7 @@ stats_blueprint = Blueprint("stats_blueprint", __name__)
 
 @stats_blueprint.route("/")
 def stats() -> str:
+    "Generate Haldis data in a pretty format"
     data = {
         "amount": {
             "orders": FatOrder.amount(),

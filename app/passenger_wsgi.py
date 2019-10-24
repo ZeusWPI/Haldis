@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+"Script to run Haldis on a server"
 
 import os
 import sys

@@ -1,3 +1,4 @@
+"Script to add SimPizza to Haldis"
 from app import db
 from models import Location, Product
 
@@ -19,7 +20,8 @@ pizzas = [
     "Chicken bbq",
     "Funky chicken",
     "Veggie",
-    "Meat lovers" "Scampi mampi",
+    "Meat lovers",
+    "Scampi mampi",
     "Tabasco",
     "Chicken time",
     "Meatballs",
@@ -33,6 +35,7 @@ pizzas = [
 
 
 def add() -> None:
+    "Add Simpizza to the database"
     simpizza = Location()
     simpizza.configure(
         "Sim-pizza",

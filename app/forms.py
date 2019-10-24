@@ -1,3 +1,4 @@
+"Script for everything form related in Haldis"
 from datetime import datetime, timedelta
 
 from flask import session
@@ -11,6 +12,8 @@ from utils import euro_string
 
 
 class OrderForm(Form):
+    "Class which defines the form for a new Order"
+    # pylint: disable=R0903
     courrier_id = SelectField("Courrier", coerce=int)
     location_id = SelectField(
         "Location", coerce=int, validators=[validators.required()]
@@ -22,6 +25,7 @@ class OrderForm(Form):
     submit_button = SubmitField("Submit")
 
     def populate(self) -> None:
+        "Fill in the options for courrier for an Order"
         if current_user.is_admin():
             self.courrier_id.choices = [(0, None)] + [
                 (u.id, u.username) for u in User.query.order_by("username")
@@ -39,25 +43,38 @@ class OrderForm(Form):
 
 
 class OrderItemForm(Form):
+    "Class which defines the form for a new Item in an Order"
+    # pylint: disable=R0903
     product_id = SelectField("Item", coerce=int)
     extra = StringField("Extra")
     submit_button = SubmitField("Submit")
 
     def populate(self, location: Location) -> None:
+        "Fill in all the product options from the location"
         self.product_id.choices = [
-            (i.id, (i.name + ": " + euro_string(i.price))) for i in location.products
+            (i.id, (i.name + ": " + euro_string(i.price)))
+            for i in location.products
         ]
 
 
 class AnonOrderItemForm(OrderItemForm):
+    """
+    Class which defines the form for a new Item in an Order
+    For Users who aren't logged in
+    """
     name = StringField("Name", validators=[validators.required()])
 
     def populate(self, location: Location) -> None:
+        """
+        Fill in all the product options from the location and
+        the name of the anon user
+        """
         OrderItemForm.populate(self, location)
         if self.name.data is None:
             self.name.data = session.get("anon_name", None)
 
     def validate(self) -> bool:
+        "Check if the provided anon_name is not already taken"
         rv = OrderForm.validate(self)
         if not rv:
             return False

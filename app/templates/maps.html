@@ -28,7 +28,7 @@
     loc = {
         "address": "{{loc.address}}",
         "name": "{{loc.name}}",
-        "url": "{{ url_for('general_bp.location', id=loc.id) }}"
+        "url": "{{ url_for('general_bp.location', location_id=loc.id) }}"
     };
     locations.push(loc);
 
