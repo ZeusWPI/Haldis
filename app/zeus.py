@@ -41,7 +41,7 @@ def authorized() -> typing.Any:
     # pylint: disable=R1705
     if username and user:
         return login_and_redirect_user(user)
-    elif username > 0:
+    elif username:
         user = create_user(username)
         return login_and_redirect_user(user)
 
