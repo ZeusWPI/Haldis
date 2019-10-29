@@ -30,7 +30,7 @@ def add() -> None:
 
     for menuitem in menuitems:
         for size, price in pricedict.items():
-            name = "%s %s in %s" % (size, menuitem, 'pasta')
+            name = "%s %s" % (size, menuitem)
             entry = Product()
             entry.configure(basic_italian, name, price)
             db.session.add(entry)
