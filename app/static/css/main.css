@@ -65,7 +65,7 @@ div.box:hover {
     box-shadow: 2px 4px 4px -1px #888888;
 }
 
-.table-hover tbody tr:hover{
+.darkmode .table-hover tbody tr:hover{
     background-color: var(--dGray3);
 }
 
@@ -104,9 +104,9 @@ a.divLink {
 .darkmode a {
 	color: var(--dBlue);
 }
-.darkmode .btn {
+.darkmode .btn-primary {
     color: white;
-    background-color: var(--dBlue);;
+    background-color: var(--dBlue);
 }
 
 .darkmode .navbar {
@@ -154,7 +154,50 @@ a.divLink {
     background-color: var(--dGray0);
     opacity: 0.5;
 }
+.darkmode .select2-container--default .select2-selection--single{
+    background-color: var(--dGray3);
+    border: 1px solid var(--dGray1);
+    color: var(--dGray0);
+}
+.darkmode .select2-container--default .select2-selection--single .select2-selection__rendered{
+    color: var(--dGray0);
+}
+.darkmode .select2-results__option{
+    background-color: var(--dGray5);
+    color: var(--dGray0);
+}
+.darkmode .select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background-color: var(--dGray4);
+    color: var(--dGray0);
+}
+.darkmode .bootstrap-datetimepicker-widget table thead tr:first-child th:hover,
+.darkmode .bootstrap-datetimepicker-widget table td.day:hover,
+.darkmode .bootstrap-datetimepicker-widget table td.hour:hover,
+.darkmode .bootstrap-datetimepicker-widget table td.minute:hover,
+.darkmode .bootstrap-datetimepicker-widget table td span:hover,
+.darkmode .bootstrap-datetimepicker-widget table td.second:hover {
+  background: var(--dGray4);
+}
 
+.darkmode .select2-container--default .select2-results__option[aria-selected=true]{
+    background-color: var(--dBlue);
+    color: white;
+}
+.darkmode .select2-search{
+    background-color: var(--dGray2);
+}
+.darkmode .select2-search input{
+    background-color: var(--dGray0);
+}
+.darkmode .dropdown-menu{
+    background-color: var(--dGray5);
+}
+.darkmode .form-control{
+    color: white;
+}
+.darkmode .form-control::placeholder{
+    color: var(--dGray2);
+}
 .enter_darkmode>a {
     text-align: center;
 }
