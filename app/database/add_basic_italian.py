@@ -23,7 +23,7 @@ def add() -> None:
     basic_italian.configure(
             "Basic Italian I",
             "Sint-Pietersplein 42 9000 Gent",
-            "gsm: +32475/25.84.89",
+            "gsm: +32 475 25 84 89",
             "https://www.takeaway.com/be-en/basic-italian-i",
     )
     db.session.add(basic_italian)
