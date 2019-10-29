@@ -5,6 +5,7 @@ import add_oceans_garden
 import add_primadonna
 import add_simpizza
 import add_testlocation
+import add_basic_italian
 from app import db, create_app
 
 entry_sets = {
@@ -14,6 +15,7 @@ entry_sets = {
     "SimPizza": add_simpizza.add,
     "Primadonna": add_primadonna.add,
     "Fitchen": add_fitchen.add,
+    "Basic Italian": add_basic_italian.add,
 }
 
 yes = ["yes", "y"]
