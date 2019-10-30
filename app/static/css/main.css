@@ -10,9 +10,16 @@
     --dGray6:#1C1C1E;
     --dBlue:#0A84FF;
 }
+html {
+    height: 100%;
+}
 
 body {
   padding-top: 70px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 100%;
 }
 
 .padding-top {
@@ -95,6 +102,10 @@ a.divLink {
 }
 .footerWrapper>div{
     margin: 0 1rem;
+}
+
+.hidden {
+    display: none;
 }
 
 .darkmode {
