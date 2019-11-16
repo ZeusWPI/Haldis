@@ -1,60 +1,71 @@
 {
-	var $darkmode = document.querySelector(".enter_darkmode");
-	var $customThemes = document.querySelector(".custom__themes");
 	const init = () => {
-		$darkmode.addEventListener("click", toggleDarkmode);
-		if($customThemes){
-			$customThemes.addEventListener("click", toggleCustomThemes);
-		}
-		if(localStorage.getItem("customThemes") == 'true'){
-			setThemeHalloween();
-		}
-	    enableDarkmode();
+		const $darkmode = document.querySelector(".enter_darkmode");
+		if($darkmode) $darkmode.addEventListener("click", ()=>toggleBetween("lightmode", "darkmode"));
+		const $customThemes = document.querySelector(".custom__themes");
+		if($customThemes) $customThemes.addEventListener("click", ()=>toggleBetween("darkmode", "sinterklaas")); //TODO: Create automatic custom team selector
+
+		reloadTheme();
 	}
 
-	const toggleDarkmode = () => {
-		localStorage.setItem("darkmodeChanged", 'true');
-		var newState = !(localStorage.getItem("darkmode") == 'true');
-	    localStorage.setItem("darkmode", newState);
-	    enableDarkmode();
-	}
-
-	const enableDarkmode = () => {
-		if (typeof(Storage) !== "undefined") {
-			if(localStorage.getItem("darkmode") == 'true' && localStorage.getItem("darkmodeChanged") == 'true' || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches && localStorage.getItem("darkmodeChanged") != 'true')){
-				document.querySelector('body').classList.remove('lightmode');
-				document.querySelector('body').classList.add('darkmode');
-			} else {
-				document.querySelector('body').classList.remove('darkmode');
-				document.querySelector('body').classList.add('lightmode');
-			}
-		} else {
-			console.log('You browser does not support local storage, no darkmode for you!' )
-		}
-	}
-
-	const toggleCustomThemes = () => {
-		if(localStorage.getItem("customThemes") == 'true'){
-			localStorage.setItem("customThemes", 'false');
-			setThemeDarkMode();
+	const toggleBetween = (first, second) => {
+		if(localStorage.getItem("theme") == second){
+			localStorage.setItem("theme", first)
 		}else{
-			localStorage.setItem("customThemes", 'true');
-			localStorage.setItem("darkmodeChanged", 'true');
-			localStorage.setItem("darkmode", 'true');
-			enableDarkmode();
-			setThemeHalloween();
+			localStorage.setItem("theme", second)
 		}
+		reloadTheme();
 	}
 
-	const setTheme = theme =>{
-		switch(theme){
+	const reloadTheme = () => {
+			if (typeof(Storage) !== "undefined") {
+				if(localStorage.getItem("theme") !== null){
+					setTheme();
+				}else if((window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)){
+					document.querySelector('body').classList.remove('lightmode');
+					document.querySelector('body').classList.add('darkmode');
+				}
+			} else {
+				console.log('You browser does not support local storage, no darkmode for you!' )
+			}
+	}
+
+	const setTheme = () =>{
+		document.querySelector('body').classList.add('darkmode');
+		switch(localStorage.getItem("theme")){
 			case "halloween":
 				setThemeHalloween();
+				break;
+			case "sinterklaas":
+				setThemeSinterklaas();
+				break;
+			case "darkmode":
+				setThemeDarkMode();
+				break;
+			case "lightmode":
+			default:
+				setThemeLightMode();
+				break;
 		}
+	}
+
+	//TODO: Use an external file to load themes
+	//TODO: Darkness and blur variables
+
+	const setThemeLightMode = () => {
+		let root = document.documentElement;
+		root.style.setProperty('--dGray6', "#ffffff"); //Dark color
+		root.style.setProperty('--dGray5', "#ffffff");
+		root.style.setProperty('--dGray4', "#f9f9f9");
+		root.style.setProperty('--dGray3', "#ffffff");
+		root.style.setProperty('--dGray2', "#212121");
+		root.style.setProperty('--dGray1', "#666666");
+		root.style.setProperty('--dGray0', "#444444"); //Light color
+		root.style.setProperty('--dBlue', "#0A84FF");
+		document.querySelector('.background').style.backgroundImage =  'none';
 	}
 
 	const setThemeDarkMode = () => {
-		document.querySelector('.enter_darkmode').classList.remove("hidden");
 		let root = document.documentElement;
 		root.style.setProperty('--dGray6', "#1C1C1E"); //Dark color
 		root.style.setProperty('--dGray5', "#2C2C2E");
@@ -62,13 +73,12 @@
 		root.style.setProperty('--dGray3', "#48484A");
 		root.style.setProperty('--dGray2', "#636366");
 		root.style.setProperty('--dGray1', "#8E8E93");
-		root.style.setProperty('--dGray0', "#B0B0B8"); //Light color
+		root.style.setProperty('--dGray0', "#E0E0E8"); //Light color
 		root.style.setProperty('--dBlue', "#0A84FF");
-		document.body.style.backgroundImage =  'none';
+		document.querySelector('.background').style.backgroundImage =  'none';
 	}
 
 	const setThemeHalloween = () => {
-		document.querySelector('.enter_darkmode').classList.add("hidden");
 		let root = document.documentElement;
 		root.style.setProperty('--dGray6', "#260101"); //Dark color
 		root.style.setProperty('--dGray5', "#260101");
@@ -78,7 +88,21 @@
 		root.style.setProperty('--dGray1', "#F28705");
 		root.style.setProperty('--dGray0', "#FFEB65"); //Light color
 		root.style.setProperty('--dBlue', "#D91604");
-		document.body.style.backgroundImage = "url('/static/images/Halloween.jpeg')";
+		document.querySelector('.background').backgroundImage = "url('/static/images/Halloween.jpeg')";
+	}
+
+	const setThemeSinterklaas = () => {
+		let root = document.documentElement;
+		root.style.setProperty('--dGray6', "#F50B00"); //Dark color
+		root.style.setProperty('--dGray5', "#F20505");
+		root.style.setProperty('--dGray4', "#0C6AA6");
+		root.style.setProperty('--dGray3', "#177EBF");
+		root.style.setProperty('--dGray2', "#F2EF05");
+		root.style.setProperty('--dGray1', "#F2EF05");
+		root.style.setProperty('--dGray0', "#F2EB80"); //Light color
+		root.style.setProperty('--dBlue', "#35F546");
+		document.body.style.background =  "#000000";
+		document.querySelector('.background').style.backgroundImage = "url('/static/images/Sinterklaas.jpg')";
 	}
 	init();
 }
