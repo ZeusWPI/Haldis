@@ -67,3 +67,5 @@ app/config.py
 *.db
 
 tmp/
+
+.tern-port

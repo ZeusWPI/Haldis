@@ -9,6 +9,8 @@
     --dGray5:#2C2C2E;
     --dGray6:#1C1C1E;
     --dBlue:#0A84FF;
+    --FontFamily:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif; 
+    --FontSize:13px;
 }
 html {
     height: 100%;
@@ -18,6 +20,8 @@ body {
   padding-top: 70px;
   
   height: 100%;
+  font-family: var(--FontFamily);
+  font-size: var(--FontSize);
 }
 .background{
   position: absolute;
