@@ -40,6 +40,8 @@ Finally run the webserver with
 
     python3 app/app.py runserver
 
+Make sure to use localhost instead of 127.0.0.1 if you want to be able to login.
+
 ## Development
 
 ### Changing the database
