@@ -86,10 +86,6 @@ div.box:hover {
     box-shadow: 2px 4px 4px -1px #888888;
 }
 
-.darkmode .table-hover tbody tr:hover{
-    background-color: var(--dGray3);
-}
-
 a.divLink {
     position: absolute;
     width: 100%;
@@ -120,101 +116,4 @@ a.divLink {
 
 .hidden {
     display: none;
-}
-
-.darkmode {
-	background-color: var(--dGray5);
-	color: var(--dGray1);
-}
-.darkmode a {
-	color: var(--dBlue);
-}
-.darkmode .btn-primary {
-    color: var(--dGray6);
-    background-color: var(--dBlue);
-}
-
-.darkmode .navbar {
-	background-color: var(--dGray6);
-}
-.darkmode .navbar-default .navbar-nav .active a{
-	background-color: var(--dGray4);
-	color: var(--dGray1);
-}
-.darkmode .navbar-default .navbar-nav .active a:hover{
-	background-color: var(--dGray3);
-	color: var(--dGray0);
-}
-.darkmode .navbar-default .navbar-nav li a,.darkmode .navbar-default .navbar-brand{
-	color: var(--dGray1);
-}
-.darkmode .navbar-default .navbar-nav li a:hover,.darkmode .navbar-default .navbar-brand:hover{
-	color: var(--dGray0);
-}
-.darkmode hr{
-	border-top: 1px solid var(--dGray2);
-}
-
-.darkmode h1, .darkmode h2, .darkmode h3, .darkmode h4, .darkmode h5, .darkmode h6{
-	color: var(--dGray1);
-}
-
-.darkmode .jumbotron, .darkmode .darker {
-	background-color: var(--dGray4);
-}
-.darkmode .table tbody tr td {
-	border-top: 1px solid var(--dGray3);
-}
-.darkmode .table thead tr th {
-	border-bottom: 2px solid var(--dGray2);
-}
-.darkmode .navbar-toggle .icon-bar {
-    background-color: var(--dGray0);
-    opacity: 0.5;
-}
-.darkmode .select2-container--default .select2-selection--single{
-    background-color: var(--dGray3);
-    color: var(--dGray0);
-}
-.darkmode .select2-container--default .select2-selection--single .select2-selection__rendered{
-    color: var(--dGray0);
-}
-.darkmode .select2-results__option{
-    background-color: var(--dGray5);
-    color: var(--dGray0);
-}
-.darkmode .select2-container--default .select2-results__option--highlighted[aria-selected] {
-    background-color: var(--dGray4);
-    color: var(--dGray0);
-}
-.darkmode .bootstrap-datetimepicker-widget table thead tr:first-child th:hover,
-.darkmode .bootstrap-datetimepicker-widget table td.day:hover,
-.darkmode .bootstrap-datetimepicker-widget table td.hour:hover,
-.darkmode .bootstrap-datetimepicker-widget table td.minute:hover,
-.darkmode .bootstrap-datetimepicker-widget table td span:hover,
-.darkmode .bootstrap-datetimepicker-widget table td.second:hover {
-  background: var(--dGray4);
-}
-
-.darkmode .select2-container--default .select2-results__option[aria-selected=true]{
-    background-color: var(--dBlue);
-    color: var(--dGray0);
-}
-.darkmode .select2-search{
-    background-color: var(--dGray2);
-}
-.darkmode .select2-search input{
-    background-color: var(--dGray0);
-}
-.darkmode .dropdown-menu{
-    background-color: var(--dGray5);
-}
-.darkmode .form-control{
-    color: var(--dGray0);
-}
-.darkmode .form-control::placeholder{
-    color: var(--dGray2);
-}
-.enter_darkmode>a {
-    text-align: center;
 }

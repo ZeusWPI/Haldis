@@ -2,6 +2,8 @@
 import os
 from datetime import datetime, timedelta
 
+from flask import Flask, render_template, make_response
+from flask import request
 from flask import Blueprint, abort
 from flask import current_app as app
 from flask import render_template, send_from_directory, url_for
@@ -24,6 +26,21 @@ def home() -> str:
     return render_template(
         "home.html", orders=get_orders(), recently_closed=recently_closed
     )
+
+@general_bp.route("/css")
+def css():
+    "Generate the css"
+    if request.cookies.get('theme'):
+        if request.cookies['theme'] == 'customTheme':
+            #TODO: The custom theme is hardcoded :(. Make the server auto select a custom team.
+            f = open("app/static/css/themes/sinterklaas.css")
+        else:
+            f = open("app/static/css/themes/"+request.cookies['theme']+".css")
+    else:
+        f = open("app/static/css/main.css")
+    response = make_response(f.read())
+    response.headers['Content-Type'] = 'text/css'
+    return response
 
 
 @general_bp.route("/map")
