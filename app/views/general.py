@@ -37,7 +37,7 @@ def css():
         else:
             f = open("app/static/css/themes/"+request.cookies['theme']+".css")
     else:
-        f = open("app/static/css/main.css")
+        f = open("app/static/css/lightmode.css")
     response = make_response(f.read())
     response.headers['Content-Type'] = 'text/css'
     return response

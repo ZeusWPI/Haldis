@@ -1,0 +1,495 @@
+/*lightmode*/
+:root {
+	/*Darkmode colors*/
+	--dGray0:#F28705;
+	--dGray1:white;
+	--dGray2:#590212;
+	--dGray3:#590212;
+	--dGray4:#274001;
+	--dGray5:#274001;
+	--dGray6:#F2778D;
+	--dBlue:#F2778D; 
+  }
+  body{
+	  height: 100%;
+	  font-family: Optima,Segoe,Segoe UI,Candara,Calibri,Arial,sans-serif; 
+  }
+  .btn{
+	  border-radius: 5rem;
+	  color: white;
+	  font-family: Arial Rounded MT Bold,Helvetica Rounded,Arial,sans-serif; 
+	  background-image: linear-gradient(-40deg,#F53030, #F58B9E);
+  }
+  .navbar {
+	  font-family: Arial Rounded MT Bold,Helvetica Rounded,Arial,sans-serif; 
+	  padding: 1.5rem;
+	background-color: transparent;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	text-transform: capitalize;
+  }
+
+  .main{
+	  width: 100%;
+	  display: flex;
+	  justify-content: center;
+  }
+
+  .navbar .container{
+	  width: 100%;
+	  padding: 0 8rem;
+  }
+  body .container{
+	  padding-top: 2.5rem;
+  }
+  .order_data {
+	  display: flex;
+	  flex-direction: row;
+	  width: 100%;
+	  justify-content: space-around;
+	  align-items: baseline;
+  }
+  .expand_button{
+	  padding: 1rem 0rem;
+	  margin-top: -1rem;
+	  width: 70%;
+	  margin-bottom: 1.5rem;
+  }
+  .hi_im_haldis h2{
+	  display: none;
+  }
+
+  .hi_im_haldis h3 {
+	width: 100%;
+	text-align: center;
+  }
+
+  .hi_im_haldis {
+	  width: 100%;
+  }
+
+  .home_sir {
+	  font-weight: bold;
+	  background: linear-gradient(-40deg,#F53030, #F58B9E);
+	  background-clip: text;
+	  -webkit-background-clip: text;
+	  -webkit-text-fill-color: transparent;
+  }
+
+  .expand_button_wrapper{
+	  width: 100%;
+	  display: flex;
+	  justify-content: center;
+  }
+
+  .time_data {
+	  text-align: right;
+	  display: flex;
+	  flex-direction: column;
+	  justify-self: right;
+  }
+  
+  .navbar .navbar-nav .active a{
+	  color: rgb(255, 155, 174);
+	  border-bottom: 1px solid rgb(255, 155, 174);
+	  padding-bottom: 1rem;
+  }
+  .navbar-nav{
+	  padding-left: 2rem;
+  }
+  .jumbotron, .darker {
+	  background: linear-gradient(-40deg,rgba(240, 192, 157, 0.5), #F58B9E);
+	  display: flex;
+	  flex-direction: column;
+	  border-radius: 4rem;
+  }
+  .row>div>h5 {
+	  font-weight: bold;
+	  padding-top: 1rem;
+  }
+  .jumbotron {
+	background-color: transparent; }
+  
+  .navbar-default .navbar-nav .active a, .navbar-default .navbar-nav .active a:hover{
+	background-color: transparent;
+  }
+  
+  .background {
+	-webkit-filter: blur(0px) brightness(80%);
+	-moz-filter: blur(0px) brightness(80%);
+	-o-filter: blur(0px) brightness(80%);
+	-ms-filter: blur(0px) brightness(80%);
+	filter: blur(0px) brightness(80%);
+	position: fixed;
+	top: 0;
+	left: 0; }
+  
+
+.background_wrapper {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+.christmas_background{
+	z-index: -101;
+	width: 300%;
+	height: 300%;
+	background: linear-gradient(-45deg, #2F0000, #C20A12);
+	animation: gradientBG 19s ease infinite;
+}
+
+.sled {
+	width: 15rem;
+	height: 15rem;
+	transition: transform 2s ease-in 5s, rotate 1s ease-in-out 2s;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+	background-image: url("static/images/themes/kerstmis/sled.svg");
+}
+
+.sled_wrapper{
+	top: 0.5rem;
+	left: -7.5rem;
+	position: absolute;
+	transform: translate(-50vw, 40vh) rotate(0deg);
+	width: 15rem;
+	height: 15rem;
+	animation: sled 29s ease-in-out infinite;
+}
+
+.train_button:checked ~ .sled_wrapper:hover{
+	animation-play-state: paused;
+}
+
+.train_button:checked ~ .sled_wrapper:hover .sled{
+	transform: translateY(100vh) rotate(90deg);
+}
+
+.snowman_wrapper{
+	height: 17rem;
+	width: 10rem;
+	position: absolute;
+	bottom: 15rem;
+	left: -12rem;
+	animation: snowman 37s ease infinite;
+	transform-origin: right bottom;
+}
+
+
+.snowman_head{
+	position: absolute;
+	top: 0;
+	width: 10rem;
+	height: 10rem;
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-image: url("static/images/themes/kerstmis/snowman_head.svg");
+	animation: snowman_head 2s ease infinite;
+}
+.snowman_body{
+	position: absolute;
+	top: 9.5rem;
+	left: 0.5rem;
+	width: 10rem;
+	height: 10rem;
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-image: url("static/images/themes/kerstmis/snowman_body.svg")
+}
+
+.train_button:checked ~ .merry_christmas{
+	position: absolute;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-position: center;;
+	background-image: url("static/images/themes/kerstmis/merry_christmas.svg");
+	background-size: 25vw;
+	background-repeat: no-repeat;
+	animation: merry_christmas 5s ease infinite;
+}
+
+.train_button {
+	position: absolute;
+	transform: scaleX(20) scaleY(8) translateX(-100rem);
+	bottom: 5.5rem;
+	left: 7rem;
+	animation: follow_train 47s linear infinite;
+	opacity: 0;
+}
+
+.train_wrapper{
+	position: absolute;
+	bottom: 0.5rem;
+	transform: translateX(-80vw);
+	animation: train 47s linear infinite;
+}
+.wheel_big, .wheel_small {
+	position: absolute;
+	bottom: -0.4rem;
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-image: url("static/images/themes/kerstmis/wheel.svg");
+	//transform: translate(0vw, 60vh);
+}
+.train {
+	position: absolute;
+	bottom: 0.5rem;
+	left: 30rem;
+	width: 30rem;
+	height: 10rem;
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-image: url("static/images/themes/kerstmis/train.svg");
+	animation: whobble 1s linear alternate-reverse infinite;
+}
+
+.wheel_big {
+	width: 3.2rem;
+	height: 3.2rem;
+}
+
+.wheel_small {
+	width: 2.5rem;
+	height: 2.5rem;
+}
+
+.train .wheel1 {
+	animation: turn 2s linear infinite;
+	left: 3.5rem;
+}
+
+.train .wheel2{
+	animation: turn 2s linear infinite, -0.1s;
+	left: 7rem;
+}
+
+.train .wheel3{
+	animation: turn 2s linear infinite -0.3s;
+	left: 10.5rem;
+}
+
+.train .wheel4{
+	animation: turn 1.5s linear infinite -0.5s;
+	left: 13.9rem;
+}
+
+.train .wheel5{
+	animation: turn 1.5s linear infinite -0.7s;
+	left: 16.6rem;
+}
+
+.zeus_wagon, .mc_wagon {
+	position: absolute;
+	bottom: 1.25rem;
+	width: 30rem;
+	height: 7.5rem;
+	background-repeat: no-repeat;
+	background-size: contain;
+	animation: whobble 1s linear alternate-reverse infinite;
+}
+
+.mc_wagon {
+	background-image: url("static/images/themes/kerstmis/mc_wagon.svg");
+	left: 0rem;
+}
+
+.zeus_wagon {
+	background-image: url("static/images/themes/kerstmis/zeus_wagon.svg");
+	left: 15rem;
+}
+
+.zeus_wagon .wheel1, .mc_wagon .wheel1 {
+	animation: turn 2s linear infinite;
+	bottom: -1.1rem;
+	left: 2.2rem;
+}
+
+.zeus_wagon .wheel2, .mc_wagon .wheel2{
+	animation: turn 2s linear infinite, -0.1s;
+	bottom: -1.1rem;
+	left: 5.75rem;
+}
+
+.zeus_wagon .wheel3, .mc_wagon .wheel3{
+	animation: turn 2s linear infinite -0.3s;
+	bottom: -1.1rem;
+	left: 9.3rem;
+}
+
+$s1:"";
+$s2:"";
+$s3:"";
+@for $i from 1 through 100 {
+    $s1: $s1 + random(1000)*0.1vw + " " + random(1000)*0.1vh + " " + 0 + " " + random(50)*-0.01rem + #fff;
+    $s2: $s2 + random(1000)*0.1vw + " " + random(1000)*0.1vh + " " + 0 + " " + random(50)*-0.01rem + #fff;
+    $s3: $s3 + random(1000)*0.1vw + " " + random(1000)*0.1vh + " " + 0 + " " + random(50)*-0.01rem + #fff;
+    @if $i < 100 {
+        $s1: $s1 + ",";
+        $s2: $s2 + ",";
+        $s3: $s3 + ",";
+    }
+}
+.snow {
+    border-radius: 50%;
+    opacity: 0.8;
+    position: absolute;
+    top:-100vh;
+    animation-name: fall;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+.layer1 {
+    width: 1rem;
+    height: 1rem;
+    filter:blur(1.5px);
+    box-shadow: #{$s1};
+    animation-duration: 18s;
+}
+.layer1.a {
+    animation-delay: -9s;
+}
+.layer2 {
+    width: 0.8rem;
+    height: 0.8rem;
+    filter:blur(3px);
+    box-shadow: #{$s2};
+    animation-duration: 24s;
+}
+.layer2.a {
+    animation-delay: -12s;
+}
+.layer3 {
+    width: 0.6rem;
+    height: 0.6rem;
+    filter:blur(6px);
+    box-shadow: #{$s3};
+    animation-duration: 30s;
+}
+.layer3.a {
+    animation-delay: -15s;
+}
+@keyframes fall {
+	100% {transform: translateY(200vh); }
+}
+@keyframes gradientBG {
+	0% {
+		transform: translate(-10%,-10%);
+	}
+	50% {
+		transform: translate(-60%,-60%);
+	}
+	100% {
+		transform: translate(-10%,-10%);
+	}
+}
+
+@keyframes sled {
+	0% {
+		transform: translate(-50rem, 40vh) rotate(0deg);
+	}
+	4% {
+		transform: translate(-50rem, 40vh) rotate(0deg);
+	}
+	20% {
+		transform: translate(50vw,10vh) rotate(20deg);
+	}
+	36% {
+		transform: translate(150vw,40vh) rotate(40deg);
+	}
+	100% {
+		transform: translate(150vw,40vh) rotate(40deg);
+	}
+}
+
+@keyframes train {
+	0%{
+		transform: translateX(-80rem);
+	}
+	55%{
+		transform: translateX(-80rem);
+	}
+	85% {
+		transform: translateX(100vw);
+	}
+	100%{
+		transform: translateX(100vw);
+	}
+}
+
+@keyframes follow_train {
+	0%{
+		transform: translateX(-80rem) scaleX(20) scaleY(8);
+	}
+	55%{
+		transform: translateX(-80rem) scaleX(20) scaleY(8);
+	}
+	85%{
+		transform: translateX(100vw) scaleX(20) scaleY(8);
+	}
+	100% {
+		transform: translateX(100vw) scaleX(20) scaleY(8);
+	}
+}
+
+
+@keyframes turn {
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes whobble {
+	100% {
+		transform: translateY(0.5vh);
+	}
+}
+
+@keyframes snowman {
+	0%{
+		transform: rotate(-0);
+	}
+	20%{
+		transform: rotate(-0);
+	}
+	30%{
+		transform: rotate(80deg);
+	}
+	54%{
+		transform: rotate(80deg);
+	}
+	68%{
+		transform: rotate(-0);
+	}
+	100%{
+		transform: rotate(-0);
+	}
+}
+@keyframes snowman_head {
+	0%{
+		transform: rotate(-3deg);
+	}
+	50% {
+		transform: rotate(3deg);
+	}
+	100% {
+		transform: rotate(-3deg);
+	}
+}
+
+@keyframes merry_christmas {
+	0%{
+		opacity: 0.8;
+	}
+	50% {
+		opacity: 0.6;
+	}
+	100% {
+		opacity: 0.8;
+	}
+}

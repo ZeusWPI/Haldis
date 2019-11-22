@@ -1,15 +1,15 @@
 {% macro render_order(order) -%}
 <div class="row darker">
-    <div class="col-md-8 col-lg-9">
+    <div class="col-md-8 col-lg-9 order_data">
         <h5>{{ order.location.name }}</h5>
-        <p>
+        <b>{{ order.items.count() }} orders</b></p>
+        <p class="time_data">
         {% if order.stoptime %}
-            <b>Closing time: </b>{{ order.stoptime.strftime("%H:%M") }} (<span class="time">{{  order.stoptime|countdown }}</span>)
+            <span><b>Closes </b>{{ order.stoptime.strftime("%H:%M") }}</span><span class="time">{{  order.stoptime|countdown }}</span>
         {% else %}open{% endif %}<br/>
-        <b>Orders:</b> {{ order.items.count() }}</p>
     </div>
-    <div class="col-md-4 col-lg-3">
-        <a class="btn btn-primary btn-block align-bottom" href="{{ url_for('order_bp.order_from_id', order_id=order.id) }}">Expand</a>
+    <div class="col-md-4 col-lg-3 expand_button_wrapper">
+        <a class="btn btn-primary btn-block align-bottom expand_button" href="{{ url_for('order_bp.order_from_id', order_id=order.id) }}">Expand</a>
     </div>
 </div>
 {%- endmacro %}
