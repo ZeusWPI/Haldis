@@ -13,6 +13,8 @@ from models import Location, Order
 # import views
 from views.order import get_orders
 
+import yaml
+
 general_bp = Blueprint("general_bp", __name__)
 
 
@@ -32,8 +34,41 @@ def css():
     "Generate the css"
     if request.cookies.get('theme'):
         if request.cookies['theme'] == 'customTheme':
-            #TODO: The custom theme is hardcoded :(. Make the server auto select a custom team.
-            f = open("app/static/css/themes/sinterklaas.css")
+
+            # Here seasonal themes will be returned; matching the current date.
+
+            # Open the YAML file with all the themes.
+            with open('app/views/themes.yml', 'r') as stream:
+                data = yaml.safe_load(stream)
+
+            # Build a dictionary from the YAML file with all the themes and there attributes.
+            themes = {}
+            for item in data:
+                key = list(item.keys())[0]
+                themes[key] = item[key]
+
+            # Get the current date.
+            current_day = datetime.now().day
+            current_month = datetime.now().month
+
+            # Check each theme in the dictionary and return the first one that is "correct"
+            for theme in themes.values():
+                start_day, start_month = theme['start'].split('/')
+                end_day, end_month = theme['end'].split('/')
+
+                if theme['type'] == 'static-date':
+
+                    if (((int(start_month) == current_month) and
+                         (int(start_day) <= current_day)) or
+                        (int(start_month) <= current_month)):
+
+                        if (((int(end_month) == current_month) and
+                             (int(end_day) >= current_day)) or
+                            (int(end_month) > current_month)):
+
+                            f = open("app/static/css/themes/"+theme['file'])
+                            break
+
         else:
             f = open("app/static/css/themes/"+request.cookies['theme']+".css")
     else:
