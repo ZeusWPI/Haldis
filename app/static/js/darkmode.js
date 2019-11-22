@@ -62,7 +62,7 @@
 		root.style.setProperty('--dGray1', "#666666");
 		root.style.setProperty('--dGray0', "#444444"); //Light color
 		root.style.setProperty('--dBlue', "#0A84FF");
-		root.style.setProperty('--FontFamily', '"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif"');
+		root.style.setProperty('--FontFamily', '"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif');
 		root.style.setProperty('--FontSize', '13px');
 		document.querySelector('.background').style.backgroundImage =  'none';
 	}
@@ -77,7 +77,7 @@
 		root.style.setProperty('--dGray1', "#8E8E93");
 		root.style.setProperty('--dGray0', "#E0E0E8"); //Light color
 		root.style.setProperty('--dBlue', "#0A84FF");
-		root.style.setProperty('--FontFamily', '"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif"');
+		root.style.setProperty('--FontFamily', '"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif');
 		root.style.setProperty('--FontSize', '13px');
 		document.querySelector('.background').style.backgroundImage =  'none';
 	}
@@ -92,7 +92,7 @@
 		root.style.setProperty('--dGray1', "#F28705");
 		root.style.setProperty('--dGray0', "#FFEB65"); //Light color
 		root.style.setProperty('--dBlue', "#D91604");
-		root.style.setProperty('--FontFamily', '"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif"');
+		root.style.setProperty('--FontFamily', '"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif');
 		root.style.setProperty('--FontSize', '13px');
 		document.querySelector('.background').backgroundImage = "url('/static/images/Halloween.jpeg')";
 	}
