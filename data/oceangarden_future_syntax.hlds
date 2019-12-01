@@ -19,14 +19,14 @@ og: Ocean Garden
 =============================================
 
 carbs: Koolhydraten
-	bami: Bami -- Noedels
+	bami: Bami -- Tarwenoedels
 	nasi: Nasi -- Rijst
-	mihoen: Mihoen -- Wtf is dit
+	mihoen: Mihoen -- Dunne, Chinese noedels, gemaakt van rijstbloem
 
 	# De balletjes worden enkel getoond bij gerechten waar je "sweetsour" kán kiezen, en worden enkel
 	# geactiveerd als "sweetsour" ook effectief gekozen is – idealiter staat bij een niet-actieve
 	# keuze ook de reden erbij
-	balls: Gepaneerde balletjes € 2.5
+	balls: Gepaneerde balletjes € 3
 		requires sweetsour
 
 bami_nasi: Bami of nasi
@@ -37,11 +37,11 @@ sauce: Saus
 	bali: Bali -- Indonesische saus
 	yusiang: Yu-siang -- Chinese saus met chili, pijpajuin, gember en look
 	gonboa: Gon-boa -- Pikante kruidensaus uit het westen van China
-	curry: Curry -- Iedereen kent het maar niemand weet wat het is
+	curry: Curry
 	sweetsour: Zoetzuur
 	oyster: Oester :: {has_fish}
 	pepper: Pepersaus
-	mushroom: Champignon -- Wist je dat champignons geen groenten zijn?
+	mushroom: Champignon
 	malaysian: A la Maleisië -- Licht pikante saus
 
 meat: Vlees :: {has_meat}
@@ -57,7 +57,7 @@ maybe_meat: Vlees
 # Studentenwok 1 en 4 zijn eigenlijk hetzelfde
 base wok1_4: Studentenwok met saus € 6
 	single_choice carbs
-		except nasi
+		except mihoen
 	single_choice maybe_meat
 		except duck
 
@@ -77,7 +77,7 @@ base wok5: Studentenwok Babi Pangang -- Geroosterd varkensvlees :: {has_meat} �
 	single_choice sauce
 
 base veggie: VEGETARISCH-PURISTISCH demo-entry waarbij je ENKEL VEGGIE kan kiezen = LETTERLIJIK HET BESTE € 6
-	single_choice bami_nasi
+	single_choice carbs
 	single_choice sauce
 		except {has_fish}
 		except {has_meat}

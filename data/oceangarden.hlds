@@ -20,7 +20,7 @@ carbs: Koolhydraten
 	# FIXME De balletjes mogen enkel bij gerechten waar je "sweetsour" kán kiezen, en worden enkel
 	# geactiveerd als "sweetsour" ook effectief gekozen is – idealiter staat bij een niet-actieve
 	# keuze ook de reden erbij
-	balls: Gepaneerde balletjes  € 2.5
+	balls: Gepaneerde balletjes  € 3
 		#requires sweetsour
 
 sauce: Saus
@@ -51,7 +51,7 @@ maybe_meat_no_duck: Vlees
 
 # Studentenwok 1 en 4 zijn eigenlijk hetzelfde
 base wok1_4: Studentenwok met saus € 6
-	single_choice bami_mihoen
+	single_choice bami_nasi
 	single_choice maybe_meat_no_duck
 
 base wok2: Studentenwok kip/varken bami/mihoen zonder saus € 6
