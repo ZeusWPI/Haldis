@@ -29,8 +29,8 @@ carbs: Koolhydraten
 	balls: Gepaneerde balletjes € 2.5
 		requires sweetsour
 
-baminasi: Bami of nasi
-	single_choice baminasi
+bami_nasi: Bami of nasi
+	*bami_nasi
 		only bami, nasi
 
 sauce: Saus
@@ -68,16 +68,16 @@ base wok2: Studentenwok kip/varken bami/mihoen zonder saus € 6
 		only chicken, pork
 
 base wok3: Studentenwok kip bami/nasi zonder saus € 6
-	single_choice baminasi
+	single_choice bami_nasi
 	single_choice meat
 		only chicken
 
 base wok5: Studentenwok Babi Pangang -- Geroosterd varkensvlees :: {has_meat} € 6
-	single_choice baminasi
+	single_choice bami_nasi
 	single_choice sauce
 
 base veggie: VEGETARISCH-PURISTISCH demo-entry waarbij je ENKEL VEGGIE kan kiezen = LETTERLIJIK HET BESTE € 6
-	single_choice baminasi
+	single_choice bami_nasi
 	single_choice sauce
 		except {has_fish}
 		except {has_meat}
