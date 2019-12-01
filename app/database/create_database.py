@@ -1,19 +1,9 @@
 "Script for interaction and changes to the database"
 import add_admins
-import add_fitchen
-import add_oceans_garden
-import add_primadonna
-import add_simpizza
-import add_testlocation
 from app import db, create_app
 
 entry_sets = {
-    "Admins": add_admins.add,
-    "Testlocation": add_testlocation.add,
-    "Ocean's Garden": add_oceans_garden.add,
-    "SimPizza": add_simpizza.add,
-    "Primadonna": add_primadonna.add,
-    "Fitchen": add_fitchen.add,
+    "admins": add_admins.add,
 }
 
 yes = ["yes", "y"]
@@ -42,7 +32,7 @@ def add_all() -> None:
 def recreate_from_scratch() -> None:
     "Recreate a completely new database"
     confirmation = "Are you very very sure? (Will delete previous entries!) (y/N) "
-    if input(confirmation) in yes:
+    if input(confirmation).lower() in yes:
         print("Resetting the database!")
         db.drop_all()
         db.create_all()
