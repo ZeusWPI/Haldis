@@ -11,3 +11,4 @@ Flask-Migrate
 Flask-Script
 black
 pymysql
+tatsu

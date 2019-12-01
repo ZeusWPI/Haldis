@@ -1,0 +1,87 @@
+# This is a Tatsu file.
+# Syntax is explained at
+# https://tatsu.readthedocs.io/en/stable/syntax.html
+
+@@grammar :: Hlds
+
+# Don't ignore any whitespace
+@@whitespace :: //
+
+@@eol_comments :: /[ \t]*#.*?$/
+@@keyword :: single_choice multi_choice base preset  only requires except
+
+
+start = [n] { @:location } $ ;
+
+location_header =
+	/={3,}\n/ ~
+	id:identifier ':' s name:string
+	attributes:{ location_attribute }
+	/\n={3,}\n+/
+	;
+
+location_attribute =
+	n '\t' key:identifier ' ' value:string
+	;
+
+location = >location_header items:{ block } ;
+
+
+attributes =
+	name:/[^\n]*?(?= +-- | +:: | +€ |\n)/
+	[ s '--' ~ s description:/[^\n]*?(?= +:: | +€ |\n)/ ]
+	[ s '::' {s ('{' tags+:identifier '}')} ]
+	[ [ s '::' ~ ] s price:price ]
+	;
+
+
+block =
+	| base_block
+	| choice_block
+	;
+
+base_block =
+	kind:'base' s ~
+	id:identifier ':' s >attributes
+	n
+	choices:{ indent_choice_block }
+	;
+
+
+choice_entry = id:identifier ':' s >attributes ;
+
+noindent_choice_entry = n '\t'   >choice_entry ;
+indent_choice_entry   = n '\t\t' >choice_entry ;
+
+# Toplevel choice definitions
+choice_block =
+	kind:`choice_declaration`
+	id:identifier ':' s >attributes entries:{ noindent_choice_entry }
+	n
+	;
+
+# Appears in a base block. One of:
+# 1) reference to toplevel choice definition
+# 2) inline choice declaration (as opposed to globally declared and referenced)
+indent_choice_block =
+	'\t' type:choice_type s
+	(
+		| kind:`reference`   id:identifier [ s price:price ]
+		| kind:`declaration` id:identifier ':' ~ s >attributes entries:{ indent_choice_entry }
+	)
+	n
+	;
+
+
+s = / +/ ;
+n = '\n' {{'\t'} '\n'} ;
+
+@name
+identifier = /[a-z0-9_-]+/ ;
+string = /[^\n]+/ ;
+choice_type = 'single_choice' | 'multi_choice' ;
+
+number = /[0-9]+(\.[0-9]+)?/ ;
+
+currency = '€' ;
+price = currency:currency s value:number ;

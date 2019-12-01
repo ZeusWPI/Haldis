@@ -1,0 +1,66 @@
+=============================================
+og: Ocean Garden
+	# Openingsuren, website, telefoonnummer, adres enz. worden uit OpenStreetMap gehaald
+	osm https://www.openstreetmap.org/node/2275105003
+=============================================
+
+bami_nasi: Bami of nasi
+	bami: Bami -- Tarwenoedels
+	nasi: Nasi -- Rijst
+
+bami_mihoen: Bami of mihoen
+	bami: Bami -- Tarwenoedels
+	mihoen: Mihoen -- Dunne, Chinese noedels, gemaakt van rijstbloem
+
+carbs: Koolhydraten
+	bami: Bami -- Tarwenoedels
+	nasi: Nasi -- Rijst
+	mihoen: Mihoen -- Dunne, Chinese noedels, gemaakt van rijstbloem
+
+	# FIXME De balletjes mogen enkel bij gerechten waar je "sweetsour" kán kiezen, en worden enkel
+	# geactiveerd als "sweetsour" ook effectief gekozen is – idealiter staat bij een niet-actieve
+	# keuze ook de reden erbij
+	balls: Gepaneerde balletjes  € 2.5
+		#requires sweetsour
+
+sauce: Saus
+	bali: Bali -- Indonesische saus
+	yusiang: Yu-siang -- Chinese saus met chili, pijpajuin, gember en look
+	gonboa: Gon-boa -- Pikante kruidensaus uit het westen van China
+	curry: Curry
+	sweetsour: Zoetzuur
+	oyster: Oester :: {has_fish}
+	pepper: Pepersaus
+	mushroom: Champignon
+	malaysian: A la Maleisië -- Licht pikante saus
+
+meat: Vlees :: {has_meat}
+	chicken: Kip
+	pork: Varken
+	duck: Eend
+
+meat_no_duck: Vlees :: {has_meat}
+	chicken: Kip
+	pork: Varken
+
+maybe_meat_no_duck: Vlees
+	chicken: Kip :: {has_meat}
+	pork: Varken :: {has_meat}
+	no_meat: Geen vlees
+
+
+# Studentenwok 1 en 4 zijn eigenlijk hetzelfde
+base wok1_4: Studentenwok met saus € 6
+	single_choice bamimihoen
+	single_choice maybe_meat_no_duck
+
+base wok2: Studentenwok kip/varken bami/mihoen zonder saus € 6
+	single_choice bamimihoen
+	single_choice meat_no_duck
+
+base wok3: Studentenwok kip bami/nasi zonder saus :: {has_meat} € 6
+	single_choice baminasi
+
+base wok5: Studentenwok Babi Pangang -- Geroosterd varkensvlees :: {has_meat} € 6
+	single_choice baminasi
+	single_choice sauce

@@ -1,0 +1,26 @@
+============================
+testfrituur: Testfrituur
+	osm https://www.openstreetmap.org/node/4935648725
+============================
+
+sauce: Saus
+	ketchup: Ketchup -- Een tomatensaus met veel suiker € 0.8
+	mayo: Mayonaise -- Eierdooier en olie € 0.8
+	curry: Currysaus € 0.8
+	stoofvlees: Stoofvleessaus € 1.4
+
+base veggieburger: Veggieburger € 4.2
+
+base friet: Friet -- Een pakje friet :: {has_meat} {has_gluten}
+
+	single_choice size: Grootte
+		small: Small € 2
+		medium: Medium € 2.5
+		large: Large € 3
+		xlarge: Extra large -- Je hebt een auto nodig om dit te vervoeren € 50
+
+	multi_choice sauce
+
+base vleeskroket: Vleeskroket -- Een vlezige kroket :: {has_meat} € 4.2
+base vleeskroket: Vleeskroket :: {has_meat} € 4.2
+base vleeskroket: Vleeskroket -- Een vlezige kroket
