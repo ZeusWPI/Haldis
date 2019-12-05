@@ -6,14 +6,14 @@ from flask import Flask, render_template, make_response
 from flask import request
 from flask import Blueprint, abort
 from flask import current_app as app
-from flask import render_template, send_from_directory, url_for
+from flask import send_from_directory, url_for
 from flask_login import login_required
+
+import yaml
 
 from models import Location, Order
 # import views
 from views.order import get_orders
-
-import yaml
 
 general_bp = Blueprint("general_bp", __name__)
 
@@ -28,6 +28,7 @@ def home() -> str:
     return render_template(
         "home.html", orders=get_orders(), recently_closed=recently_closed
     )
+
 
 @general_bp.route("/css")
 def css():
@@ -54,17 +55,26 @@ def css():
             # Check each theme in the dictionary and return the first one that is "correct"
             for theme in themes.values():
                 start_day, start_month = theme['start'].split('/')
+                start_day = int(start_day)
+                start_month = int(start_month)
+
                 end_day, end_month = theme['end'].split('/')
+                end_day = int(end_day)
+                end_month = int(end_month)
+
+                if end_month < start_month:
+                    # Hacky (werkt nu maar kan beter)
+                    end_month += 12
 
                 if theme['type'] == 'static-date':
 
-                    if (((int(start_month) == current_month) and
-                         (int(start_day) <= current_day)) or
-                        (int(start_month) <= current_month)):
+                    if (((start_month == current_month) and
+                         (start_day <= current_day)) or
+                            (start_month <= current_month)):
 
-                        if (((int(end_month) == current_month) and
-                             (int(end_day) >= current_day)) or
-                            (int(end_month) > current_month)):
+                        if (((end_month == current_month) and
+                             (end_day >= current_day)) or
+                                (end_month > current_month)):
 
                             f = open("app/static/css/themes/"+theme['file'])
                             break
@@ -75,6 +85,7 @@ def css():
         f = open("app/static/css/main.css")
     response = make_response(f.read())
     response.headers['Content-Type'] = 'text/css'
+    f.close()
     return response
 
 
