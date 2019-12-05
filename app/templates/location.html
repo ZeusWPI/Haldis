@@ -4,7 +4,7 @@
 {% import "utils.html" as util %}
 
 {% block container %}
-<div class="row" xmlns="http://www.w3.org/1999/html">
+<div class="row location_data" xmlns="http://www.w3.org/1999/html">
     <div class="col-md-push-1 col-md-5 darker">
         <h3>{{ location.name }}</h3>
         <span class="glyphicon glyphicon-home"></span> {{ location.address }} <br/>
@@ -20,7 +20,7 @@
         {% endif %}
     </div>
 </div>
-<div class="row">
+<div class="row location_products">
     <div class="col-md-push-1 col-md-10 darker">
         <h3 id="order-title">Products</h3>
         <table class="table table-hover table-condensed">

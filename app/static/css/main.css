@@ -9,6 +9,7 @@ body {
   color: var(--dGray1);
   height: 100%;
 }
+
 .background{
   position: absolute;
   z-index: -1000;
@@ -48,6 +49,10 @@ body {
 
 .product .extras {
     padding-left: 20px;
+}
+
+.order_row {
+    background: var(--dGray4);
 }
 
 @media(min-width: 768px) and (max-width: 991px){

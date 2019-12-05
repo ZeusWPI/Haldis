@@ -30,14 +30,21 @@ def home() -> str:
 @general_bp.route("/css")
 def css():
     "Generate the css"
+    if (request.cookies.get('performance') and request.cookies.get('performance') == 'highPerformance'):
+        cssPath = 'app/static/css/themes/highPerformance/'
+    else:
+        cssPath = 'app/static/css/themes/lowPerformance/'
     if request.cookies.get('theme'):
         if request.cookies['theme'] == 'customTheme':
             #TODO: The custom theme is hardcoded :(. Make the server auto select a custom team.
-            f = open("app/static/css/themes/sinterklaas.css")
+            f = open(cssPath+"sinterklaas.css")
         else:
-            f = open("app/static/css/themes/"+request.cookies['theme']+".css")
+            try:
+                f = open(cssPath+request.cookies['theme']+".css")
+            except IOError:
+                f = open(cssPath+"lightmode.css")
     else:
-        f = open("app/static/css/lightmode.css")
+        f = open(cssPath+"lightmode.css")
     response = make_response(f.read())
     response.headers['Content-Type'] = 'text/css'
     return response

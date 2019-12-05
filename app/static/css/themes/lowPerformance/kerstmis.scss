@@ -1,3 +1,15 @@
+/*
+¡¡¡ OPGELED !!!
+Deze css bevat lelijke code.
+Dit komt doordat bootstrap lelijk en oud is.
+Ik zal later proberen de css te verbeteren en bootstrap weg te gooien.
+Enige discretie is aangeraden.
+
+---=§[ Arnhoudt ]§=---
+
+*/
+
+
 /*lightmode*/
 :root {
 	/*Darkmode colors*/
@@ -12,13 +24,33 @@
   }
   body{
 	  height: 100%;
-	  font-family: Optima,Segoe,Segoe UI,Candara,Calibri,Arial,sans-serif; 
+	  font-family: Radikal,Optima,Segoe,Segoe UI,Candara,Calibri,Arial,sans-serif; 
+	  background-color: #2F0000;
+  }
+  @font-face {
+	font-family: Radikal;
+	src: url('static/fonts/radikal_regular.ttf');
+	font-weight: normal;
+}
+  @font-face {
+	font-family: Radikal;
+	src: url('static/fonts/radikal_light.ttf');
+	font-weight: 200;
+  }
+  @font-face {
+	font-family: Radikal;
+	src: url('static/fonts/radikal_bold.ttf');
+	font-weight: bold;
   }
   .btn{
 	  border-radius: 5rem;
 	  color: white;
 	  font-family: Arial Rounded MT Bold,Helvetica Rounded,Arial,sans-serif; 
 	  background-image: linear-gradient(-40deg,#F53030, #F58B9E);
+  }
+
+  .btn:hover{
+	background-image: linear-gradient(-40deg, #A81111, #FF4B33);
   }
   .navbar {
 	  font-family: Arial Rounded MT Bold,Helvetica Rounded,Arial,sans-serif; 
@@ -28,26 +60,59 @@
 	box-shadow: none;
 	text-transform: capitalize;
   }
+  .nav>li>a {
+	  padding-left: 1vw;
+	  padding-right: 1vw;
+  }
 
   .main{
+	  height: 90vh;
+	  overflow: scroll;
+	  padding-left: 0;
+	  padding-right: 0;
 	  width: 100%;
 	  display: flex;
-	  justify-content: center;
+	  align-items: center;
+	  flex-direction: column;
   }
 
   .navbar .container{
 	  width: 100%;
-	  padding: 0 8rem;
+	  padding: 0 4vw;
   }
-  body .container{
+
+@media (min-width: 768px){
+	.container {
+		width: 100%;
+	}
+}
+@media (min-width: 992px){
+	.main .container, .main .orders {
+		width: 970px;
+	}
+}
+
+@media (min-width: 1200px){
+	.main .container, .main .orders {
+    	width: 1170px;
+	}
+}
+
+
+  .main{
 	  padding-top: 2.5rem;
   }
   .order_data {
 	  display: flex;
 	  flex-direction: row;
 	  width: 100%;
-	  justify-content: space-around;
+	  justify-content: space-between;
+	  padding: 0 3rem;
 	  align-items: baseline;
+  }
+  .order_data h5{
+	  max-width: 60%;
+	  padding-bottom: 3rem;
   }
   .expand_button{
 	  padding: 1rem 0rem;
@@ -55,28 +120,68 @@
 	  width: 70%;
 	  margin-bottom: 1.5rem;
   }
+
   .hi_im_haldis h2{
 	  display: none;
   }
 
   .hi_im_haldis h3 {
 	width: 100%;
+	font-family: Arial Rounded MT Bold,Helvetica Rounded,Arial,sans-serif; 
 	text-align: center;
   }
 
   .hi_im_haldis {
+	background: linear-gradient(70deg,rgba(203, 52, 68,0.8), rgba(135, 32, 44,0.8));
+	border-radius: 0;
 	  width: 100%;
+  }
+
+  .hi_im_haldis_wrapper {
+	  width: 100%;
+  }
+  .darker:nth-child(even){
+	background-color: #B62937;
+	border-radius: 2rem;
+  }
+  .darker:nth-child(odd){
+	background-color: #821C25;
+	border-radius: 2rem;
+  }
+  .darker{
+	  padding: 1rem;
+  }
+  .order_row:nth-child(even) .order_data {
+	background-color: #B62937;
+	border-radius: 2rem;
+  }
+  
+  .order_row {
+	background: transparent;
+  }
+
+  .order_row:nth-child(odd) .order_data {
+	background-color: #821C25;
+	border-radius: 2rem;
+  }
+
+  .order_row h5{
+	  font-weight: bold;
+  }
+  .order_row{
+	  margin-bottom: 3rem;
+  }
+  h3{
+	  padding-bottom: 1rem;
   }
 
   .home_sir {
 	  font-weight: bold;
-	  background: linear-gradient(-40deg,#F53030, #F58B9E);
-	  background-clip: text;
-	  -webkit-background-clip: text;
-	  -webkit-text-fill-color: transparent;
+	  color: #F45D68;
   }
 
   .expand_button_wrapper{
+	  margin-top: -1rem;
 	  width: 100%;
 	  display: flex;
 	  justify-content: center;
@@ -94,21 +199,34 @@
 	  border-bottom: 1px solid rgb(255, 155, 174);
 	  padding-bottom: 1rem;
   }
+
   .navbar-nav{
 	  padding-left: 2rem;
   }
+
   .jumbotron, .darker {
-	  background: linear-gradient(-40deg,rgba(240, 192, 157, 0.5), #F58B9E);
-	  display: flex;
+	display: flex;
 	  flex-direction: column;
 	  border-radius: 4rem;
   }
+
   .row>div>h5 {
 	  font-weight: bold;
-	  padding-top: 1rem;
+	  padding-top: 1.5rem;
+	  font-size: 2.5rem;
   }
+
+  .row>div>.amount_of_orders{
+	  font-weight: lighter;
+	  font-size: 1.6rem;
+  }
+  .row>div .time{
+	  font-weight: lighter;
+  }
+
   .jumbotron {
-	background-color: transparent; }
+	background-color: transparent;
+}
   
   .navbar-default .navbar-nav .active a, .navbar-default .navbar-nav .active a:hover{
 	background-color: transparent;
@@ -122,13 +240,55 @@
 	filter: blur(0px) brightness(80%);
 	position: fixed;
 	top: 0;
-	left: 0; }
-  
+	left: 0;
+}
+
+footer a{
+	color: #69E8FF;
+}
+
+footer{
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	background:#CB3444;
+	height: 5rem;
+	display: flex;
+	align-items: center;
+}
+footer>hr{
+	display: none;
+}
+
+#mapid {
+	width: 100%;
+}
+
+.order_overview, .order_order, .order_items, .order_ordered, .order_depts {
+	padding: 1rem 5rem 3rem 5rem;
+}
+
+.order_depts {
+	width: 100%;
+	margin-bottom: 10rem;
+}
+
+.location_data, .location_products {
+	width: 100%;
+}
+
+.location_products {
+	margin-bottom: 10rem;
+}
+
+.locations_locations {
+	padding: 1rem 5rem 3rem 5rem;
+}
 
 .background_wrapper {
 	position: absolute;
 	left: 0;
-	top: 0;
+	bottom: 5rem;
 	width: 100%;
 	height: 100%;
 	overflow: hidden;
@@ -139,7 +299,6 @@
 	width: 300%;
 	height: 300%;
 	background: linear-gradient(-45deg, #2F0000, #C20A12);
-	animation: gradientBG 19s ease infinite;
 }
 
 .sled {
@@ -162,14 +321,6 @@
 	animation: sled 29s ease-in-out infinite;
 }
 
-.train_button:checked ~ .sled_wrapper:hover{
-	animation-play-state: paused;
-}
-
-.train_button:checked ~ .sled_wrapper:hover .sled{
-	transform: translateY(100vh) rotate(90deg);
-}
-
 .snowman_wrapper{
 	height: 17rem;
 	width: 10rem;
@@ -179,7 +330,6 @@
 	animation: snowman 37s ease infinite;
 	transform-origin: right bottom;
 }
-
 
 .snowman_head{
 	position: absolute;
@@ -202,25 +352,8 @@
 	background-image: url("static/images/themes/kerstmis/snowman_body.svg")
 }
 
-.train_button:checked ~ .merry_christmas{
-	position: absolute;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	background-position: center;;
-	background-image: url("static/images/themes/kerstmis/merry_christmas.svg");
-	background-size: 25vw;
-	background-repeat: no-repeat;
-	animation: merry_christmas 5s ease infinite;
-}
-
 .train_button {
-	position: absolute;
-	transform: scaleX(20) scaleY(8) translateX(-100rem);
-	bottom: 5.5rem;
-	left: 7rem;
-	animation: follow_train 47s linear infinite;
-	opacity: 0;
+	visibility: hidden;
 }
 
 .train_wrapper{
@@ -322,73 +455,6 @@
 	left: 9.3rem;
 }
 
-$s1:"";
-$s2:"";
-$s3:"";
-@for $i from 1 through 100 {
-    $s1: $s1 + random(1000)*0.1vw + " " + random(1000)*0.1vh + " " + 0 + " " + random(50)*-0.01rem + #fff;
-    $s2: $s2 + random(1000)*0.1vw + " " + random(1000)*0.1vh + " " + 0 + " " + random(50)*-0.01rem + #fff;
-    $s3: $s3 + random(1000)*0.1vw + " " + random(1000)*0.1vh + " " + 0 + " " + random(50)*-0.01rem + #fff;
-    @if $i < 100 {
-        $s1: $s1 + ",";
-        $s2: $s2 + ",";
-        $s3: $s3 + ",";
-    }
-}
-.snow {
-    border-radius: 50%;
-    opacity: 0.8;
-    position: absolute;
-    top:-100vh;
-    animation-name: fall;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-}
-.layer1 {
-    width: 1rem;
-    height: 1rem;
-    filter:blur(1.5px);
-    box-shadow: #{$s1};
-    animation-duration: 18s;
-}
-.layer1.a {
-    animation-delay: -9s;
-}
-.layer2 {
-    width: 0.8rem;
-    height: 0.8rem;
-    filter:blur(3px);
-    box-shadow: #{$s2};
-    animation-duration: 24s;
-}
-.layer2.a {
-    animation-delay: -12s;
-}
-.layer3 {
-    width: 0.6rem;
-    height: 0.6rem;
-    filter:blur(6px);
-    box-shadow: #{$s3};
-    animation-duration: 30s;
-}
-.layer3.a {
-    animation-delay: -15s;
-}
-@keyframes fall {
-	100% {transform: translateY(200vh); }
-}
-@keyframes gradientBG {
-	0% {
-		transform: translate(-10%,-10%);
-	}
-	50% {
-		transform: translate(-60%,-60%);
-	}
-	100% {
-		transform: translate(-10%,-10%);
-	}
-}
-
 @keyframes sled {
 	0% {
 		transform: translate(-50rem, 40vh) rotate(0deg);
@@ -419,21 +485,6 @@ $s3:"";
 	}
 	100%{
 		transform: translateX(100vw);
-	}
-}
-
-@keyframes follow_train {
-	0%{
-		transform: translateX(-80rem) scaleX(20) scaleY(8);
-	}
-	55%{
-		transform: translateX(-80rem) scaleX(20) scaleY(8);
-	}
-	85%{
-		transform: translateX(100vw) scaleX(20) scaleY(8);
-	}
-	100% {
-		transform: translateX(100vw) scaleX(20) scaleY(8);
 	}
 }
 
@@ -479,17 +530,5 @@ $s3:"";
 	}
 	100% {
 		transform: rotate(-3deg);
-	}
-}
-
-@keyframes merry_christmas {
-	0%{
-		opacity: 0.8;
-	}
-	50% {
-		opacity: 0.6;
-	}
-	100% {
-		opacity: 0.8;
 	}
 }
