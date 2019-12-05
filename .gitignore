@@ -67,5 +67,9 @@ app/config.py
 *.db
 
 tmp/
+<<<<<<< HEAD
 
 .tern-port
+
+# Do not add scss cache
+*.sass-cache

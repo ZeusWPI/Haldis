@@ -4,13 +4,13 @@
 {% import "utils.html" as util -%}
 
 {% block container %}
-    <div class="row">
-      <div class="jumbotron">
+    <div class="row hi_im_haldis_wrapper">
+      <div class="jumbotron hi_im_haldis">
         <h2>Hi, I'm Haldis</h2>
-        <h3>What would you like to eat, sir?</h3>
+        <h3>What would you like to <span class="home_sir">eat</span>?</h3>
       </div>
   </div>
-  <div class="row">
+  <div class="row container">
     <div class="col-sm-5">
         {% if orders|count > 0 -%}
             <h3>Open orders:</h3>

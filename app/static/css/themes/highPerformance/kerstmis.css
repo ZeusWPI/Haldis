@@ -1,0 +1,531 @@
+@charset "UTF-8";
+/*
+¡¡¡ OPGELET !!!
+Deze css bevat lelijke code.
+Dit komt doordat bootstrap lelijk en oud is.
+Ik zal later proberen de css te verbeteren en bootstrap weg te gooien.
+Enige discretie is aangeraden.
+
+---=§[ Arnhoudt ]§=---
+
+*/
+/*high performance kerstmis*/
+:root {
+  /*Darkmode colors*/
+  --dGray0:#F28705;
+  --dGray1:white;
+  --dGray2:#590212;
+  --dGray3:#590212;
+  --dGray4:#274001;
+  --dGray5:#274001;
+  --dGray6:#F2778D;
+  --dBlue:#F2778D; }
+
+body {
+  height: 100%;
+  font-family: Radikal,Optima,Segoe,Segoe UI,Candara,Calibri,Arial,sans-serif;
+  background-color: #2F0000; }
+
+@font-face {
+  font-family: Radikal;
+  src: url("static/fonts/radikal_regular.ttf");
+  font-weight: normal; }
+@font-face {
+  font-family: Radikal;
+  src: url("static/fonts/radikal_light.ttf");
+  font-weight: 200; }
+@font-face {
+  font-family: Radikal;
+  src: url("static/fonts/radikal_medium.ttf");
+  font-weight: medium; }
+@font-face {
+  font-family: Radikal;
+  src: url("static/fonts/radikal_bold.ttf");
+  font-weight: bold; }
+.btn {
+  border-radius: 5rem;
+  color: white;
+  font-family: Arial Rounded MT Bold,Helvetica Rounded,Arial,sans-serif;
+  background-image: linear-gradient(-40deg, #F53030, #F58B9E); }
+
+.btn:hover {
+  background-image: linear-gradient(-40deg, #A81111, #FF4B33); }
+
+.navbar {
+  font-family: Arial Rounded MT Bold,Helvetica Rounded,Arial,sans-serif;
+  padding: 1.5rem;
+  background-color: transparent;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  text-transform: capitalize; }
+
+.nav > li > a {
+  padding-left: 1vw;
+  padding-right: 1vw; }
+
+.main {
+  height: 90vh;
+  overflow: scroll;
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column; }
+
+.navbar .container {
+  width: 100%;
+  padding: 0 4vw; }
+
+@media (min-width: 768px) {
+  .container {
+    width: 100%; } }
+@media (min-width: 992px) {
+  .main .container, .main .orders {
+    width: 970px; } }
+@media (min-width: 1200px) {
+  .main .container, .main .orders {
+    width: 1170px; } }
+.main {
+  padding-top: 2.5rem; }
+
+.order_data {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  padding: 0 3rem;
+  align-items: baseline; }
+
+.order_row {
+  background: transparent; }
+
+.order_data h5 {
+  max-width: 60%;
+  padding-bottom: 3rem; }
+
+.expand_button {
+  padding: 1rem 0rem;
+  margin-top: -1rem;
+  width: 70%;
+  margin-bottom: 1.5rem; }
+
+.hi_im_haldis h2 {
+  display: none; }
+
+.hi_im_haldis h3 {
+  width: 100%;
+  font-family: Arial Rounded MT Bold,Helvetica Rounded,Arial,sans-serif;
+  text-align: center; }
+
+.hi_im_haldis {
+  background: linear-gradient(70deg, rgba(203, 52, 68, 0.8), rgba(135, 32, 44, 0.8));
+  border-radius: 0;
+  width: 100%; }
+
+.hi_im_haldis_wrapper {
+  width: 100%; }
+
+.darker:nth-child(even) {
+  background-color: #B62937;
+  border-radius: 2rem; }
+
+.darker:nth-child(odd) {
+  background-color: #821C25;
+  border-radius: 2rem; }
+
+.darker {
+  padding: 1rem; }
+
+.order_row:nth-child(even) .order_data {
+  background-color: #B62937;
+  border-radius: 2rem; }
+
+.order_row:nth-child(odd) .order_data {
+  background-color: #821C25;
+  border-radius: 2rem; }
+
+.order_row h5 {
+  font-weight: bold; }
+
+.order_row {
+  margin-bottom: 3rem; }
+
+h3 {
+  padding-bottom: 1rem; }
+
+.home_sir {
+  font-weight: bold;
+  color: #F45D68; }
+
+.expand_button_wrapper {
+  margin-top: -1rem;
+  width: 100%;
+  display: flex;
+  justify-content: center; }
+
+.time_data {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  justify-self: right; }
+
+.navbar .navbar-nav .active a {
+  color: #ff9bae;
+  border-bottom: 1px solid #ff9bae;
+  padding-bottom: 1rem; }
+
+.navbar-nav {
+  padding-left: 2rem; }
+
+.jumbotron, .darker {
+  display: flex;
+  flex-direction: column;
+  border-radius: 4rem; }
+
+.row > div > h5 {
+  font-weight: bold;
+  padding-top: 1.5rem;
+  font-size: 2.5rem; }
+
+.row > div > .amount_of_orders {
+  font-weight: lighter;
+  font-size: 1.6rem; }
+
+.row > div .time {
+  font-weight: lighter; }
+
+.jumbotron {
+  background-color: transparent; }
+
+.navbar-default .navbar-nav .active a, .navbar-default .navbar-nav .active a:hover {
+  background-color: transparent; }
+
+.background {
+  -webkit-filter: blur(0px) brightness(80%);
+  -moz-filter: blur(0px) brightness(80%);
+  -o-filter: blur(0px) brightness(80%);
+  -ms-filter: blur(0px) brightness(80%);
+  filter: blur(0px) brightness(80%);
+  position: fixed;
+  top: 0;
+  left: 0; }
+
+footer a {
+  color: #69E8FF; }
+
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: #CB3444;
+  height: 5rem;
+  display: flex;
+  align-items: center; }
+
+footer > hr {
+  display: none; }
+
+#mapid {
+  width: 100%; }
+
+.order_overview, .order_order, .order_items, .order_ordered, .order_depts {
+  padding: 1rem 5rem 3rem 5rem; }
+
+.order_depts {
+  width: 100%;
+  margin-bottom: 10rem; }
+
+.location_data, .location_products {
+  width: 100%; }
+
+.location_products {
+  margin-bottom: 10rem; }
+
+.locations_locations {
+  padding: 1rem 5rem 3rem 5rem; }
+
+.background_wrapper {
+  position: absolute;
+  left: 0;
+  bottom: 5rem;
+  width: 100%;
+  height: 100%;
+  overflow: hidden; }
+
+.christmas_background {
+  z-index: -101;
+  width: 300%;
+  height: 300%;
+  background: linear-gradient(-45deg, #2F0000, #C20A12);
+  animation: gradientBG 19s ease infinite; }
+
+.sled {
+  width: 15rem;
+  height: 15rem;
+  transition: transform 2s ease-in 5s, rotate 1s ease-in-out 2s;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  background-image: url("static/images/themes/kerstmis/sled.svg"); }
+
+.sled_wrapper {
+  top: 0.5rem;
+  left: -7.5rem;
+  position: absolute;
+  transform: translate(-50vw, 40vh) rotate(0deg);
+  width: 15rem;
+  height: 15rem;
+  animation: sled 29s ease-in-out infinite; }
+
+.train_button:checked ~ .sled_wrapper:hover {
+  animation-play-state: paused; }
+
+.train_button:checked ~ .sled_wrapper:hover .sled {
+  transform: translateY(100vh) rotate(90deg); }
+
+.snowman_wrapper {
+  height: 17rem;
+  width: 10rem;
+  position: absolute;
+  bottom: 15rem;
+  left: -12rem;
+  animation: snowman 37s ease infinite;
+  transform-origin: right bottom; }
+
+.snowman_head {
+  position: absolute;
+  top: 0;
+  width: 10rem;
+  height: 10rem;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-image: url("static/images/themes/kerstmis/snowman_head.svg");
+  animation: snowman_head 2s ease infinite; }
+
+.snowman_body {
+  position: absolute;
+  top: 9.5rem;
+  left: 0.5rem;
+  width: 10rem;
+  height: 10rem;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-image: url("static/images/themes/kerstmis/snowman_body.svg"); }
+
+.train_button:checked ~ .merry_christmas {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-image: url("static/images/themes/kerstmis/merry_christmas.svg");
+  background-size: 25vw;
+  background-repeat: no-repeat;
+  animation: merry_christmas 5s ease infinite; }
+
+.train_button {
+  position: absolute;
+  transform: scaleX(20) scaleY(8) translateX(-100rem);
+  bottom: 5.5rem;
+  left: 7rem;
+  animation: follow_train 47s linear infinite;
+  opacity: 0; }
+
+.train_wrapper {
+  position: absolute;
+  bottom: 0.5rem;
+  transform: translateX(-80vw);
+  animation: train 47s linear infinite; }
+
+.wheel_big, .wheel_small {
+  position: absolute;
+  bottom: -0.4rem;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-image: url("static/images/themes/kerstmis/wheel.svg"); }
+
+.train {
+  position: absolute;
+  bottom: 0.5rem;
+  left: 30rem;
+  width: 30rem;
+  height: 10rem;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-image: url("static/images/themes/kerstmis/train.svg");
+  animation: whobble 1s linear alternate-reverse infinite; }
+
+.wheel_big {
+  width: 3.2rem;
+  height: 3.2rem; }
+
+.wheel_small {
+  width: 2.5rem;
+  height: 2.5rem; }
+
+.train .wheel1 {
+  animation: turn 2s linear infinite;
+  left: 3.5rem; }
+
+.train .wheel2 {
+  animation: turn 2s linear infinite, -0.1s;
+  left: 7rem; }
+
+.train .wheel3 {
+  animation: turn 2s linear infinite -0.3s;
+  left: 10.5rem; }
+
+.train .wheel4 {
+  animation: turn 1.5s linear infinite -0.5s;
+  left: 13.9rem; }
+
+.train .wheel5 {
+  animation: turn 1.5s linear infinite -0.7s;
+  left: 16.6rem; }
+
+.zeus_wagon, .mc_wagon {
+  position: absolute;
+  bottom: 1.25rem;
+  width: 30rem;
+  height: 7.5rem;
+  background-repeat: no-repeat;
+  background-size: contain;
+  animation: whobble 1s linear alternate-reverse infinite; }
+
+.mc_wagon {
+  background-image: url("static/images/themes/kerstmis/mc_wagon.svg");
+  left: 0rem; }
+
+.zeus_wagon {
+  background-image: url("static/images/themes/kerstmis/zeus_wagon.svg");
+  left: 15rem; }
+
+.zeus_wagon .wheel1, .mc_wagon .wheel1 {
+  animation: turn 2s linear infinite;
+  bottom: -1.1rem;
+  left: 2.2rem; }
+
+.zeus_wagon .wheel2, .mc_wagon .wheel2 {
+  animation: turn 2s linear infinite, -0.1s;
+  bottom: -1.1rem;
+  left: 5.75rem; }
+
+.zeus_wagon .wheel3, .mc_wagon .wheel3 {
+  animation: turn 2s linear infinite -0.3s;
+  bottom: -1.1rem;
+  left: 9.3rem; }
+
+.snow {
+  border-radius: 50%;
+  opacity: 0.8;
+  position: absolute;
+  top: -100vh;
+  animation-name: fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite; }
+
+.layer1 {
+  width: 1rem;
+  height: 1rem;
+  filter: blur(1.5px);
+  box-shadow: 69.7vw 89.6vh 0 -0.44rem#fff,84.1vw 71.7vh 0 -0.35rem#fff,88.1vw 41.9vh 0 -0.49rem#fff,38.3vw 65.2vh 0 -0.37rem#fff,15.8vw 9vh 0 -0.13rem#fff,89.1vw 80vh 0 -0.28rem#fff,49.9vw 58.2vh 0 -0.42rem#fff,86.3vw 22.7vh 0 -0.11rem#fff,82.6vw 12.3vh 0 -0.42rem#fff,84.8vw 26.8vh 0 -0.44rem#fff,88.4vw 8.9vh 0 -0.26rem#fff,73.9vw 89.7vh 0 -0.11rem#fff,45.7vw 41.6vh 0 -0.34rem#fff,42.1vw 26.9vh 0 -0.22rem#fff,51.3vw 12.4vh 0 -0.07rem#fff,18.3vw 97vh 0 -0.38rem#fff,60.6vw 33.7vh 0 -0.22rem#fff,98.6vw 8.2vh 0 -0.2rem#fff,69.4vw 82.4vh 0 -0.45rem#fff,32.5vw 19vh 0 -0.18rem#fff,1.2vw 2.2vh 0 -0.44rem#fff,92.6vw 63.1vh 0 -0.06rem#fff,35.2vw 73.6vh 0 -0.31rem#fff,79vw 43.3vh 0 -0.25rem#fff,43.5vw 34.8vh 0 -0.18rem#fff,22.7vw 18.8vh 0 -0.43rem#fff,13.7vw 77.4vh 0 -0.15rem#fff,19.4vw 74.1vh 0 -0.2rem#fff,35vw 16vh 0 -0.5rem#fff,44.8vw 55.3vh 0 -0.43rem#fff,26.7vw 26.5vh 0 -0.02rem#fff,80.7vw 14.1vh 0 -0.29rem#fff,65.8vw 94.2vh 0 -0.27rem#fff,79.8vw 9.2vh 0 -0.13rem#fff,88.1vw 46.3vh 0 -0.19rem#fff,38.2vw 22.1vh 0 -0.14rem#fff,66.1vw 94.9vh 0 -0.48rem#fff,63.1vw 37.1vh 0 -0.5rem#fff,3.3vw 82.9vh 0 -0.13rem#fff,54.1vw 24.2vh 0 -0.38rem#fff,51.6vw 38.3vh 0 -0.3rem#fff,44vw 52.6vh 0 -0.5rem#fff,96.4vw 68.9vh 0 -0.12rem#fff,76.2vw 23.7vh 0 -0.19rem#fff,54vw 40.3vh 0 -0.47rem#fff,2.5vw 41.9vh 0 -0.17rem#fff,0.5vw 30.5vh 0 -0.26rem#fff,31.9vw 32vh 0 -0.28rem#fff,4.8vw 84.7vh 0 -0.1rem#fff,3vw 26.9vh 0 -0.41rem#fff,67.6vw 54.7vh 0 -0.27rem#fff,83.5vw 45.2vh 0 -0.28rem#fff,88.4vw 83.4vh 0 -0.02rem#fff,44.4vw 96vh 0 -0.09rem#fff,25.1vw 18.7vh 0 -0.49rem#fff,59.6vw 9.5vh 0 -0.46rem#fff,32.4vw 1.6vh 0 -0.42rem#fff,98.7vw 77.2vh 0 -0.06rem#fff,27vw 39.7vh 0 -0.41rem#fff,70.1vw 50.8vh 0 -0.04rem#fff,37.2vw 26.9vh 0 -0.08rem#fff,87.3vw 97.8vh 0 -0.16rem#fff,51.1vw 89.7vh 0 -0.31rem#fff,74.2vw 2.7vh 0 -0.23rem#fff,16.5vw 12.1vh 0 -0.13rem#fff,21.8vw 94.1vh 0 -0.13rem#fff,94.9vw 37.1vh 0 -0.48rem#fff,32.9vw 92vh 0 -0.04rem#fff,59.7vw 11.1vh 0 -0.42rem#fff,23.6vw 41.7vh 0 -0.44rem#fff,99.9vw 17.1vh 0 -0.5rem#fff,62.6vw 76.7vh 0 -0.19rem#fff,41.7vw 60.2vh 0 -0.14rem#fff,14.6vw 95.3vh 0 -0.16rem#fff,44.4vw 61.6vh 0 -0.28rem#fff,57.1vw 51vh 0 -0.42rem#fff,10.7vw 79.2vh 0 -0.2rem#fff,52.6vw 59.4vh 0 -0.29rem#fff,60.1vw 53.5vh 0 -0.36rem#fff,66.9vw 37.1vh 0 -0.11rem#fff,0.8vw 68.5vh 0 -0.36rem#fff,21.8vw 45.7vh 0 -0.13rem#fff,50.9vw 70.5vh 0 -0.19rem#fff,38.6vw 17.1vh 0 -0.47rem#fff,15.9vw 79.6vh 0 -0.11rem#fff,76.2vw 61.8vh 0 -0.3rem#fff,61.2vw 66vh 0 -0.41rem#fff,97.2vw 5vh 0 -0.31rem#fff,28.8vw 40.3vh 0 -0.49rem#fff,71.4vw 52.7vh 0 -0.42rem#fff,19.3vw 36.1vh 0 -0.48rem#fff,82.3vw 20.8vh 0 -0.43rem#fff,59vw 33.2vh 0 -0.41rem#fff,15.7vw 82.8vh 0 -0.28rem#fff,93.2vw 54.1vh 0 -0.02rem#fff,50.9vw 69.1vh 0 -0.15rem#fff,61.7vw 97.6vh 0 -0.31rem#fff,95.9vw 35.6vh 0 -0.34rem#fff,35.2vw 69.9vh 0 -0.4rem#fff,30.7vw 44.6vh 0 -0.46rem#fff;
+  animation-duration: 18s; }
+
+.layer1.a {
+  animation-delay: -9s; }
+
+.layer2 {
+  width: 0.8rem;
+  height: 0.8rem;
+  filter: blur(3px);
+  box-shadow: 39.5vw 44.4vh 0 -0.01rem#fff,14vw 36.8vh 0 -0.19rem#fff,48vw 32.2vh 0 -0.5rem#fff,71.5vw 66.8vh 0 -0.03rem#fff,89.1vw 40.9vh 0 -0.33rem#fff,16.8vw 7.1vh 0 -0.47rem#fff,77.1vw 20.9vh 0 -0.1rem#fff,21.7vw 66.7vh 0 -0.33rem#fff,49.7vw 89.7vh 0 -0.15rem#fff,80.4vw 55vh 0 -0.17rem#fff,3.2vw 33.1vh 0 -0.12rem#fff,46.5vw 5vh 0 -0.33rem#fff,7.9vw 54.2vh 0 -0.41rem#fff,74.7vw 43.9vh 0 -0.03rem#fff,82vw 24.4vh 0 -0.5rem#fff,50vw 35.8vh 0 -0.15rem#fff,89.7vw 0.7vh 0 -0.26rem#fff,33.3vw 98.3vh 0 -0.41rem#fff,75.7vw 45.3vh 0 -0.47rem#fff,21.8vw 58.2vh 0 -0.32rem#fff,4.6vw 84.3vh 0 -0.11rem#fff,50.9vw 7.1vh 0 -0.31rem#fff,11vw 72.6vh 0 -0.32rem#fff,40.1vw 53.9vh 0 -0.11rem#fff,26.2vw 28.5vh 0 -0.17rem#fff,8vw 46.5vh 0 -0.23rem#fff,91.5vw 84.5vh 0 -0.19rem#fff,92.9vw 60.2vh 0 -0.19rem#fff,25.8vw 82.7vh 0 -0.48rem#fff,82.6vw 51.9vh 0 -0.33rem#fff,98.2vw 50vh 0 -0.3rem#fff,96.6vw 66.6vh 0 -0.43rem#fff,36.9vw 8.4vh 0 -0.16rem#fff,62.6vw 24.4vh 0 -0.21rem#fff,24.6vw 46.3vh 0 -0.47rem#fff,30.1vw 83.8vh 0 -0.07rem#fff,50.3vw 33.8vh 0 -0.31rem#fff,4vw 86.4vh 0 -0.25rem#fff,70.6vw 32.8vh 0 -0.06rem#fff,87.4vw 42.9vh 0 -0.24rem#fff,75.7vw 30.6vh 0 -0.22rem#fff,17.7vw 54.6vh 0 -0.13rem#fff,30.2vw 67.1vh 0 -0.28rem#fff,90.8vw 86vh 0 -0.25rem#fff,98.8vw 22.3vh 0 -0.04rem#fff,56vw 48.7vh 0 -0.26rem#fff,68.3vw 45.2vh 0 -0.09rem#fff,39.1vw 14.6vh 0 -0.46rem#fff,39.5vw 1.8vh 0 -0.04rem#fff,68.3vw 62.2vh 0 -0.33rem#fff,29.7vw 42.7vh 0 -0.4rem#fff,78vw 22.6vh 0 -0.48rem#fff,62.5vw 61.4vh 0 -0.47rem#fff,87.2vw 3.1vh 0 -0.21rem#fff,14.2vw 20.6vh 0 -0.08rem#fff,63.2vw 36.3vh 0 -0.46rem#fff,34.5vw 67.1vh 0 -0.33rem#fff,59.8vw 12.5vh 0 -0.48rem#fff,65.1vw 43vh 0 -0.34rem#fff,22.9vw 19.9vh 0 -0.06rem#fff,90.3vw 4.3vh 0 -0.36rem#fff,91.8vw 58.2vh 0 -0.19rem#fff,76vw 66.3vh 0 -0.09rem#fff,91vw 10vh 0 -0.25rem#fff,36.5vw 98vh 0 -0.1rem#fff,29.4vw 73.9vh 0 -0.32rem#fff,6.4vw 75.5vh 0 -0.26rem#fff,33.2vw 17vh 0 -0.17rem#fff,11.1vw 50.6vh 0 -0.11rem#fff,63.2vw 98.1vh 0 -0.1rem#fff,67.7vw 17.2vh 0 -0.31rem#fff,51.6vw 71.7vh 0 -0.05rem#fff,39.1vw 92.2vh 0 -0.31rem#fff,57.7vw 67.7vh 0 -0.19rem#fff,30.4vw 98.6vh 0 -0.07rem#fff,13.9vw 18.6vh 0 -0.38rem#fff,66.7vw 26.1vh 0 -0.31rem#fff,61.9vw 53.1vh 0 -0.3rem#fff,80.7vw 78.5vh 0 -0.38rem#fff,32.8vw 9.4vh 0 -0.05rem#fff,89.5vw 82.6vh 0 -0.07rem#fff,92.8vw 70.1vh 0 -0.33rem#fff,32.6vw 74.9vh 0 -0.39rem#fff,72.5vw 23vh 0 -0.44rem#fff,13.9vw 54.7vh 0 -0.5rem#fff,38.5vw 67.2vh 0 -0.48rem#fff,10.8vw 95vh 0 -0.35rem#fff,6vw 65.7vh 0 -0.11rem#fff,63.6vw 22vh 0 -0.37rem#fff,93vw 53.6vh 0 -0.43rem#fff,24.8vw 73.9vh 0 -0.32rem#fff,23.4vw 7.9vh 0 -0.37rem#fff,69.8vw 84.4vh 0 -0.24rem#fff,42.1vw 39.7vh 0 -0.05rem#fff,48.4vw 87.5vh 0 -0.06rem#fff,94.7vw 80.6vh 0 -0.35rem#fff,88.8vw 19.4vh 0 -0.23rem#fff,74.1vw 5.3vh 0 -0.48rem#fff,41.5vw 29.8vh 0 -0.14rem#fff,61.4vw 59.9vh 0 -0.21rem#fff;
+  animation-duration: 24s; }
+
+.layer2.a {
+  animation-delay: -12s; }
+
+.layer3 {
+  width: 0.6rem;
+  height: 0.6rem;
+  filter: blur(6px);
+  box-shadow: 21.9vw 92.3vh 0 -0.13rem#fff,26vw 81.6vh 0 -0.36rem#fff,92.5vw 95.3vh 0 -0.05rem#fff,5.6vw 11.6vh 0 -0.11rem#fff,82vw 5.7vh 0 -0.08rem#fff,73.4vw 44.8vh 0 -0.4rem#fff,67.3vw 74.2vh 0 -0.09rem#fff,19.5vw 84.9vh 0 -0.17rem#fff,89.9vw 93.7vh 0 -0.12rem#fff,80.2vw 86.2vh 0 -0.13rem#fff,59.6vw 80.8vh 0 -0.19rem#fff,18.9vw 64.3vh 0 -0.43rem#fff,40.7vw 7.3vh 0 -0.36rem#fff,13.7vw 47.9vh 0 -0.31rem#fff,40vw 73.3vh 0 -0.14rem#fff,68.6vw 16vh 0 -0.38rem#fff,38.3vw 93.2vh 0 -0.48rem#fff,97.2vw 71.7vh 0 -0.04rem#fff,67.7vw 62.8vh 0 -0.43rem#fff,41.8vw 34.6vh 0 -0.13rem#fff,65.9vw 78.1vh 0 -0.16rem#fff,61.8vw 92.1vh 0 -0.25rem#fff,59.5vw 54.6vh 0 -0.22rem#fff,25.1vw 64vh 0 -0.42rem#fff,92vw 23.1vh 0 -0.16rem#fff,20.3vw 2.5vh 0 -0.4rem#fff,84.5vw 55.3vh 0 -0.13rem#fff,55.1vw 67.5vh 0 -0.37rem#fff,89.7vw 50.4vh 0 -0.43rem#fff,83.4vw 13.1vh 0 -0.07rem#fff,61.1vw 25.6vh 0 -0.45rem#fff,82.2vw 8.7vh 0 -0.26rem#fff,98vw 40vh 0 -0.02rem#fff,77.1vw 61.5vh 0 -0.44rem#fff,26.7vw 87.3vh 0 -0.41rem#fff,27.5vw 15.4vh 0 -0.14rem#fff,34.2vw 15.8vh 0 -0.09rem#fff,0.3vw 33.1vh 0 -0.4rem#fff,58.4vw 29vh 0 -0.3rem#fff,51.3vw 98.5vh 0 -0.31rem#fff,32.3vw 39.4vh 0 -0.39rem#fff,29.5vw 18.1vh 0 -0.25rem#fff,84.1vw 10.4vh 0 -0.19rem#fff,20.3vw 50.8vh 0 -0.2rem#fff,78.7vw 47vh 0 -0.12rem#fff,26.6vw 72.7vh 0 -0.04rem#fff,15.5vw 69.1vh 0 -0.49rem#fff,78.7vw 6vh 0 -0.25rem#fff,54.5vw 2vh 0 -0.08rem#fff,11.3vw 2.5vh 0 -0.36rem#fff,54.4vw 27.9vh 0 -0.47rem#fff,58.1vw 78.7vh 0 -0.22rem#fff,50.4vw 23vh 0 -0.19rem#fff,10.6vw 10.5vh 0 -0.41rem#fff,68vw 49.5vh 0 -0.18rem#fff,71.8vw 27.5vh 0 -0.03rem#fff,98vw 67.7vh 0 -0.48rem#fff,53.9vw 9.5vh 0 -0.04rem#fff,32.8vw 22.9vh 0 -0.21rem#fff,41.5vw 4.3vh 0 -0.25rem#fff,0.9vw 72.4vh 0 -0.06rem#fff,33.1vw 39.7vh 0 -0.31rem#fff,94.4vw 33.3vh 0 -0.2rem#fff,6.9vw 8.8vh 0 -0.01rem#fff,4.3vw 64.9vh 0 -0.37rem#fff,12.5vw 54.7vh 0 -0.37rem#fff,13.3vw 22.2vh 0 -0.45rem#fff,63.2vw 23.3vh 0 -0.07rem#fff,83.9vw 10.4vh 0 -0.09rem#fff,64.9vw 97.4vh 0 -0.22rem#fff,51.3vw 85.3vh 0 -0.25rem#fff,5.3vw 54.4vh 0 -0.46rem#fff,79.3vw 16.8vh 0 -0.26rem#fff,73.1vw 22.8vh 0 -0.47rem#fff,38vw 18.3vh 0 -0.04rem#fff,1.4vw 70.3vh 0 -0.06rem#fff,88.8vw 55.5vh 0 -0.17rem#fff,8.2vw 96.9vh 0 -0.24rem#fff,69.7vw 45.1vh 0 -0.4rem#fff,31.8vw 33vh 0 -0.27rem#fff,55.7vw 25vh 0 -0.28rem#fff,99.6vw 70.6vh 0 -0.14rem#fff,8.8vw 77vh 0 -0.2rem#fff,34.9vw 17.9vh 0 -0.47rem#fff,94.4vw 7.8vh 0 -0.34rem#fff,16.9vw 18.9vh 0 -0.12rem#fff,66.6vw 1.3vh 0 -0.34rem#fff,20.7vw 3.1vh 0 -0.38rem#fff,32.6vw 20.3vh 0 -0.03rem#fff,32.5vw 96.2vh 0 -0.26rem#fff,45.3vw 67.3vh 0 -0.04rem#fff,33vw 46.8vh 0 -0.29rem#fff,68.9vw 97.9vh 0 -0.33rem#fff,19.3vw 43.7vh 0 -0.33rem#fff,57.9vw 88.6vh 0 -0.01rem#fff,25.4vw 22.6vh 0 -0.36rem#fff,7.1vw 83.9vh 0 -0.43rem#fff,23.7vw 1.4vh 0 -0.09rem#fff,23.1vw 51.1vh 0 -0.1rem#fff,14.7vw 99.9vh 0 -0.12rem#fff;
+  animation-duration: 30s; }
+
+.layer3.a {
+  animation-delay: -15s; }
+
+@keyframes fall {
+  100% {
+    transform: translateY(200vh); } }
+@keyframes gradientBG {
+  0% {
+    transform: translate(-10%, -10%); }
+  50% {
+    transform: translate(-60%, -60%); }
+  100% {
+    transform: translate(-10%, -10%); } }
+@keyframes sled {
+  0% {
+    transform: translate(-50rem, 40vh) rotate(0deg); }
+  4% {
+    transform: translate(-50rem, 40vh) rotate(0deg); }
+  20% {
+    transform: translate(50vw, 10vh) rotate(20deg); }
+  36% {
+    transform: translate(150vw, 40vh) rotate(40deg); }
+  100% {
+    transform: translate(150vw, 40vh) rotate(40deg); } }
+@keyframes train {
+  0% {
+    transform: translateX(-80rem); }
+  55% {
+    transform: translateX(-80rem); }
+  85% {
+    transform: translateX(100vw); }
+  100% {
+    transform: translateX(100vw); } }
+@keyframes follow_train {
+  0% {
+    transform: translateX(-80rem) scaleX(20) scaleY(8); }
+  55% {
+    transform: translateX(-80rem) scaleX(20) scaleY(8); }
+  85% {
+    transform: translateX(100vw) scaleX(20) scaleY(8); }
+  100% {
+    transform: translateX(100vw) scaleX(20) scaleY(8); } }
+@keyframes turn {
+  100% {
+    transform: rotate(360deg); } }
+@keyframes whobble {
+  100% {
+    transform: translateY(0.5vh); } }
+@keyframes snowman {
+  0% {
+    transform: rotate(0); }
+  20% {
+    transform: rotate(0); }
+  30% {
+    transform: rotate(80deg); }
+  54% {
+    transform: rotate(80deg); }
+  68% {
+    transform: rotate(0); }
+  100% {
+    transform: rotate(0); } }
+@keyframes snowman_head {
+  0% {
+    transform: rotate(-3deg); }
+  50% {
+    transform: rotate(3deg); }
+  100% {
+    transform: rotate(-3deg); } }
+@keyframes merry_christmas {
+  0% {
+    opacity: 0.8; }
+  50% {
+    opacity: 0.6; }
+  100% {
+    opacity: 0.8; } }
+
+/*# sourceMappingURL=kerstmis.css.map */
