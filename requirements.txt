@@ -8,7 +8,7 @@ airbrake==2.1.2
 alembic==1.0.8            # via flask-migrate
 appdirs==1.4.3            # via black
 attrs==19.1.0             # via black
-black==19.3b0
+black==19.10b0
 blinker==1.4              # via flask-debugtoolbar
 certifi==2019.3.9         # via requests
 chardet==3.0.4            # via requests
@@ -40,5 +40,5 @@ sqlalchemy==1.3.2         # via alembic, flask-sqlalchemy
 toml==0.10.0              # via black
 urllib3==1.24.2           # via requests
 visitor==0.1.3            # via flask-bootstrap
-werkzeug==0.15.3          # via flask, flask-debugtoolbar
+werkzeug==0.15.5          # via flask, flask-debugtoolbar
 wtforms==2.2.1            # via flask-admin, flask-wtf
