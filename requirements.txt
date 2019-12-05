@@ -33,6 +33,7 @@ oauthlib==2.1.0           # via flask-oauthlib, requests-oauthlib
 pymysql==0.9.3
 python-dateutil==2.8.0    # via alembic
 python-editor==1.0.4      # via alembic
+PyYaml==5.1.2
 requests-oauthlib==1.1.0  # via flask-oauthlib
 requests==2.21.0          # via airbrake, requests-oauthlib
 six==1.12.0               # via python-dateutil

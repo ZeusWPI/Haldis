@@ -1,0 +1,16 @@
+/*halloween*/
+
+:root {
+    /*Darkmode colors*/
+	--dGray0:#FFEB65;
+    --dGray1:#F28705;
+    --dGray2:#F25C05;
+    --dGray3:#F27405;
+    --dGray4:#8C3D0F;
+    --dGray5:#260101;
+    --dGray6:#260101;
+    --dBlue:#D91604;
+}
+.table-hover tbody tr:hover{
+    background-image: url("static/images/themes/halloween/Halloween.jpeg");
+}

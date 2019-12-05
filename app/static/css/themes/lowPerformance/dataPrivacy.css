@@ -1,0 +1,4 @@
+.background {
+    background-image: url("https://kelder.zeus.ugent.be/webcam/video/mjpg.cgi?profileid=2");
+    background-size: contain;
+}
