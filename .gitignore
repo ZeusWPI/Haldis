@@ -67,3 +67,6 @@ app/config.py
 *.db
 
 tmp/
+
+# Do not add scss cache
+*.sass-cache

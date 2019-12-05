@@ -6,8 +6,10 @@ from flask import Flask, render_template, make_response
 from flask import request
 from flask import Blueprint, abort
 from flask import current_app as app
-from flask import render_template, send_from_directory, url_for
+from flask import send_from_directory, url_for
 from flask_login import login_required
+
+import yaml
 
 from models import Location, Order
 # import views
@@ -27,6 +29,7 @@ def home() -> str:
         "home.html", orders=get_orders(), recently_closed=recently_closed
     )
 
+
 @general_bp.route("/css")
 def css():
     "Generate the css"
@@ -37,7 +40,49 @@ def css():
     if request.cookies.get('theme'):
         if request.cookies['theme'] == 'customTheme':
             #TODO: The custom theme is hardcoded :(. Make the server auto select a custom team.
-            f = open(cssPath+"sinterklaas.css")
+            # Here seasonal themes will be returned; matching the current date.
+
+            # Open the YAML file with all the themes.
+            with open('app/views/themes.yml', 'r') as stream:
+                data = yaml.safe_load(stream)
+            # Build a dictionary from the YAML file with all the themes and there attributes.
+            themes = {}
+            for item in data:
+                key = list(item.keys())[0]
+                themes[key] = item[key]
+            
+            # Get the current date.
+            current_day = datetime.now().day
+            current_month = datetime.now().month
+
+            # Check each theme in the dictionary and return the first one that is "correct"
+            for theme in themes.values():
+                if theme['type'] == 'static-date':
+                    start_day, start_month = theme['start'].split('/')
+                    start_day = int(start_day)
+                    start_month = int(start_month)
+                    
+                    end_day, end_month = theme['end'].split('/')
+                    end_day = int(end_day)
+                    end_month = int(end_month)
+                    
+                    if end_month < start_month:
+                        # Hacky (werkt nu maar kan beter)
+                        end_month += 12
+
+                    if theme['type'] == 'static-date':
+
+                        if (((start_month == current_month) and
+                            (start_day <= current_day)) or
+                                (start_month <= current_month)):
+
+                            if (((end_month == current_month) and
+                                (end_day >= current_day)) or
+                                    (end_month > current_month)):
+                                
+                                f = open(cssPath+theme['file'])
+                                break
+
         else:
             try:
                 f = open(cssPath+request.cookies['theme']+".css")
@@ -47,6 +92,7 @@ def css():
         f = open(cssPath+"lightmode.css")
     response = make_response(f.read())
     response.headers['Content-Type'] = 'text/css'
+    f.close()
     return response
 
 
