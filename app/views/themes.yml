@@ -14,9 +14,9 @@
         file: sinterklaas.css
         type: static-date
         start: 28/11
-        end: 16/12
+        end: 14/12
 - kerstmis:
         file: kerstmis.css
         type: static-date
         start: 15/12
-        end: 31/12
+        end: 06/01
