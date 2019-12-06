@@ -44,7 +44,7 @@ def css():
             # Here seasonal themes will be returned; matching the current date.
 
             # Open the YAML file with all the themes.
-            path = os.path.join(str(app.root_path), "views/themes.yml")
+            path = os.path.join(app.root_path, "views/themes.yml")
             with open(path, 'r') as stream:
                 data = yaml.safe_load(stream)
             # Build a dictionary from the YAML file with all the themes and there attributes.
@@ -81,13 +81,13 @@ def css():
                             if (((end_month == current_month) and
                                 (end_day >= current_day)) or
                                     (end_month > current_month)):
-                                path = os.path.join(str(app.root_path), cssPath, theme['file'])
+                                path = os.path.join(app.root_path, cssPath, theme['file'])
                                 break
         else:
             if request.cookies['theme'] == 'darkmode' :
-                path = os.path.join(str(app.root_path), "static/css/themes/lowPerformance/darkmode.css")
+                path = os.path.join(app.root_path, "static/css/themes/lowPerformance/darkmode.css")
             else:
-                path = os.path.join(str(app.root_path), "static/css/themes/lowPerformance/lightmode.css")
+                path = os.path.join(app.root_path, "static/css/themes/lowPerformance/lightmode.css")
             
             #   Tijdelijk ongebruikt tot bewezen dat het veilig is
             #try:
@@ -96,7 +96,7 @@ def css():
             #except IOError:
             #    f = open(cssPath+"lightmode.css")
     else:
-        path = os.path.join(str(app.root_path), "static/css/themes/lowPerformance/lightmode.css")
+        path = os.path.join(app.root_path, "static/css/themes/lowPerformance/lightmode.css")
     f = open(path)
     response = make_response(f.read())
     response.headers['Content-Type'] = 'text/css'
@@ -146,13 +146,13 @@ def favicon() -> str:
     # pylint: disable=R1705
     if not get_orders((Order.stoptime > datetime.now())):
         return send_from_directory(
-            os.path.join(str(app.root_path), "static"),
+            os.path.join(app.root_path, "static"),
             "favicon.ico",
             mimetype="image/x-icon",
         )
     else:
         return send_from_directory(
-            os.path.join(str(app.root_path), "static"),
+            os.path.join(app.root_path, "static"),
             "favicon_orange.ico",
             mimetype="image/x-icon",
         )
