@@ -40,7 +40,6 @@ def css():
 
     cookie_theme = request.cookies.get('theme', '')
     if cookie_theme == 'customTheme':
-        #TODO: The custom theme is hardcoded :(. Make the server auto select a custom team.
         # Here seasonal themes will be returned; matching the current date.
 
         # Open the YAML file with all the themes.
