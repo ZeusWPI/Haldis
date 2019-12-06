@@ -31,7 +31,7 @@ def authorized() -> typing.Any:
             request.args["error_description"],
         )
     if isinstance(resp, OAuthException):
-        return "Access denied: %s" % resp.message + "<br>" + str(resp.data)
+        return f"Access denied: {resp.message}<br>{resp.data}"
 
     session["zeus_token"] = (resp["access_token"], "")
     me = current_app.zeus.get("current_user/")
