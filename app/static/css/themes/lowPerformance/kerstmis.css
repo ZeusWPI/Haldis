@@ -228,6 +228,9 @@ footer > hr {
 .order_overview, .order_order, .order_items, .order_ordered, .order_depts {
   padding: 1rem 5rem 3rem 5rem; }
 
+.order_overview {
+  width: 100%; }
+
 .order_depts {
   width: 100%;
   margin-bottom: 10rem; }

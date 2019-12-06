@@ -156,7 +156,7 @@ def add_template_filters(app: Flask) -> None:
         minutes, seconds = divmod(remainder, 60)
         time = "%02d:%02d:%02d" % (hours, minutes, seconds)
         if show_text:
-            return "closes in " + time
+            return f"{time} left"
         return time
 
     @app.template_filter("year")
