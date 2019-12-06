@@ -34,16 +34,18 @@ def home() -> str:
 def css():
     "Generate the css"
     if (request.cookies.get('performance') and request.cookies.get('performance') == 'highPerformance'):
-        cssPath = 'app/static/css/themes/highPerformance/'
+        cssPath = 'static/css/themes/highPerformance/'
     else:
-        cssPath = 'app/static/css/themes/lowPerformance/'
+        cssPath = 'static/css/themes/lowPerformance/'
+
     if request.cookies.get('theme'):
         if request.cookies['theme'] == 'customTheme':
             #TODO: The custom theme is hardcoded :(. Make the server auto select a custom team.
             # Here seasonal themes will be returned; matching the current date.
 
             # Open the YAML file with all the themes.
-            with open('app/views/themes.yml', 'r') as stream:
+            path = os.path.join(str(app.root_path), "views/themes.yml")
+            with open(path, 'r') as stream:
                 data = yaml.safe_load(stream)
             # Build a dictionary from the YAML file with all the themes and there attributes.
             themes = {}
@@ -79,17 +81,23 @@ def css():
                             if (((end_month == current_month) and
                                 (end_day >= current_day)) or
                                     (end_month > current_month)):
-                                
-                                f = open(cssPath+theme['file'])
+                                path = os.path.join(str(app.root_path), cssPath, theme['file'])
                                 break
-
         else:
-            try:
-                f = open(cssPath+request.cookies['theme']+".css")
-            except IOError:
-                f = open(cssPath+"lightmode.css")
+            if request.cookies['theme'] == 'darkmode' :
+                path = os.path.join(str(app.root_path), "static/css/themes/lowPerformance/darkmode.css")
+            else:
+                path = os.path.join(str(app.root_path), "static/css/themes/lowPerformance/lightmode.css")
+            
+            #   Tijdelijk ongebruikt tot bewezen dat het veilig is
+            #try:
+            #    path = os.path.join(str(app.root_path), "static/css/themes/lowPerformance/", request.cookies['theme']+".css")
+            #    f = open(path)
+            #except IOError:
+            #    f = open(cssPath+"lightmode.css")
     else:
-        f = open(cssPath+"lightmode.css")
+        path = os.path.join(str(app.root_path), "static/css/themes/lowPerformance/lightmode.css")
+    f = open(path)
     response = make_response(f.read())
     response.headers['Content-Type'] = 'text/css'
     f.close()

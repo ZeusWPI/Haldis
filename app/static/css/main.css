@@ -71,6 +71,11 @@ body {
     background: var(--dGray4);
 }
 
+.time_data{
+    display: flex;
+    justify-content: space-between;
+}
+
 @media(min-width: 768px) and (max-width: 991px){
     /* Make sure the small map in the location page has the same with as the block above */
     .sm-no-side-padding {

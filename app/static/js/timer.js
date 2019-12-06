@@ -4,13 +4,13 @@
 $.ready(function(){
     $('.time').each(function() {
         var timeEl = $( this );
-        var time = timeEl.text().split(' ').slice(-1)[0].split(':');
+        var time = timeEl.text().split(' ')[0].split(':');
 
         if (timeEl.text().indexOf('closed') < 0) {
             window.setInterval(function () {
                 time = my_tick(time);
                 if (time !== "closed") {
-                    timeS = "closes in " + ("0" + time[0]).slice(-2) + ":" + ("0" + time[1]).slice(-2) + ":" + ("0" + time[2]).slice(-2);
+                    timeS = ("0" + time[0]).slice(-2) + ":" + ("0" + time[1]).slice(-2) + ":" + ("0" + time[2]).slice(-2) + " left";
                 } else {
                     timeS = "closed"
                 }
