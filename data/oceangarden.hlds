@@ -31,7 +31,7 @@ sauce: Saus
 	sweetsour: Zoetzuur
 	oyster: Oester :: {has_fish}
 	pepper: Pepersaus
-	mushroom: Champignon
+	mushroom: Champignon -- Saus met champignon, wortel en wat andere groentjes
 	malaysian: A la Maleisië -- Licht pikante saus
 
 meat: Vlees :: {has_meat}
