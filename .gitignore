@@ -65,6 +65,7 @@ app/config.py
 
 # Do not add database file
 *.db
+*.sqlite
 
 tmp/
 
