@@ -2,14 +2,14 @@
 import os
 from datetime import datetime, timedelta
 
+import yaml
+
 from flask import Flask, render_template, make_response
 from flask import request
 from flask import Blueprint, abort
 from flask import current_app as app
 from flask import send_from_directory, url_for
 from flask_login import login_required
-
-import yaml
 
 from models import Location, Order
 # import views
@@ -33,70 +33,53 @@ def home() -> str:
 @general_bp.route("/css")
 def css():
     "Generate the css"
-    if (request.cookies.get('performance') and request.cookies.get('performance') == 'highPerformance'):
+    if request.cookies.get('performance', '') == 'highPerformance':
         cssPath = 'static/css/themes/highPerformance/'
     else:
         cssPath = 'static/css/themes/lowPerformance/'
 
-    if request.cookies.get('theme'):
-        if request.cookies['theme'] == 'customTheme':
-            #TODO: The custom theme is hardcoded :(. Make the server auto select a custom team.
-            # Here seasonal themes will be returned; matching the current date.
+    cookie_theme = request.cookies.get('theme', '')
+    if cookie_theme == 'customTheme':
+        #TODO: The custom theme is hardcoded :(. Make the server auto select a custom team.
+        # Here seasonal themes will be returned; matching the current date.
 
-            # Open the YAML file with all the themes.
-            path = os.path.join(app.root_path, "views/themes.yml")
-            with open(path, 'r') as stream:
-                data = yaml.safe_load(stream)
-            # Build a dictionary from the YAML file with all the themes and there attributes.
-            themes = {}
-            for item in data:
-                key = list(item.keys())[0]
-                themes[key] = item[key]
-            
-            # Get the current date.
-            current_day = datetime.now().day
-            current_month = datetime.now().month
+        # Open the YAML file with all the themes.
+        path = os.path.join(app.root_path, "views/themes.yml")
+        with open(path, 'r') as stream:
+            data = yaml.safe_load(stream)
+        # Build a dictionary from the YAML file with all the themes and there attributes.
+        themes = {}
+        for item in data:
+            key = list(item.keys())[0]
+            themes[key] = item[key]
 
-            # Check each theme in the dictionary and return the first one that is "correct"
-            for theme in themes.values():
-                if theme['type'] == 'static-date':
-                    start_day, start_month = theme['start'].split('/')
-                    start_day = int(start_day)
-                    start_month = int(start_month)
-                    
-                    end_day, end_month = theme['end'].split('/')
-                    end_day = int(end_day)
-                    end_month = int(end_month)
-                    
-                    if end_month < start_month:
-                        # Hacky (werkt nu maar kan beter)
-                        end_month += 12
+        # Get the current date.
+        current_date = datetime.now()
+        current_year = current_date.year
 
-                    if theme['type'] == 'static-date':
+        # Check each theme in the dictionary and return the first one that is "correct"
+        for theme in themes.values():
+            if theme['type'] == 'static-date':
+                start_day, start_month = theme['start'].split('/')
+                start_date = datetime(year=current_year, day=int(
+                    start_day), month=int(start_month))
 
-                        if (((start_month == current_month) and
-                            (start_day <= current_day)) or
-                                (start_month <= current_month)):
+                end_day, end_month = theme['end'].split('/')
+                if int(start_month) > int(end_month):
+                    current_year += 1
+                end_date = datetime(
+                    year=current_year, day=int(end_day), month=int(end_month))
 
-                            if (((end_month == current_month) and
-                                (end_day >= current_day)) or
-                                    (end_month > current_month)):
-                                path = os.path.join(app.root_path, cssPath, theme['file'])
-                                break
-        else:
-            if request.cookies['theme'] == 'darkmode' :
-                path = os.path.join(app.root_path, "static/css/themes/lowPerformance/darkmode.css")
-            else:
-                path = os.path.join(app.root_path, "static/css/themes/lowPerformance/lightmode.css")
-            
-            #   Tijdelijk ongebruikt tot bewezen dat het veilig is
-            #try:
-            #    path = os.path.join(str(app.root_path), "static/css/themes/lowPerformance/", request.cookies['theme']+".css")
-            #    f = open(path)
-            #except IOError:
-            #    f = open(cssPath+"lightmode.css")
+                if start_date <= current_date <= end_date:
+                    path = os.path.join(app.root_path, cssPath, theme['file'])
+                    break
+    elif cookie_theme == 'darkmode':
+        path = os.path.join(
+            app.root_path, "static/css/themes/lowPerformance/darkmode.css")
     else:
-        path = os.path.join(app.root_path, "static/css/themes/lowPerformance/lightmode.css")
+        path = os.path.join(
+            app.root_path, "static/css/themes/lowPerformance/lightmode.css")
+
     f = open(path)
     response = make_response(f.read())
     response.headers['Content-Type'] = 'text/css'
