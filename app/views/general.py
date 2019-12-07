@@ -46,7 +46,7 @@ def css():
         path = os.path.join(app.root_path, "views/themes.yml")
         with open(path, 'r') as stream:
             data = yaml.safe_load(stream)
-        # Build a dictionary from the YAML file with all the themes and there attributes.
+        # Build a dictionary from the YAML file with all the themes and their attributes.
         themes = {}
         for item in data:
             key = list(item.keys())[0]
