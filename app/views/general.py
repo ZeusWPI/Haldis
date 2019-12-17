@@ -140,7 +140,7 @@ def about() -> str:
 @login_required
 def profile() -> str:
     "Generate the profile view"
-    return render_template("profile.html")
+    return render_template("profile.html", themes_list=css_list())
 
 
 @general_bp.route("/favicon.ico")
