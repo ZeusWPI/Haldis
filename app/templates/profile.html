@@ -6,4 +6,13 @@
   <h3>Themes</h3>
   <p><a class="changeThemeButton" id="customTheme">enable custom themes</a></p>
   <p><a class="changePerformance" id="highPerformance">enable high performance</a></p>
+  <p>
+    <!-- Style attribute due to missing css -->
+    <select name="themes" id="themes_select" onchange="changeTheme()" style="width: 300px;">
+      <option disabled selected value> -- select a theme -- </option>
+      {% for theme in themes_list %}
+      <option value="{{ theme.optid }}">{{ theme }}</option>
+      {% endfor %}
+    </select>
+  </p>
 {% endblock %}
