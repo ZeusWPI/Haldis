@@ -49,8 +49,6 @@ def get_css_dict(css_path):
 
     # Check each theme in the dictionary and return the first one that is "correct"
     for key, theme in themes.items():
-        print(key)
-        print(theme)
         if theme['type'] == 'static-date':
             start_day, start_month = theme['start'].split('/')
             start_date = datetime(year=current_year, day=int(
@@ -96,7 +94,7 @@ def css():
 
     # TODO: Fix to work with default cookie value [customTheme]
     if cookie_theme == "customTheme":
-        path = css_path+"ligtmode.css"
+        path = f"{css_path}ligtmode.css"
     else:
         path = themes_dict[cookie_theme]
 
