@@ -94,7 +94,11 @@ def css():
 
     themes_dict = get_css_dict(css_path)
 
-    path = themes_dict[cookie_theme]
+    # TODO: Fix to work with default cookie value [customTheme]
+    if cookie_theme == "customTheme":
+        path = css_path+"ligtmode.css"
+    else:
+        path = themes_dict[cookie_theme]
 
     f = open(path)
     response = make_response(f.read())
