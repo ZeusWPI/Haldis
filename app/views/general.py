@@ -73,13 +73,13 @@ def get_css_dict(css_path):
     return themes_dict
 
 
-@general_bp.route("/css-list")
+# @general_bp.route("/css-list")
 def css_list():
     if request.cookies.get('performance', '') == 'highPerformance':
         css_path = 'static/css/themes/highPerformance/'
     else:
         css_path = 'static/css/themes/lowPerformance/'
-    return jsonify(list(get_css_dict(css_path).keys()))
+    return list(get_css_dict(css_path).keys())
 
 
 @general_bp.route("/css")
