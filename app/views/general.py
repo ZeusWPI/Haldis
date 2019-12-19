@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 import yaml
 
 from flask import Flask, render_template, make_response
-from flask import request
+from flask import request, jsonify
 from flask import Blueprint, abort
 from flask import current_app as app
 from flask import send_from_directory, url_for
@@ -30,54 +30,73 @@ def home() -> str:
     )
 
 
+def get_css_dict(css_path):
+    themes_dict = dict()
+
+    # Open the YAML file with all the themes.
+    path = os.path.join(app.root_path, "views/themes.yml")
+    with open(path, 'r') as stream:
+        data = yaml.safe_load(stream)
+    # Build a dictionary from the YAML file with all the themes and their attributes.
+    themes = {}
+    for item in data:
+        key = list(item.keys())[0]
+        themes[key] = item[key]
+
+    # Get the current date.
+    current_date = datetime.now()
+    current_year = current_date.year
+
+    # Check each theme in the dictionary and return the first one that is "correct"
+    for key, theme in themes.items():
+        if theme['type'] == 'static-date':
+            start_day, start_month = theme['start'].split('/')
+            start_date = datetime(year=current_year, day=int(
+                start_day), month=int(start_month))
+
+            end_day, end_month = theme['end'].split('/')
+            if int(start_month) > int(end_month):
+                current_year += 1
+            end_date = datetime(
+                year=current_year, day=int(end_day), month=int(end_month))
+
+            if start_date <= current_date <= end_date:
+                path = os.path.join(app.root_path, css_path, theme['file'])
+                themes_dict[key] = path
+    themes_dict['darkmode'] = os.path.join(
+        app.root_path, "static/css/themes/lowPerformance/darkmode.css")
+    themes_dict['lightmode'] = os.path.join(
+        app.root_path, "static/css/themes/lowPerformance/lightmode.css")
+
+    return themes_dict
+
+
+# @general_bp.route("/css-list")
+def css_list():
+    if request.cookies.get('performance', '') == 'highPerformance':
+        css_path = 'static/css/themes/highPerformance/'
+    else:
+        css_path = 'static/css/themes/lowPerformance/'
+    return list(get_css_dict(css_path).keys())
+
+
 @general_bp.route("/css")
 def css():
     "Generate the css"
     if request.cookies.get('performance', '') == 'highPerformance':
-        cssPath = 'static/css/themes/highPerformance/'
+        css_path = 'static/css/themes/highPerformance/'
     else:
-        cssPath = 'static/css/themes/lowPerformance/'
+        css_path = 'static/css/themes/lowPerformance/'
 
     cookie_theme = request.cookies.get('theme', '')
-    if cookie_theme == 'customTheme':
-        # Here seasonal themes will be returned; matching the current date.
 
-        # Open the YAML file with all the themes.
-        path = os.path.join(app.root_path, "views/themes.yml")
-        with open(path, 'r') as stream:
-            data = yaml.safe_load(stream)
-        # Build a dictionary from the YAML file with all the themes and their attributes.
-        themes = {}
-        for item in data:
-            key = list(item.keys())[0]
-            themes[key] = item[key]
+    themes_dict = get_css_dict(css_path)
 
-        # Get the current date.
-        current_date = datetime.now()
-        current_year = current_date.year
-
-        # Check each theme in the dictionary and return the first one that is "correct"
-        for theme in themes.values():
-            if theme['type'] == 'static-date':
-                start_day, start_month = theme['start'].split('/')
-                start_date = datetime(year=current_year, day=int(
-                    start_day), month=int(start_month))
-
-                end_day, end_month = theme['end'].split('/')
-                if int(start_month) > int(end_month):
-                    current_year += 1
-                end_date = datetime(
-                    year=current_year, day=int(end_day), month=int(end_month))
-
-                if start_date <= current_date <= end_date:
-                    path = os.path.join(app.root_path, cssPath, theme['file'])
-                    break
-    elif cookie_theme == 'darkmode':
-        path = os.path.join(
-            app.root_path, "static/css/themes/lowPerformance/darkmode.css")
+    # TODO: Fix to work with default cookie value [customTheme]
+    if cookie_theme == "customTheme":
+        path = f"{css_path}ligtmode.css"
     else:
-        path = os.path.join(
-            app.root_path, "static/css/themes/lowPerformance/lightmode.css")
+        path = themes_dict[cookie_theme]
 
     f = open(path)
     response = make_response(f.read())
@@ -119,7 +138,7 @@ def about() -> str:
 @login_required
 def profile() -> str:
     "Generate the profile view"
-    return render_template("profile.html")
+    return render_template("profile.html", themes_list=css_list())
 
 
 @general_bp.route("/favicon.ico")
