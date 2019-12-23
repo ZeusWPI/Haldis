@@ -31,6 +31,7 @@ def home() -> str:
 
 
 def get_css_dict(css_path):
+    "Generate the dictionary with all the currently available themes and their names"
     themes_dict = dict()
 
     # Open the YAML file with all the themes.
@@ -71,8 +72,8 @@ def get_css_dict(css_path):
     return themes_dict
 
 
-# @general_bp.route("/css-list")
 def css_list():
+    "Generate the list of names of all the currently available themes"
     if request.cookies.get('performance', '') == 'highPerformance':
         css_path = 'static/css/themes/highPerformance/'
     else:
