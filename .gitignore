@@ -68,5 +68,9 @@ app/config.py
 *.sqlite
 
 tmp/
+<<<<<<< HEAD
 
 .tern-port
+
+# Do not add scss cache
+*.sass-cache

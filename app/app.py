@@ -73,7 +73,6 @@ def register_plugins(app: Flask) -> Manager:
     app_manager = Manager(app)
     app_manager.add_command("db", MigrateCommand)
     app_manager.add_command("runserver", Server(port=8000))
-
     # Add admin interface
     init_admin(app, db)
 
@@ -157,7 +156,7 @@ def add_template_filters(app: Flask) -> None:
         minutes, seconds = divmod(remainder, 60)
         time = "%02d:%02d:%02d" % (hours, minutes, seconds)
         if show_text:
-            return "closes in " + time
+            return f"{time} left"
         return time
 
     @app.template_filter("year")
