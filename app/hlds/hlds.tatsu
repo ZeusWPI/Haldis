@@ -66,8 +66,8 @@ choice_block =
 indent_choice_block =
 	'\t' type:choice_type s
 	(
-		| kind:`reference`   id:identifier [ s price:price ]
 		| kind:`declaration` id:identifier ':' ~ s >attributes entries:{ indent_choice_entry }
+		| kind:`reference`   id:identifier [ s price:price ]
 	)
 	n
 	;
