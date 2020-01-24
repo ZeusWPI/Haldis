@@ -28,6 +28,9 @@ syn match   hldsBlockIdAftrKywrd "[a-z0-9_-]\+: " contained
 syn match   hldsTag       " {[a-z0-9_-]\+}"
 syn match   hldsPrice     "€ *[0-9]\+\(\.[0-9]\+\|\)"
 
+syn match   hldsComment       "#.*$" contains=hldsTodo,@Spell
+syn keyword hldsTodo          FIXME NOTE NOTES TODO XXX contained
+
 " trailing whitespace
 syn match   hldsSpaceError    display excludenl "\s\+$"
 " spaces instead of tabs
@@ -44,6 +47,8 @@ hi def link hldsBlockIdAftrKywrd    hldsBlockId
 hi def link hldsPrice               Number
 hi def link hldsTag                 String
 hi def link hldsSpaceError          Error
+hi def link hldsComment             Comment
+hi def link hldsTodo                Todo
 
 let b:current_syntax = "hlds"
 
