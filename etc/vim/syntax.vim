@@ -17,7 +17,7 @@ syn match hldsLocationAttributeValue "[^\n]\+$" display contained
 
 syn region  hldsLocationHeader matchgroup=hldsLocationHeaderDelim
 	\ start="^====*$" end="^====*$"
-	\ contains=hldsLocationAttribute
+	\ contains=hldsLocationAttribute,hldsComment
 
 syn keyword hldsBlockType     base                       nextgroup=hldsBlockIdAftrKywrd skipwhite
 syn keyword hldsChoiceType    single_choice multi_choice nextgroup=hldsBlockIdAftrKywrd skipwhite
@@ -49,6 +49,8 @@ hi def link hldsTag                 String
 hi def link hldsSpaceError          Error
 hi def link hldsComment             Comment
 hi def link hldsTodo                Todo
+
+syntax sync minlines=5
 
 let b:current_syntax = "hlds"
 
