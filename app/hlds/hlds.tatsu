@@ -11,7 +11,7 @@
 @@keyword :: single_choice multi_choice base preset  only requires except
 
 
-start = [n] { @:location } $ ;
+start = [n] { @+:location } $ ;
 
 location_header =
 	/={3,}\n/ ~
