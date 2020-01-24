@@ -9,8 +9,19 @@ with open(path.join(path.dirname(__file__), "hlds.tatsu")) as fh:
 	GRAMMAR = fh.read()
 
 
+def kind_comparer(compare_to):
+	return lambda item: item["kind"] == compare_to
+
+
 def parse(menu):
-	return tatsu_parse(GRAMMAR, menu)
+	parsed = tatsu_parse(GRAMMAR, menu)
+	return dict((
+		*((att["key"], att["value"]) for att in parsed["attributes"]),
+		("id",      parsed["id"]),
+		("name",    parsed["name"]),
+		("choices", filter(kind_comparer("choice_declaration"), parsed["items_"])),
+		("bases",   filter(kind_comparer("base"),               parsed["items_"])),
+	))
 
 
 def main(filename):
