@@ -4,6 +4,7 @@ from glob import glob
 from os import path, walk
 from tatsu import parse as tatsu_parse
 import itertools
+from .models import Location
 
 
 # TODO Use proper way to get resources, see https://stackoverflow.com/a/10935674
