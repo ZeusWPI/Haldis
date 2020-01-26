@@ -11,8 +11,7 @@
 # ...
 
 from .database import db
-from .location import Location
 from .order import Order
 from .orderitem import OrderItem
-from .product import Product
+from .orderitemchoice import OrderItemChoice
 from .user import User
