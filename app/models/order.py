@@ -10,18 +10,18 @@ from .user import User
 class Order(db.Model):
     "Class used for configuring the Order model in the database"
     id = db.Column(db.Integer, primary_key=True)
-    courrier_id = db.Column(db.Integer, nullable=True)
+    courier_id = db.Column(db.Integer, nullable=True)
     location_id = db.Column(db.Integer, db.ForeignKey("location.id"))
     starttime = db.Column(db.DateTime)
     stoptime = db.Column(db.DateTime)
     public = db.Column(db.Boolean, default=True)
     items = db.relationship("OrderItem", backref="order", lazy="dynamic")
 
-    def configure(self, courrier: User, location: Location,
+    def configure(self, courier: User, location: Location,
                   starttime: db.DateTime, stoptime: db.DateTime,) -> None:
         "Configure the Order"
         # pylint: disable=W0201
-        self.courrier = courrier
+        self.courier = courier
         self.location = location
         self.starttime = starttime
         self.stoptime = stoptime
@@ -69,6 +69,6 @@ class Order(db.Model):
         if user_id:
             user = User.query.filter_by(id=user_id).first()
             print(user)
-        if self.courrier_id == user_id or (user and user.is_admin()):
+        if self.courier_id == user_id or (user and user.is_admin()):
             return True
         return False

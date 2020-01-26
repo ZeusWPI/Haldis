@@ -13,10 +13,10 @@
             <div class="col-sm-12">
                 <form method="post" action="{{ url_for('.order_edit', order_id=order_id) }}">
                     {{ form.csrf_token }}
-                    <div class="form-group select2 {{ 'has-errors' if form.courrier_id.errors else ''}}">
-                        {{ form.courrier_id.label(class='control-label') }}<br>
-                        {{ form.courrier_id(class='form-control select') }}
-                        {{ util.render_form_field_errors(form.courrier_id) }}
+                    <div class="form-group select2 {{ 'has-errors' if form.courier_id.errors else ''}}">
+                        {{ form.courier_id.label(class='control-label') }}<br>
+                        {{ form.courier_id(class='form-control select') }}
+                        {{ util.render_form_field_errors(form.courier_id) }}
                     </div>
                     <div class="form-group select2 {{ 'has-errors' if form.location_id.errors else ''}}{{ ' required' if form.location_id.flags.required }}">
                         {{ form.location_id.label(class='control-label') }}

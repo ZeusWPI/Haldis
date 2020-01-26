@@ -14,7 +14,7 @@ from utils import euro_string
 class OrderForm(Form):
     "Class which defines the form for a new Order"
     # pylint: disable=R0903
-    courrier_id = SelectField("Courrier", coerce=int)
+    courier_id = SelectField("Courier", coerce=int)
     location_id = SelectField(
         "Location", coerce=int, validators=[validators.required()]
     )
@@ -25,13 +25,13 @@ class OrderForm(Form):
     submit_button = SubmitField("Submit")
 
     def populate(self) -> None:
-        "Fill in the options for courrier for an Order"
+        "Fill in the options for courier for an Order"
         if current_user.is_admin():
-            self.courrier_id.choices = [(0, None)] + [
+            self.courier_id.choices = [(0, None)] + [
                 (u.id, u.username) for u in User.query.order_by("username")
             ]
         else:
-            self.courrier_id.choices = [
+            self.courier_id.choices = [
                 (0, None),
                 (current_user.id, current_user.username),
             ]

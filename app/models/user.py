@@ -10,9 +10,9 @@ class User(db.Model):
     bias = db.Column(db.Integer)
     runs = db.relation(
         "Order",
-        backref="courrier",
-        primaryjoin="Order.courrier_id==User.id",
-        foreign_keys="Order.courrier_id",
+        backref="courier",
+        primaryjoin="Order.courier_id==User.id",
+        foreign_keys="Order.courier_id",
     )
     orderItems = db.relationship("OrderItem", backref="user", lazy="dynamic")
 

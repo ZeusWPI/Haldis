@@ -82,7 +82,7 @@ def items_showcase(order_id: int) -> str:
 def order_edit(order_id: int) -> typing.Union[str, Response]:
     "Generate order edit view from id"
     order = Order.query.filter(Order.id == order_id).first()
-    if current_user.id is not order.courrier_id and \
+    if current_user.id is not order.courier_id and \
             not current_user.is_admin():
         abort(401)
     if order is None:
@@ -135,7 +135,7 @@ def item_paid(order_id: int, item_id: int) -> typing.Optional[Response]:
     "Indicate payment status for an item in an order"
     item = OrderItem.query.filter(OrderItem.id == item_id).first()
     user_id = current_user.id
-    if item.order.courrier_id == user_id or current_user.admin:
+    if item.order.courier_id == user_id or current_user.admin:
         item.paid = True
         db.session.commit()
         flash("Paid %s by %s" % (item.product.name, item.get_name()),
@@ -162,7 +162,7 @@ def items_user_paid(order_id: int, user_name: str) -> typing.Optional[Response]:
     current_order = Order.query.filter(Order.id == order_id).first()
     for item in items:
         print(item)
-    if current_order.courrier_id == current_user.id or current_user.admin:
+    if current_order.courier_id == current_user.id or current_user.admin:
         for item in items:
             item.paid = True
         db.session.commit()
@@ -199,8 +199,8 @@ def volunteer(order_id: int) -> Response:
     order = Order.query.filter(Order.id == order_id).first()
     if order is None:
         abort(404)
-    if order.courrier_id is None or order.courrier_id == 0:
-        order.courrier_id = current_user.id
+    if order.courier_id is None or order.courrier_id == 0:
+        order.courier_id = current_user.id
         db.session.commit()
         flash("Thank you for volunteering!")
     else:
@@ -215,14 +215,14 @@ def close_order(order_id: int) -> typing.Optional[Response]:
     order = Order.query.filter(Order.id == order_id).first()
     if order is None:
         abort(404)
-    if (current_user.id == order.courrier_id or current_user.is_admin()) and (
+    if (current_user.id == order.courier_id or current_user.is_admin()) and (
             order.stoptime is None or (order.stoptime > datetime.now())):
         order.stoptime = datetime.now()
-        if order.courrier_id == 0 or order.courrier_id is None:
-            courrier = select_user(order.items)
-            print(courrier)
-            if courrier is not None:
-                order.courrier_id = courrier.id
+        if order.courier_id == 0 or order.courrier_id is None:
+            courier = select_user(order.items)
+            print(courier)
+            if courier is not None:
+                order.courier_id = courrier.id
         db.session.commit()
         return redirect(url_for("order_bp.order_from_id", order_id=order_id))
     # The line below is to make sure mypy doesn't say

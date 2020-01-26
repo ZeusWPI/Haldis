@@ -56,6 +56,6 @@ class OrderItem(db.Model):
         if user_id is None:
             return False
         user = User.query.filter(User.id == user_id).first()
-        if user and (user.is_admin() or user == self.order.courrier):
+        if user and (user.is_admin() or user == self.order.courier):
             return True
         return False
