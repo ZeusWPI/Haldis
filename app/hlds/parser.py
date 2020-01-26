@@ -28,11 +28,16 @@ class HldsSemanticActions:
                 if not isinstance(choice[1], Choice):
                     dish.choices[i] = (dish.choices[i][0], choices[choice[1]])
 
+        attributes = {att["key"]: att["value"] for att in ast["attributes"]}
+
         return Location(
             ast["id"],
             name=ast["name"],
-            attributes={att["key"]: att["value"] for att in ast["attributes"]},
             dishes=dishes,
+            osm=attributes.get("osm"),
+            address=attributes.get("address"),
+            telephone=attributes.get("telephone"),
+            website=attributes.get("website"),
         )
 
     def dish_block(self, ast) -> Dish:

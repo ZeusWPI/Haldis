@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # pylint: disable=too-few-public-methods
 
-from typing import Iterable, List, Mapping, Any
+from typing import Iterable, List, Mapping, Any, Optional
 
 
 def _format_tags(tags: Iterable[str]) -> str:
@@ -75,10 +75,13 @@ class Dish:
 
 
 class Location:
-    def __init__(self, id_, *, name, attributes, dishes):
+    def __init__(self, id_, *, name, dishes, osm=None, address=None, telephone=None, website=None):
         self.id: str = id_
         self.name: str = name
-        self.attributes: Mapping[str, Any] = attributes
+        self.osm: Optional[str] = osm
+        self.address: Optional[str] = address
+        self.telephone: Optional[str] = telephone
+        self.website: Optional[str] = website
 
         self.dishes: List[Dish] = dishes
 
@@ -92,6 +95,11 @@ class Location:
             "{2}"
         ).format(
             self,
-            "".join("\n\t{} {}".format(k, v) for k, v in self.attributes.items()),
+            "".join("\n\t{} {}".format(k, v) for k, v in (
+                ("osm", self.osm),
+                ("address", self.address),
+                ("telephone", self.telephone),
+                ("website", self.website),
+            ) if v is not None),
             "\n".join(map(str, self.dishes))
         )
