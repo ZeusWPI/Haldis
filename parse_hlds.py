@@ -2,7 +2,7 @@
 
 import json
 from tatsu.util import asjson
-from app.hlds.loader import parse_files
+from app.hlds.parser import parse_files
 
 
 USAGE = """{0} [filename]...

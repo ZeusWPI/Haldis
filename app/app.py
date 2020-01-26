@@ -15,7 +15,6 @@ from flask_migrate import Migrate, MigrateCommand
 from flask_oauthlib.client import OAuth, OAuthException
 from flask_script import Manager, Server
 
-import hlds
 from admin import init_admin
 from login import init_login
 from models import db
@@ -70,9 +69,6 @@ def register_plugins(app: Flask) -> Manager:
 
     # Initialize SQLAlchemy
     db.init_app(app)
-
-    # Load locations
-    locations = hlds.load_all()
 
     # Initialize Flask-Migrate
     migrate = Migrate(app, db)

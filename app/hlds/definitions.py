@@ -2,7 +2,7 @@
 
 from os import path
 import itertools
-from .loader import parse_all_directory
+from .parser import parse_all_directory
 
 
 __all__ = ["definitions"]
