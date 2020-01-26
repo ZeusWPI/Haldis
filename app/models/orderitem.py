@@ -14,7 +14,7 @@ class OrderItem(db.Model):
     user_name = db.Column(db.String(120))
     dish_id = db.Column(db.String(64), nullable=True)
     dish_name = db.Column(db.String(120), nullable=True)
-    price = db.Column(db.Integer, nullable=False)
+    price = db.Column(db.Integer, nullable=True)
     paid = db.Column(
         db.Boolean, default=False, nullable=True
     )
