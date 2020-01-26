@@ -18,8 +18,10 @@ class OrderItem(db.Model):
     paid = db.Column(
         db.Boolean, default=False, nullable=False
     )
-    comment = db.Column(db.String(254), nullable=True)
+    comment = db.Column(db.Text(), nullable=True)
     hlds_data_version = db.Column(db.String(40), nullable=True)
+
+    choices = db.relationship("OrderItemChoice", backref="order_item", lazy="dynamic")
 
     def configure(self, user: User, order: Order) -> None:
         "Configure the OrderItem"
