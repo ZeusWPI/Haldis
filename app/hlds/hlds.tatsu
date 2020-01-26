@@ -41,7 +41,7 @@ block =
 	;
 
 base_block =
-	kind:'base' s ~
+	'base' s ~
 	id:identifier ':' s >attributes
 	n
 	choices:{ indent_choice_block }
@@ -55,7 +55,6 @@ indent_choice_entry   = n '\t\t' >choice_entry ;
 
 # Toplevel choice definitions
 choice_block =
-	kind:`choice_declaration`
 	id:identifier ':' s >attributes entries:{ noindent_choice_entry }
 	n
 	;

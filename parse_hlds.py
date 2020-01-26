@@ -14,14 +14,13 @@ With filenames as arguments, parse those files as HLDS.
 {} --help         Print this help text"""
 
 
-def definitions():
-    from app.hlds.definitions import location_definitions
-    return location_definitions
-
-
 def main(filenames):
-    locations = parse_files(filenames) if filenames else definitions()
-    print(json.dumps(asjson(locations), indent="\t"))
+    if filenames:
+        location_definitions = parse_files(filenames)
+    else:
+        from app.hlds.definitions import location_definitions
+
+    print("\n\n".join(map(str, location_definitions)))
 
 
 if __name__ == "__main__":
