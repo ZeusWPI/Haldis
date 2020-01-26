@@ -19,11 +19,19 @@ def filter_instance(cls, iterable):
 
 class HldsSemanticActions:
     def location(self, ast):
+        choices = {choice.id: choice for choice in filter_instance(Choice, ast["items_"])}
+        dishes = filter_instance(Dish, ast["items_"])
+        for dish in dishes:
+            for i, choice in enumerate(dish.choices):
+                if not isinstance(choice, Choice):
+                    assert "id" in choice
+                    dish.choices[i] = choices[choice["id"]]
+
         return Location(
             ast["id"],
             name=ast["name"],
             attributes={att["key"]: att["value"] for att in ast["attributes"]},
-            dishes=filter_instance(Dish, ast["items_"]),
+            dishes=dishes,
         )
 
     def base_block(self, ast):
@@ -58,6 +66,8 @@ class HldsSemanticActions:
             price=ast["price"],
             tags=ast["tags"],
         )
+
+    noindent_choice_entry = indent_choice_entry
 
     def price(self, ast):
         return "{0[currency]} {0[value]}".format(ast)
