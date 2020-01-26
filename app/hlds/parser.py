@@ -23,9 +23,8 @@ class HldsSemanticActions:
         dishes = filter_instance(Dish, ast["items_"])
         for dish in dishes:
             for i, choice in enumerate(dish.choices):
-                if not isinstance(choice, Choice):
-                    assert "id" in choice
-                    dish.choices[i] = choices[choice["id"]]
+                if not isinstance(choice[1], Choice):
+                    dish.choices[i] = (dish.choices[i][0], choices[choice[1]])
 
         return Location(
             ast["id"],
@@ -53,7 +52,11 @@ class HldsSemanticActions:
         )
 
     def indent_choice_block(self, ast):
-        return self.choice_block(ast) if ast["kind"] == "declaration" else ast
+        return (
+            (ast["type"], self.choice_block(ast))
+            if ast["kind"] == "declaration" else
+            (ast["type"], ast["id"])
+        )
 
     def indent_choice_entry(self, ast):
         return Option(

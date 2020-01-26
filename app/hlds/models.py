@@ -12,6 +12,11 @@ def _format_tags(tags):
     )
 
 
+def _format_type_and_choice(type_and_choice):
+    type_, choice = type_and_choice
+    return "{} {}".format(type_, choice)
+
+
 class Option:
     def __init__(self, id_, *, name, description, price, tags):
         self.id = id_
@@ -53,15 +58,15 @@ class Dish:
         self.price = price
         self.tags = tags
 
-        self.choices: List[Choice] = choices
+        self.choices: List[(str, Choice)] = choices
 
     def __str__(self):
-        return "{0.id}: {0.name}{1}{2}{3}\n\t{4}".format(
+        return "base {0.id}: {0.name}{1}{2}{3}\n\t{4}".format(
             self,
             " -- {}".format(self.description) if self.description else "",
             _format_tags(self.tags),
             " {}".format(self.price) if self.price else "",
-            "\n\t".join(map(str, self.choices))
+            "\n\t".join(map(_format_type_and_choice, self.choices))
         )
 
 
