@@ -85,11 +85,13 @@ class Location:
     def __str__(self):
         return (
             "============================\n"
-            "{0.id}: {0.name}\n"
+            "{0.id}: {0.name}"
+            "{1}\n"
             "============================\n"
             "\n"
-            "{1}"
+            "{2}"
         ).format(
             self,
+            "".join("\n\t{} {}".format(k, v) for k, v in self.attributes.items()),
             "\n".join(map(str, self.dishes))
         )
