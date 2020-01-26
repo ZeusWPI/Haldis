@@ -65,7 +65,6 @@ def upgrade():
         sa.PrimaryKeyConstraint("id")
     )
     op.add_column("order_item", sa.Column("hlds_data_version", sa.String(length=40), nullable=True))
-    op.alter_column("order_item", "paid", existing_type=sa.BOOLEAN(), nullable=False)
     op.alter_column("order", "courrier_id", new_column_name="courier_id")
     op.alter_column("order_item", "extra", new_column_name="comment",
                     existing_type=sa.String(254), type_=sa.Text())
@@ -140,7 +139,6 @@ def upgrade():
 def downgrade():
     "Don't use this. It will cripple the data."
 
-    op.alter_column("order_item", "paid", existing_type=sa.Boolean(), nullable=True)
     op.alter_column("order", "courier_id", new_column_name="courrier_id")
     op.alter_column("order_item", "comment", new_column_name="extra",
                     existing_type=sa.Text(), type_=sa.String(254))

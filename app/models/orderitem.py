@@ -16,7 +16,7 @@ class OrderItem(db.Model):
     dish_name = db.Column(db.String(120), nullable=True)
     price = db.Column(db.Integer, nullable=False)
     paid = db.Column(
-        db.Boolean, default=False, nullable=False
+        db.Boolean, default=False, nullable=True
     )
     comment = db.Column(db.Text(), nullable=True)
     hlds_data_version = db.Column(db.String(40), nullable=True)

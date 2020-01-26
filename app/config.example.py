@@ -2,9 +2,9 @@
 # config
 
 
-class Configuration():
+class Configuration:
     "Haldis configuration object"
-    # pylint: disable=R0903
+    # pylint: disable=too-few-public-methods
     SQLALCHEMY_DATABASE_URI = "sqlite:///haldis.db"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     DEBUG = True
