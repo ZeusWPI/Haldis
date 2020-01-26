@@ -1,5 +1,5 @@
 This is just a description of the database schema. It's not generated automatically, nor is it used
-to automatically generate anything.
+to automatically generate anything. For the latest version, check the files in app/models/
 
 
 user
@@ -9,28 +9,30 @@ user
 
 order
   id
-  location_id       HLDS identifier
-  location_name     this allows historical orders to keep the same location name
-  create_at
-  close_at
-  creator_id
   courier_id
+  location_id         HLDS identifier
+  location_name       this allows historical orders to keep the same location name
+  starttime
+  stoptime
+  public
 
 order_item
   id
   order_id
-  item_id           HLDS identifier
   user_id
-  user_name         for users who are not logged in
-  price             this allows historical orders to keep their correct price
-  product_name
-  commit_hash       Git commit hash to identify HLDS data version
+  user_name           for users who are not logged in
+  dish_id             HLDS identifier
+  dish_name           ) this allows historical orders to keep their correct name and price
+  price               )
+  paid
+  comment
+  hlds_data_version   Git commit hash to identify HLDS data version
 
 order_item_choice
   id
-  choice_id         HLDS identifier
-  kind              single_choice/multi_choice
+  choice_id           HLDS identifier
+  kind                single_choice/multi_choice
   order_item
   name
   description
-  value             just a textual description of the chosen values
+  value               just a textual description of the chosen values

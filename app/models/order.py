@@ -11,10 +11,12 @@ class Order(db.Model):
     "Class used for configuring the Order model in the database"
     id = db.Column(db.Integer, primary_key=True)
     courier_id = db.Column(db.Integer, nullable=True)
-    location_id = db.Column(db.Integer, db.ForeignKey("location.id"))
+    location_id = db.Column(db.String(64))
+    location_name = db.Column(db.String(128))
     starttime = db.Column(db.DateTime)
     stoptime = db.Column(db.DateTime)
     public = db.Column(db.Boolean, default=True)
+
     items = db.relationship("OrderItem", backref="order", lazy="dynamic")
 
     def configure(self, courier: User, location: Location,

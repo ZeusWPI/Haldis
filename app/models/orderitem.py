@@ -10,16 +10,17 @@ from .user import User
 class OrderItem(db.Model):
     "Class used for configuring the OrderItem model in the database"
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     order_id = db.Column(db.Integer, db.ForeignKey("order.id"), nullable=False)
-    product_id = db.Column(
-        db.Integer, db.ForeignKey("product.id"), nullable=True
-    )  # TODO make false after init migration
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    user_name = db.Column(db.String(120))
+    dish_id = db.Column(db.String(120), nullable=True)
+    dish_name = db.Column(db.String(120), nullable=True)
+    price = db.Column(db.Integer, nullable=False)
     paid = db.Column(
-        db.Boolean, default=False, nullable=True
-    )  # TODO make false after init migration
-    extra = db.Column(db.String(254), nullable=True)
-    name = db.Column(db.String(120))
+        db.Boolean, default=False, nullable=False
+    )
+    comment = db.Column(db.String(254), nullable=True)
+    hlds_data_version = db.Column(db.String(40), nullable=True)
 
     def configure(self, user: User, order: Order, product: Product) -> None:
         "Configure the OrderItem"
