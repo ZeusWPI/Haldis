@@ -12,7 +12,7 @@ class OrderItem(db.Model):
     order_id = db.Column(db.Integer, db.ForeignKey("order.id"), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     user_name = db.Column(db.String(120))
-    dish_id = db.Column(db.String(120), nullable=True)
+    dish_id = db.Column(db.String(64), nullable=True)
     dish_name = db.Column(db.String(120), nullable=True)
     price = db.Column(db.Integer, nullable=False)
     paid = db.Column(

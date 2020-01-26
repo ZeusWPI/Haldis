@@ -1,4 +1,4 @@
-LEGACY_TO_HLDS_TRANSLATION = {
+LOCATION_LEGACY_TO_HLDS = {
     2: "blauw_kotje",
     3: "ocean_garden",
     4: "delhaize",
@@ -25,4 +25,8 @@ LEGACY_TO_HLDS_TRANSLATION = {
     28: "s5",
     29: "fitchen",
     30: "kebab_anadolu",
+}
+
+DISH_LEGACY_TO_HLDS = {
+    # TODO
 }

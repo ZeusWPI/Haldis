@@ -5,6 +5,7 @@ Revises: None
 Create Date: 2019-04-02 18:00:12.618368
 
 """
+# pylint: disable=invalid-name
 
 # revision identifiers, used by Alembic.
 revision = "150252c1cdb1"
