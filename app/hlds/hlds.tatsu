@@ -14,10 +14,11 @@
 start = [n] { @+:location } $ ;
 
 location_header =
-	/={3,}\n/ ~
+	/={3,}/ n ~
 	id:identifier ':' s name:string
 	attributes:{ location_attribute }
-	/\n={3,}\n+/
+	[ n ]
+	/={3,}\n+/
 	;
 
 location_attribute =
