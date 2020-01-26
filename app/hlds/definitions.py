@@ -1,7 +1,9 @@
 # Import this class to load the standard HLDS definitions
 
 from os import path
+from typing import List
 from .parser import parse_all_directory
+from .models import Location
 
 
 __all__ = ["location_definitions"]
@@ -10,4 +12,4 @@ __all__ = ["location_definitions"]
 DATA_DIR = path.join(path.dirname(__file__), "..", "..", "data")
 
 # pylint: disable=invalid-name
-location_definitions = parse_all_directory(DATA_DIR)
+location_definitions: List[Location] = parse_all_directory(DATA_DIR)

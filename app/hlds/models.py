@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # pylint: disable=too-few-public-methods
 
-from typing import List
+from typing import List, Mapping, Any
 
 
 def _format_tags(tags):
@@ -19,11 +19,11 @@ def _format_type_and_choice(type_and_choice):
 
 class Option:
     def __init__(self, id_, *, name, description, price, tags):
-        self.id = id_
-        self.name = name
-        self.description = description
-        self.price = price
-        self.tags = tags
+        self.id: str = id_
+        self.name: str = name
+        self.description: str = description
+        self.price: int = price
+        self.tags: List[str] = tags
 
     def __str__(self):
         return "{0.id}: {0.name}{1}{2}{3}".format(
@@ -36,9 +36,9 @@ class Option:
 
 class Choice:
     def __init__(self, id_, *, name, description, options):
-        self.id = id_
-        self.name = name
-        self.description = description
+        self.id: str = id_
+        self.name: str = name
+        self.description: str = description
 
         self.options: List[Option] = options
 
@@ -52,11 +52,11 @@ class Choice:
 
 class Dish:
     def __init__(self, id_, *, name, description, price, tags, choices):
-        self.id = id_
-        self.name = name
-        self.description = description
-        self.price = price
-        self.tags = tags
+        self.id: str = id_
+        self.name: str = name
+        self.description: str = description
+        self.price: int = price
+        self.tags: List[str] = tags
 
         self.choices: List[(str, Choice)] = choices
 
@@ -72,9 +72,9 @@ class Dish:
 
 class Location:
     def __init__(self, id_, *, name, attributes, dishes):
-        self.id = id_
-        self.name = name
-        self.attributes = attributes
+        self.id: str = id_
+        self.name: str = name
+        self.attributes: Mapping[str, Any] = attributes
 
         self.dishes: List[Dish] = dishes
 

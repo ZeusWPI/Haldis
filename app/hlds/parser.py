@@ -3,7 +3,9 @@
 from glob import glob
 from os import path
 import itertools
+from typing import Iterable, List, Union, Tuple
 from tatsu import parse as tatsu_parse
+from tatsu.ast import AST
 from .models import Location, Choice, Option, Dish
 
 
@@ -18,7 +20,7 @@ def filter_instance(cls, iterable):
 
 # pylint: disable=no-self-use
 class HldsSemanticActions:
-    def location(self, ast):
+    def location(self, ast) -> Location:
         choices = {choice.id: choice for choice in filter_instance(Choice, ast["items_"])}
         dishes = filter_instance(Dish, ast["items_"])
         for dish in dishes:
@@ -33,7 +35,7 @@ class HldsSemanticActions:
             dishes=dishes,
         )
 
-    def base_block(self, ast):
+    def base_block(self, ast) -> Dish:
         return Dish(
             ast["id"],
             name=ast["name"],
@@ -43,7 +45,7 @@ class HldsSemanticActions:
             choices=ast["choices"],
         )
 
-    def choice_block(self, ast):
+    def choice_block(self, ast) -> Choice:
         return Choice(
             ast["id"],
             name=ast["name"],
@@ -51,14 +53,14 @@ class HldsSemanticActions:
             options=ast["entries"],
         )
 
-    def indent_choice_block(self, ast):
+    def indent_choice_block(self, ast) -> Tuple[str, Union[Choice, AST]]:
         return (
             (ast["type"], self.choice_block(ast))
             if ast["kind"] == "declaration" else
             (ast["type"], ast["id"])
         )
 
-    def indent_choice_entry(self, ast):
+    def indent_choice_entry(self, ast) -> Option:
         return Option(
             ast["id"],
             name=ast["name"],
@@ -69,8 +71,15 @@ class HldsSemanticActions:
 
     noindent_choice_entry = indent_choice_entry
 
-    def price(self, ast):
-        return "{0[currency]} {0[value]}".format(ast)
+    def price(self, ast) -> int:
+        return (
+            100 * int(ast["value_unit"]) +
+            (
+                0 if not ast["value_cents"] else
+                10 * int(ast["value_cents"]) if len(ast["value_cents"]) == 1 else
+                int(ast["value_cents"])
+            )
+        )
 
     def _default(self, ast):
         return ast
@@ -78,22 +87,22 @@ class HldsSemanticActions:
 SEMANTICS = HldsSemanticActions()
 
 
-def parse(menu):
+def parse(menu: str) -> List[Location]:
     parsed = tatsu_parse(GRAMMAR, menu, semantics=SEMANTICS)
     return parsed
 
 
-def parse_file(filename):
+def parse_file(filename: str) -> List[Location]:
     with open(filename, "r") as file_handle:
         return parse(file_handle.read())
 
 
-def parse_files(files):
+def parse_files(files: Iterable[str]) -> List[Location]:
     menus = map(parse_file, files)
     return list(itertools.chain.from_iterable(menus))
 
 
-def parse_all_directory(directory):
+def parse_all_directory(directory: str) -> List[Location]:
     # TODO Use proper way to get resources, see https://stackoverflow.com/a/10935674
     files = glob(path.join(directory, "**.hlds"), recursive=True)
     return parse_files(files)
