@@ -24,8 +24,10 @@ sauce: Saus
 	stew: Stoofvleessaus :: {has_meat} € 0.5
 	other: Andere (in commentaar)
 
-extra_cheese: Extra kaas € 0.2
+extra_cheese: Extra kaas
 	# FIXME extra kaas waarop?
+	no_extra_cheese: Nee
+	yes_extra_cheese: Ja € 0.2
 
 dish chicken_fingers:        Kippenvingers            :: {has_meat} € 3
 dish nuggiz:                 Nuggiz                   :: {has_meat} € 3
