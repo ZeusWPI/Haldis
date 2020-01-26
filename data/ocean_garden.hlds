@@ -1,7 +1,13 @@
 =============================================
-og: Ocean Garden
+ocean_garden: Ocean Garden
 	# Openingsuren, website, telefoonnummer, adres enz. worden uit OpenStreetMap gehaald
 	osm https://www.openstreetmap.org/node/2275105003
+
+	# Studentenmenu wordt beschreven op
+	#   http://oceangarden.byethost3.com/studentenmenus.html?i=1
+	#   http://oceangarden.byethost3.com/joomla/index.php/studentenmenu
+	# Rest van menu wordt beschreven op
+	#   http://oceangarden.byethost3.com/joomla/index.php/menu
 =============================================
 
 bami_nasi: Bami of nasi
@@ -12,55 +18,38 @@ bami_mihoen: Bami of mihoen
 	bami: Bami -- Tarwenoedels
 	mihoen: Mihoen -- Dunne, Chinese noedels, gemaakt van rijstbloem
 
-carbs: Koolhydraten
-	bami: Bami -- Tarwenoedels
-	nasi: Nasi -- Rijst
-	mihoen: Mihoen -- Dunne, Chinese noedels, gemaakt van rijstbloem
-
-	# FIXME De balletjes mogen enkel bij gerechten waar je "sweetsour" kán kiezen, en worden enkel
-	# geactiveerd als "sweetsour" ook effectief gekozen is – idealiter staat bij een niet-actieve
-	# keuze ook de reden erbij
-	balls: Gepaneerde balletjes  € 3
-		#requires sweetsour
-
 sauce: Saus
 	bali: Bali -- Indonesische saus
 	yusiang: Yu-siang -- Chinese saus met chili, pijpajuin, gember en look
 	gonboa: Gon-boa -- Pikante kruidensaus uit het westen van China
 	curry: Curry
 	sweetsour: Zoetzuur
+	sweetsour_and_balls: Zoetzuur, met bolletjes ipv bami/nasi/mihoen -- Nasi/mihoen worden vervangen door gepaneerde bolletjes € 3
 	oyster: Oester :: {has_fish}
 	pepper: Pepersaus
 	mushroom: Champignon -- Saus met champignon, wortel en wat andere groentjes
 	malaysian: A la Maleisië -- Licht pikante saus
 
-meat: Vlees :: {has_meat}
-	chicken: Kip
-	pork: Varken
-	duck: Eend
-
-meat_no_duck: Vlees :: {has_meat}
-	chicken: Kip
-	pork: Varken
-
-maybe_meat_no_duck: Vlees
+meat: Vlees
 	chicken: Kip :: {has_meat}
 	pork: Varken :: {has_meat}
-	no_meat: Geen vlees
 
 
-# Studentenwok 1 en 4 zijn eigenlijk hetzelfde
-dish wok1_4: Studentenwok met saus € 6
+dish wok1: Studentenwok met saus € 6
 	single_choice bami_nasi
-	single_choice maybe_meat_no_duck
+	single_choice meat
+	single_choice sauce
 
 dish wok2: Studentenwok kip/varken bami/mihoen zonder saus € 6
 	single_choice bami_mihoen
-	single_choice meat_no_duck
+	single_choice meat
 
 dish wok3: Studentenwok kip bami/nasi zonder saus :: {has_meat} € 6
 	single_choice bami_nasi
 
-dish wok5: Studentenwok Babi Pangang -- Geroosterd varkensvlees :: {has_meat} € 6
+dish wok4: Vegetarische studentenwok met saus € 6
 	single_choice bami_nasi
 	single_choice sauce
+
+dish wok5: Studentenwok Babi Pangang -- Geroosterd varkensvlees :: {has_meat} € 6
+	single_choice bami_nasi
