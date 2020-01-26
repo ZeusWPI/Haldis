@@ -3,6 +3,7 @@ import os
 from datetime import datetime, timedelta
 
 import yaml
+import typing
 
 from flask import Flask, render_template, make_response
 from flask import request, jsonify
@@ -11,11 +12,20 @@ from flask import current_app as app
 from flask import send_from_directory, url_for
 from flask_login import login_required
 
-from models import Location, Order
+from hlds.definitions import location_definitions
+from hlds.models import Location
+from models import Order
 # import views
 from views.order import get_orders
 
 general_bp = Blueprint("general_bp", __name__)
+
+
+def _first(iterable: typing.Iterable, default=None):
+    try:
+        return next(iter(iterable))
+    except StopIteration:
+        return default
 
 
 @general_bp.route("/")
@@ -109,21 +119,19 @@ def css():
 @general_bp.route("/map")
 def map_view() -> str:
     "Generate the map view"
-    locs = Location.query.order_by("name")
-    return render_template("maps.html", locations=locs)
+    return render_template("maps.html", locations=location_definitions)
 
 
 @general_bp.route("/location")
 def locations() -> str:
     "Generate the location view"
-    locs = Location.query.order_by("name")
-    return render_template("locations.html", locations=locs)
+    return render_template("locations.html", locations=location_definitions)
 
 
-@general_bp.route("/location/<int:location_id>")
+@general_bp.route("/location/<location_id>")
 def location(location_id) -> str:
     "Generate the location view given an id"
-    loc = Location.query.filter(Location.id == location_id).first()
+    loc = _first(filter(lambda l: l.id == location_id, location_definitions))
     if loc is None:
         abort(404)
     return render_template("location.html", location=loc, title=loc.name)

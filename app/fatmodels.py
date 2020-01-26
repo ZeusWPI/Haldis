@@ -2,7 +2,9 @@ import typing
 
 from sqlalchemy.sql import desc, func
 
-from models import Location, Order, OrderItem, Product, User
+from hlds.definitions import location_definitions
+from hlds.models import Location, Dish
+from models import Order, OrderItem, User
 
 
 class FatModel:
@@ -16,7 +18,13 @@ class FatModel:
 
 
 class FatLocation(Location, FatModel):
-    pass
+    @classmethod
+    def all(cls):
+        return location_definitions
+
+    @classmethod
+    def amount(cls):
+        return len(location_definitions)
 
 
 class FatOrder(Order, FatModel):
@@ -42,16 +50,16 @@ class FatOrderItem(OrderItem, FatModel):
     pass
 
 
-class FatProduct(Product, FatModel):
+class FatDish(Dish, FatModel):
     @classmethod
     def top4(cls) -> None:
         top4 = (
-            OrderItem.query.join(Product)
-            .join(Location)
-            .group_by(Product.id)
+            OrderItem.query
+            .join(Order)
+            .group_by(Order.location_id, OrderItem.dish_id)
             .with_entities(
-                Product.name, Location.name, func.count(
-                    Product.id).label("count")
+                Order.location_id, OrderItem.dish_id, func.count(
+                    OrderItem.dish_id).label("count")
             )
             .order_by(desc("count"))
             .limit(4)

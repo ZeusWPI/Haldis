@@ -13,3 +13,4 @@ DATA_DIR = path.join(path.dirname(__file__), "..", "..", "data")
 
 # pylint: disable=invalid-name
 location_definitions: List[Location] = parse_all_directory(DATA_DIR)
+location_definitions.sort(key=lambda l: l.name)

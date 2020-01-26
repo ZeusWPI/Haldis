@@ -3,7 +3,7 @@ from flask import Blueprint
 from flask import current_app as app
 from flask import render_template
 
-from fatmodels import FatLocation, FatOrder, FatOrderItem, FatProduct, FatUser
+from fatmodels import FatLocation, FatOrder, FatOrderItem, FatDish, FatUser
 
 stats_blueprint = Blueprint("stats_blueprint", __name__)
 
@@ -17,7 +17,7 @@ def stats() -> str:
             "locations": FatLocation.amount(),
             "users": FatUser.amount(),
             "orderitems": FatOrderItem.amount(),
-            "products": FatProduct.amount(),
+            "products": FatDish.amount(),
         }
     }
     return render_template("stats.html", data=data)

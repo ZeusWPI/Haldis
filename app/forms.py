@@ -7,7 +7,9 @@ from flask_wtf import FlaskForm as Form
 from wtforms import (DateTimeField, SelectField, StringField, SubmitField,
                      validators)
 
-from models import Location, User
+from hlds.definitions import location_definitions
+from hlds.models import Location
+from models import User
 from utils import euro_string
 
 
@@ -36,7 +38,7 @@ class OrderForm(Form):
                 (current_user.id, current_user.username),
             ]
         self.location_id.choices = [
-            (l.id, l.name) for l in Location.query.order_by("name")
+            (l.id, l.name) for l in location_definitions
         ]
         if self.stoptime.data is None:
             self.stoptime.data = datetime.now() + timedelta(hours=1)
