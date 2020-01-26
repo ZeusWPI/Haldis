@@ -3,7 +3,6 @@ import typing
 from datetime import datetime
 
 from .database import db
-from .location import Location
 from .user import User
 
 
@@ -19,12 +18,11 @@ class Order(db.Model):
 
     items = db.relationship("OrderItem", backref="order", lazy="dynamic")
 
-    def configure(self, courier: User, location: Location,
+    def configure(self, courier: User,
                   starttime: db.DateTime, stoptime: db.DateTime,) -> None:
         "Configure the Order"
         # pylint: disable=W0201
         self.courier = courier
-        self.location = location
         self.starttime = starttime
         self.stoptime = stoptime
 
@@ -40,13 +38,13 @@ class Order(db.Model):
         group: typing.Dict[str, typing.Any] = dict()
         for item in self.items:
             user = group.get(item.get_name(), dict())
-            user["total"] = user.get("total", 0) + item.product.price
+            user["total"] = user.get("total", 0) + item.price
             user["to_pay"] = (
                 user.get("to_pay", 0) +
-                item.product.price if not item.paid else 0
+                item.price if not item.paid else 0
             )
             user["paid"] = user.get("paid", True) and item.paid
-            user["products"] = user.get("products", []) + [item.product]
+            user["products"] = user.get("products", []) + [item.dish_name]
             group[item.get_name()] = user
 
         return group
@@ -55,11 +53,11 @@ class Order(db.Model):
         "Group items of an Order by product"
         group: typing.Dict[str, typing.Any] = dict()
         for item in self.items:
-            product = group.get(item.product.name, dict())
+            product = group.get(item.dish_name, dict())
             product["count"] = product.get("count", 0) + 1
             if item.extra:
-                product["extras"] = product.get("extras", []) + [item.extra]
-            group[item.product.name] = product
+                product["extras"] = product.get("extras", []) + [item.comment]
+            group[item.dish_name] = product
 
         return group
 

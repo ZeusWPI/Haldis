@@ -3,7 +3,6 @@ from datetime import datetime
 
 from .database import db
 from .order import Order
-from .product import Product
 from .user import User
 
 
@@ -22,12 +21,11 @@ class OrderItem(db.Model):
     comment = db.Column(db.String(254), nullable=True)
     hlds_data_version = db.Column(db.String(40), nullable=True)
 
-    def configure(self, user: User, order: Order, product: Product) -> None:
+    def configure(self, user: User, order: Order) -> None:
         "Configure the OrderItem"
         # pylint: disable=W0201
         self.user = user
         self.order = order
-        self.product = product
 
     def get_name(self) -> str:
         "Get the name of the user which 'owns' the item"
@@ -36,13 +34,10 @@ class OrderItem(db.Model):
         return self.name
 
     def __repr__(self) -> str:
-        product_name = None
-        if self.product:
-            product_name = self.product.name
         return "Order %d: %s wants %s" % (
             self.order_id or 0,
             self.get_name(),
-            product_name or "None",
+            self.dish_name or "None",
         )
 
     # pylint: disable=W0613
