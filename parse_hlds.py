@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-import json
 from tatsu.util import asjson
 from app.hlds.parser import parse_files
 

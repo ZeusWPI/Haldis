@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 
 from glob import glob
-from os import path, walk
-from tatsu import parse as tatsu_parse
+from os import path
 import itertools
+from tatsu import parse as tatsu_parse
 from .models import Location, Choice, Option, Dish
-import operator
 
 
 # TODO Use proper way to get resources, see https://stackoverflow.com/a/10935674
@@ -17,6 +16,7 @@ def filter_instance(cls, iterable):
     return [item for item in iterable if isinstance(item, cls)]
 
 
+# pylint: disable=no-self-use
 class HldsSemanticActions:
     def location(self, ast):
         choices = {choice.id: choice for choice in filter_instance(Choice, ast["items_"])}
@@ -53,10 +53,7 @@ class HldsSemanticActions:
         )
 
     def indent_choice_block(self, ast):
-        if ast["kind"] == "declaration":
-            return self.choice_block(ast)
-        else:
-            return ast
+        return self.choice_block(ast) if ast["kind"] == "declaration" else ast
 
     def indent_choice_entry(self, ast):
         return Option(
@@ -84,8 +81,8 @@ def parse(menu):
 
 
 def parse_file(filename):
-    with open(filename, "r") as fh:
-        return parse(fh.read())
+    with open(filename, "r") as file_handle:
+        return parse(file_handle.read())
 
 
 def parse_files(files):

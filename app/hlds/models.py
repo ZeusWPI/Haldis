@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# pylint: disable=too-few-public-methods
 
 from typing import List
 
@@ -73,7 +74,13 @@ class Location:
         self.dishes: List[Dish] = dishes
 
     def __str__(self):
-        return "============================\n{0.id}: {0.name}\n============================\n\n{1}".format(
+        return (
+            "============================\n"
+            "{0.id}: {0.name}\n"
+            "============================\n"
+            "\n"
+            "{1}"
+        ).format(
             self,
-            "\n\n".join(map(str, self.dishes))
+            "\n".join(map(str, self.dishes))
         )

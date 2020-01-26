@@ -1,13 +1,13 @@
 # Import this class to load the standard HLDS definitions
 
 from os import path
-import itertools
 from .parser import parse_all_directory
 
 
-__all__ = ["definitions"]
+__all__ = ["location_definitions"]
 
 # TODO Use proper way to get resources, see https://stackoverflow.com/a/10935674
-data_dir = path.join(path.dirname(__file__), "..", "..", "data")
+DATA_DIR = path.join(path.dirname(__file__), "..", "..", "data")
 
-location_definitions = parse_all_directory(data_dir)
+# pylint: disable=invalid-name
+location_definitions = parse_all_directory(DATA_DIR)
