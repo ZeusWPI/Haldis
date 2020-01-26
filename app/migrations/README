@@ -1,6 +1,6 @@
 Generic single-database configuration.
 
-+On the existing databases, initialize flask-migrate and alembic with:
-+```
-+python haldis.py db stamp "354676f60be"
-+```
+On the existing databases, initialize flask-migrate and alembic with:
+```
+python app.py db stamp 150252c1cdb1
+```
