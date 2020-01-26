@@ -7,9 +7,10 @@
 <div class="row location_data" xmlns="http://www.w3.org/1999/html">
     <div class="col-md-push-1 col-md-5 darker">
         <h3>{{ location.name }}</h3>
-        <span class="glyphicon glyphicon-home"></span> {{ location.address }} <br/>
-        <span class="glyphicon glyphicon-phone"></span> {{ location.telephone }} <br/>
-        <span class="glyphicon glyphicon-link"></span> <a href="{{ location.website}}">{{ location.website }}</a>
+        {% if location.address   %}<span class="glyphicon glyphicon-home"></span> {{ location.address   }}<br/>{% endif %}
+        {% if location.telephone %}<span class="glyphicon glyphicon-phone"></span>{{ location.telephone }}<br/>{% endif %}
+        {% if location.website   %}<span class="glyphicon glyphicon-link"></span> <a href="{{ location.website}}">{{ location.website }}</a> <br/>{% endif %}
+        {% if location.osm       %}<span class="glyphicon glyphicon-map-marker"></span> <a href="{{ location.osm}}">{{ location.osm }}</a> <br/>{% endif %}
         {% if not current_user.is_anonymous() %}
             <a href="{{ url_for("order_bp.orders", location_id=location.id) }}" class="btn btn-primary btn-sm">Create order</a>
         {% endif %}
@@ -28,10 +29,10 @@
                 <tr><th>Name</th><th>Price</th></tr>
             </thead>
             <tbody>
-            {% for prod in location.products -%}
+            {% for dish in location.dishes -%}
                 <tr>
-                    <td>{{ prod.name }}</td>
-                    <td>{{ prod.price|euro }}<td>
+                    <td>{{ dish.name }}{% if dish.description %} <span class="description">({{dish.description}})</span>{% endif %}</td>
+                    <td>{{ dish.price|euro }}<td>
                 </tr>
             {%- endfor %}
             </tbody>

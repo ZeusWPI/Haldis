@@ -16,7 +16,7 @@
                 <tr>
                     <td><a href="{{ url_for('general_bp.location', location_id=loc.id) }}">{{ loc.name }}</a></td>
                     <td>{{ loc.address }}<td>
-                    <td><a href="{{ loc.website}}"><span class="glyphicon glyphicon-link"></span></a></td>
+                    <td><a href="{{ loc.website }}"><span class="glyphicon glyphicon-link"></span> {{ loc.website }}</a></td>
                     <td>
                         {% if not current_user.is_anonymous() %}
                             <a href="{{ url_for("order_bp.orders", location_id=loc.id) }}" class="btn btn-primary btn-xs">Create order</a>

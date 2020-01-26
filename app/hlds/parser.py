@@ -45,7 +45,7 @@ class HldsSemanticActions:
             ast["id"],
             name=ast["name"],
             description=ast["description"],
-            price=ast["price"],
+            price=ast["price"] if ast["price"] else 0,
             tags=ast["tags"] if ast["tags"] else [],
             choices=ast["choices"],
         )
@@ -70,7 +70,7 @@ class HldsSemanticActions:
             ast["id"],
             name=ast["name"],
             description=ast["description"],
-            price=ast["price"],
+            price=ast["price"] if ast["price"] else 0,
             tags=ast["tags"],
         )
 
