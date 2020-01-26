@@ -8,7 +8,7 @@
 @@whitespace :: //
 
 @@eol_comments :: /[ \t]*#.*?$/
-@@keyword :: single_choice multi_choice base preset  only requires except
+@@keyword :: single_choice multi_choice dish preset  only requires except
 
 
 start = [n] { @+:location } $ ;
@@ -37,12 +37,12 @@ attributes =
 
 
 block =
-	| base_block
+	| dish_block
 	| choice_block
 	;
 
-base_block =
-	'base' s ~
+dish_block =
+	'dish' s ~
 	id:identifier ':' s >attributes
 	n
 	choices:{ indent_choice_block }
@@ -60,7 +60,7 @@ choice_block =
 	n
 	;
 
-# Appears in a base block. One of:
+# Appears in a dish block. One of:
 # 1) reference to toplevel choice definition
 # 2) inline choice declaration (as opposed to globally declared and referenced)
 indent_choice_block =

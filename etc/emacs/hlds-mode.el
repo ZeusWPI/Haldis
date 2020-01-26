@@ -19,7 +19,7 @@
       (let* (
              ;; define several category of keywords
              (x-keywords '())
-             (x-types '("base"))
+             (x-types '("dish"))
              (x-constants '())
              (x-events '())
              (x-functions '("single_choice" "multi_choice"))

@@ -50,17 +50,17 @@ maybe_meat_no_duck: Vlees
 
 
 # Studentenwok 1 en 4 zijn eigenlijk hetzelfde
-base wok1_4: Studentenwok met saus € 6
+dish wok1_4: Studentenwok met saus € 6
 	single_choice bami_nasi
 	single_choice maybe_meat_no_duck
 
-base wok2: Studentenwok kip/varken bami/mihoen zonder saus € 6
+dish wok2: Studentenwok kip/varken bami/mihoen zonder saus € 6
 	single_choice bami_mihoen
 	single_choice meat_no_duck
 
-base wok3: Studentenwok kip bami/nasi zonder saus :: {has_meat} € 6
+dish wok3: Studentenwok kip bami/nasi zonder saus :: {has_meat} € 6
 	single_choice bami_nasi
 
-base wok5: Studentenwok Babi Pangang -- Geroosterd varkensvlees :: {has_meat} € 6
+dish wok5: Studentenwok Babi Pangang -- Geroosterd varkensvlees :: {has_meat} € 6
 	single_choice bami_nasi
 	single_choice sauce

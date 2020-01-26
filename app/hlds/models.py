@@ -65,7 +65,7 @@ class Dish:
         self.choices: List[(str, Choice)] = choices
 
     def __str__(self):
-        return "base {0.id}: {0.name}{1}{2}{3}\n\t{4}".format(
+        return "dish {0.id}: {0.name}{1}{2}{3}\n\t{4}".format(
             self,
             " -- {}".format(self.description) if self.description else "",
             _format_tags(self.tags),

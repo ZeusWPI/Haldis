@@ -3,7 +3,7 @@ fritoloog: Fritoloog
 	osm https://www.openstreetmap.org/node/5813542646
 ============================
 
-base fries: Frietjes :: {has_meat}
+dish fries: Frietjes :: {has_meat}
 	# Gebakken in rundsvet dus {has_meat}
 
 	single_choice size: Formaat
@@ -14,7 +14,7 @@ base fries: Frietjes :: {has_meat}
 
 	multi_choice sauce € 1.4
 
-base standalone_sauce: Saus in potje € 0.8
+dish standalone_sauce: Saus in potje € 0.8
 	single_choice sauce
 
 sauce: Saus
@@ -27,59 +27,59 @@ sauce: Saus
 extra_cheese: Extra kaas € 0.2
 	# FIXME extra kaas waarop?
 
-base chicken_fingers:        Kippenvingers            :: {has_meat} € 3
-base nuggiz:                 Nuggiz                   :: {has_meat} € 3
-base mammoth_sausage:        Mammoetworst             :: {has_meat} € 2.1
-base taco:                   Taco                     :: {has_meat} € 2.5
-base ragoezi:                Ragoezi                  :: {has_meat} € 2
-base gypsy_stick:            Zigeunerstick            :: {has_meat} € 2
-base frikandel:              Frikandel                :: {has_meat} € 1.5
-base frikandel_special:      Frikandel special        :: {has_meat} € 2.2
-base frikandel_xxl:          XXL Frikandel            :: {has_meat} € 3
-base viandel:                Viandel                  :: {has_meat} € 1.8
-base viandel_spicy:          Spicy-viandel            :: {has_meat} € 1.8
-base chicken_corn:           Kipcorn                  :: {has_meat} € 1.8
-base sito:                   Sito                     :: {has_meat} € 2.7
-base horse_garlic_sausage:   Paardenlookworst         :: {has_meat} € 2.4
-base garlic_sausage:         Lookworst                :: {has_meat} € 2.4
-base bitterbal:              Bitterbal                :: {has_meat} € 1.5
-base boulet:                 Boulet                   :: {has_meat} € 1.8
-base chicken_spring_roll:    Kippenloempia            :: {has_meat} € 3
-base meat_croquette:         Vleeskroket              :: {has_meat} € 1.8
-base chicken_drumsticks:     Kippenboutjes            :: {has_meat} € 3.2
-base fire_breather:          Vuurvreter               :: {has_meat} € 2
-base mexicano:               Mexicano                 :: {has_meat} € 2.4
-base ardeens_satay:          Ardeense saté            :: {has_meat} € 2.5
-base satay:                  Saté                     :: {has_meat} € 2.7
-base grisley:                Grisley                  :: {has_meat} € 2.7
-base flemish_stew:           Stoofvlees               :: {has_meat} € 4.5
-base meatballs_tomato_sauce: Balletjes in tomatensaus :: {has_meat} € 4.5
-base hamburger:              Hamburger                :: {has_meat} € 2.6
-base cheeseburger:           Cheeseburger             :: {has_meat} € 2.9
-base chicken_burger:         Chickenburger            :: {has_meat} € 3.2
-base bicky_burger:           Bickyburger              :: {has_meat} € 2.9
-base bicky_rib:              Bicky Rib                :: {has_meat} € 3.5
-base bicky_royal:            Bicky Royal              :: {has_meat} € 4.3
-base bicky_chicken:          Bicky Chicken            :: {has_meat} € 3.2
-base bicky_wrap:             Bicky Wrap               :: {has_meat} € 3
-base assortment:             Twijfelaar               :: {has_meat} € 3
+dish chicken_fingers:        Kippenvingers            :: {has_meat} € 3
+dish nuggiz:                 Nuggiz                   :: {has_meat} € 3
+dish mammoth_sausage:        Mammoetworst             :: {has_meat} € 2.1
+dish taco:                   Taco                     :: {has_meat} € 2.5
+dish ragoezi:                Ragoezi                  :: {has_meat} € 2
+dish gypsy_stick:            Zigeunerstick            :: {has_meat} € 2
+dish frikandel:              Frikandel                :: {has_meat} € 1.5
+dish frikandel_special:      Frikandel special        :: {has_meat} € 2.2
+dish frikandel_xxl:          XXL Frikandel            :: {has_meat} € 3
+dish viandel:                Viandel                  :: {has_meat} € 1.8
+dish viandel_spicy:          Spicy-viandel            :: {has_meat} € 1.8
+dish chicken_corn:           Kipcorn                  :: {has_meat} € 1.8
+dish sito:                   Sito                     :: {has_meat} € 2.7
+dish horse_garlic_sausage:   Paardenlookworst         :: {has_meat} € 2.4
+dish garlic_sausage:         Lookworst                :: {has_meat} € 2.4
+dish bitterbal:              Bitterbal                :: {has_meat} € 1.5
+dish boulet:                 Boulet                   :: {has_meat} € 1.8
+dish chicken_spring_roll:    Kippenloempia            :: {has_meat} € 3
+dish meat_croquette:         Vleeskroket              :: {has_meat} € 1.8
+dish chicken_drumsticks:     Kippenboutjes            :: {has_meat} € 3.2
+dish fire_breather:          Vuurvreter               :: {has_meat} € 2
+dish mexicano:               Mexicano                 :: {has_meat} € 2.4
+dish ardeens_satay:          Ardeense saté            :: {has_meat} € 2.5
+dish satay:                  Saté                     :: {has_meat} € 2.7
+dish grisley:                Grisley                  :: {has_meat} € 2.7
+dish flemish_stew:           Stoofvlees               :: {has_meat} € 4.5
+dish meatballs_tomato_sauce: Balletjes in tomatensaus :: {has_meat} € 4.5
+dish hamburger:              Hamburger                :: {has_meat} € 2.6
+dish cheeseburger:           Cheeseburger             :: {has_meat} € 2.9
+dish chicken_burger:         Chickenburger            :: {has_meat} € 3.2
+dish bicky_burger:           Bickyburger              :: {has_meat} € 2.9
+dish bicky_rib:              Bicky Rib                :: {has_meat} € 3.5
+dish bicky_royal:            Bicky Royal              :: {has_meat} € 4.3
+dish bicky_chicken:          Bicky Chicken            :: {has_meat} € 3.2
+dish bicky_wrap:             Bicky Wrap               :: {has_meat} € 3
+dish assortment:             Twijfelaar               :: {has_meat} € 3
 
-base chili_cheese:           Chili cheese             :: {has_meat} € 2.7
+dish chili_cheese:           Chili cheese             :: {has_meat} € 2.7
 	# FIXME zit hier vlees in?
 
-base fish_burger:       Fishburger     :: {has_fish} € 3
-base cod_stick:         Kabeljauwstick :: {has_fish} € 2.5
-base shrimp_croquette:  Garnaalkroket  :: {has_fish} € 2
+dish fish_burger:       Fishburger     :: {has_fish} € 3
+dish cod_stick:         Kabeljauwstick :: {has_fish} € 2.5
+dish shrimp_croquette:  Garnaalkroket  :: {has_fish} € 2
 
-base mozarella_sticks:  Mozarellasticks     € 3
-base cheese_croquette:  Kaaskroket          € 1.5
-base veggi_burger:      Veggieburger        € 3.2
-base cheese_souflesse:  Kaassouflesse       € 1.5
+dish mozarella_sticks:  Mozarellasticks     € 3
+dish cheese_croquette:  Kaaskroket          € 1.5
+dish veggi_burger:      Veggieburger        € 3.2
+dish cheese_souflesse:  Kaassouflesse       € 1.5
 	# https://www.vangeloven.com/merk/souflesse
-base bonita:            Bonita              € 2
+dish bonita:            Bonita              € 2
 	# https://www.devriesvanoers.nl/assortiment/specialiteiten/vegetarisch-groentesnack-vries-bonita/
-base sajoera:           Sajoera             € 2
+dish sajoera:           Sajoera             € 2
 	# https://www.devriesvanoers.nl/assortiment/specialiteiten/vegetarisch-groentekroket-vries-sajoera/
-base veg_cheese_disc:   Groenten-kaasschijf € 2.4
-base mini_spring_rolls: Mini-loempia's      € 3
-base bami:              Bami                € 2
+dish veg_cheese_disc:   Groenten-kaasschijf € 2.4
+dish mini_spring_rolls: Mini-loempia's      € 3
+dish bami:              Bami                € 2

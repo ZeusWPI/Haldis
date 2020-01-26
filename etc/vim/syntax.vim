@@ -19,7 +19,7 @@ syn region  hldsLocationHeader matchgroup=hldsLocationHeaderDelim
 	\ start="^====*$" end="^====*$"
 	\ contains=hldsLocationAttribute,hldsComment
 
-syn keyword hldsBlockType     base                       nextgroup=hldsBlockIdAftrKywrd skipwhite
+syn keyword hldsBlockType     dish                       nextgroup=hldsBlockIdAftrKywrd skipwhite
 syn keyword hldsChoiceType    single_choice multi_choice nextgroup=hldsBlockIdAftrKywrd skipwhite
 
 syn match   hldsBlockId          "^[a-z0-9_-]\+: "

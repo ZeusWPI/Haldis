@@ -9,9 +9,9 @@ sauce: Saus
 	curry: Currysaus € 0.80
 	stoofvlees: Stoofvleessaus € 1.41
 
-base veggieburger: Veggieburger € 4.2
+dish veggieburger: Veggieburger € 4.2
 
-base friet: Friet -- Een pakje friet :: {has_meat} {has_gluten}
+dish friet: Friet -- Een pakje friet :: {has_meat} {has_gluten}
 
 	single_choice size: Grootte
 		small: Small € 2
@@ -21,6 +21,6 @@ base friet: Friet -- Een pakje friet :: {has_meat} {has_gluten}
 
 	multi_choice sauce
 
-base vleeskroket: Vleeskroket -- Een vlezige kroket :: {has_meat} € 4.2
-base vleeskroket: Vleeskroket :: {has_meat} € 4.2
-base vleeskroket: Vleeskroket -- Een vlezige kroket
+dish vleeskroket: Vleeskroket -- Een vlezige kroket :: {has_meat} € 4.2
+dish vleeskroket: Vleeskroket :: {has_meat} € 4.2
+dish vleeskroket: Vleeskroket -- Een vlezige kroket

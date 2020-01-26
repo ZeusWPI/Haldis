@@ -35,7 +35,7 @@ class HldsSemanticActions:
             dishes=dishes,
         )
 
-    def base_block(self, ast) -> Dish:
+    def dish_block(self, ast) -> Dish:
         return Dish(
             ast["id"],
             name=ast["name"],

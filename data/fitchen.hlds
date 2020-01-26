@@ -87,7 +87,7 @@ extra_vegs: Extra groenten/zaden
 	sesame_seeds:    Sesamzaad                    € 0.50
 	pumpkin_seeds:   Pompoenzaad                  € 0.50
 
-base vegan_avocado_spring: Vegan avocado spring -- Gekruide tempeh, quinoa, avocado, rode ui, komkommer, kerstomaten, babyspinazie, lijnzaad, vegan spicy dressing
+dish vegan_avocado_spring: Vegan avocado spring -- Gekruide tempeh, quinoa, avocado, rode ui, komkommer, kerstomaten, babyspinazie, lijnzaad, vegan spicy dressing
 	single_choice bowl_wrap
 	single_choice size
 	single_choice veggie_on_vegan_dish
@@ -96,7 +96,7 @@ base vegan_avocado_spring: Vegan avocado spring -- Gekruide tempeh, quinoa, avoc
 	multi_choice extra_protein
 	multi_choice extra_vegs
 
-base sunset_beach: Sunset beach -- Tofu, bruine rijst, slamix, Fitchens currydressing
+dish sunset_beach: Sunset beach -- Tofu, bruine rijst, slamix, Fitchens currydressing
 	single_choice bowl_wrap
 	single_choice size
 	single_choice veggie_on_veggie_dish
@@ -105,7 +105,7 @@ base sunset_beach: Sunset beach -- Tofu, bruine rijst, slamix, Fitchens currydre
 	multi_choice extra_protein
 	multi_choice extra_vegs
 
-base vegan_fitalian: Vegan fitalian -- Babyspinazie, volkorenpasta, vegan tomatensaus, tofu, kerstomaten, vegan kaas
+dish vegan_fitalian: Vegan fitalian -- Babyspinazie, volkorenpasta, vegan tomatensaus, tofu, kerstomaten, vegan kaas
 	single_choice bowl_wrap
 	single_choice size
 	single_choice veggie_on_vegan_dish
@@ -114,7 +114,7 @@ base vegan_fitalian: Vegan fitalian -- Babyspinazie, volkorenpasta, vegan tomate
 	multi_choice extra_protein
 	multi_choice extra_vegs
 
-base hot_tempeh: Hot tempeh -- Gekruide tempeh, quinoa, slamix, Fitchens spicy dressing
+dish hot_tempeh: Hot tempeh -- Gekruide tempeh, quinoa, slamix, Fitchens spicy dressing
 	single_choice bowl_wrap
 	single_choice size
 	single_choice veggie_on_veggie_dish
@@ -123,7 +123,7 @@ base hot_tempeh: Hot tempeh -- Gekruide tempeh, quinoa, slamix, Fitchens spicy d
 	multi_choice extra_protein
 	multi_choice extra_vegs
 
-base indian_summer: Indian summer -- Kip, bruine rijst, slamix, Fitchens currydressing
+dish indian_summer: Indian summer -- Kip, bruine rijst, slamix, Fitchens currydressing
 	single_choice bowl_wrap
 	single_choice size
 	single_choice veggie
@@ -132,7 +132,7 @@ base indian_summer: Indian summer -- Kip, bruine rijst, slamix, Fitchens currydr
 	multi_choice extra_protein
 	multi_choice extra_vegs
 
-base spicy_chicken: Spicy chicken -- Kip, quinoa, slamix, Fitchens spicy dressing
+dish spicy_chicken: Spicy chicken -- Kip, quinoa, slamix, Fitchens spicy dressing
 	single_choice bowl_wrap
 	single_choice size
 	single_choice veggie
@@ -141,7 +141,7 @@ base spicy_chicken: Spicy chicken -- Kip, quinoa, slamix, Fitchens spicy dressin
 	multi_choice extra_protein
 	multi_choice extra_vegs
 
-base avocado_chick: Avocado chick -- Kip, zoete aardappel, ijsbergsla, paprika, avocado, parmezaan, maïs, Fitchens mosterddressing
+dish avocado_chick: Avocado chick -- Kip, zoete aardappel, ijsbergsla, paprika, avocado, parmezaan, maïs, Fitchens mosterddressing
 	single_choice bowl_wrap
 	single_choice size
 	single_choice veggie
@@ -150,7 +150,7 @@ base avocado_chick: Avocado chick -- Kip, zoete aardappel, ijsbergsla, paprika, 
 	multi_choice extra_protein
 	multi_choice extra_vegs
 
-base olive_garden: Olive garden -- Kip, volkorenpasta, babyspinazie, kerstomaten, parmezaan, zwarte olijven, Fitchens basilicum-pestodressing
+dish olive_garden: Olive garden -- Kip, volkorenpasta, babyspinazie, kerstomaten, parmezaan, zwarte olijven, Fitchens basilicum-pestodressing
 	single_choice bowl_wrap
 	single_choice size
 	single_choice veggie
@@ -159,7 +159,7 @@ base olive_garden: Olive garden -- Kip, volkorenpasta, babyspinazie, kerstomaten
 	multi_choice extra_protein
 	multi_choice extra_vegs
 
-base spicy_mexican: Spicy Mexican -- Mager rundvlees, quinoa, ijsbergsla, avocado, parmezaan, maïs, paprika, Fitchens spicy dressing
+dish spicy_mexican: Spicy Mexican -- Mager rundvlees, quinoa, ijsbergsla, avocado, parmezaan, maïs, paprika, Fitchens spicy dressing
 	single_choice bowl_wrap
 	single_choice size
 	single_choice veggie
@@ -168,7 +168,7 @@ base spicy_mexican: Spicy Mexican -- Mager rundvlees, quinoa, ijsbergsla, avocad
 	multi_choice extra_protein
 	multi_choice extra_vegs
 
-base fitalian: Fitalian -- Mager rundvlees, volkorenpasta, tomatensaus met groenten, parmezaan, Fitchens basilicum-pestodressing
+dish fitalian: Fitalian -- Mager rundvlees, volkorenpasta, tomatensaus met groenten, parmezaan, Fitchens basilicum-pestodressing
 	single_choice bowl_wrap
 	single_choice size
 	single_choice veggie
@@ -177,7 +177,7 @@ base fitalian: Fitalian -- Mager rundvlees, volkorenpasta, tomatensaus met groen
 	multi_choice extra_protein
 	multi_choice extra_vegs
 
-base iron_man: Iron man -- Mager rundvlees, volkorenpasta, kerstomaten, parmezaan, zwarte olijven, babyspinazie, Fitchens basilicum-pestodressing
+dish iron_man: Iron man -- Mager rundvlees, volkorenpasta, kerstomaten, parmezaan, zwarte olijven, babyspinazie, Fitchens basilicum-pestodressing
 	single_choice bowl_wrap
 	single_choice size
 	single_choice veggie
@@ -186,7 +186,7 @@ base iron_man: Iron man -- Mager rundvlees, volkorenpasta, kerstomaten, parmezaa
 	multi_choice extra_protein
 	multi_choice extra_vegs
 
-base beefcake: Beefcake -- Mager rundvlees, zoete aardappel, slamix, Fitchens mosterddressing
+dish beefcake: Beefcake -- Mager rundvlees, zoete aardappel, slamix, Fitchens mosterddressing
 	single_choice bowl_wrap
 	single_choice size
 	single_choice veggie
@@ -195,7 +195,7 @@ base beefcake: Beefcake -- Mager rundvlees, zoete aardappel, slamix, Fitchens mo
 	multi_choice extra_protein
 	multi_choice extra_vegs
 
-base slim_fish: Slim fish -- Gerookte zalm, bruine rijst, babyspinazie, radijs, edamamebonen, komkommer, maïs, avocado, sesamzaad, Fitchens spicy dressing
+dish slim_fish: Slim fish -- Gerookte zalm, bruine rijst, babyspinazie, radijs, edamamebonen, komkommer, maïs, avocado, sesamzaad, Fitchens spicy dressing
 	single_choice bowl_wrap
 	single_choice size
 	single_choice veggie
@@ -204,7 +204,7 @@ base slim_fish: Slim fish -- Gerookte zalm, bruine rijst, babyspinazie, radijs, 
 	multi_choice extra_protein
 	multi_choice extra_vegs
 
-base captain: Captain -- Gerookte zalm, volkorenpasta, witte ui, babyspinazie, kerstomaten, Fitchens basilicum-pestodressing
+dish captain: Captain -- Gerookte zalm, volkorenpasta, witte ui, babyspinazie, kerstomaten, Fitchens basilicum-pestodressing
 	single_choice bowl_wrap
 	single_choice size
 	single_choice veggie
