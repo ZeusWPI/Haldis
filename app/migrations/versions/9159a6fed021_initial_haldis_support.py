@@ -100,14 +100,18 @@ def upgrade():
     for query in chain(new_dish_id, [dish_name_and_price_from_product]):
         op.execute(query)
     # Historical product data migrated, drop obsolete column and table
+    op.execute(text("ALTER TABLE order_item DROP FOREIGN KEY order_item_ibfk_3"))
     op.drop_column("order_item", "product_id")
     op.drop_table("product")
 
     #----------------------------------------------------------------------------------------------
     # Migrate historical location data to orders
 
+    op.execute(text("ALTER TABLE `order` DROP FOREIGN KEY order_ibfk_2"))
+    op.alter_column("order", "location_id", new_column_name="legacy_location_id",
+                    type_=sa.Integer, nullable=True)
+    op.add_column("order", sa.Column("location_id", sa.String(length=64), nullable=True))
     op.add_column("order", sa.Column("location_name", sa.String(length=128), nullable=True))
-    op.alter_column("order", "location_id", new_column_name="legacy_location_id", type_=sa.Integer)
     # Brief, ad-hoc table constructs just for our UPDATE statement, see
     # https://alembic.sqlalchemy.org/en/latest/ops.html#alembic.operations.Operations.execute
     order = table("order",
@@ -123,9 +127,9 @@ def upgrade():
         for old_id, new_id in LOCATION_LEGACY_TO_HLDS.items()
     ]
     location_name_from_location = text("""
-        UPDATE order
+        UPDATE `order`
         SET location_name = (SELECT location.name FROM location
-                             WHERE location.id = order.legacy_location_id)"""
+                             WHERE location.id = `order`.legacy_location_id)"""
     )
     for query in chain(new_location_id, [location_name_from_location]):
         op.execute(query)
