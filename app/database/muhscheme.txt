@@ -30,9 +30,8 @@ order_item
 
 order_item_choice
   id
+  order_item_id
   choice_id           HLDS identifier
   kind                single_choice/multi_choice
-  order_item
   name
-  description
   value               just a textual description of the chosen values
