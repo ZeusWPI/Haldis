@@ -6,8 +6,8 @@ testfrituur: Testfrituur
 sauce: Saus
 	ketchup: Ketchup -- Een tomatensaus met veel suiker € 0.8
 	mayo: Mayonaise -- Eierdooier en olie € 0.8
-	curry: Currysaus € 0.8
-	stoofvlees: Stoofvleessaus € 1.4
+	curry: Currysaus € 0.80
+	stoofvlees: Stoofvleessaus € 1.41
 
 base veggieburger: Veggieburger € 4.2
 

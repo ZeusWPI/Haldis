@@ -1,15 +1,19 @@
 #!/usr/bin/env python3
 # pylint: disable=too-few-public-methods
 
-from typing import List, Mapping, Any
+from typing import Iterable, List, Mapping, Any
 
 
-def _format_tags(tags):
+def _format_tags(tags: Iterable[str]) -> str:
     return (
         " :: {}".format(" ".join(["{" + tag + "}" for tag in tags]))
         if tags else
         ""
     )
+
+
+def _format_price(price: int) -> str:
+    return " € {}.{:02}".format(*divmod(price, 100)) if price else ""
 
 
 def _format_type_and_choice(type_and_choice):
@@ -30,7 +34,7 @@ class Option:
             self,
             " -- {}".format(self.description) if self.description else "",
             _format_tags(self.tags),
-            " {}".format(self.price) if self.price else ""
+            _format_price(self.price)
         )
 
 
@@ -65,7 +69,7 @@ class Dish:
             self,
             " -- {}".format(self.description) if self.description else "",
             _format_tags(self.tags),
-            " {}".format(self.price) if self.price else "",
+            _format_price(self.price),
             "\n\t".join(map(_format_type_and_choice, self.choices))
         )
 
