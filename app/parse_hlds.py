@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from tatsu.util import asjson
-from app.hlds.parser import parse_files
+from hlds.parser import parse_files
 
 
 USAGE = """{0} [filename]...
@@ -17,7 +17,7 @@ def main(filenames):
     if filenames:
         location_definitions = parse_files(filenames)
     else:
-        from app.hlds.definitions import location_definitions
+        from hlds.definitions import location_definitions
 
     print("\n\n".join(map(str, location_definitions)))
 
