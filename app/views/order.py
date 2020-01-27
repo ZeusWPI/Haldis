@@ -58,7 +58,7 @@ def order_from_id(order_id: int, form: OrderForm = None) -> str:
         form = AnonOrderItemForm() if current_user.is_anonymous() \
             else OrderItemForm()
         form.populate(order.location)
-    if order.stoptime and order.stoptime < datetime.now():
+    if order.is_closed():
         form = None
     total_price = sum([o.price for o in order.items])
     debts = sum([o.price for o in order.items if not o.paid])
@@ -108,7 +108,7 @@ def order_item_create(order_id: int) -> typing.Any:
     current_order = Order.query.filter(Order.id == order_id).first()
     if current_order is None:
         abort(404)
-    if current_order.stoptime and current_order.stoptime < datetime.now():
+    if current_order.is_closed():
         abort(404)
     if current_user.is_anonymous() and not current_order.public:
         flash("Please login to see this order.", "info")
@@ -219,8 +219,7 @@ def close_order(order_id: int) -> typing.Optional[Response]:
     order = Order.query.filter(Order.id == order_id).first()
     if order is None:
         abort(404)
-    if (current_user.id == order.courier_id or current_user.is_admin()) and (
-            order.stoptime is None or (order.stoptime > datetime.now())):
+    if (current_user.id == order.courier_id or current_user.is_admin()) and not order.is_closed():
         order.stoptime = datetime.now()
         if order.courier_id == 0 or order.courier_id is None:
             courier = select_user(order.items)

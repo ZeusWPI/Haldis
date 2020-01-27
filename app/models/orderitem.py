@@ -63,7 +63,7 @@ class OrderItem(db.Model):
         "Check if a user can delete an item"
         if int(self.order_id) != int(order_id):
             return False
-        if self.order.stoptime and self.order.stoptime < datetime.now():
+        if self.order.is_closed():
             return False
         if self.user is not None and self.user_id == user_id:
             return True

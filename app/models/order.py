@@ -70,7 +70,7 @@ class Order(db.Model):
         return group
 
     def is_closed(self) -> bool:
-        return datetime.now() > self.stoptime
+        return self.stoptime and datetime.now() > self.stoptime
 
     def can_close(self, user_id: int) -> bool:
         "Check if a user can close the Order"
