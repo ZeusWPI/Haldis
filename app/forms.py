@@ -7,10 +7,10 @@ from flask_wtf import FlaskForm as Form
 from wtforms import (DateTimeField, SelectField, StringField, SubmitField,
                      validators)
 
+from utils import euro_string
 from hlds.definitions import location_definitions
 from hlds.models import Location
 from models import User
-from utils import euro_string
 
 
 class OrderForm(Form):
@@ -18,7 +18,7 @@ class OrderForm(Form):
     # pylint: disable=R0903
     courier_id = SelectField("Courier", coerce=int)
     location_id = SelectField(
-        "Location", coerce=int, validators=[validators.required()]
+        "Location", coerce=str, validators=[validators.required()]
     )
     starttime = DateTimeField(
         "Starttime", default=datetime.now, format="%d-%m-%Y %H:%M"
@@ -47,15 +47,15 @@ class OrderForm(Form):
 class OrderItemForm(Form):
     "Class which defines the form for a new Item in an Order"
     # pylint: disable=R0903
-    product_id = SelectField("Item", coerce=int)
-    extra = StringField("Extra")
+    dish_id = SelectField("Dish")
+    comment = StringField("Comment")
     submit_button = SubmitField("Submit")
 
     def populate(self, location: Location) -> None:
-        "Fill in all the product options from the location"
-        self.product_id.choices = [
+        "Fill in all the dish options from the location"
+        self.dish_id.choices = [
             (i.id, (i.name + ": " + euro_string(i.price)))
-            for i in location.products
+            for i in location.dishes
         ]
 
 
@@ -68,7 +68,7 @@ class AnonOrderItemForm(OrderItemForm):
 
     def populate(self, location: Location) -> None:
         """
-        Fill in all the product options from the location and
+        Fill in all the dish options from the location and
         the name of the anon user
         """
         OrderItemForm.populate(self, location)

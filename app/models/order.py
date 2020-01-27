@@ -2,6 +2,8 @@
 import typing
 from datetime import datetime
 
+from utils import first
+from hlds.definitions import location_definitions
 from .database import db
 from .user import User
 
@@ -18,13 +20,12 @@ class Order(db.Model):
 
     items = db.relationship("OrderItem", backref="order", lazy="dynamic")
 
-    def configure(self, courier: User,
-                  starttime: db.DateTime, stoptime: db.DateTime,) -> None:
-        "Configure the Order"
-        # pylint: disable=W0201
-        self.courier = courier
-        self.starttime = starttime
-        self.stoptime = stoptime
+    def __getattr__(self, name):
+        if name == "location":
+            location = first(filter(lambda l: l.id == self.location_id, location_definitions))
+            if location:
+                return location
+        raise AttributeError()
 
     def __repr__(self) -> str:
         # pylint: disable=R1705
@@ -32,6 +33,14 @@ class Order(db.Model):
             return "Order %d @ %s" % (self.id, self.location.name or "None")
         else:
             return "Order %d" % (self.id)
+
+    def update_from_hlds(self) -> None:
+        """
+        Update the location name from the HLDS definition.
+        User should commit after running this to make the change persistent.
+        """
+        assert self.location_id, "location_id must be configured before updating from HLDS"
+        self.location_name = self.location.name
 
     def group_by_user(self) -> typing.Dict[str, typing.Any]:
         "Group items of an Order by user"
@@ -44,20 +53,20 @@ class Order(db.Model):
                 item.price if not item.paid else 0
             )
             user["paid"] = user.get("paid", True) and item.paid
-            user["products"] = user.get("products", []) + [item.dish_name]
+            user["dishes"] = user.get("dishes", []) + [item.dish_name]
             group[item.get_name()] = user
 
         return group
 
-    def group_by_product(self) -> typing.Dict[str, typing.Any]:
-        "Group items of an Order by product"
+    def group_by_dish(self) -> typing.Dict[str, typing.Any]:
+        "Group items of an Order by dish"
         group: typing.Dict[str, typing.Any] = dict()
         for item in self.items:
-            product = group.get(item.dish_name, dict())
-            product["count"] = product.get("count", 0) + 1
-            if item.extra:
-                product["extras"] = product.get("extras", []) + [item.comment]
-            group[item.dish_name] = product
+            dish = group.get(item.dish_name, dict())
+            dish["count"] = dish.get("count", 0) + 1
+            if item.comment:
+                dish["comments"] = dish.get("comments", []) + [item.comment]
+            group[item.dish_name] = dish
 
         return group
 

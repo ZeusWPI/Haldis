@@ -1,6 +1,8 @@
 "Script for everything OrderItem related in the database"
 from datetime import datetime
 
+from utils import first
+from hlds.definitions import location_definitions
 from .database import db
 from .order import Order
 from .user import User
@@ -23,17 +25,21 @@ class OrderItem(db.Model):
 
     choices = db.relationship("OrderItemChoice", backref="order_item", lazy="dynamic")
 
-    def configure(self, user: User, order: Order) -> None:
-        "Configure the OrderItem"
-        # pylint: disable=W0201
-        self.user = user
-        self.order = order
+    def __getattr__(self, name):
+        if name == "dish":
+            location_id = Order.query.filter(Order.id == self.order_id).first().location_id
+            location = first(filter(lambda l: l.id == location_id, location_definitions))
+            if location:
+                return first(filter(lambda d: d.id == self.dish_id, location.dishes))
+            else:
+                raise ValueError("No Location found with id: " + location_id)
+        raise AttributeError()
 
     def get_name(self) -> str:
         "Get the name of the user which 'owns' the item"
         if self.user_id is not None and self.user_id > 0:
             return self.user.username
-        return self.name
+        return self.user_name
 
     def __repr__(self) -> str:
         return "Order %d: %s wants %s" % (
@@ -41,6 +47,16 @@ class OrderItem(db.Model):
             self.get_name(),
             self.dish_name or "None",
         )
+
+    def update_from_hlds(self) -> None:
+        """
+        Update the dish name and price from the HLDS definition.
+        User should commit after running this to make the change persistent.
+        """
+        assert self.order_id, "order_id must be configured before updating from HLDS"
+        assert self.dish_id, "dish_id must be configured before updating from HLDS"
+        self.dish_name = self.dish.name
+        self.price = self.dish.price
 
     # pylint: disable=W0613
     def can_delete(self, order_id: int, user_id: int, name: str) -> bool:

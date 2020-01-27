@@ -37,6 +37,7 @@ def order_create() -> typing.Union[str, Response]:
     if orderForm.validate_on_submit():
         order = Order()
         orderForm.populate_obj(order)
+        order.update_from_hlds()
         db.session.add(order)
         db.session.commit()
         post_order_to_webhook(order)
@@ -59,8 +60,8 @@ def order_from_id(order_id: int, form: OrderForm = None) -> str:
         form.populate(order.location)
     if order.stoptime and order.stoptime < datetime.now():
         form = None
-    total_price = sum([o.product.price for o in order.items])
-    debts = sum([o.product.price for o in order.items if not o.paid])
+    total_price = sum([o.price for o in order.items])
+    debts = sum([o.price for o in order.items if not o.paid])
     return render_template("order.html", order=order, form=form,
                            total_price=total_price, debts=debts)
 
@@ -121,9 +122,10 @@ def order_item_create(order_id: int) -> typing.Any:
             item.user_id = current_user.id
         else:
             session["anon_name"] = item.name
+        item.update_from_hlds()
         db.session.add(item)
         db.session.commit()
-        flash("Ordered %s" % (item.product.name), "success")
+        flash("Ordered %s" % (item.dish_name), "success")
         return redirect(url_for("order_bp.order_from_id", order_id=order_id))
     return order_from_id(order_id, form=form)
 
@@ -138,7 +140,7 @@ def item_paid(order_id: int, item_id: int) -> typing.Optional[Response]:
     if item.order.courier_id == user_id or current_user.admin:
         item.paid = True
         db.session.commit()
-        flash("Paid %s by %s" % (item.product.name, item.get_name()),
+        flash("Paid %s by %s" % (item.dish_name, item.get_name()),
               "success")
         return redirect(url_for("order_bp.order_from_id", order_id=order_id))
     abort(404)
@@ -184,10 +186,10 @@ def delete_item(order_id: int, item_id: int) -> typing.Any:
         print("%s tries to delete orders" % (current_user.username))
         user_id = current_user.id
     if item.can_delete(order_id, user_id, session.get("anon_name", "")):
-        product_name = item.product.name
+        dish_name = item.dish_name
         db.session.delete(item)
         db.session.commit()
-        flash("Deleted %s" % (product_name), "success")
+        flash("Deleted %s" % (dish_name), "success")
         return redirect(url_for("order_bp.order_from_id", order_id=order_id))
     abort(404)
 

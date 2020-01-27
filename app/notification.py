@@ -10,30 +10,30 @@ from flask import url_for
 from models.order import Order
 
 
-def webhook_text(order_item: Order) -> typing.Optional[str]:
+def webhook_text(order: Order) -> typing.Optional[str]:
     "Function that makes the text for the notification"
-    if "Testlocation" in order_item.location.name:
+    if order.location_id == "test":
         return None
 
-    if order_item.courier is not None:
+    if order.courier is not None:
         # pylint: disable=C0301
         return "<!channel|@channel> {3} is going to {1}, order <{0}|here>! Deadline in {2} minutes!".format(
-            url_for("order_bp.order_from_id", order_id=order_item.id, _external=True),
-            order_item.location.name,
-            remaining_minutes(order_item.stoptime),
-            order_item.courier.username.title(),
+            url_for("order_bp.order_from_id", order_id=order.id, _external=True),
+            order.location_name,
+            remaining_minutes(order.stoptime),
+            order.courier.username.title(),
         )
 
     return "<!channel|@channel> New order for {}. Deadline in {} minutes. <{}|Open here.>".format(
-        order_item.location.name,
-        remaining_minutes(order_item.stoptime),
-        url_for("order_bp.order_from_id", order_id=order_item.id, _external=True),
+        order.location_name,
+        remaining_minutes(order.stoptime),
+        url_for("order_bp.order_from_id", order_id=order.id, _external=True),
     )
 
 
-def post_order_to_webhook(order_item: Order) -> None:
+def post_order_to_webhook(order: Order) -> None:
     "Function that sends the notification for the order"
-    message = webhook_text(order_item)
+    message = webhook_text(order)
     if message:
         webhookthread = WebhookSenderThread(
             message, app.config["SLACK_WEBHOOK"])

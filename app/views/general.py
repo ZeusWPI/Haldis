@@ -12,6 +12,7 @@ from flask import current_app as app
 from flask import send_from_directory, url_for
 from flask_login import login_required
 
+from utils import first
 from hlds.definitions import location_definitions
 from hlds.models import Location
 from models import Order
@@ -19,13 +20,6 @@ from models import Order
 from views.order import get_orders
 
 general_bp = Blueprint("general_bp", __name__)
-
-
-def _first(iterable: typing.Iterable, default=None):
-    try:
-        return next(iter(iterable))
-    except StopIteration:
-        return default
 
 
 @general_bp.route("/")
@@ -131,7 +125,7 @@ def locations() -> str:
 @general_bp.route("/location/<location_id>")
 def location(location_id) -> str:
     "Generate the location view given an id"
-    loc = _first(filter(lambda l: l.id == location_id, location_definitions))
+    loc = first(filter(lambda l: l.id == location_id, location_definitions))
     if loc is None:
         abort(404)
     return render_template("location.html", location=loc, title=loc.name)

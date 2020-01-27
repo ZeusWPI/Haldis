@@ -22,8 +22,8 @@ Haldis - Order {{ order.id }}
 
     <div class="row">
         <div class="col-sm-6 col-sm-offset-3 darker showcase" id="items-ordered">
-            <h3 class="text-center">Ordered products: {{ order.items.count() }}</h3>
-        {% for key, value in order.group_by_product().items() -%}
+            <h3 class="text-center">Ordered dishes: {{ order.items.count() }}</h3>
+        {% for key, value in order.group_by_dish().items() -%}
             <div class="product text-center">
                 <p>
                     {{ key }}: {{ value["count"] }}

@@ -2,6 +2,7 @@
 # pylint: disable=too-few-public-methods
 
 from typing import Iterable, List, Mapping, Any, Optional
+from utils import euro_string
 
 
 def _format_tags(tags: Iterable[str]) -> str:
@@ -13,7 +14,7 @@ def _format_tags(tags: Iterable[str]) -> str:
 
 
 def _format_price(price: int) -> str:
-    return " € {}.{:02}".format(*divmod(price, 100)) if price else ""
+    return " {}".format(euro_string(price)) if price else ""
 
 
 def _format_type_and_choice(type_and_choice):

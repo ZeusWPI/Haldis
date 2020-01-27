@@ -43,15 +43,15 @@
             <a class="btn btn-primary" onclick="chooseRandom()">Choose for me</a>
           </span>
             {{ form.csrf_token }}
-            <div class="form-group select2-container select2 {{ 'has-errors' if form.product_id.errors}}">
-                {{ form.product_id.label(class='control-label') }}<br>
-                {{ form.product_id(class='form-control select') }}
-                {{ util.render_form_field_errors(form.product_id) }}
+            <div class="form-group select2-container select2 {{ 'has-errors' if form.dish_id.errors}}">
+                {{ form.dish_id.label(class='control-label') }}<br>
+                {{ form.dish_id(class='form-control select') }}
+                {{ util.render_form_field_errors(form.dish_id) }}
             </div>
-            <div class="form-group {{ 'has-errors' if form.product_id.errors }}">
-                {{ form.extra.label(class='control-label') }}<br>
-                {{ form.extra(class='form-control', placeholder='Fill in extras, when applicable') }}
-                {{ util.render_form_field_errors(form.extra) }}
+            <div class="form-group {{ 'has-errors' if form.dish_id.errors }}">
+                {{ form.comment.label(class='control-label') }}<br>
+                {{ form.comment(class='form-control', placeholder='Fill in comment, when applicable') }}
+                {{ util.render_form_field_errors(form.comment) }}
             </div>
             {% if current_user.is_anonymous() %}
                 <div class="form-group{{ ' has-error' if form.name.errors }}{{ ' required' if form.name.flags.required }}">
@@ -78,8 +78,8 @@
             {% for item in order.items -%}
                 <tr>
                     <td>{{ item.get_name() }}</td>
-                    <td><span title="{{ item.extra if item.extra }}">{{ item.product.name }}{{ "*" if item.extra }}</span></td>
-                    <td>{{ item.product.price|euro }}</td>
+                    <td><span title="{{ item.comment if item.comment }}">{{ item.dish_name }}{{ "*" if item.comment }}</span></td>
+                    <td>{{ item.price|euro }}</td>
                     {% if courier_or_admin %}<td>{% if not item.paid %}
                       <form action="{{ url_for('order_bp.item_paid', order_id=order.id, item_id=item.id) }}" method="post" style="display:inline">
                           <input type="submit" class="btn btn-xs btn-primary" value="Pay"></input>
@@ -98,15 +98,15 @@
         </table>
     </div>
     <div class="col-md-push-2 col-md-4 darker box order_ordered" id="items-ordered">
-        <h3>Ordered products: {{ order.items.count() }}</h3>
+        <h3>Ordered dishes: {{ order.items.count() }}</h3>
         <a class="divLink" href="{{ url_for('order_bp.items_showcase', order_id=order.id) }}"></a>
-        {% for key, value in order.group_by_product().items() -%}
+        {% for key, value in order.group_by_dish().items() -%}
             <div class="product">
                 {{ key }}: {{ value["count"] }}
-                {% if value["extras"] -%}
-                    <div class="extras">
-                    {% for extra in value["extras"] -%}
-                        <div>- {{ extra }}</div>
+                {% if value["comments"] -%}
+                    <div class="comments">
+                    {% for comment in value["comments"] -%}
+                        <div>- {{ comment }}</div>
                     {% endfor %}
                     </div>
                 {%- endif %}
