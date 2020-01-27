@@ -6,6 +6,7 @@ import itertools
 from typing import Iterable, List, Union, Tuple
 from tatsu import parse as tatsu_parse
 from tatsu.ast import AST
+from tatsu.exceptions import SemanticError
 from .models import Location, Choice, Option, Dish
 
 
@@ -51,6 +52,9 @@ class HldsSemanticActions:
         )
 
     def choice_block(self, ast) -> Choice:
+        if ast["price"] or ast["tags"]:
+            raise SemanticError("Choice blocks cannot have price or tags, put them on each of its options instead")
+
         return Choice(
             ast["id"],
             name=ast["name"],

@@ -28,13 +28,9 @@ location_attribute =
 location = >location_header items:{ block } ;
 
 
-name_and_description =
+attributes =
 	name:/[^\n]*?(?= +-- | +:: | +€ |\n)/
 	[ s '--' ~ s description:/[^\n]*?(?= +:: | +€ |\n)/ ]
-	;
-
-attributes =
-	>name_and_description
 	[ s '::' {s ('{' tags+:identifier '}')} ]
 	[ [ s '::' ~ ] s price:price ]
 	;
@@ -60,7 +56,7 @@ indent_choice_entry   = n '\t\t' >choice_entry ;
 
 # Toplevel choice definitions
 choice_block =
-	id:identifier ':' s >name_and_description entries:{ noindent_choice_entry }
+	id:identifier ':' s >attributes entries:{ noindent_choice_entry }
 	n
 	;
 
@@ -70,7 +66,7 @@ choice_block =
 indent_choice_block =
 	'\t' type:choice_type s
 	(
-		| kind:`declaration` id:identifier ':' ~ s >name_and_description entries:{ indent_choice_entry }
+		| kind:`declaration` id:identifier ':' ~ s >attributes entries:{ indent_choice_entry }
 		| kind:`reference`   id:identifier [ s price:price ]
 	)
 	n
