@@ -57,7 +57,8 @@ def order_from_id(order_id: int, form: OrderForm = None) -> str:
     if form is None:
         form = AnonOrderItemForm() if current_user.is_anonymous() \
             else OrderItemForm()
-        form.populate(order.location)
+        if order.location:
+            form.populate(order.location)
     if order.is_closed():
         form = None
     total_price = sum([o.price for o in order.items])

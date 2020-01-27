@@ -22,9 +22,7 @@ class Order(db.Model):
 
     def __getattr__(self, name):
         if name == "location":
-            location = first(filter(lambda l: l.id == self.location_id, location_definitions))
-            if location:
-                return location
+            return first(filter(lambda l: l.id == self.location_id, location_definitions))
         raise AttributeError()
 
     def __repr__(self) -> str:

@@ -1,7 +1,7 @@
 {% macro render_order(order) -%}
 <div class="row darke order_row">
     <div class="col-md-8 col-lg-9 order_data">
-        <h5>{{ order.location.name }}</h5>
+        <h5>{{ order.location_name }}</h5>
         <b class="amount_of_orders">{{ order.items.count() }} orders</b></p>
         <p class="time_data">
         {% if order.stoptime %}

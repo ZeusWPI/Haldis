@@ -25,7 +25,11 @@
         </form>
         {% endif %}
         <br/>
-        location: <a href="{{ order.location.website }}">{{ order.location.name }}</a><br/>
+        location: {% if order.location %}
+            <a href="{{ url_for('general_bp.location', location_id=order.location_id) }}">{{ order.location_name }}</a>
+        {% else %}
+            {{ order.location_name }}
+        {% endif %}<br/>
         {% if order.location.telephone != None %}
             telephone: <a href="tel://{{ order.location.telephone }}">{{ order.location.telephone }}</a><br/>
         {% endif %}
