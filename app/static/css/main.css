@@ -84,7 +84,7 @@ body {
 .showcase h2 {
     font-size: 110%;
     font-weight: bold;
-    margin-bottom: 0;
+    margin-bottom: 0.6em;
 }
 
 .showcase .open-order-warning {
@@ -111,7 +111,7 @@ body {
     padding-left: 2em;
 }
 .showcase .comments li {
-    margin: 0.7em 0 0.3em;
+    margin: 0.5em 0 0;
 }
 
 .showcase .total {
