@@ -35,21 +35,21 @@ meat: Vlees
 	pork: Varken :: {has_meat}
 
 
-dish wok1: Studentenwok met saus € 6
+dish wok1: Studentenwok 1 met saus € 6
 	single_choice bami_nasi
 	single_choice meat
 	single_choice sauce
 
-dish wok2: Studentenwok kip/varken bami/mihoen zonder saus € 6
+dish wok2: Studentenwok 2 kip/varken bami/mihoen zonder saus € 6
 	single_choice bami_mihoen
 	single_choice meat
 
-dish wok3: Studentenwok kip bami/nasi zonder saus :: {has_meat} € 6
+dish wok3: Studentenwok 3 kip bami/nasi zonder saus :: {has_meat} € 6
 	single_choice bami_nasi
 
-dish wok4: Vegetarische studentenwok met saus € 6
+dish wok4: Vegetarische studentenwok 4 met saus € 6
 	single_choice bami_nasi
 	single_choice sauce
 
-dish wok5: Studentenwok Babi Pangang -- Geroosterd varkensvlees :: {has_meat} € 6
+dish wok5: Studentenwok 5 babi pangang -- Geroosterd varkensvlees :: {has_meat} € 6
 	single_choice bami_nasi
