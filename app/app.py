@@ -171,6 +171,8 @@ def add_template_filters(app: Flask) -> None:
         "A function which converts a value to its euro_string"
         return euro_string(value)
 
+    app.template_filter("any")(any)
+
 
 # For usage when you directly call the script with python
 if __name__ == "__main__":

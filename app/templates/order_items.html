@@ -22,21 +22,22 @@ Haldis - Order {{ order.id }}
 
     <div class="row">
         <div class="col-sm-6 col-sm-offset-3 darker showcase" id="items-ordered">
-            <h3 class="text-center">Ordered dishes: {{ order.items.count() }}</h3>
-        {% for key, value in order.group_by_dish().items() -%}
-            <div class="product text-center">
-                <p>
-                    {{ key }}: {{ value["count"] }}
-                    {% if value["extras"] -%}
-                        <div class="extras">
-                        {% for extra in value["extras"] -%}
-                            <div>- {{ extra }}</div>
+            <h1 class="text-center">Ordered dishes: {{ order.items.count() }}</h1>
+            {% for key, value in order.group_by_dish().items() -%}
+                <div class="dish">
+                    <h2><span class="quantity">{{ value["count"] }}</span> × {{ key }}</h2>
+                    {% if value["comments"]|any -%}
+                        <ul class="comments">
+                        {% for comment in value["comments"] -%}
+                           <li>{% if comment %}{{ comment }}
+                           {% else %}<i>No comment</i>
+                           {% endif %}</li>
                         {% endfor %}
-                        </div>
+                        </ul>
                     {%- endif %}
-                </p>
-            </div>
-        {%- endfor %}
+                    </p>
+                </div>
+            {%- endfor %}
         </div>
     </div>
 

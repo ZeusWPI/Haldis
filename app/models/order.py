@@ -64,8 +64,7 @@ class Order(db.Model):
         for item in self.items:
             dish = group.get(item.dish_name, dict())
             dish["count"] = dish.get("count", 0) + 1
-            if item.comment:
-                dish["comments"] = dish.get("comments", []) + [item.comment]
+            dish["comments"] = dish.get("comments", []) + [item.comment]
             group[item.dish_name] = dish
 
         return group

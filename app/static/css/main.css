@@ -63,8 +63,30 @@ body {
     width: 100%;
 }
 
-.product .extras {
-    padding-left: 20px;
+.showcase {
+    font-size: 16px;
+    line-height: 1.2;
+}
+
+.showcase h1 {
+    font-size: 150%;
+    font-weight: bold;
+}
+.showcase h2 {
+    font-size: 110%;
+    font-weight: bold;
+    margin-bottom: 0;
+}
+
+.showcase .quantity {
+    font-size: 110%;
+}
+
+.showcase .comments {
+    padding-left: 2em;
+}
+.showcase .comments li {
+    margin: 0.7em 0 0.3em;
 }
 
 .order_row {
@@ -88,10 +110,6 @@ body {
     .md-no-right-padding {
         padding-right: 0px;
     }
-}
-
-.showcase .product {
-    font-size: 16px;
 }
 
 /* Add clickable box */
