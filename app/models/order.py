@@ -69,6 +69,9 @@ class Order(db.Model):
 
         return group
 
+    def is_closed(self) -> bool:
+        return datetime.now() > self.stoptime
+
     def can_close(self, user_id: int) -> bool:
         "Check if a user can close the Order"
         if self.stoptime and self.stoptime < datetime.now():

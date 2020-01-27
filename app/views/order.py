@@ -75,7 +75,8 @@ def items_showcase(order_id: int) -> str:
     if current_user.is_anonymous() and not order.public:
         flash("Please login to see this order.", "info")
         abort(401)
-    return render_template("order_items.html", order=order)
+    total_price = sum([o.price for o in order.items])
+    return render_template("order_items.html", order=order, total_price=total_price)
 
 
 @order_bp.route("/<order_id>/edit", methods=["GET", "POST"])
@@ -92,6 +93,7 @@ def order_edit(order_id: int) -> typing.Union[str, Response]:
     orderForm.populate()
     if orderForm.validate_on_submit():
         orderForm.populate_obj(order)
+        order.update_from_hlds()
         db.session.commit()
         return redirect(url_for("order_bp.order_from_id", order_id=order.id))
     return render_template("order_edit.html", form=orderForm,
@@ -201,7 +203,7 @@ def volunteer(order_id: int) -> Response:
     order = Order.query.filter(Order.id == order_id).first()
     if order is None:
         abort(404)
-    if order.courier_id is None or order.courrier_id == 0:
+    if order.courier_id is None or order.courier_id == 0:
         order.courier_id = current_user.id
         db.session.commit()
         flash("Thank you for volunteering!")
@@ -220,11 +222,11 @@ def close_order(order_id: int) -> typing.Optional[Response]:
     if (current_user.id == order.courier_id or current_user.is_admin()) and (
             order.stoptime is None or (order.stoptime > datetime.now())):
         order.stoptime = datetime.now()
-        if order.courier_id == 0 or order.courrier_id is None:
+        if order.courier_id == 0 or order.courier_id is None:
             courier = select_user(order.items)
             print(courier)
             if courier is not None:
-                order.courier_id = courrier.id
+                order.courier_id = courier.id
         db.session.commit()
         return redirect(url_for("order_bp.order_from_id", order_id=order_id))
     # The line below is to make sure mypy doesn't say

@@ -68,14 +68,39 @@ body {
     line-height: 1.2;
 }
 
+.showcase {
+    padding: 0;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
 .showcase h1 {
-    font-size: 150%;
-    font-weight: bold;
+    font-size: 200%;
+    margin: 0 ;
+    padding: 0.4em 0 0.2em;
+    border-bottom: 1px dashed var(--dGray1);
+    text-align: center;
 }
 .showcase h2 {
     font-size: 110%;
     font-weight: bold;
     margin-bottom: 0;
+}
+
+.showcase .open-order-warning {
+    font-size: 150%;
+    text-align: center;
+    padding: 1em 0.5em;
+    background-color: rgba(255, 0, 0, 0.1);
+}
+
+.showcase .dish {
+    padding: 0 0.5em;
+}
+@media (min-width: 500px) {
+    .showcase .dish {
+        padding: 0 1em;
+    }
 }
 
 .showcase .quantity {
@@ -87,6 +112,13 @@ body {
 }
 .showcase .comments li {
     margin: 0.7em 0 0.3em;
+}
+
+.showcase .total {
+    border-top: 1px dashed var(--dGray1);
+    text-align: center;
+    padding: 0.5em 0;
+    margin-top: 1.3em;
 }
 
 .order_row {

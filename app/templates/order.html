@@ -103,12 +103,14 @@
         {% for key, value in order.group_by_dish().items() -%}
             <div class="product">
                 {{ key }}: {{ value["count"] }}
-                {% if value["comments"] -%}
-                    <div class="comments">
+                {% if value["comments"]|any -%}
+                    <ul class="comments">
                     {% for comment in value["comments"] -%}
-                        <div>- {{ comment }}</div>
+                        <li>{% if comment %}{{ comment }}
+                        {% else %}<i>No comment</i>
+                        {% endif %}</li>
                     {% endfor %}
-                    </div>
+                    </ul>
                 {%- endif %}
             </div>
         {%- endfor %}
