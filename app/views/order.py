@@ -27,6 +27,11 @@ def orders(form: OrderForm = None) -> str:
         form.populate()
     return render_template("orders.html", orders=get_orders(), form=form)
 
+@order_bp.route("/all")
+def all_orders() -> str:
+    "Generate the view of all orders"
+    # pylint: disable=C0121
+    return render_template("orders_all.html", orders=Order.query.filter(Order.public == True).all())
 
 @order_bp.route("/create", methods=["POST"])
 @login_required
