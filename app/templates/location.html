@@ -26,13 +26,14 @@
         <h3 id="order-title">Products</h3>
         <table class="table table-hover table-condensed">
             <thead>
-                <tr><th>Name</th><th>Price</th></tr>
+                <tr><th style="min-width: 20%">Name</th><th>Description</th><th>Price</th></tr>
             </thead>
             <tbody>
             {% for dish in location.dishes -%}
                 <tr>
-                    <td>{{ dish.name }}{% if dish.description %} <span class="description">({{dish.description}})</span>{% endif %}</td>
-                    <td>{{ dish.price|euro }}<td>
+                    <td>{{ dish.name or dish.id }}</td>
+                    <td>{{ dish.description or "" }}</td>
+                    <td style="white-space: nowrap;">{{ dish.price|euro }}<td>
                 </tr>
             {%- endfor %}
             </tbody>
