@@ -11,6 +11,7 @@ from flask_login import current_user, login_required
 
 from forms import AnonOrderItemForm, OrderForm, OrderItemForm
 from models import Order, OrderItem, User, db
+from hlds.definitions import location_definitions
 from notification import post_order_to_webhook
 
 order_bp = Blueprint("order_bp", "order")
@@ -58,7 +59,7 @@ def order_from_id(order_id: int, form: OrderForm = None) -> str:
         form = AnonOrderItemForm() if current_user.is_anonymous() \
             else OrderItemForm()
         if order.location:
-            form.populate(order.location)
+            form.populate(order.location, None)
     if order.is_closed():
         form = None
     total_price = sum([o.price for o in order.items])
@@ -101,7 +102,7 @@ def order_edit(order_id: int) -> typing.Union[str, Response]:
                            order_id=order_id)
 
 
-@order_bp.route("/<order_id>/create", methods=["POST"])
+@order_bp.route("/<order_id>/create", methods=["GET", "POST"])
 def order_item_create(order_id: int) -> typing.Any:
     # type is 'typing.Union[str, Response]', but this errors due to
     #   https://github.com/python/mypy/issues/7187
@@ -114,23 +115,46 @@ def order_item_create(order_id: int) -> typing.Any:
     if current_user.is_anonymous() and not current_order.public:
         flash("Please login to see this order.", "info")
         abort(401)
+    location = current_order.location
+    # If location doesn't exist any more, adding items is nonsensical
+    if not location:
+        abort(404)
     form = AnonOrderItemForm() if current_user.is_anonymous() \
         else OrderItemForm()
-    form.populate(current_order.location)
-    if form.validate_on_submit():
-        item = OrderItem()
-        form.populate_obj(item)
-        item.order_id = order_id
-        if not current_user.is_anonymous():
-            item.user_id = current_user.id
-        else:
-            session["anon_name"] = item.name
-        item.update_from_hlds()
-        db.session.add(item)
-        db.session.commit()
-        flash("Ordered %s" % (item.dish_name), "success")
-        return redirect(url_for("order_bp.order_from_id", order_id=order_id))
-    return order_from_id(order_id, form=form)
+
+    dish_id = form.dish_id.data if form.is_submitted() else request.args.get("dish")
+    if dish_id and not location.dish_by_id(dish_id):
+        abort(404)
+    form.populate(current_order.location, dish_id)
+
+    if not form.validate_on_submit():
+        return order_from_id(order_id, form=form)
+
+    # Form was submitted and is valid
+
+    # The form's validation tests that dish_id is valid and gives a friendly error if it's not
+    form_data = form.data
+    choices = location.dish_by_id(form_data["dish_id"]).choices
+    all_choices_present = all(
+        ("choice_" + choice.id) in form_data
+        for (_choice_type, choice) in choices
+    )
+    if not all_choices_present:
+        return redirect(url_for("order_bp.order_item_create",
+                                order_id=order_id, dish=form_data["dish_id"]))
+
+    item = OrderItem()
+    form.populate_obj(item)
+    item.order_id = order_id
+    if not current_user.is_anonymous():
+        item.user_id = current_user.id
+    else:
+        session["anon_name"] = item.name
+    item.update_from_hlds()
+    db.session.add(item)
+    db.session.commit()
+    flash("Ordered %s" % (item.dish_name), "success")
+    return redirect(url_for("order_bp.order_from_id", order_id=order_id))
 
 
 @order_bp.route("/<order_id>/<item_id>/paid", methods=["POST"])

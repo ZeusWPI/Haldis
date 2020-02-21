@@ -2,7 +2,7 @@
 # pylint: disable=too-few-public-methods
 
 from typing import Iterable, List, Mapping, Any, Optional
-from utils import euro_string
+from utils import euro_string, first
 
 
 def _format_tags(tags: Iterable[str]) -> str:
@@ -63,6 +63,7 @@ class Dish:
         self.price: int = price
         self.tags: List[str] = tags
 
+        # The str in (str, Choice) is the type of choice: single_choice or multi_choice
         self.choices: List[(str, Choice)] = choices
 
     def __str__(self):
@@ -85,6 +86,9 @@ class Location:
         self.website: Optional[str] = website
 
         self.dishes: List[Dish] = dishes
+
+    def dish_by_id(self, dish_id: str) -> Optional[Dish]:
+        return first(filter(lambda d: d.id == dish_id, self.dishes))
 
     def __str__(self):
         return (

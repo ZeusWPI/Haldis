@@ -57,6 +57,21 @@
                 {{ form.comment(class='form-control', placeholder='Fill in comment, when applicable') }}
                 {{ util.render_form_field_errors(form.comment) }}
             </div>
+
+            {% for choice_field in form.single_choices %}
+                <div class="form-group {{ 'has-errors' if choice_field }}">
+                    {{ choice_field.label(class='control-label') }}<br>
+                    {{ choice_field(class='form-control') }}
+                    {{ util.render_form_field_errors(choice_field) }}
+                </div>
+            {% endfor %}
+            {% for choice_field in form.multi_choices %}
+                <div class="form-group {{ 'has-errors' if choice_field }}">
+                    {{ choice_field.label(class='control-label') }}<br>
+                    {{ choice_field(class='form-control') }}
+                    {{ util.render_form_field_errors(choice_field) }}
+                </div>
+            {% endfor %}
             {% if current_user.is_anonymous() %}
                 <div class="form-group{{ ' has-error' if form.name.errors }}{{ ' required' if form.name.flags.required }}">
                     {{ form.name.label(class='control-label') }}
