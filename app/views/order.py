@@ -105,11 +105,6 @@ def order_edit(order_id: int) -> typing.Union[str, Response]:
     return render_template("order_edit.html", form=orderForm,
                            order_id=order_id)
 
-def _name(option):
-    try:
-        return option.name
-    except AttributeError:
-        return ", ".join(o.name for o in option)
 
 @order_bp.route("/<order_id>/create", methods=["GET", "POST"])
 def order_item_create(order_id: int) -> typing.Any:
@@ -167,13 +162,28 @@ def order_item_create(order_id: int) -> typing.Any:
     else:
         session["anon_name"] = item.name
 
-    # XXX Temporary
+    # XXX Temporary until OrderItemChoice is used
+    def _name(option):
+        try:
+            return option.name
+        except AttributeError:
+            return ", ".join(o.name for o in option)
     comments = [_name(option) for option in chosen if option]
     if item.comment:
         comments.append("Comment: " + item.comment)
     item.comment = "; ".join(comments)
 
     item.update_from_hlds()
+
+    # XXX Temporary until OrderItemChoice is used. Move this price calculation to update_from_hlds
+    # when in OrderItemChoice is in place.
+    def _price(option):
+        try:
+            return option.price or 0
+        except AttributeError:
+            return sum(o.price or 0 for o in option)
+    item.price += sum(_price(option) for option in chosen)
+
     db.session.add(item)
     db.session.commit()
     flash("Ordered %s" % (item.dish_name), "success")
