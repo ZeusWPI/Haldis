@@ -3,6 +3,7 @@
 from glob import glob
 from os import path
 import itertools
+from copy import deepcopy
 from typing import Iterable, List, Union, Tuple
 from tatsu import parse as tatsu_parse
 from tatsu.ast import AST
@@ -28,7 +29,7 @@ class HldsSemanticActions:
         for dish in dishes:
             for i, choice in enumerate(dish.choices):
                 if not isinstance(choice[1], Choice):
-                    dish.choices[i] = (dish.choices[i][0], choices[choice[1]])
+                    dish.choices[i] = (dish.choices[i][0], deepcopy(choices[choice[1]]))
 
             # Move the base price to the first single choice if there is any
             first_single_choice = first(c[1] for c in dish.choices if c[0] == "single_choice")
