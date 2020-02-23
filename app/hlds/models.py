@@ -54,6 +54,9 @@ class Choice:
             "\n\t\t".join(map(str, self.options))
         )
 
+    def option_by_id(self, option_id: str) -> Optional[Option]:
+        return first(filter(lambda o: o.id == option_id, self.options))
+
 
 class Dish:
     def __init__(self, id_, *, name, description, price, tags, choices):

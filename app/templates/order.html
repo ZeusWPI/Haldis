@@ -52,26 +52,32 @@
                 {{ form.dish_id(class='form-control select') }}
                 {{ util.render_form_field_errors(form.dish_id) }}
             </div>
+
+            {% if dish and dish.choices %}
+                {% for (choice_type, choice) in dish.choices %}
+                    <div class="form-group select2-container select2">
+                        <label class="control-label" for="choice_{{ choice.id }}">{{ choice.name }}</label><br/>
+                        <select
+                            {{ "multiple=multiple" if choice_type=="multi_choice" else "required=required" }}
+                            name="choice_{{ choice.id }}"
+                            class="form-control select">
+                            {% for option in choice.options %}
+                            <option value="{{ option.id }}">
+                                {{ option.name }}{{ ": " + option.price|euro if option.price else "" }}
+                                {{ " (" + option.description + ")" if option.description else "" }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
             <div class="form-group {{ 'has-errors' if form.dish_id.errors }}">
                 {{ form.comment.label(class='control-label') }}<br>
                 {{ form.comment(class='form-control', placeholder='Fill in comment, when applicable') }}
                 {{ util.render_form_field_errors(form.comment) }}
             </div>
 
-            {% for choice_field in form.single_choices %}
-                <div class="form-group {{ 'has-errors' if choice_field }}">
-                    {{ choice_field.label(class='control-label') }}<br>
-                    {{ choice_field(class='form-control') }}
-                    {{ util.render_form_field_errors(choice_field) }}
-                </div>
-            {% endfor %}
-            {% for choice_field in form.multi_choices %}
-                <div class="form-group {{ 'has-errors' if choice_field }}">
-                    {{ choice_field.label(class='control-label') }}<br>
-                    {{ choice_field(class='form-control') }}
-                    {{ util.render_form_field_errors(choice_field) }}
-                </div>
-            {% endfor %}
             {% if current_user.is_anonymous() %}
                 <div class="form-group{{ ' has-error' if form.name.errors }}{{ ' required' if form.name.flags.required }}">
                     {{ form.name.label(class='control-label') }}

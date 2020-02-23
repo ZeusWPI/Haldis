@@ -50,8 +50,6 @@ class OrderItemForm(Form):
     "New Item in an Order"
     # pylint: disable=R0903
     dish_id = SelectField("Dish")
-    single_choices = FieldList(SelectField())
-    multi_choices = FieldList(SelectMultipleField())
     comment = StringField("Comment")
     submit_button = SubmitField("Submit")
 
@@ -59,29 +57,6 @@ class OrderItemForm(Form):
         self.dish_id.choices = [
             (i.id, (i.name + ": " + euro_string(i.price)))
             for i in location.dishes
-        ]
-        dish = location.dish_by_id(dish_id) if dish_id else None
-        if dish:
-            self.add_choices_for(dish)
-
-    def add_choices_for(self, dish: Dish):
-        for (choice_type, choice) in dish.choices:
-            if choice_type == "single_choice":
-                field = self.single_choices.append_entry(choice.name)
-            elif choice_type == "multi_choice":
-                field = self.multi_choices.append_entry(choice.name)
-            else:
-                assert False, "Unsupported choice type"
-            field.label.text = choice.name
-            field.choices = self.options_for(choice)
-
-    @staticmethod
-    def options_for(choice: Choice):
-        return [
-            (c.id, (c.name +
-                    (" (" + c.description + ")" if c.description else "") +
-                    (": +" + euro_string(c.price) if c.price else "")))
-            for c in choice.options
         ]
 
 

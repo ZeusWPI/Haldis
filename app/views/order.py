@@ -47,7 +47,7 @@ def order_create() -> typing.Union[str, Response]:
 
 
 @order_bp.route("/<order_id>")
-def order_from_id(order_id: int, form: OrderForm = None) -> str:
+def order_from_id(order_id: int, form: OrderForm = None, dish_id=None) -> str:
     "Generate order view from id"
     order = Order.query.filter(Order.id == order_id).first()
     if order is None:
@@ -64,8 +64,11 @@ def order_from_id(order_id: int, form: OrderForm = None) -> str:
         form = None
     total_price = sum([o.price for o in order.items])
     debts = sum([o.price for o in order.items if not o.paid])
+
+    dish = order.location.dish_by_id(dish_id) if order.location else None
+
     return render_template("order.html", order=order, form=form,
-                           total_price=total_price, debts=debts)
+                           total_price=total_price, debts=debts, dish=dish)
 
 
 @order_bp.route("/<order_id>/items")
@@ -122,26 +125,29 @@ def order_item_create(order_id: int) -> typing.Any:
     form = AnonOrderItemForm() if current_user.is_anonymous() \
         else OrderItemForm()
 
-    dish_id = form.dish_id.data if form.is_submitted() else request.args.get("dish")
+    dish_id_in_url = request.args.get("dish")
+    dish_id = form.dish_id.data if form.is_submitted() else dish_id_in_url
     if dish_id and not location.dish_by_id(dish_id):
         abort(404)
+    form.dish_id.data = dish_id
     form.populate(current_order.location, dish_id)
 
-    if not form.validate_on_submit():
-        return order_from_id(order_id, form=form)
+    # If the form was not submitted (GET request), the form had errors, or the dish was changed: show form again
+    if not form.validate_on_submit() or (dish_id_in_url and dish_id_in_url != dish_id):
+        return order_from_id(order_id, form=form, dish_id=dish_id)
 
     # Form was submitted and is valid
 
     # The form's validation tests that dish_id is valid and gives a friendly error if it's not
-    form_data = form.data
-    choices = location.dish_by_id(form_data["dish_id"]).choices
-    all_choices_present = all(
-        ("choice_" + choice.id) in form_data
+    choices = location.dish_by_id(form.dish_id.data).choices
+    chosen = [
+        choice.option_by_id(request.form.get("choice_" + choice.id))
         for (_choice_type, choice) in choices
-    )
+    ]
+    all_choices_present = all(chosen)
     if not all_choices_present:
         return redirect(url_for("order_bp.order_item_create",
-                                order_id=order_id, dish=form_data["dish_id"]))
+                                order_id=order_id, dish=form.dish_id.data))
 
     item = OrderItem()
     form.populate_obj(item)
@@ -150,6 +156,11 @@ def order_item_create(order_id: int) -> typing.Any:
         item.user_id = current_user.id
     else:
         session["anon_name"] = item.name
+
+    # XXX Temporary
+    chosen_text = "; ".join(option.name for option in chosen)
+    item.comment = chosen_text + "; Comment: " + item.comment if item.comment else chosen_text
+
     item.update_from_hlds()
     db.session.add(item)
     db.session.commit()
