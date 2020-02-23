@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # pylint: disable=too-few-public-methods
 
-from typing import Iterable, List, Mapping, Any, Optional
+from typing import Iterable, List, Tuple, Mapping, Any, Optional
 from utils import euro_string, first
 
 
@@ -76,6 +76,17 @@ class Dish:
             _format_tags(self.tags),
             _format_price(self.price),
             "\n\t".join(map(_format_type_and_choice, self.choices))
+        )
+
+    def price_range(self) -> Tuple[int, int]:
+        return (self.price + self._sum_f_option_prices(min),
+                self.price + self._sum_f_option_prices(max))
+
+    def _sum_f_option_prices(self, f):
+        return sum(
+            f(option.price for option in choice.options)
+            for (choice_type, choice) in self.choices
+            if choice_type == "single_choice"
         )
 
 

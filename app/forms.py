@@ -53,10 +53,17 @@ class OrderItemForm(Form):
     comment = StringField("Comment")
     submit_button = SubmitField("Submit")
 
+    @staticmethod
+    def format_price_range(price_range):
+        if price_range[0] == price_range[1]:
+            return euro_string(price_range[0])
+        else:
+            return "from {}".format(euro_string(price_range[0]))
+
     def populate(self, location: Location, dish_id: Optional[str]) -> None:
         self.dish_id.choices = [
-            (i.id, (i.name + ": " + euro_string(i.price)))
-            for i in location.dishes
+            (dish.id, (dish.name + ": " + self.format_price_range(dish.price_range())))
+            for dish in location.dishes
         ]
 
 

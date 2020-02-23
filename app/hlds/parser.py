@@ -8,6 +8,7 @@ from tatsu import parse as tatsu_parse
 from tatsu.ast import AST
 from tatsu.exceptions import SemanticError
 from .models import Location, Choice, Option, Dish
+from utils import first
 
 
 # TODO Use proper way to get resources, see https://stackoverflow.com/a/10935674
@@ -29,7 +30,15 @@ class HldsSemanticActions:
                 if not isinstance(choice[1], Choice):
                     dish.choices[i] = (dish.choices[i][0], choices[choice[1]])
 
+            # Move the base price to the first single choice if there is any
+            first_single_choice = first(c[1] for c in dish.choices if c[0] == "single_choice")
+            if dish.price and first_single_choice:
+                for option in first_single_choice.options:
+                    option.price += dish.price
+                dish.price = 0
+
         attributes = {att["key"]: att["value"] for att in ast["attributes"]}
+
 
         return Location(
             ast["id"],
@@ -46,8 +55,8 @@ class HldsSemanticActions:
             ast["id"],
             name=ast["name"],
             description=ast["description"],
-            price=ast["price"] if ast["price"] else 0,
-            tags=ast["tags"] if ast["tags"] else [],
+            price=ast["price"] or 0,
+            tags=ast["tags"] or [],
             choices=ast["choices"],
         )
 
@@ -74,7 +83,7 @@ class HldsSemanticActions:
             ast["id"],
             name=ast["name"],
             description=ast["description"],
-            price=ast["price"] if ast["price"] else 0,
+            price=ast["price"] or 0,
             tags=ast["tags"],
         )
 

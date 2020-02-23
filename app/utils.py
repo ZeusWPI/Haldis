@@ -19,3 +19,6 @@ def first(iterable: Iterable, default=None):
     except StopIteration:
         return default
 
+
+def ignore_none(iterable: Iterable):
+    return filter(lambda x: x is not None, iterable)

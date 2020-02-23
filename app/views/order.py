@@ -13,6 +13,7 @@ from forms import AnonOrderItemForm, OrderForm, OrderItemForm
 from models import Order, OrderItem, User, db
 from hlds.definitions import location_definitions
 from notification import post_order_to_webhook
+from utils import ignore_none
 
 order_bp = Blueprint("order_bp", "order")
 
@@ -104,6 +105,11 @@ def order_edit(order_id: int) -> typing.Union[str, Response]:
     return render_template("order_edit.html", form=orderForm,
                            order_id=order_id)
 
+def _name(option):
+    try:
+        return option.name
+    except AttributeError:
+        return ", ".join(o.name for o in option)
 
 @order_bp.route("/<order_id>/create", methods=["GET", "POST"])
 def order_item_create(order_id: int) -> typing.Any:
@@ -141,10 +147,14 @@ def order_item_create(order_id: int) -> typing.Any:
     # The form's validation tests that dish_id is valid and gives a friendly error if it's not
     choices = location.dish_by_id(form.dish_id.data).choices
     chosen = [
-        choice.option_by_id(request.form.get("choice_" + choice.id))
-        for (_choice_type, choice) in choices
+        (
+            choice.option_by_id(request.form.get("choice_" + choice.id))
+            if choice_type == "single_choice" else
+            list(ignore_none(request.form.getlist("choice_" + choice.id, type=choice.option_by_id)))
+        )
+        for (choice_type, choice) in choices
     ]
-    all_choices_present = all(chosen)
+    all_choices_present = all(x is not None for x in chosen)
     if not all_choices_present:
         return redirect(url_for("order_bp.order_item_create",
                                 order_id=order_id, dish=form.dish_id.data))
@@ -158,8 +168,10 @@ def order_item_create(order_id: int) -> typing.Any:
         session["anon_name"] = item.name
 
     # XXX Temporary
-    chosen_text = "; ".join(option.name for option in chosen)
-    item.comment = chosen_text + "; Comment: " + item.comment if item.comment else chosen_text
+    comments = [_name(option) for option in chosen if option]
+    if item.comment:
+        comments.append("Comment: " + item.comment)
+    item.comment = "; ".join(comments)
 
     item.update_from_hlds()
     db.session.add(item)
