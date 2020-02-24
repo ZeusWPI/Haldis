@@ -264,6 +264,17 @@ h1, h2, h3, h4, h5, h6{
 .select2-search{
     background-color: var(--dGray2);
 }
+.select2-selection--multiple .select2-search{
+    background-color: transparent;
+}
+.select2-selection--multiple .select2-search{
+    background-color: transparent;
+}
+.select2-selection--multiple .select2-search.select2-search--inline .select2-search__field{
+    border: 1px solid #ccc;
+    padding-left: 0.3em;
+    box-sizing: content-box;
+}
 .select2-search input{
     background-color: var(--dGray0);
 }
