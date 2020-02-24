@@ -47,7 +47,7 @@ class HldsSemanticActions:
             dishes=dishes,
             osm=attributes.get("osm"),
             address=attributes.get("address"),
-            telephone=attributes.get("telephone"),
+            telephone=attributes.get("phone"),
             website=attributes.get("website"),
         )
 
