@@ -22,7 +22,7 @@ location_header =
 	;
 
 location_attribute =
-	n '\t' key:identifier ' ' value:string
+	n '\t' key:identifier s value:string
 	;
 
 location = >location_header items:{ block } ;
