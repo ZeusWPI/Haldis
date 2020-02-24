@@ -126,15 +126,16 @@ def order_item_create(order_id: int) -> typing.Any:
     form = AnonOrderItemForm() if current_user.is_anonymous() \
         else OrderItemForm()
 
-    dish_id_in_url = request.args.get("dish")
-    dish_id = form.dish_id.data if form.is_submitted() else dish_id_in_url
+    dish_id = form.dish_id.data if form.is_submitted() else request.args.get("dish")
     if dish_id and not location.dish_by_id(dish_id):
         abort(404)
     form.dish_id.data = dish_id
     form.populate(current_order.location, dish_id)
 
-    # If the form was not submitted (GET request), the form had errors, or the dish was changed: show form again
-    if not form.validate_on_submit() or (dish_id_in_url and dish_id_in_url != dish_id):
+    # If the form was not submitted (GET request), the form had errors,
+    # or the dish was changed: show form again
+    dish_was_changed = request.form.get("form_for_dish_id") and request.form["form_for_dish_id"] != dish_id
+    if not form.validate_on_submit() or dish_was_changed:
         return order_from_id(order_id, form=form, dish_id=dish_id)
 
     # Form was submitted and is valid
