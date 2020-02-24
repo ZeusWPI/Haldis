@@ -1,6 +1,9 @@
 ============================
 fritoloog: Fritoloog
-	osm https://www.openstreetmap.org/node/5813542646
+	osm     https://www.openstreetmap.org/node/5813542646
+	address Voskenslaan 413, 9000 Gent
+	website https://defritoloog.be
+	# Op bovenstaande website kan men ook online orderen
 ============================
 
 dish fries: Frietjes :: {has_meat}
@@ -25,7 +28,6 @@ sauce: Saus
 	other: Andere (in commentaar)
 
 extra_cheese: Extra kaas
-	# FIXME extra kaas waarop?
 	no_extra_cheese: Nee
 	yes_extra_cheese: Ja € 0.2
 
@@ -56,32 +58,54 @@ dish satay:                  Saté                     :: {has_meat} € 2.7
 dish grisley:                Grisley                  :: {has_meat} € 2.7
 dish flemish_stew:           Stoofvlees               :: {has_meat} € 4.5
 dish meatballs_tomato_sauce: Balletjes in tomatensaus :: {has_meat} € 4.5
-dish hamburger:              Hamburger                :: {has_meat} € 2.6
-dish cheeseburger:           Cheeseburger             :: {has_meat} € 2.9
-dish chicken_burger:         Chickenburger            :: {has_meat} € 3.2
-dish bicky_burger:           Bickyburger              :: {has_meat} € 2.9
-dish bicky_rib:              Bicky Rib                :: {has_meat} € 3.5
-dish bicky_royal:            Bicky Royal              :: {has_meat} € 4.3
-dish bicky_chicken:          Bicky Chicken            :: {has_meat} € 3.2
-dish bicky_wrap:             Bicky Wrap               :: {has_meat} € 3
 dish assortment:             Twijfelaar               :: {has_meat} € 3
 
-dish chili_cheese:           Chili cheese             :: {has_meat} € 2.7
-	# FIXME zit hier vlees in?
+# Burgers
+dish hamburger:              Hamburger                :: {has_meat} € 2.6
+	single_choice extra_cheese
+dish samuraiburger:          Samuraiburger            :: {has_meat} € 2.6
+	single_choice extra_cheese
+dish joppieburger:           Joppieburger             :: {has_meat} € 2.6
+	single_choice extra_cheese
+dish cheeseburger:           Cheeseburger             :: {has_meat} € 2.9
+	single_choice extra_cheese
+dish chicken_burger:         Chickenburger            :: {has_meat} € 3.2
+	single_choice extra_cheese
+dish bicky_burger:           Bickyburger              :: {has_meat} € 2.9
+	single_choice extra_cheese
+dish bicky_rib:              Bicky Rib                :: {has_meat} € 3.5
+	single_choice extra_cheese
+dish bicky_royal:            Bicky Royal              :: {has_meat} € 4.3
+	single_choice extra_cheese
+dish bicky_chicken:          Bicky Chicken            :: {has_meat} € 3.2
+	single_choice extra_cheese
+dish bicky_wrap:             Bicky Wrap               :: {has_meat} € 3
+	single_choice extra_cheese
 
-dish fish_burger:       Fishburger     :: {has_fish} € 3
-dish cod_stick:         Kabeljauwstick :: {has_fish} € 2.5
-dish shrimp_croquette:  Garnaalkroket  :: {has_fish} € 2
+dish grill_burger:           Burger op de grill       :: {has_meat} € 5.5
+	single_choice soort: Soort burger # FIXME maybe change this desciption
+		keizer_karel:       Keizer Karel
+		walter_de_buck:     Walter De Buck
+		john_massis:        John Massis     € 0.5
+		pierke_pierlala:    Pierke Pierlala € 0.5
+		van_eyck:           Van Eyck        € 0.5
 
-dish mozarella_sticks:  Mozarellasticks     € 3
-dish cheese_croquette:  Kaaskroket          € 1.5
-dish veggi_burger:      Veggieburger        € 3.2
-dish cheese_souflesse:  Kaassouflesse       € 1.5
+
+dish chili_cheese:           Chili cheese             :: € 2.7
+
+dish fish_burger:            Fishburger               :: {has_fish} € 3
+dish cod_stick:              Kabeljauwstick           :: {has_fish} € 2.5
+dish shrimp_croquette:       Garnaalkroket            :: {has_fish} € 2
+
+dish mozarella_sticks:       Mozarellasticks          :: € 3
+dish cheese_croquette:       Kaaskroket               :: € 1.5
+dish veggi_burger:           Veggieburger             :: € 3.2
+dish cheese_souflesse:       Kaassouflesse            :: € 1.5
 	# https://www.vangeloven.com/merk/souflesse
-dish bonita:            Bonita              € 2
+dish bonita:                 Bonita                   :: € 2
 	# https://www.devriesvanoers.nl/assortiment/specialiteiten/vegetarisch-groentesnack-vries-bonita/
-dish sajoera:           Sajoera             € 2
+dish sajoera:                Sajoera                  :: € 2
 	# https://www.devriesvanoers.nl/assortiment/specialiteiten/vegetarisch-groentekroket-vries-sajoera/
-dish veg_cheese_disc:   Groenten-kaasschijf € 2.4
-dish mini_spring_rolls: Mini-loempia's      € 3
-dish bami:              Bami                € 2
+dish veg_cheese_disc:        Groenten-kaasschijf      :: € 2.4
+dish mini_spring_rolls:      Mini-loempia's           :: € 3
+dish bami:                   Bami                     :: € 2
