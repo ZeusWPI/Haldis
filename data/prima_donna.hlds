@@ -1,5 +1,5 @@
 ========================
-primadonna:  Primadonna
+prima_donna:  Prima Donna
 	address  Overpoortstraat 46, 9000 Gent
 	website  https://primadonnagent.be
 	phone    +32 475 40 13 00
@@ -13,9 +13,9 @@ dish fungi:                    Funghi                 :: € 5.5
 dish mamma_mia:                Mamma mia              :: € 5.5
 dish napoletana:               Napoletana             :: € 5.75
 dish exotic:                   Exotic                 :: € 5.75
-dish siciliana:                Siciliana:             :: € 5.75
+dish siciliana:                Siciliana              :: € 5.75
 dish michelangelo:             Michelangelo           :: € 5.75
-dish roma:                     Roma	                  :: € 5.75
+dish roma:                     Roma                   :: € 5.75
 dish torno:                    Torno                  :: € 5.75
 dish bolognese:                Bolognese              :: € 6
 dish hawai:                    Hawai                  :: € 7
@@ -38,4 +38,4 @@ dish gerookte_ham_en_rucola:   Gerookte ham en rucola :: € 8
 dish van_de_chef:              Van de chef            :: € 9
 dish milano:                   Milano                 :: € 9
 dish soronto:                  Soronto                :: € 9.7
-dish primma_donna:             Primma Donna           :: € 9.7
+dish prima_donna:              Prima Donna            :: € 9.7
