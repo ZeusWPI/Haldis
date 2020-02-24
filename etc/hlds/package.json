@@ -1,0 +1,31 @@
+{
+    "name": "hlds",
+    "publisher": "Silvius",
+    "displayName": "Syntax highlighting for haldis (hlds) files.",
+    "description": "hlds",
+    "repository": "https://git.zeus.gent/midgard/haldis",
+    "version": "0.0.2",
+    "engines": {
+        "vscode": "^1.30.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "contributes": {
+        "languages": [{
+            "id": "hlds",
+            "aliases": ["HLDS", "hlds"],
+            "extensions": [".hlds"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "hlds",
+            "scopeName": "source.hlds",
+            "path": "./syntaxes/hlds.tmLanguage.json"
+        }, {
+            "path": "./syntaxes/injections.json",
+            "scopeName": "comment.injection",
+            "injectTo": ["source.hlds"]
+        }]
+    }
+}

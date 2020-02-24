@@ -1,0 +1,97 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "HLDS",
+	"patterns": [
+		{
+			"include": "#tags"
+		},
+		{
+			"include": "#keywords"
+		},
+		{
+			"include": "#header"
+		},
+		{
+			"include": "#prices"
+		},
+		{
+			"include": "#indent"
+		},
+		{
+			"include": "#random"
+		}
+	],
+	"repository": {
+		"random": {
+			"patterns": [
+				{
+					"match": "#.*$",
+					"name": "markup.bold"
+				}
+			]	
+		},
+		"tags": {
+			"patterns": [
+				{
+					"match": "(::)\\s*({[a-zA-Z-_]*}\\s*)*",
+					"name": "markup.italic",
+					"captures": {
+						"1": {
+							"name": "markup.bold"
+						}
+					}
+				}
+			]
+		},
+		"indent": {
+			"patterns": [
+				{
+					"name": "variable.other",
+					"match": "\\t[-_a-zA-Z0-9]*:"
+				},
+				{
+					"name": "entity.name.type",
+					"match": "[-_a-zA-Z0-9]*:"
+				}
+			]
+		},
+		"prices": {
+			"patterns": [
+				{
+					"name": "entity.name.class",
+					"match": "€\\s*[0-9.]*$"
+				}
+			]
+		},
+		"header": {
+			"patterns": [
+				{
+					"name": "embedded.meta.tag",
+					"begin": "^==",
+					"end": "==$"
+				}
+			]
+		},
+		"comments": {
+			"patterns": [
+				{
+					"name": "comment",
+					"match": "--[^€]*"
+				}
+			]
+		},
+		"keywords": {
+			"patterns": [
+				{
+					"name": "keyword.control.hlds",
+					"match": "\\bdish\\b"
+				},
+				{
+					"name": "keyword",
+					"match": "\\b(single_choice|multi_choice)\\b"
+				}
+			]
+		}
+	},
+	"scopeName": "source.hlds"
+}

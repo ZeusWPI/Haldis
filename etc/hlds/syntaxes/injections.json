@@ -1,0 +1,36 @@
+{
+    "scopeName": "comment.injection",
+    "injectionSelector": "L:embedded.meta.tag",
+    "patterns": [
+        {
+            "include": "#comment"
+        },
+        {
+            "include": "#header"
+        },
+        {
+            "include": "#links"
+        },
+        {
+            "include": "#brackets"
+        }
+    ],
+    "repository": {
+        "comment": {
+            "match": "#.*$",
+            "name": "comment"
+        },
+        "header": {
+            "match": "^[a-zA-Z0-9_].*$",
+            "name": "keyword.todo"
+        },
+        "links": {
+            "match": "^\\t[a-zA-Z0-9-_]*",
+            "name": "keyword.todo"
+        },
+        "brackets": {
+            "match": "=",
+            "name": "variable.other"
+        }
+    }
+}
