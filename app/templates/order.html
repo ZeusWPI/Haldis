@@ -63,10 +63,10 @@
                             name="choice_{{ choice.id }}"
                             class="form-control select">
                             {% for option in choice.options %}
-                            <option value="{{ option.id }}">
-                                {{ option.name }}{{ ": " + option.price|euro if option.price else "" }}
-                                {{ " (" + option.description + ")" if option.description else "" }}
-                            </option>
+                            <option value="{{ option.id }}"><!--
+                                -->{{ option.name }}{{ ": " + option.price|euro if option.price else "" }}<!--
+                                -->{{ " (" + option.description + ")" if option.description else "" }}<!--
+                            --></option>
                             {% endfor %}
                         </select>
                     </div>
