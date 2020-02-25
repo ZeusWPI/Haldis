@@ -47,10 +47,6 @@ LOCATION_LEGACY_TO_HLDS = {
     30: "kebab_anadolu",
 }
 
-DISH_LEGACY_TO_HLDS = {
-    # TODO
-}
-
 
 def upgrade():
     # First the simple actions
@@ -86,19 +82,11 @@ def upgrade():
         column("price", sa.Integer)
     )
     # Construct and execute queries
-    new_dish_id = [
-        order_item.update()
-            .where(order_item.c.product_id == old_id)
-            .values(dish_id=new_id)
-        for old_id, new_id in DISH_LEGACY_TO_HLDS.items()
-    ]
-    dish_name_and_price_from_product = text("""
+    op.execute(text("""
         UPDATE order_item
         SET dish_name = (SELECT product.name  FROM product WHERE product.id = order_item.product_id),
             price     = (SELECT product.price FROM product WHERE product.id = order_item.product_id)"""
-    )
-    for query in chain(new_dish_id, [dish_name_and_price_from_product]):
-        op.execute(query)
+    ))
     # Historical product data migrated, drop obsolete column and table
     op.execute(text("ALTER TABLE order_item DROP FOREIGN KEY order_item_ibfk_3"))
     op.drop_column("order_item", "product_id")
