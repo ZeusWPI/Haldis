@@ -1,0 +1,84 @@
+============================
+simpizza: Simpizza
+	osm     https://www.openstreetmap.org/node/5803560353
+	address De Pintelaan 252, 9000 Gent
+	website https://www.simpizza.be/
+	# Op bovenstaande website kan men ook online orderen
+============================
+
+dish garlic_bread:          Lookbroodjes natuur                 € 2.2
+dish chicken_fingers:       Kippenvingers         :: {has_meat} € 3
+dish pasta_ham_and_cheese:  Pasta ham-en-kaussaus :: {has_meat} € 8.5
+
+size: Grootte
+	small:  Small  -- 27 cm €  9.95
+	medium: Medium -- 30 cm € 12.95
+	large:  Large  -- 37 cm € 15.95
+
+# Pizza
+dish margherita:            Pizza margherita -- Veggie
+	single_choice size
+dish bolognese_de_luxe:     Pizza bolognese de luxe     :: {has_meat}
+	single_choice size
+dish hawaii:                Pizza hawaï                 :: {has_meat}
+	single_choice size
+dish popeye:                Pizza popeye -- Veggie
+	single_choice size
+dish pepperoni:             Pizza pepperoni             :: {has_meat}
+	single_choice size
+dish seafood:               Pizza seafood               :: {has_meat}
+	single_choice size
+dish hot_pizza:             Pizza hot pizzaaah!!!       :: {has_meat}
+	single_choice size
+dish salmon_delight:        Pizza salmon delight        :: {has_meat}
+	single_choice size
+dish full_option:           Pizza full option           :: {has_meat}
+	single_choice size
+dish pitza_kebab:           Pitza kebab                 :: {has_meat}
+	single_choice size
+dish multi_cheese:          Pizza multi cheese -- Veggie
+	single_choice size
+dish 4_seasons:             Pizza 4 seasons             :: {has_meat}
+	single_choice size
+dish mega_fish:             Pizza mega fish             :: {has_meat}
+	single_choice size
+dish creamy_multi_cheese:   Pizza creamy multi cheese -- Veggie
+	single_choice size
+dish green_fiesta:          Pizza green fiësta          :: {has_meat}
+	single_choice size
+dish veggie:                Pizza veggie
+	single_choice size
+dish meat_lovers:           Pizza meat lovers           :: {has_meat}
+	single_choice size
+dish scampi_mampi:          Pizza scampi mampi          :: {has_meat}
+	single_choice size
+dish tabasco:               Pizza tabasco               :: {has_meat}
+	single_choice size
+dish funky_chicken:         Pizza funky chicken         :: {has_meat}
+	single_choice size
+dish chicken_time:          Pizza chicken time          :: {has_meat}
+	single_choice size
+dish creamy_chicken:        Pizza creamy chicken        :: {has_meat}
+	single_choice size
+dish spicy_chicken:         Pizza spicy Chicken         :: {has_meat}
+	single_choice size
+dish meatballs:             Pizza meatballs             :: {has_meat}
+	single_choice size
+dish tuna:                  Pizza tuna                  :: {has_meat}
+	single_choice size
+dish anchovy:               Pizza anchovy               :: {has_meat}
+	single_choice size
+dish calzone:               Pizza calzone               :: {has_meat}
+	single_choice size
+dish hot_bolognese:         Pizza hot bolognese         :: {has_meat}
+	single_choice size
+dish hot_and_cheesy:        Pizza hot & cheesy          :: {has_meat}
+	single_choice size
+dish bbq_chicken:           Pizza chicken barbecue      :: {has_meat}
+	single_choice size
+dish bbq_meatballs:         Pizza barbecue meatballs    :: {has_meat}
+	single_choice size
+dish bbq_bacon:             Pizza barbecue bacon        :: {has_meat}
+	single_choice size
+dish bbq_special:           Pizza barbecue special      :: {has_meat}
+	single_choice size
