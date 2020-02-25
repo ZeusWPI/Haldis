@@ -16,7 +16,7 @@ bowl_wrap: Bowl of wrap
 	red_beet_wrap: Rodebietenwrap € 0.99
 
 veggie: Vegetarische opties
-	meat:    Niet vegetarisch :: {has_meat}
+	meat:    Niet vegetarisch :: {has_meat} {no_text}
 	tofu:    Vegetarisch met tofu
 	tempeh:  Vegetarisch met tempeh -- Gekruide tempeh
 	avocado: Vegetarisch met avocado
@@ -24,7 +24,7 @@ veggie: Vegetarische opties
 	vegan:   Veganistisch
 
 veggie_on_veggie_dish: Vegetarische opties
-	veggie:  Vegetarisch (met standaard eiwitgerief van gerecht)
+	veggie:  Vegetarisch (met standaard eiwitgerief van gerecht) :: {no_text}
 	tofu:    Vegetarisch met tofu
 	tempeh:  Vegetarisch met tempeh -- Gekruide tempeh
 	avocado: Vegetarisch met avocado
@@ -32,7 +32,7 @@ veggie_on_veggie_dish: Vegetarische opties
 	vegan:   Veganistisch
 
 veggie_on_vegan_dish: Vegetarische opties
-	vegan:   Veganistisch
+	vegan:   Veganistisch :: {no_text}
 	tofu:    Vegetarisch met tofu
 	tempeh:  Vegetarisch met tempeh -- Gekruide tempeh
 	avocado: Vegetarisch met avocado

@@ -22,7 +22,7 @@ size: Grootte
 	large:  Large  -- 37 cm € 15.95
 
 garlic_sauce: Looksaus
-	no_garlic_sauce:  Zonder looksaus
+	no_garlic_sauce:  Geen extra looksaus                      :: {no_text}
 	yes_garlic_sauce: Met looksaus (prijs onzeker) € 0.75
 
 dish margherita:            Pizza margherita          -- Veggie

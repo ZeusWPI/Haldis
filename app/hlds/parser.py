@@ -85,7 +85,7 @@ class HldsSemanticActions:
             name=ast["name"],
             description=ast["description"],
             price=ast["price"] or 0,
-            tags=ast["tags"],
+            tags=ast["tags"] or [],
         )
 
     noindent_choice_entry = indent_choice_entry

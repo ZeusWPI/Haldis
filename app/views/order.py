@@ -170,7 +170,7 @@ def order_item_create(order_id: int) -> typing.Any:
             return option.name
         except AttributeError:
             return ", ".join(o.name for o in option)
-    comments = [_name(option) for option in chosen if option]
+    comments = [_name(option) for option in chosen if option and "no_text" not in option.tags]
     if item.comment:
         comments.append("Comment: " + item.comment)
     item.comment = "; ".join(comments)

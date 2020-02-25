@@ -28,8 +28,8 @@ sauce: Saus
 	other: Andere (in commentaar)
 
 extra_cheese: Extra kaas
-	no_extra_cheese: Nee
-	yes_extra_cheese: Ja € 0.2
+	no_extra_cheese: Geen extra kaas :: {no_text}
+	yes_extra_cheese: Extra kaas € 0.2
 
 dish chicken_fingers:        Kippenvingers            :: {has_meat} € 3
 dish nuggiz:                 Nuggiz                   :: {has_meat} € 3
