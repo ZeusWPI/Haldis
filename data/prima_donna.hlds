@@ -5,37 +5,37 @@ prima_donna:  Prima Donna
 	phone    +32 475 40 13 00
 ========================
 
-dish peperoni:                 Peperoni               :: € 5.75
-dish basis_pizza:              Basis pizza            :: € 4.5
-dish parma:                    Parma                  :: € 5.75
-dish margarita:                Margharita             :: € 4.5
-dish fungi:                    Funghi                 :: € 5.5
-dish mamma_mia:                Mamma mia              :: € 5.5
-dish napoletana:               Napoletana             :: € 5.75
-dish exotic:                   Exotic                 :: € 5.75
-dish siciliana:                Siciliana              :: € 5.75
-dish michelangelo:             Michelangelo           :: € 5.75
-dish roma:                     Roma                   :: € 5.75
-dish torno:                    Torno                  :: € 5.75
-dish bolognese:                Bolognese              :: € 6
-dish hawai:                    Hawai                  :: € 7
-dish cipolla:                  Cipolla                :: € 7
-dish dolce_vita:               Dolce vita             :: € 7
-dish valentino:                Valentino              :: € 7
-dish vegateriana:              Vegateriana            :: € 7.7
-dish la_donna:                 La donna               :: € 7.7
-dish tropical:                 Tropical               :: € 7.7
-dish quattro_stagioni:         Quattro Stagioni       :: € 7.7
-dish romana:                   Romana                 :: € 7.7
-dish diabolo:                  Diabolo                :: € 7.7
-dish turkish:                  Turkish                :: € 7.7
-dish cesar:                    Cesar                  :: € 7.7
-dish calzone:                  Calzone                :: € 8
-dish calzone_vegetariana:      Calzone Vegetariana    :: € 8
-dish quattro_formaggi:         Quattro Formaggi       :: € 8
-dish frutti_di_mare:           Frutti di mare         :: € 8
-dish gerookte_ham_en_rucola:   Gerookte ham en rucola :: € 8
-dish van_de_chef:              Van de chef            :: € 9
-dish milano:                   Milano                 :: € 9
-dish soronto:                  Soronto                :: € 9.7
-dish prima_donna:              Prima Donna            :: € 9.7
+dish basic_pizza:              Basispizza                   :: € 4.5
+dish margarita:                Pizza margharita             :: € 4.5
+dish pepperoni:                Pizza pepperoni              :: € 5.75
+dish parma:                    Pizza Parma                  :: € 5.75
+dish fungi:                    Pizza funghi                 :: € 5.5
+dish mamma_mia:                Pizza mamma mia              :: € 5.5
+dish napoletana:               Pizza Napoletana             :: € 5.75
+dish exotic:                   Pizza exotic                 :: € 5.75
+dish siciliana:                Pizza Siciliana              :: € 5.75
+dish michelangelo:             Pizza Michelangelo           :: € 5.75
+dish roma:                     Pizza Roma                   :: € 5.75
+dish torno:                    Pizza torno                  :: € 5.75
+dish bolognese:                Pizza bolognese              :: € 6
+dish hawaii:                   Pizza hawaï                  :: € 7
+dish cipolla:                  Pizza cipolla                :: € 7
+dish dolce_vita:               Pizza dolce vita             :: € 7
+dish valentino:                Pizza valentino              :: € 7
+dish vegateriana:              Pizza vegateriana            :: € 7.7
+dish la_donna:                 Pizza la donna               :: € 7.7
+dish tropical:                 Pizza tropical               :: € 7.7
+dish quattro_stagioni:         Pizza quattro stagioni       :: € 7.7
+dish romana:                   Pizza Romana                 :: € 7.7
+dish diabolo:                  Pizza diabolo                :: € 7.7
+dish turkish:                  Pizza Turkish                :: € 7.7
+dish cesar:                    Pizza Cesar                  :: € 7.7
+dish calzone:                  Pizza calzone                :: € 8
+dish calzone_vegetariana:      Pizza calzone Vegetariana    :: € 8
+dish quattro_formaggi:         Pizza quattro formaggi       :: € 8
+dish frutti_di_mare:           Pizza frutti di mare         :: € 8
+dish gerookte_ham_en_rucola:   Pizza gerookte ham en rucola :: € 8
+dish van_de_chef:              Pizza van de chef            :: € 9
+dish milano:                   Pizza Milano                 :: € 9
+dish soronto:                  Pizza soronto                :: € 9.7
+dish prima_donna:              Pizza Prima Donna            :: € 9.7
