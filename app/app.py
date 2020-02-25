@@ -15,7 +15,6 @@ from flask_migrate import Migrate, MigrateCommand
 from flask_oauthlib.client import OAuth, OAuthException
 from flask_script import Manager, Server
 
-from admin import init_admin
 from login import init_login
 from models import db
 from models.anonymous_user import AnonymouseUser
@@ -75,8 +74,6 @@ def register_plugins(app: Flask) -> Manager:
     app_manager = Manager(app)
     app_manager.add_command("db", MigrateCommand)
     app_manager.add_command("runserver", Server(port=8000))
-    # Add admin interface
-    init_admin(app, db)
 
     # Init login manager
     login_manager = LoginManager()

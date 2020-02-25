@@ -9,9 +9,6 @@
     ('general_bp.about', 'About'),
     ('stats_blueprint.stats', 'Stats'),
 ] -%}
-{% if not current_user.is_anonymous() and current_user.is_admin() -%}
-    {% set navbar = navbar + [('admin.index', 'Admin')] -%}
-{% endif -%}
 {% set active_page = active_page|default('index') -%}
 
 {% block title %}
