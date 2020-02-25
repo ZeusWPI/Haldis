@@ -6,79 +6,116 @@ simpizza: Simpizza
 	# Op bovenstaande website kan men ook online orderen
 ============================
 
-dish garlic_bread:          Lookbroodjes natuur                 € 2.2
-dish chicken_fingers:       Kippenvingers         :: {has_meat} € 3
-dish pasta_ham_and_cheese:  Pasta ham-en-kaussaus :: {has_meat} € 8.5
+dish garlic_bread:               Lookbroodjes natuur                        € 2.2
+dish garlic_bread_cheese:        Lookbroodjes kaas                          € 2.5
+dish garlic_bread_cheese_ham:    Lookbroodjes kaas en ham     :: {has_meat} € 3
+dish garlic_bread_cheese_tomato: Lookbroodjes kaas en tomaat                € 3
+dish garlic_bread_cheese_salami: Lookbroodjes kaas en salami  :: {has_meat} € 3
+
+dish baguette_oven:              Baguette in de oven                        € 3
+dish chicken_fingers:            Kippenvingers                :: {has_meat} € 3
+dish pasta_ham_and_cheese:       Pasta ham-en-kaussaus        :: {has_meat} € 8.5
 
 size: Grootte
 	small:  Small  -- 27 cm €  9.95
 	medium: Medium -- 30 cm € 12.95
 	large:  Large  -- 37 cm € 15.95
 
-# Pizza
-dish margherita:            Pizza margherita -- Veggie
+garlic_sauce: Looksaus
+	no_garlic_sauce:  Zonder looksaus
+	yes_garlic_sauce: Met looksaus (prijs onzeker) € 0.75
+
+dish margherita:            Pizza margherita          -- Veggie
 	single_choice size
-dish bolognese_de_luxe:     Pizza bolognese de luxe     :: {has_meat}
+	single_choice garlic_sauce
+dish bolognese_de_luxe:     Pizza bolognese de luxe                        :: {has_meat}
 	single_choice size
-dish hawaii:                Pizza hawaï                 :: {has_meat}
+	single_choice garlic_sauce
+dish hawaii:                Pizza Hawaï                                    :: {has_meat}
 	single_choice size
-dish popeye:                Pizza popeye -- Veggie
+	single_choice garlic_sauce
+dish popeye:                Pizza Popeye              -- Veggie
 	single_choice size
-dish pepperoni:             Pizza pepperoni             :: {has_meat}
+	single_choice garlic_sauce
+dish pepperoni:             Pizza pepperoni                                :: {has_meat}
 	single_choice size
-dish seafood:               Pizza seafood               :: {has_meat}
+	single_choice garlic_sauce
+dish seafood:               Pizza seafood                                  :: {has_meat}
 	single_choice size
-dish hot_pizza:             Pizza hot pizzaaah!!!       :: {has_meat}
+	single_choice garlic_sauce
+dish hot_pizza:             Pizza hot pizzaaah!!!                          :: {has_meat}
 	single_choice size
-dish salmon_delight:        Pizza salmon delight        :: {has_meat}
+	single_choice garlic_sauce
+dish salmon_delight:        Pizza salmon delight                           :: {has_meat}
 	single_choice size
-dish full_option:           Pizza full option           :: {has_meat}
+	single_choice garlic_sauce
+dish full_option:           Pizza full option                              :: {has_meat}
 	single_choice size
-dish pitza_kebab:           Pitza kebab                 :: {has_meat}
+	single_choice garlic_sauce
+dish pitza_kebab:           Pitza kebab               -- Heeft al looksaus :: {has_meat}
 	single_choice size
-dish multi_cheese:          Pizza multi cheese -- Veggie
+dish multi_cheese:          Pizza multi cheese        -- Veggie
 	single_choice size
-dish 4_seasons:             Pizza 4 seasons             :: {has_meat}
+	single_choice garlic_sauce
+dish 4_seasons:             Pizza 4 seasons                                :: {has_meat}
 	single_choice size
-dish mega_fish:             Pizza mega fish             :: {has_meat}
+	single_choice garlic_sauce
+dish mega_fish:             Pizza mega fish                                :: {has_meat}
 	single_choice size
+	single_choice garlic_sauce
 dish creamy_multi_cheese:   Pizza creamy multi cheese -- Veggie
 	single_choice size
-dish green_fiesta:          Pizza green fiësta          :: {has_meat}
+dish green_fiesta:          Pizza green fiësta        -- Heeft al looksaus :: {has_meat}
 	single_choice size
 dish veggie:                Pizza veggie
 	single_choice size
-dish meat_lovers:           Pizza meat lovers           :: {has_meat}
+	single_choice garlic_sauce
+dish meat_lovers:           Pizza meat lovers                              :: {has_meat}
 	single_choice size
-dish scampi_mampi:          Pizza scampi mampi          :: {has_meat}
+	single_choice garlic_sauce
+dish scampi_mampi:          Pizza scampi mampi                             :: {has_meat}
 	single_choice size
-dish tabasco:               Pizza tabasco               :: {has_meat}
+	single_choice garlic_sauce
+dish tabasco:               Pizza tabasco                                  :: {has_meat}
 	single_choice size
-dish funky_chicken:         Pizza funky chicken         :: {has_meat}
+	single_choice garlic_sauce
+dish funky_chicken:         Pizza funky chicken                            :: {has_meat}
 	single_choice size
-dish chicken_time:          Pizza chicken time          :: {has_meat}
+	single_choice garlic_sauce
+dish chicken_time:          Pizza chicken time                             :: {has_meat}
 	single_choice size
-dish creamy_chicken:        Pizza creamy chicken        :: {has_meat}
+	single_choice garlic_sauce
+dish creamy_chicken:        Pizza creamy chicken      -- Heeft al looksaus :: {has_meat}
 	single_choice size
-dish spicy_chicken:         Pizza spicy Chicken         :: {has_meat}
+dish spicy_chicken:         Pizza spicy chicken       -- Heeft al looksaus :: {has_meat}
 	single_choice size
-dish meatballs:             Pizza meatballs             :: {has_meat}
+dish meatballs:             Pizza meatballs                                :: {has_meat}
 	single_choice size
-dish tuna:                  Pizza tuna                  :: {has_meat}
+	single_choice garlic_sauce
+dish tuna:                  Pizza tuna                                     :: {has_meat}
 	single_choice size
-dish anchovy:               Pizza anchovy               :: {has_meat}
+	single_choice garlic_sauce
+dish anchovy:               Pizza anchovy                                  :: {has_meat}
 	single_choice size
-dish calzone:               Pizza calzone               :: {has_meat}
+	single_choice garlic_sauce
+dish calzone:               Pizza calzone                                  :: {has_meat}
 	single_choice size
-dish hot_bolognese:         Pizza hot bolognese         :: {has_meat}
+	single_choice garlic_sauce
+dish hot_bolognese:         Pizza hot bolognese                            :: {has_meat}
 	single_choice size
-dish hot_and_cheesy:        Pizza hot & cheesy          :: {has_meat}
+	single_choice garlic_sauce
+dish hot_and_cheesy:        Pizza hot & cheesy                             :: {has_meat}
 	single_choice size
-dish bbq_chicken:           Pizza chicken barbecue      :: {has_meat}
+	single_choice garlic_sauce
+dish curry:         Pizza curry                       -- Heeft al looksaus :: {has_meat}
 	single_choice size
-dish bbq_meatballs:         Pizza barbecue meatballs    :: {has_meat}
+dish bbq_chicken:           Pizza chicken barbecue                         :: {has_meat}
 	single_choice size
-dish bbq_bacon:             Pizza barbecue bacon        :: {has_meat}
+	single_choice garlic_sauce
+dish bbq_meatballs:         Pizza barbecue meatballs                       :: {has_meat}
 	single_choice size
-dish bbq_special:           Pizza barbecue special      :: {has_meat}
+	single_choice garlic_sauce
+dish bbq_bacon:             Pizza barbecue bacon      -- Heeft al looksaus :: {has_meat}
+	single_choice size
+dish bbq_special:           Pizza barbecue special    -- Heeft al looksaus :: {has_meat}
 	single_choice size
