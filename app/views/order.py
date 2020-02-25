@@ -11,7 +11,7 @@ from flask_login import current_user, login_required
 
 from forms import AnonOrderItemForm, OrderForm, OrderItemForm
 from models import Order, OrderItem, User, db
-from hlds.definitions import location_definitions
+from hlds.definitions import location_definitions, location_definition_version
 from notification import post_order_to_webhook
 from utils import ignore_none
 
@@ -157,6 +157,7 @@ def order_item_create(order_id: int) -> typing.Any:
 
     item = OrderItem()
     form.populate_obj(item)
+    item.hlds_data_version = location_definition_version
     item.order_id = order_id
     if not current_user.is_anonymous():
         item.user_id = current_user.id
