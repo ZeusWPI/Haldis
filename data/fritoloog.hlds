@@ -91,21 +91,20 @@ dish grill_burger:           Burger op de grill       :: {has_meat} € 5.5
 		van_eyck:           Van Eyck        € 0.5
 
 
-dish chili_cheese:           Chili cheese             :: € 2.7
-
 dish fish_burger:            Fishburger               :: {has_fish} € 3
 dish cod_stick:              Kabeljauwstick           :: {has_fish} € 2.5
 dish shrimp_croquette:       Garnaalkroket            :: {has_fish} € 2
 
-dish mozarella_sticks:       Mozarellasticks          :: € 3
-dish cheese_croquette:       Kaaskroket               :: € 1.5
-dish veggi_burger:           Veggieburger             :: € 3.2
-dish cheese_souflesse:       Kaassouflesse            :: € 1.5
+dish chili_cheese:           Chili cheese (veggie)        :: € 2.7
+dish mozarella_sticks:       Mozarellasticks (veggie)     :: € 3
+dish cheese_croquette:       Kaaskroket (veggie)          :: € 1.5
+dish veggi_burger:           Veggieburger                 :: € 3.2
+dish cheese_souflesse:       Kaassouflesse (veggie)       :: € 1.5
 	# https://www.vangeloven.com/merk/souflesse
-dish bonita:                 Bonita                   :: € 2
+dish bonita:                 Bonita (veggie)              :: € 2
 	# https://www.devriesvanoers.nl/assortiment/specialiteiten/vegetarisch-groentesnack-vries-bonita/
-dish sajoera:                Sajoera                  :: € 2
+dish sajoera:                Sajoera (veggie)             :: € 2
 	# https://www.devriesvanoers.nl/assortiment/specialiteiten/vegetarisch-groentekroket-vries-sajoera/
-dish veg_cheese_disc:        Groenten-kaasschijf      :: € 2.4
-dish mini_spring_rolls:      Mini-loempia's           :: € 3
-dish bami:                   Bami                     :: € 2
+dish veg_cheese_disc:        Groenten-kaasschijf (veggie) :: € 2.4
+dish mini_spring_rolls:      Mini-loempia's (veggie)      :: € 3
+dish bami:                   Bami (veggie)                :: € 2
