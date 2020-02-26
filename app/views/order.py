@@ -129,31 +129,39 @@ def order_item_create(order_id: int) -> typing.Any:
     dish_id = form.dish_id.data if form.is_submitted() else request.args.get("dish")
     if dish_id and not location.dish_by_id(dish_id):
         abort(404)
-    form.dish_id.data = dish_id
+    if not form.is_submitted():
+        form.dish_id.data = dish_id
     form.populate(current_order.location)
 
-    # If the form was not submitted (GET request), the form had errors,
-    # or the dish was changed: show form again
-    dish_was_changed = request.form.get("form_for_dish_id") and request.form["form_for_dish_id"] != dish_id
-    if not form.validate_on_submit() or dish_was_changed:
+    if form.is_submitted():
+        form_for_dish = request.form.get("form_for_dish_id")
+        dish_was_changed = form_for_dish is not None and form_for_dish != dish_id
+
+        # The form's validation tests that dish_id is valid and gives a friendly error if it's not
+        choices = location.dish_by_id(form.dish_id.data).choices
+        chosen = [
+            (
+                choice.option_by_id(request.form.get("choice_" + choice.id))
+                if choice_type == "single_choice" else
+                list(ignore_none(request.form.getlist("choice_" + choice.id, type=choice.option_by_id)))
+            )
+            for (choice_type, choice) in choices
+        ]
+        all_choices_present = all(x is not None for x in chosen)
+
+        if dish_was_changed or not all_choices_present:
+            user_name = form.user_name.data if form.user_name.validate(form) else None
+            comment = form.comment.data if form.comment.validate(form) else None
+
+            return redirect(url_for("order_bp.order_item_create",
+                                    order_id=order_id, dish=form.dish_id.data,
+                                    user_name=user_name, comment=comment))
+
+    # If the form was not submitted (GET request) or the form had errors: show form again
+    if not form.validate_on_submit():
         return order_from_id(order_id, form=form, dish_id=dish_id)
 
     # Form was submitted and is valid
-
-    # The form's validation tests that dish_id is valid and gives a friendly error if it's not
-    choices = location.dish_by_id(form.dish_id.data).choices
-    chosen = [
-        (
-            choice.option_by_id(request.form.get("choice_" + choice.id))
-            if choice_type == "single_choice" else
-            list(ignore_none(request.form.getlist("choice_" + choice.id, type=choice.option_by_id)))
-        )
-        for (choice_type, choice) in choices
-    ]
-    all_choices_present = all(x is not None for x in chosen)
-    if not all_choices_present:
-        return redirect(url_for("order_bp.order_item_create",
-                                order_id=order_id, dish=form.dish_id.data))
 
     item = OrderItem()
     form.populate_obj(item)
@@ -162,15 +170,18 @@ def order_item_create(order_id: int) -> typing.Any:
     if not current_user.is_anonymous():
         item.user_id = current_user.id
     else:
-        session["anon_name"] = item.name
+        session["anon_name"] = item.user_name
 
     # XXX Temporary until OrderItemChoice is used
     def _name(option):
+        no_text_tag = "no_text"
         try:
+            if not option or no_text_tag in option.tags:
+                return None
             return option.name
         except AttributeError:
-            return ", ".join(o.name for o in option)
-    comments = [_name(option) for option in chosen if option and "no_text" not in option.tags]
+            return ", ".join(o.name for o in option if no_text_tag not in o.tags)
+    comments = list(ignore_none(_name(option) for option in chosen))
     if item.comment:
         comments.append("Comment: " + item.comment)
     item.comment = "; ".join(comments)
@@ -221,7 +232,7 @@ def items_user_paid(order_id: int, user_name: str) -> typing.Optional[Response]:
         ).all()
     else:
         items = OrderItem.query.filter(
-            (OrderItem.name == user_name) & (OrderItem.order_id == order_id)
+            (OrderItem.user_name == user_name) & (OrderItem.order_id == order_id)
         ).all()
     current_order = Order.query.filter(Order.id == order_id).first()
     for item in items:

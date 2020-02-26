@@ -42,9 +42,6 @@
     {% if form -%}
     <div class="col-md-push-1 col-md-10 darker order_order" id="form">
         <h4>Order:</h4>
-{% if current_user.is_anonymous() %}
-        <div>Sorry, anonymous ordering is currently broken. Please log in to order.</div>
-{% else %}
         <form method="post" action="{{ url_for('order_bp.order_item_create', order_id=order.id) }}">
           <span class="pull-right">
             <a class="btn btn-primary" onclick="chooseRandom()">Choose for me</a>
@@ -83,10 +80,10 @@
             </div>
 
             {% if current_user.is_anonymous() %}
-                <div class="form-group{{ ' has-error' if form.name.errors }}{{ ' required' if form.name.flags.required }}">
-                    {{ form.name.label(class='control-label') }}
-                    {{ form.name(class='form-control', placeholder='Fill in your name...') }}
-                    {{ util.render_form_field_errors(form.name) }}
+                <div class="form-group{{ ' has-error' if form.user_name.errors }}{{ ' required' if form.user_name.flags.required }}">
+                    {{ form.user_name.label(class='control-label') }}
+                    {{ form.user_name(class='form-control', placeholder='Fill in your name...') }}
+                    {{ util.render_form_field_errors(form.user_name) }}
                 </div>
             {% endif %}
             <div class="form-group" style="padding-top: 8px;">
@@ -96,7 +93,6 @@
                  {% endif %}
             </div>
         </form>
-{% endif %}
     </div>
     {%- endif %}
 </div>

@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 
 from typing import Optional
 
-from flask import session
+from flask import session, request
 from flask_login import current_user
 from flask_wtf import FlaskForm as Form
 from wtforms import (DateTimeField, SelectField, SelectMultipleField, StringField, SubmitField,
@@ -65,6 +65,8 @@ class OrderItemForm(Form):
             (dish.id, (dish.name + ": " + self.format_price_range(dish.price_range())))
             for dish in location.dishes
         ]
+        if not self.is_submitted() and self.comment.data is None:
+            self.comment.data = request.args.get("comment")
 
 
 class AnonOrderItemForm(OrderItemForm):
@@ -72,7 +74,7 @@ class AnonOrderItemForm(OrderItemForm):
     Class which defines the form for a new Item in an Order
     For Users who aren't logged in
     """
-    name = StringField("Name", validators=[validators.required()])
+    user_name = StringField("Name", validators=[validators.required()])
 
     def populate(self, location: Location) -> None:
         """
@@ -80,8 +82,11 @@ class AnonOrderItemForm(OrderItemForm):
         the name of the anon user
         """
         OrderItemForm.populate(self, location)
-        if self.name.data is None:
-            self.name.data = session.get("anon_name", None)
+        if not self.is_submitted():
+            if self.user_name.data is None:
+                self.user_name.data = request.args.get("user_name")
+            if self.user_name.data is None:
+                self.user_name.data = session.get("anon_name", None)
 
     def validate(self) -> bool:
         "Check if the provided anon_name is not already taken"
@@ -90,8 +95,8 @@ class AnonOrderItemForm(OrderItemForm):
             return False
 
         # check if we have a user with this name
-        user = User.query.filter_by(username=self.name.data).first()
+        user = User.query.filter_by(username=self.user_name.data).first()
         if user is not None:
-            self.name.errors.append("Name already in use")
+            self.user_name.errors.append("Name already in use")
             return False
         return True
