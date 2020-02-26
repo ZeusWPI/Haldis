@@ -40,6 +40,10 @@ dish wok1: Studentenwok 1 met saus € 6
 	single_choice meat
 	single_choice sauce
 
+dish wok1_balls: Studentenwok 1 met kip-/varkensballetjes en zoetzuur € 6
+	single_choice bami_nasi
+	single_choice meat
+
 dish wok2: Studentenwok 2 kip/varken bami/mihoen zonder saus € 6
 	single_choice bami_mihoen
 	single_choice meat
