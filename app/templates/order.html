@@ -91,6 +91,9 @@
             {% endif %}
             <div class="form-group" style="padding-top: 8px;">
                  {{ form.submit_button(class='btn btn-primary') }}
+                 {% if not dish %}
+                 <div id="submit-reveals-options-msg">If the chosen dish has options, they will be shown when you press submit, before adding the item to the order.</div>
+                 {% endif %}
             </div>
         </form>
 {% endif %}
