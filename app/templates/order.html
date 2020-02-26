@@ -42,6 +42,9 @@
     {% if form -%}
     <div class="col-md-push-1 col-md-10 darker order_order" id="form">
         <h4>Order:</h4>
+{% if current_user.is_anonymous() %}
+        <div>Sorry, anonymous ordering is currently broken. Please log in to order.</div>
+{% else %}
         <form method="post" action="{{ url_for('order_bp.order_item_create', order_id=order.id) }}">
           <span class="pull-right">
             <a class="btn btn-primary" onclick="chooseRandom()">Choose for me</a>
@@ -90,6 +93,7 @@
                  {{ form.submit_button(class='btn btn-primary') }}
             </div>
         </form>
+{% endif %}
     </div>
     {%- endif %}
 </div>

@@ -60,7 +60,7 @@ class OrderItemForm(Form):
         else:
             return "from {}".format(euro_string(price_range[0]))
 
-    def populate(self, location: Location, dish_id: Optional[str]) -> None:
+    def populate(self, location: Location) -> None:
         self.dish_id.choices = [
             (dish.id, (dish.name + ": " + self.format_price_range(dish.price_range())))
             for dish in location.dishes

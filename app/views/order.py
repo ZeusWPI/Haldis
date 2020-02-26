@@ -60,7 +60,7 @@ def order_from_id(order_id: int, form: OrderForm = None, dish_id=None) -> str:
         form = AnonOrderItemForm() if current_user.is_anonymous() \
             else OrderItemForm()
         if order.location:
-            form.populate(order.location, None)
+            form.populate(order.location)
     if order.is_closed():
         form = None
     total_price = sum([o.price for o in order.items])
@@ -130,7 +130,7 @@ def order_item_create(order_id: int) -> typing.Any:
     if dish_id and not location.dish_by_id(dish_id):
         abort(404)
     form.dish_id.data = dish_id
-    form.populate(current_order.location, dish_id)
+    form.populate(current_order.location)
 
     # If the form was not submitted (GET request), the form had errors,
     # or the dish was changed: show form again
