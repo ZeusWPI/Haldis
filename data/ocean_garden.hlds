@@ -64,11 +64,9 @@ dish wok4: Vegetarisch met saus € 6
 	single_choice bami_nasi
 	single_choice sauce
 
-dish wok_with_balls: Studentenwok met zoetzuur en gepaneerde balletjes -- Geen bami of nasi € 9
-	single_choice meat: Vlees
-		chicken: Kip :: {has_meat}
-		pork: Varken :: {has_meat}
-		vege: Vegetarisch
+dish wok1_chicken_with_balls: Kip zoetzuur en gepaneerde balletjes         -- Geen bami of nasi :: {has_meat} € 9
+dish wok1_pork_with_balls:    Varken zoetzuur en gepaneerde balletjes      -- Geen bami of nasi :: {has_meat} € 9
+dish wok4_with_balls:         Vegetarisch zoetzuur en gepaneerde balletjes -- Geen bami of nasi               € 9
 
 # Vegetarian dishes
 dish chop_choy:         76. Chop Choy (veggie)                       -- Sojascheuten, met gebakken rijst            € 9
