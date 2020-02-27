@@ -34,39 +34,29 @@ sauce: Saus
 dish wok5: Babi pangang -- Geroosterd varkensvlees :: {has_meat} € 6
 	single_choice bami_nasi
 
-dish wok1_chicken: Kip met saus :: {has_meat} € 6
+dish wok1_chicken: Kip met saus    :: {has_meat} € 6
+	single_choice bami_nasi
+	single_choice sauce
+dish wok1_pork:    Varken met saus :: {has_meat} € 6
 	single_choice bami_nasi
 	single_choice sauce
 
-dish wok1_pork: Varken met saus :: {has_meat} € 6
+dish wok1_breaded_chicken: Kippenballetjes zoetzuur  :: {has_meat} € 6
 	single_choice bami_nasi
-	single_choice sauce
-
-dish wok1_breaded_chicken: Kippenballetjes zoetzuur :: {has_meat} € 6
+dish wok1_breaded_pork:    Varkensballetjes zoetzuur :: {has_meat} € 6
 	single_choice bami_nasi
 
-dish wok1_breaded_pork: Varkensballetjes zoetzuur :: {has_meat} € 6
-	single_choice bami_nasi
-
-dish wok2_chicken: Wok 2: kip zonder saus -- Met bami of mihoen :: {has_meat} € 6
+dish wok2_chicken: Wok 2: kip zonder saus    -- Met bami of mihoen :: {has_meat} € 6
+	single_choice bami_mihoen
+dish wok2_pork:    Wok 2: varken zonder saus -- Met bami of mihoen :: {has_meat} € 6
 	single_choice bami_mihoen
 
-dish wok2_pork: Wok 2: varken zonder saus -- Met bami of mihoen :: {has_meat} € 6
-	single_choice bami_mihoen
-
-dish wok3_chicken: Wok 3: kip zonder saus -- Met bami of nasi :: {has_meat} € 6
-	single_choice bami_nasi
-
-dish wok3_pork: Wok 3: varken zonder saus -- Met bami of nasi :: {has_meat} € 6
-	single_choice bami_nasi
+dish wok3_chicken: Wok 3: kip met rijst zonder saus    :: {has_meat} € 6
+dish wok3_pork:    Wok 3: varken met rijst zonder saus :: {has_meat} € 6
 
 dish wok4: Vegetarisch met saus € 6
 	single_choice bami_nasi
 	single_choice sauce
-
-dish wok1_chicken_with_balls: Kip zoetzuur en gepaneerde balletjes         -- Geen bami of nasi :: {has_meat} € 9
-dish wok1_pork_with_balls:    Varken zoetzuur en gepaneerde balletjes      -- Geen bami of nasi :: {has_meat} € 9
-dish wok4_with_balls:         Vegetarisch zoetzuur en gepaneerde balletjes -- Geen bami of nasi               € 9
 
 # Vegetarian dishes
 dish chop_choy:         76. Chop Choy (veggie)                       -- Sojascheuten, met gebakken rijst            € 9
