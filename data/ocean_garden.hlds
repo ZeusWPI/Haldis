@@ -24,7 +24,6 @@ sauce: Saus
 	gonboa: Gon-boa -- Pikante kruidensaus uit het westen van China
 	curry: Curry
 	sweetsour: Zoetzuur
-	sweetsour_and_balls: Zoetzuur, met bolletjes ipv bami/nasi/mihoen -- Nasi/mihoen worden vervangen door gepaneerde bolletjes € 3
 	oyster: Oester :: {has_fish}
 	pepper: Pepersaus
 	mushroom: Champignon -- Saus met champignon, wortel en wat andere groentjes
@@ -61,9 +60,15 @@ dish wok3_chicken: Wok 3: kip zonder saus -- Met bami of nasi :: {has_meat} € 
 dish wok3_pork: Wok 3: varken zonder saus -- Met bami of nasi :: {has_meat} € 6
 	single_choice bami_nasi
 
-dish wok4: Vegetarische wok € 6
+dish wok4: Vegetarisch met saus € 6
 	single_choice bami_nasi
 	single_choice sauce
+
+dish wok_with_balls: Studentenwok met zoetzuur en gepaneerde balletjes -- Geen bami of nasi € 9
+	single_choice meat: Vlees
+		chicken: Kip :: {has_meat}
+		pork: Varken :: {has_meat}
+		vege: Vegetarisch
 
 # Vegetarian dishes
 dish chop_choy:         76. Chop Choy (veggie)                       -- Sojascheuten, met gebakken rijst            € 9
