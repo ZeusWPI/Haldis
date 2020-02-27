@@ -30,30 +30,36 @@ sauce: Saus
 	mushroom: Champignon -- Saus met champignon, wortel en wat andere groentjes
 	malaysian: A la Maleisië -- Licht pikante saus
 
-meat: Vlees
-	chicken: Kip :: {has_meat}
-	pork: Varken :: {has_meat}
 
-
-dish wok1: Studentenwok 1 met saus € 6
+dish wok5: Babi pangang -- Geroosterd varkensvlees :: {has_meat} € 6
 	single_choice bami_nasi
-	single_choice meat
+
+dish wok1_chicken: Kip met saus :: {has_meat} € 6
+	single_choice bami_nasi
 	single_choice sauce
 
-dish wok1_balls: Studentenwok 1 met kip-/varkensballetjes en zoetzuur € 6
+dish wok1_pork: Varken met saus :: {has_meat} € 6
 	single_choice bami_nasi
-	single_choice meat
+	single_choice sauce
 
-dish wok2: Studentenwok 2 kip/varken bami/mihoen zonder saus € 6
+dish wok1_breaded_chicken: Kippenballetjes zoetzuur :: {has_meat} € 6
+	single_choice bami_nasi
+
+dish wok1_breaded_pork: Varkensballetjes zoetzuur :: {has_meat} € 6
+	single_choice bami_nasi
+
+dish wok2_chicken: Wok 2: kip zonder saus -- Met bami of mihoen :: {has_meat} € 6
 	single_choice bami_mihoen
-	single_choice meat
 
-dish wok3: Studentenwok 3 kip bami/nasi zonder saus :: {has_meat} € 6
+dish wok2_pork: Wok 2: varken zonder saus -- Met bami of mihoen :: {has_meat} € 6
+	single_choice bami_mihoen
+
+dish wok3_chicken: Wok 3: kip zonder saus -- Met bami of nasi :: {has_meat} € 6
 	single_choice bami_nasi
 
-dish wok4: Vegetarische studentenwok 4 met saus € 6
+dish wok3_pork: Wok 3: varken zonder saus -- Met bami of nasi :: {has_meat} € 6
+	single_choice bami_nasi
+
+dish wok4: Vegetarische wok € 6
 	single_choice bami_nasi
 	single_choice sauce
-
-dish wok5: Studentenwok 5 babi pangang -- Geroosterd varkensvlees :: {has_meat} € 6
-	single_choice bami_nasi
