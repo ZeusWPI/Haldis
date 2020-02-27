@@ -31,6 +31,7 @@ sauce: Saus
 	malaysian: A la Maleisië -- Licht pikante saus
 
 
+# Student woks
 dish wok5: Babi pangang -- Geroosterd varkensvlees :: {has_meat} € 6
 	single_choice bami_nasi
 
@@ -63,3 +64,11 @@ dish wok3_pork: Wok 3: varken zonder saus -- Met bami of nasi :: {has_meat} € 
 dish wok4: Vegetarische wok € 6
 	single_choice bami_nasi
 	single_choice sauce
+
+# Vegetarian dishes
+dish chop_choy:         76. Chop Choy (veggie)                       -- Sojascheuten, met gebakken rijst            € 9
+dish tjap_tjoy:         77. Tjap Tjoy (veggie)                       -- Diverse groenten met gebakken rijst, veggie € 9
+dish mihoen_veggies:    78. Mihoen met diverse groenten (veggie)     -- Rijstnoedels                                € 10
+dish chau_ming_veggies: 79. Chau ming met diverse groenten (veggie)  -- Eiernoedels                                 € 10
+dish tau_foe_ma_po:     80. Tau Foe met ma-po-saus (veggie)          -- Met gebakken rijst                          € 11.5
+dish tau_foe_mushrooms: 81. Tau Foe met Chinese champignons (veggie) -- Met gebakken rijst                          € 11.5
