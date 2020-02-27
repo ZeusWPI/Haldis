@@ -150,7 +150,10 @@ def order_item_create(order_id: int) -> typing.Any:
         all_choices_present = all(x is not None for x in chosen)
 
         if dish_was_changed or not all_choices_present:
-            user_name = form.user_name.data if form.user_name.validate(form) else None
+            try:
+                user_name = form.user_name.data if form.user_name.validate(form) else None
+            except AttributeError:
+                user_name = None
             comment = form.comment.data if form.comment.validate(form) else None
 
             return redirect(url_for("order_bp.order_item_create",
