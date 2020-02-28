@@ -52,7 +52,7 @@ class Order(db.Model):
             )
             user["paid"] = user.get("paid", True) and item.paid
             user["dishes"] = user.get("dishes", []) + [item.dish_name]
-            group[item.get_name()] = user
+            group[str(item.get_name())] = user
 
         return group
 
