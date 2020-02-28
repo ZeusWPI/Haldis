@@ -9,15 +9,15 @@ There is syntax highlighting support for editors in `etc/` in the Haldis reposit
 Indentation requires hard **tabs**. Spaces will not work.
 
 ## Identifiers
-You must choose an identifier for each location, dish, choice and option. Identifiers may consist
-of numbers, hyphens, underscores and lowercase letters.
+You must choose an identifier for each location, dish, choice, option and tag. Identifiers may
+consist of numbers, hyphens, underscores and lowercase letters of the alphabet (a through z).
 
-* Good: `my_identifier-007`
-* Bad: ~~`My Identifié 007`~~
+* Allowed: `0-my_identifier`
+* Disallowed: ~~`0 My Identifié`~~
 
 ## Locations
 
-A HLDS file consists of one or more locations. Each location starts with a header, which enclosed
+A HLDS file consists of one or more locations. Each location starts with a header, which is enclosed
 in "fences" of at least three equal signs. The first line of the header contains the ID and name of
 the location.  Further lines contain the metadata of the location, such as the phone number and
 OpenStreetMap element. In the future, the phone number and such will be fetched from OpenStreetMap.
@@ -86,7 +86,7 @@ dish dishid: Name -- This is a description € 3
 
 ## Tags
 
-**Note:** HLDS tags are not supported in Haldis yet. You can ignore them.
+**Note:** Only the `{no_text}` tag is supported at this moment. You can ignore other tags for now.
 
 You can add tags after ` :: `. Tags are `{identifier}`. You can use tags to attach more information
 about a dish or option in a structured way. For example: `{has_meat}` signals to vegetarians that
@@ -96,4 +96,15 @@ The order is always id, name, description, tags, price (not all have to be prese
 
 ```hlds
 dish dishid: Name -- This is a description :: {has_meat} € 3
+```
+
+The `{no_text}` tag signals that an option is not to be shown in a dish's description. This is
+useful for choices that have a default that needs not be read when ordering.
+
+```hlds
+veggie: Vegetarische opties
+	meat:    Niet vegetarisch :: {has_meat} {no_text}
+	tofu:    Vegetarisch met tofu
+	falafel: Vegetarisch met falafel
+	vegan:   Veganistisch
 ```
