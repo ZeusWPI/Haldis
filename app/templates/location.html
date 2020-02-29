@@ -32,7 +32,17 @@
 			{% for dish in location.dishes -%}
 				<tr>
 					<td>{{ dish.name or dish.id }}</td>
-					<td>{{ dish.description or "" }}</td>
+					<td>
+						{{ dish.description or "" }}
+						{% if dish.choices %}
+							<div class="dish-choices">
+								Choices:
+								{% set comma = joiner(",") %}
+								{% for choice in dish.choices %}{{ comma() }}
+									{{ choice[1].name }}{% endfor %}
+							</div>
+						{% endif %}
+					</td>
 					<td style="white-space: nowrap;">{{ dish.price_range()|price_range(true) }}<td>
 				</tr>
 			{%- endfor %}
