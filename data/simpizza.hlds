@@ -166,6 +166,11 @@ dish bbq_merguez:           Pizza merguez                      -- Barbecuesaus, 
 	single_choice base
 	multi_choice sauce_no_garlic
 
+dish 50_50: Pizza fifty/fifty (helften in commentaar) -- Twee pizzahelften naar keuze € 2
+	single_choice size
+	single_choice base
+	multi_choice sauce
+
 dish diy:                   Pizza do it yourself               -- Vier ingrediënten gratis, daarna €1 per ingrediënt op small, €1.25 op medium, €1.5 op large
 	single_choice size
 	single_choice base
