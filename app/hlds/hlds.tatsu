@@ -29,8 +29,8 @@ location = >location_header items:{ block } ;
 
 
 attributes =
-	name:/[^\n]*?(?= +-- | +:: | +€ |\n)/
-	[ s '--' ~ s description:/[^\n]*?(?= +:: | +€ |\n)/ ]
+	name:/[^\n#]*?(?= +-- | +:: | +€ | *\n| *#)/
+	[ s '--' ~ s description:/[^\n#]*?(?= +:: | +€ | *\n| *#)/ ]
 	[ s '::' {s ('{' tags+:identifier '}')} ]
 	[ [ s '::' ~ ] s price:price ]
 	;
@@ -78,7 +78,7 @@ n = '\n' {{'\t'} '\n'} ;
 
 @name
 identifier = /[a-z0-9_-]+/ ;
-string = /[^\n]+/ ;
+string = /[^\n#]+/ ;
 choice_type = 'single_choice' | 'multi_choice' ;
 
 int = /[0-9]+/ ;
