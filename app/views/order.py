@@ -134,8 +134,8 @@ def order_item_create(order_id: int) -> typing.Any:
     form.populate(current_order.location)
 
     if form.is_submitted():
-        form_for_dish = request.form.get("form_for_dish_id")
-        dish_was_changed = form_for_dish is not None and form_for_dish != dish_id
+        form_for_dish = request.form["form_for_dish"]
+        dish_was_changed = form_for_dish != "" and form_for_dish != dish_id
 
         # The form's validation tests that dish_id is valid and gives a friendly error if it's not
         choices = location.dish_by_id(form.dish_id.data).choices

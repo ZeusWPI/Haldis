@@ -53,8 +53,8 @@
                 {{ util.render_form_field_errors(form.dish_id) }}
             </div>
 
+            <input type="hidden" name="form_for_dish" value="{{ dish.id }}" />
             {% if dish and dish.choices %}
-                <input type="hidden" name="form_for_dish" value="{{ dish.id }}" />
                 {% for (choice_type, choice) in dish.choices %}
                     <div class="form-group select2-container select2">
                         <label class="control-label" for="choice_{{ choice.id }}">{{ choice.name }}</label><br/>
