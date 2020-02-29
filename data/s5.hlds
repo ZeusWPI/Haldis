@@ -1,0 +1,190 @@
+============================
+s5: S5
+	osm     https://www.openstreetmap.org/node/3752879366
+	address Krijgslaan 281, 9000 Gent
+	website https://www.ugent.be/student/nl/meer-dan-studeren/resto/restos/restocampussterre.htm
+============================
+
+dish sandwich_kaas: Broodje Kaas -- Kaas, ei, komkommer, sla, tomaat en mayonaise
+	single_choice sandwich: Broodje
+		small_white: Klein wit   € 1.40
+		small_brown: Klein bruin € 1.40
+		large_white: Groot wit   € 2.10
+		large_brown: Groot bruin € 2.10
+		quattro:     Quattro     € 2.10
+
+dish sandwich_kruidenkaas: Broodje Kruidenkaas -- Kruidenkaas, ei, komkommer, sla en tomaat
+	single_choice sandwich: Broodje
+		small_white: Klein wit   € 1.40
+		small_brown: Klein bruin € 1.40
+		large_white: Groot wit   € 2.10
+		large_brown: Groot bruin € 2.10
+		quattro:     Quattro     € 2.10
+
+dish sandwich_kipcurry: Broodje Kip curry -- Kip curry, ei, komkommer, sla en tomaat
+	single_choice sandwich: Broodje
+		small_white: Klein wit   € 1.50
+		small_brown: Klein bruin € 1.50
+		large_white: Groot wit   € 2.20
+		large_brown: Groot bruin € 2.20
+		quattro:     Quattro     € 2.20
+
+dish sandwich_kipcurryhawa: Broodje Kip curry Hawaï -- Kip curry, ananas, ei, komkommer, sla en tomaat
+	single_choice sandwich: Broodje
+		small_white: Klein wit   € 1.50
+		small_brown: Klein bruin € 1.50
+		large_white: Groot wit   € 2.20
+		large_brown: Groot bruin € 2.20
+		quattro:     Quattro     € 2.20
+
+dish sandwich_vissalade: Broodje Vissalade -- Duurzame vissalade, tomaat, sla, komkommer en ei
+	single_choice sandwich: Broodje
+		small_white: Klein wit   € 1.50
+		small_brown: Klein bruin € 1.50
+		large_white: Groot wit   € 2.30
+		large_brown: Groot bruin € 2.30
+		quattro:     Quattro     € 2.30
+
+dish sandwich_ham: Broodje Ham -- Ham, ei, komkommer, sla, tomaat en mayonaise
+	single_choice sandwich: Broodje
+		small_white: Klein wit   € 1.50
+		small_brown: Klein bruin € 1.50
+		large_white: Groot wit   € 2.30
+		large_brown: Groot bruin € 2.30
+		quattro:     Quattro     € 2.30
+
+dish sandwich_prepare: Broodje Preparé -- Preparé, ei, komkommer, sla en tomaat
+	single_choice sandwich: Broodje
+		small_white: Klein wit   € 1.50
+		small_brown: Klein bruin € 1.50
+		large_white: Groot wit   € 2.30
+		large_brown: Groot bruin € 2.30
+		quattro:     Quattro     € 2.30
+
+dish sandwich_springbreak: Broodje Spring break -- Erwten-munt spread, komkommer, radijs, sla, croutons, cocktailsaus
+	single_choice sandwich: Broodje
+		small_white: Klein wit   € 1.50
+		small_brown: Klein bruin € 1.50
+		large_white: Groot wit   € 2.40
+		large_brown: Groot bruin € 2.40
+		quattro:     Quattro     € 2.40
+
+dish sandwich_argenteuil: Broodje Argenteuil -- Ham, asperge, ei, komkommer, sla, tomaat en mayonaise
+	single_choice sandwich: Broodje
+		small_white: Klein wit   € 1.50
+		small_brown: Klein bruin € 1.50
+		large_white: Groot wit   € 2.40
+		large_brown: Groot bruin € 2.40
+		quattro:     Quattro     € 2.40
+
+dish sandwich_brie: Broodje Brie -- Brie, honing, pijnboompitten, sla
+	single_choice sandwich: Broodje
+		small_white: Klein wit   € 1.50
+		small_brown: Klein bruin € 1.50
+		large_white: Groot wit   € 2.50
+		large_brown: Groot bruin € 2.50
+		quattro:     Quattro     € 2.50
+
+dish sandwich_caesar: Broodje Caesar -- Kippenreepjes, Gran Moravia kaasschilfers, croutons, sla en caesardressing
+	single_choice sandwich: Broodje
+		small_white: Klein wit   € 1.50
+		small_brown: Klein bruin € 1.50
+		large_white: Groot wit   € 2.50
+		large_brown: Groot bruin € 2.50
+		quattro:     Quattro     € 2.50
+
+dish sandwich_martino: Broodje Martino -- Preparé, augurk, tomaat, mosterd en tabasco
+	single_choice sandwich: Broodje
+		small_white: Klein wit   € 1.60
+		small_brown: Klein bruin € 1.60
+		large_white: Groot wit   € 2.40
+		large_brown: Groot bruin € 2.40
+		quattro:     Quattro     € 2.40
+
+dish sandwich_maison: Broodje Maison -- Ham, kaas, augurk, ei, sla, tomaat, cocktailsaus en mayonaise
+	single_choice sandwich: Broodje
+		small_white: Klein wit   € 1.60
+		small_brown: Klein bruin € 1.60
+		large_white: Groot wit   € 2.40
+		large_brown: Groot bruin € 2.40
+		quattro:     Quattro     € 2.40
+
+dish sandwich_tropical: Broodje Tropical -- Ham, kaas, ananas, ei, sla, cocktailsaus
+	single_choice sandwich: Broodje
+		small_white: Klein wit   € 1.60
+		small_brown: Klein bruin € 1.60
+		large_white: Groot wit   € 2.40
+		large_brown: Groot bruin € 2.40
+		quattro:     Quattro     € 2.40
+
+dish sandwich_groentespread: Broodje Groentespread -- Weekelijks wisselende groentespread
+	single_choice sandwich: Broodje
+		small_white: Klein wit   € 1.60
+		small_brown: Klein bruin € 1.60
+		large_white: Groot wit   € 2.60
+		large_brown: Groot bruin € 2.60
+		quattro:     Quattro     € 2.60
+
+dish sandwich_gerooktezalmmetkruidenkaas: Broodje Gerookte zalm met kruidenkaas -- Gerookte zalm, kruidenkaas en ui
+	single_choice sandwich: Broodje
+		small_white: Klein wit   € 1.60
+		small_brown: Klein bruin € 1.60
+		large_white: Groot wit   € 2.60
+		large_brown: Groot bruin € 2.60
+		quattro:     Quattro     € 2.60
+
+dish sandwich_toscane: Broodje Toscane -- Mozzarella, prosciutto ham, sla en tomatensalsa
+	single_choice sandwich: Broodje
+		small_white: Klein wit   € 1.60
+		small_brown: Klein bruin € 1.60
+		large_white: Groot wit   € 2.70
+		large_brown: Groot bruin € 2.70
+		quattro:     Quattro     € 2.70
+
+dish sandwich_geitenkaas: Broodje Geitenkaas -- Geitenkaas, appel, honing en sla
+	single_choice sandwich: Broodje
+		small_white: Klein wit   € 1.70
+		small_brown: Klein bruin € 1.70
+		large_white: Groot wit   € 2.60
+		large_brown: Groot bruin € 2.60
+		quattro:     Quattro     € 2.60
+
+dish sandwich_tomaatmozzarella: Broodje Tomaat-mozzarella -- Mozzarella, tomaat, basilicumpesto en sla
+	single_choice sandwich: Broodje
+		small_white: Klein wit   € 1.70
+		small_brown: Klein bruin € 1.70
+		large_white: Groot wit   € 2.60
+		large_brown: Groot bruin € 2.60
+		quattro:     Quattro     € 2.60
+
+dish sandwich_hoevebroodje: Broodje Hoevebroodje -- Geitenkaas, appel, honing, gebakken spek en sla
+	single_choice sandwich: Broodje
+		small_white: Klein wit   € 1.70
+		small_brown: Klein bruin € 1.70
+		large_white: Groot wit   € 2.60
+		large_brown: Groot bruin € 2.60
+		quattro:     Quattro     € 2.60
+
+dish yoghurt:             Natuuryoghurt           € 0.4
+dish yofu:                Plantaardige yofu       € 1
+dish yoghurt_muesli:      Yoghurt met muesli      € 1
+dish greek_fruit_yoghurt: Griekse vruchtenyoghurt € 1.4
+dish chocolate_mousse:    Chocomousse             € 1.4
+dish speculoos_mousse:    Speculaasmousse         € 1.4
+dish soy_dessert:         Soja dessert            € 0.7
+dish tiramisu:            Tiramisu                € 1.4
+dish muffin:              Muffin                  € 1
+dish donut:               Donut                   € 1
+dish ice_variation:       IJsvariatie             € 2.3
+dish fruit:               Fruit                   € 0.5
+dish nuts_fruit:          Nuts & fruit            € 1.5
+
+dish chocolate_milk: Koude chocolademelk        € 0.8
+dish juice:          Fruitsap 20 cl Fair Trade  € 0.8
+dish water:          Bruisend water 50 cl       € 0.8
+dish perfumed_water: Gearomatiseerd water 50 cl € 1
+dish bionade:        Bionade                    € 1.5
+dish finley:         Finley                     € 1
+dish iced_coffee:    IJskoffie                  € 2
+dish iced_tea:       IJsthee                    € 2
+dish smoothie:       Smoothie                   € 2
