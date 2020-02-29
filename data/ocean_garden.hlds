@@ -1,7 +1,9 @@
 =============================================
 ocean_garden: Ocean Garden
-	# Openingsuren, website, telefoonnummer, adres enz. worden uit OpenStreetMap gehaald
-	osm https://www.openstreetmap.org/node/2275105003
+	osm     https://www.openstreetmap.org/node/2275105003
+	address Zwijnaardsesteenweg 399, 9000 Gent
+	phone   +32 9 222 72 74
+	website http://oceangarden.byethost3.com/
 
 	# Studentenmenu wordt beschreven op
 	#   http://oceangarden.byethost3.com/studentenmenus.html?i=1

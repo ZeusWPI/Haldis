@@ -2,8 +2,9 @@
 fritoloog: Fritoloog
 	osm     https://www.openstreetmap.org/node/5813542646
 	address Voskenslaan 413, 9000 Gent
+	phone   +32 495 22 19 75
 	website https://defritoloog.be
-	# Op bovenstaande website kan men ook online orderen
+	# Op bovenstaande website kan men ook online bestellen
 ============================
 
 dish fries: Frietjes :: {has_meat}

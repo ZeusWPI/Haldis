@@ -2,8 +2,9 @@
 simpizza: Simpizza
 	osm     https://www.openstreetmap.org/node/5803560353
 	address De Pintelaan 252, 9000 Gent
+	phone   +32 9 321 02 00
 	website https://www.simpizza.be/
-	# Op bovenstaande website kan men ook online orderen
+	# Op bovenstaande website kan men ook online bestellen
 ============================
 
 dish garlic_bread:               Lookbroodjes natuur                        € 2.2
