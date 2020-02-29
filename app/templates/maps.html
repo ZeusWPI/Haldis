@@ -20,23 +20,20 @@
 <script src="{{ url_for('static', filename='js/leaflet.js')}}"></script>
 <script src="{{ url_for('static', filename='js/map.js' ) }}"></script>
 <script>
- let locations = [];
- let loc = {};
+	let locations = [];
 
-{% for loc in locations -%}
-    {% if loc.address %}
-    loc = {
-        "address": "{{loc.address}}",
-        "name": "{{loc.name}}",
-        "url": "{{ url_for('general_bp.location', location_id=loc.id) }}"
-    };
-    locations.push(loc);
+	{% for loc in locations -%}
+		{% if loc.address %}
+			locations.push({
+				"address": "{{loc.address}}",
+				"name": "{{loc.name}}",
+				"url": "{{ url_for('general_bp.location', location_id=loc.id) }}"
+			});
+		{% endif %}
+	{%- endfor %}
 
-    {% endif %}
-{%- endfor %}
+	map.setView([51.0231119, 3.7102741], 14);
 
-map.setView([51.0231119, 3.7102741], 14);
-
- loadmap(locations);
+	loadmap(locations);
 </script>
 {% endblock %}

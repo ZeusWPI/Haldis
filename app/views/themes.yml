@@ -1,22 +1,22 @@
 # Seasonal themes for Haldis
 - lightmode:
-        file: lightmode.css
-        type: default
+	file: lightmode.css
+	type: default
 - darkmode:
-        file: darkmode.css
-        type: default
+	file: darkmode.css
+	type: default
 - halloween:
-        file: halloween.css
-        type: static-date
-        start: 21/10
-        end: 10/11
+	file: halloween.css
+	type: static-date
+	start: 21/10
+	end: 10/11
 - sinterklaas:
-        file: sinterklaas.css
-        type: static-date
-        start: 28/11
-        end: 5/12
+	file: sinterklaas.css
+	type: static-date
+	start: 28/11
+	end: 5/12
 - kerstmis:
-        file: kerstmis.css
-        type: static-date
-        start: 6/12
-        end: 06/01
+	file: kerstmis.css
+	type: static-date
+	start: 6/12
+	end: 06/01

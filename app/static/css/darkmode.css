@@ -1,16 +1,16 @@
 :root {
-    /*Darkmode colors*/
+	/*Darkmode colors*/
 	--dGray0:#D0D0D8;
-    --dGray1:#8E8E93;
-    --dGray2:#636366;
-    --dGray3:#48484A;
-    --dGray4:#3A3A3C;
-    --dGray5:#2C2C2E;
-    --dGray6:#1C1C1E;
-    --dBlue:#0A84FF;
+	--dGray1:#8E8E93;
+	--dGray2:#636366;
+	--dGray3:#48484A;
+	--dGray4:#3A3A3C;
+	--dGray5:#2C2C2E;
+	--dGray6:#1C1C1E;
+	--dBlue:#0A84FF;
 }
 .table-hover tbody tr:hover{
-    background-color: var(--dGray3);
+	background-color: var(--dGray3);
 }
 body{
 	background-color: var(--dGray5);
@@ -20,8 +20,8 @@ a {
 	color: var(--dBlue);
 }
 .btn-primary {
-    color: var(--dGray6);
-    background-color: var(--dBlue);
+	color: var(--dGray6);
+	background-color: var(--dBlue);
 }
 
 .navbar {
@@ -59,23 +59,23 @@ h1, h2, h3, h4, h5, h6{
 	border-bottom: 2px solid var(--dGray2);
 }
 .navbar-toggle .icon-bar {
-    background-color: var(--dGray0);
-    opacity: 0.5;
+	background-color: var(--dGray0);
+	opacity: 0.5;
 }
 .select2-container--default .select2-selection--single{
-    background-color: var(--dGray3);
-    color: var(--dGray0);
+	background-color: var(--dGray3);
+	color: var(--dGray0);
 }
 .select2-container--default .select2-selection--single .select2-selection__rendered{
-    color: var(--dGray0);
+	color: var(--dGray0);
 }
 .select2-results__option{
-    background-color: var(--dGray5);
-    color: var(--dGray0);
+	background-color: var(--dGray5);
+	color: var(--dGray0);
 }
 .select2-container--default .select2-results__option--highlighted[aria-selected] {
-    background-color: var(--dGray4);
-    color: var(--dGray0);
+	background-color: var(--dGray4);
+	color: var(--dGray0);
 }
 .bootstrap-datetimepicker-widget table thead tr:first-child th:hover,
 .bootstrap-datetimepicker-widget table td.day:hover,
@@ -83,28 +83,28 @@ h1, h2, h3, h4, h5, h6{
 .bootstrap-datetimepicker-widget table td.minute:hover,
 .bootstrap-datetimepicker-widget table td span:hover,
 .bootstrap-datetimepicker-widget table td.second:hover {
-  background: var(--dGray4);
+	background: var(--dGray4);
 }
 
 .select2-container--default .select2-results__option[aria-selected=true]{
-    background-color: var(--dBlue);
-    color: var(--dGray0);
+	background-color: var(--dBlue);
+	color: var(--dGray0);
 }
 .select2-search{
-    background-color: var(--dGray2);
+	background-color: var(--dGray2);
 }
 .select2-search input{
-    background-color: var(--dGray0);
+	background-color: var(--dGray0);
 }
 .dropdown-menu{
-    background-color: var(--dGray5);
+	background-color: var(--dGray5);
 }
 .form-control{
-    color: var(--dGray0);
+	color: var(--dGray0);
 }
 .form-control::placeholder{
-    color: var(--dGray2);
+	color: var(--dGray2);
 }
 .enter_darkmode>a {
-    text-align: center;
+	text-align: center;
 }

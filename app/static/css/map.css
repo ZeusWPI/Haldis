@@ -1,9 +1,9 @@
 .large-map {
-    min-height: 400px;
-    height: 600px;
+	min-height: 400px;
+	height: 600px;
 }
 
 .small-map {
-    min-height: 150px;
-    height: 250px;
+	min-height: 150px;
+	height: 250px;
 }

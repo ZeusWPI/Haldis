@@ -1,12 +1,12 @@
 /*Darkmode*/
 :root {
-    /*Darkmode colors*/
+	/*Darkmode colors*/
 	--dGray0:#D0D0D8;
-    --dGray1:#8E8E93;
-    --dGray2:#636366;
-    --dGray3:#48484A;
-    --dGray4:#3A3A3C;
-    --dGray5:#2C2C2E;
-    --dGray6:#1C1C1E;
-    --dBlue:#0A84FF;
+	--dGray1:#8E8E93;
+	--dGray2:#636366;
+	--dGray3:#48484A;
+	--dGray4:#3A3A3C;
+	--dGray5:#2C2C2E;
+	--dGray6:#1C1C1E;
+	--dBlue:#0A84FF;
 }

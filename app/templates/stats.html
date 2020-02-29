@@ -1,14 +1,14 @@
 {% extends "layout.html" -%}
 {% set active_page = "stats" -%}
 {% block container %}
-  <h2>Stats bruh</h2>
-  <div class="jumbotron">
-    <h5>
-      Over
-      <strong>{{ data.amount.orders }}</strong> orders,
-      <strong>{{ data.amount.users }}</strong> users have ordered
-      <strong>{{ data.amount.orderitems }}</strong> items in
-      <strong>{{ data.amount.locations }}</strong> locations.
-    </h5>
-  </div>
+	<h2>Stats bruh</h2>
+	<div class="jumbotron">
+		<h5>
+			Over
+			<strong>{{ data.amount.orders }}</strong> orders,
+			<strong>{{ data.amount.users }}</strong> users have ordered
+			<strong>{{ data.amount.orderitems }}</strong> items in
+			<strong>{{ data.amount.locations }}</strong> locations.
+		</h5>
+	</div>
 {% endblock %}

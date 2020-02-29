@@ -5,40 +5,40 @@
 
 {% block container %}
 <div class="row location_data" xmlns="http://www.w3.org/1999/html">
-    <div class="col-md-push-1 col-md-5 darker">
-        <h3>{{ location.name }}</h3>
-        {% if location.address   %}<span class="glyphicon glyphicon-home"></span> {{ location.address   }}<br/>{% endif %}
-        {% if location.telephone %}<span class="glyphicon glyphicon-phone"></span>{{ location.telephone }}<br/>{% endif %}
-        {% if location.website   %}<span class="glyphicon glyphicon-link"></span> <a href="{{ location.website}}">{{ location.website }}</a> <br/>{% endif %}
-        {% if location.osm       %}<span class="glyphicon glyphicon-map-marker"></span> <a href="{{ location.osm}}">{{ location.osm }}</a> <br/>{% endif %}
-        {% if not current_user.is_anonymous() %}
-            <a href="{{ url_for("order_bp.orders", location_id=location.id) }}" class="btn btn-primary btn-sm">Create order</a>
-        {% endif %}
-    </div>
-    <div class="col-md-push-1 col-md-5 padding-top sm-no-side-padding md-no-right-padding">
-        {% if location.address %}
-            <div class="small-map" id="mapid"></div>
-        {% endif %}
-    </div>
+	<div class="col-md-push-1 col-md-5 darker">
+		<h3>{{ location.name }}</h3>
+		{% if location.address   %}<span class="glyphicon glyphicon-home"></span> {{ location.address   }}<br/>{% endif %}
+		{% if location.telephone %}<span class="glyphicon glyphicon-phone"></span>{{ location.telephone }}<br/>{% endif %}
+		{% if location.website   %}<span class="glyphicon glyphicon-link"></span> <a href="{{ location.website}}">{{ location.website }}</a> <br/>{% endif %}
+		{% if location.osm       %}<span class="glyphicon glyphicon-map-marker"></span> <a href="{{ location.osm}}">{{ location.osm }}</a> <br/>{% endif %}
+		{% if not current_user.is_anonymous() %}
+			<a href="{{ url_for("order_bp.orders", location_id=location.id) }}" class="btn btn-primary btn-sm">Create order</a>
+		{% endif %}
+	</div>
+	<div class="col-md-push-1 col-md-5 padding-top sm-no-side-padding md-no-right-padding">
+		{% if location.address %}
+			<div class="small-map" id="mapid"></div>
+		{% endif %}
+	</div>
 </div>
 <div class="row location_products">
-    <div class="col-md-push-1 col-md-10 darker">
-        <h3 id="order-title">Products</h3>
-        <table class="table table-hover table-condensed">
-            <thead>
-                <tr><th style="min-width: 20%">Name</th><th>Description</th><th>Price</th></tr>
-            </thead>
-            <tbody>
-            {% for dish in location.dishes -%}
-                <tr>
-                    <td>{{ dish.name or dish.id }}</td>
-                    <td>{{ dish.description or "" }}</td>
-                    <td style="white-space: nowrap;">{{ dish.price|euro }}<td>
-                </tr>
-            {%- endfor %}
-            </tbody>
-        </table>
-    </div>
+	<div class="col-md-push-1 col-md-10 darker">
+		<h3 id="order-title">Products</h3>
+		<table class="table table-hover table-condensed">
+			<thead>
+				<tr><th style="min-width: 20%">Name</th><th>Description</th><th>Price</th></tr>
+			</thead>
+			<tbody>
+			{% for dish in location.dishes -%}
+				<tr>
+					<td>{{ dish.name or dish.id }}</td>
+					<td>{{ dish.description or "" }}</td>
+					<td style="white-space: nowrap;">{{ dish.price|euro }}<td>
+				</tr>
+			{%- endfor %}
+			</tbody>
+		</table>
+	</div>
 </div>
 {% endblock %}
 
@@ -49,23 +49,19 @@
 {% endblock %}
 
 {% block scripts %}
-{{super()}}
+{{ super() }}
 
 {% if location.address %}
-  <script src="{{ url_for('static', filename='js/leaflet.js')}}"></script>
-  <script src="{{ url_for('static', filename='js/map.js' ) }}"></script>
-  <script>
-      let locations = [];
-
-      loc = {
-          "address": "{{location.address}}",
-          "name": "{{location.name}}",
-          "url": "{{location.website}}",
-          "center": true,
-      };
-      locations.push(loc);
-
-      loadmap(locations);
-  </script>
+	<script src="{{ url_for('static', filename='js/leaflet.js')}}"></script>
+	<script src="{{ url_for('static', filename='js/map.js' ) }}"></script>
+	<script>
+		let locations = [{
+			"address": "{{location.address}}",
+			"name": "{{location.name}}",
+			"url": "{{location.website}}",
+			"center": true,
+		}];
+		loadmap(locations);
+	</script>
 {% endif %}
 {% endblock %}

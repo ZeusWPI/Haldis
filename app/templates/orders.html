@@ -5,90 +5,89 @@
 {% import "utils.html" as util -%}
 
 {% block container %}
-    <div class="row orders">
-        <div class="col-md-5">
-        {% if orders|count > 0 -%}
-            <h3>Open orders:</h3>
-            {% for order in orders %}
-                {{ util.render_order(order) }}
-            {% endfor %}
-        {% else %}
-            <h4>No orders available.</h4>
-            {% if not current_user.is_anonymous() %}
-                To create an order, fill in the form on the right.
-            {% else %}
-                Login to create an order, or ask someone else.
-            {% endif %}
-        {%- endif %}
-        </div>
-    {% if not current_user.is_anonymous() %}
-        <div class="col-md-push-1 col-md-6">
-            <h3>Create new order:</h3>
-        <div class="row darker">
-            <div class="col-sm-12">
-                <form method="post" action="{{ url_for('order_bp.order_create') }}">
-                    {{ form.csrf_token }}
-                    <div class="form-group select2 {{ 'has-errors' if form.courier_id.errors else ''}}">
-                        {{ form.courier_id.label(class='control-label') }}<br>
-                        {{ form.courier_id(class='form-control select') }}
-                        {{ util.render_form_field_errors(form.courier_id) }}
-                    </div>
-                    <div class="form-group select2 {{ 'has-errors' if form.location_id.errors else ''}}{{ ' required' if form.location_id.flags.required }}">
-                        {{ form.location_id.label(class='control-label') }}
-                        {{ form.location_id(class='form-control select') }}
-                        {{ util.render_form_field_errors(form.location_id) }}
-                    </div>
-                    {% if current_user.is_admin() %}
-                        <div class="form-group{{ ' has-error' if form.starttime.errors }}{{ ' required' if form.starttime.flags.required }}{{ ' hidden' if not current_user.is_admin() }}">
-                            {{ form.starttime.label(class='control-label') }}
-                            <div class='input-group date' class='datetimepicker'>
-                                {{ form.starttime(class='form-control datetimepicker') }}
-                                <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-calendar"></span>
-                                </span>
-                            </div>
-                            {{ util.render_form_field_errors(form.starttime) }}
-                        </div>
-                    {% endif %}
-                    <div class="form-group{{ ' has-error' if form.stoptime.errors }}{{ ' required' if form.stoptime.flags.required }}">
-                        {{ form.stoptime.label(class='control-label') }}
-                        <div class='input-group date' class='datetimepicker'>
-                            {{ form.stoptime(class='form-control datetimepicker') }}
-                            <span class="input-group-addon">
-                                <span class="glyphicon glyphicon-calendar"></span>
-                            </span>
-                        </div>
-                        {{ util.render_form_field_errors(form.stoptime) }}
-                    </div>
-                    <div class="form-group">
-                         {{ form.submit_button(class='btn btn-primary') }}
-                    </div>
-                </form>
-            </div>
-        </div>
-        </div>
-    {% endif %}
-        </div>
-    </div>
+	<div class="row orders">
+		<div class="col-md-5">
+		{% if orders|count > 0 -%}
+			<h3>Open orders:</h3>
+			{% for order in orders %}
+				{{ util.render_order(order) }}
+			{% endfor %}
+		{% else %}
+			<h4>No orders available.</h4>
+			{% if not current_user.is_anonymous() %}
+				To create an order, fill in the form on the right.
+			{% else %}
+				Login to create an order, or ask someone else.
+			{% endif %}
+		{%- endif %}
+		</div>
+		{% if not current_user.is_anonymous() %}
+			<div class="col-md-push-1 col-md-6">
+				<h3>Create new order:</h3>
+				<div class="row darker">
+					<div class="col-sm-12">
+						<form method="post" action="{{ url_for('order_bp.order_create') }}">
+							{{ form.csrf_token }}
+							<div class="form-group select2 {{ 'has-errors' if form.courier_id.errors else ''}}">
+								{{ form.courier_id.label(class='control-label') }}<br>
+								{{ form.courier_id(class='form-control select') }}
+								{{ util.render_form_field_errors(form.courier_id) }}
+							</div>
+							<div class="form-group select2 {{ 'has-errors' if form.location_id.errors else ''}}{{ ' required' if form.location_id.flags.required }}">
+								{{ form.location_id.label(class='control-label') }}
+								{{ form.location_id(class='form-control select') }}
+								{{ util.render_form_field_errors(form.location_id) }}
+							</div>
+							{% if current_user.is_admin() %}
+								<div class="form-group{{ ' has-error' if form.starttime.errors }}{{ ' required' if form.starttime.flags.required }}{{ ' hidden' if not current_user.is_admin() }}">
+									{{ form.starttime.label(class='control-label') }}
+									<div class='input-group date' class='datetimepicker'>
+										{{ form.starttime(class='form-control datetimepicker') }}
+										<span class="input-group-addon">
+											<span class="glyphicon glyphicon-calendar"></span>
+										</span>
+									</div>
+									{{ util.render_form_field_errors(form.starttime) }}
+								</div>
+							{% endif %}
+							<div class="form-group{{ ' has-error' if form.stoptime.errors }}{{ ' required' if form.stoptime.flags.required }}">
+								{{ form.stoptime.label(class='control-label') }}
+								<div class='input-group date' class='datetimepicker'>
+									{{ form.stoptime(class='form-control datetimepicker') }}
+									<span class="input-group-addon">
+										<span class="glyphicon glyphicon-calendar"></span>
+									</span>
+								</div>
+								{{ util.render_form_field_errors(form.stoptime) }}
+							</div>
+							<div class="form-group">
+								{{ form.submit_button(class='btn btn-primary') }}
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		{% endif %}
+	</div>
 {% endblock %}
 
 {% block styles -%}
-    {{ super() }}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/select2.min.css') }}" />
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-datetimepicker.min.css') }}" />
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/select2-bootstrap.min.css') }}" />
+	{{ super() }}
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/select2.min.css') }}" />
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-datetimepicker.min.css') }}" />
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/select2-bootstrap.min.css') }}" />
 {%- endblock %}
 {% block scripts -%}
-    {{ super() }}
-    <script src="{{ url_for('static', filename='js/select2.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/moment.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/bootstrap-datetimepicker.min.js') }}"></script>
-    <script type="text/javascript">
-        $.ready(function(){
-            $('.select').select2();
-            $('.datetimepicker').datetimepicker({
-                format: 'DD-MM-YYYY HH:mm'
-            });
-        }());
-    </script>
+	{{ super() }}
+	<script src="{{ url_for('static', filename='js/select2.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/moment.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/bootstrap-datetimepicker.min.js') }}"></script>
+	<script type="text/javascript">
+		$.ready(function(){
+			$('.select').select2();
+			$('.datetimepicker').datetimepicker({
+				format: 'DD-MM-YYYY HH:mm'
+			});
+		}());
+	</script>
 {%- endblock %}

@@ -9,8 +9,8 @@ B="\n${bold}"
 E="${normal}"
 
 if [ ! -d "venv" ]; then
-    echo -e "${B} No venv found, creating a new one ${E}"
-    python3 -m venv venv
+	echo -e "${B} No venv found, creating a new one ${E}"
+	python3 -m venv venv
 fi
 source venv/bin/activate
 

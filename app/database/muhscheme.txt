@@ -3,35 +3,35 @@ to automatically generate anything. For the latest version, check the files in a
 
 
 user
-  username
-  is_admin
-  bias
+	username
+	is_admin
+	bias
 
 order
-  id
-  courier_id
-  location_id         HLDS identifier
-  location_name       this allows historical orders to keep the same location name
-  starttime
-  stoptime
-  public
+	id
+	courier_id
+	location_id         HLDS identifier
+	location_name       this allows historical orders to keep the same location name
+	starttime
+	stoptime
+	public
 
 order_item
-  id
-  order_id
-  user_id
-  user_name           for users who are not logged in
-  dish_id             HLDS identifier
-  dish_name           ) this allows historical orders to keep their correct name and price
-  price               )
-  paid
-  comment
-  hlds_data_version   Git commit hash to identify HLDS data version
+	id
+	order_id
+	user_id
+	user_name           for users who are not logged in
+	dish_id             HLDS identifier
+	dish_name           ) this allows historical orders to keep their correct name and price
+	price               )
+	paid
+	comment
+	hlds_data_version   Git commit hash to identify HLDS data version
 
 order_item_choice
-  id
-  order_item_id
-  choice_id           HLDS identifier
-  kind                single_choice/multi_choice
-  name
-  value               just a textual description of the chosen values
+	id
+	order_item_id
+	choice_id           HLDS identifier
+	kind                single_choice/multi_choice
+	name
+	value               just a textual description of the chosen values

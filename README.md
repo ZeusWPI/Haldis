@@ -15,30 +15,30 @@ Be lazier today!
 
 There is a special script to get started with the project. Just run it in the root of the project.
 
-    ./first-setup.sh
+	./first-setup.sh
 
 This will create a virtual environment, install the necessary dependencies and will give you the option to seed the database.
 
 If you are using a database other then sqlite you will first need to configure the correct URI to the database in the generated 'config.py' file.
 Afterwards upgrade the database to the latest version using
 
-    cd app
-    python3 app.py db upgrade
+	cd app
+	python3 app.py db upgrade
 
 You can now still seed the database by running
 
-    ./populate-db.sh
+	./populate-db.sh
 
 in the root folder of the project.
 
 
 Activate the virtual environment using
 
-    source venv/bin/activate
+	source venv/bin/activate
 
 Finally run the webserver with
 
-    python3 app/app.py runserver
+	python3 app/app.py runserver
 
 Make sure to use localhost instead of 127.0.0.1 if you want to be able to login.
 

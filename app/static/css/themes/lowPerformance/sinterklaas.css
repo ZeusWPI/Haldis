@@ -1,16 +1,16 @@
 /*sinterklaas*/
 :root {
-    /*Darkmode colors*/
+	/*Darkmode colors*/
 	--dGray0:#F2EB80;
-    --dGray1:#F2EF05;
-    --dGray2:#F2EF05;
-    --dGray3:#177EBF;
-    --dGray4:#0C6AA6;
-    --dGray5:#F20505;
-    --dGray6:#F50B00;
-    --dBlue:#35F546;
+	--dGray1:#F2EF05;
+	--dGray2:#F2EF05;
+	--dGray3:#177EBF;
+	--dGray4:#0C6AA6;
+	--dGray5:#F20505;
+	--dGray6:#F50B00;
+	--dBlue:#35F546;
 }
 
 .background{
-    background-image: url("static/images/themes/sinterklaas/Sinterklaas.jpg");
+	background-image: url("static/images/themes/sinterklaas/Sinterklaas.jpg");
 }
