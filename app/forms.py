@@ -9,7 +9,7 @@ from flask_wtf import FlaskForm as Form
 from wtforms import (DateTimeField, SelectField, SelectMultipleField, StringField, SubmitField,
                      FieldList, validators)
 
-from utils import euro_string
+from utils import euro_string, price_range_string
 from hlds.definitions import location_definitions
 from hlds.models import Location, Dish, Choice
 from models import User
@@ -53,16 +53,9 @@ class OrderItemForm(Form):
     comment = StringField("Comment")
     submit_button = SubmitField("Submit")
 
-    @staticmethod
-    def format_price_range(price_range):
-        if price_range[0] == price_range[1]:
-            return euro_string(price_range[0])
-        else:
-            return "from {}".format(euro_string(price_range[0]))
-
     def populate(self, location: Location) -> None:
         self.dish_id.choices = [
-            (dish.id, (dish.name + ": " + self.format_price_range(dish.price_range())))
+            (dish.id, (dish.name + ": " + price_range_string(dish.price_range())))
             for dish in location.dishes
         ]
         if not self.is_submitted() and self.comment.data is None:

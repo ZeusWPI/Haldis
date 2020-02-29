@@ -33,7 +33,7 @@
 				<tr>
 					<td>{{ dish.name or dish.id }}</td>
 					<td>{{ dish.description or "" }}</td>
-					<td style="white-space: nowrap;">{{ dish.price|euro }}<td>
+					<td style="white-space: nowrap;">{{ dish.price_range()|price_range(true) }}<td>
 				</tr>
 			{%- endfor %}
 			</tbody>

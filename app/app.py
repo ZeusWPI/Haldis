@@ -18,7 +18,7 @@ from flask_script import Manager, Server
 from login import init_login
 from models import db
 from models.anonymous_user import AnonymouseUser
-from utils import euro_string
+from utils import euro_string, price_range_string
 from zeus import init_oauth
 
 
@@ -159,15 +159,11 @@ def add_template_filters(app: Flask) -> None:
         return time
 
     @app.template_filter("year")
-    def current_year(value: typing.Any) -> str:  # pylint: disable=W0613
-        "A function which returns the current year"
+    def current_year(_value: typing.Any) -> str:
         return str(datetime.now().year)
 
-    @app.template_filter("euro")
-    def euro(value: int) -> str:
-        "A function which converts a value to its euro_string"
-        return euro_string(value)
-
+    app.template_filter("euro")(euro_string)
+    app.template_filter("price_range")(price_range_string)
     app.template_filter("any")(any)
 
 
