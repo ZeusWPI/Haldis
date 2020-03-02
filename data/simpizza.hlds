@@ -80,7 +80,7 @@ dish multi_cheese:          Pizza multi cheese (veggie)        -- Gorgonzola, fe
 dish creamy_multi_cheese:   Pizza creamy multi cheese (veggie) -- Roomsaus, gorgonzola, feta, mozzarella, extra kaas
 	single_choice size
 	single_choice base
-	multi_choice sauce_no_garlic
+	multi_choice sauce
 dish 4_seasons:             Pizza 4 seasons                    -- Ham, salami, champignons, paprika                                            :: {has_meat}
 	single_choice size
 	single_choice base
