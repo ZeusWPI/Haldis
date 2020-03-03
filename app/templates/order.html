@@ -54,24 +54,26 @@
 			</div>
 
 			<input type="hidden" name="form_for_dish" value="{{ dish.id }}" />
-			{% if dish and dish.choices %}
-				{% for (choice_type, choice) in dish.choices %}
-					<div class="form-group select2-container select2">
-						<label class="control-label" for="choice_{{ choice.id }}">{{ choice.name }}</label><br/>
-						<select
-							{{ "multiple=multiple" if choice_type=="multi_choice" else "required=required" }}
-							name="choice_{{ choice.id }}"
-							class="form-control select">
-							{% for option in choice.options %}
-							<option value="{{ option.id }}"><!--
-								-->{{ option.name }}{{ ": " + option.price|euro if option.price else "" }}<!--
-								-->{{ " (" + option.description + ")" if option.description else "" }}<!--
-							--></option>
-							{% endfor %}
-						</select>
-					</div>
-				{% endfor %}
-			{% endif %}
+			<div id="dish_choices">
+				{% if dish and dish.choices %}
+					{% for (choice_type, choice) in dish.choices %}
+						<div class="form-group select2-container select2">
+							<label class="control-label" for="choice_{{ choice.id }}">{{ choice.name }}</label><br/>
+							<select
+								{{ "multiple=multiple" if choice_type=="multi_choice" else "required=required" }}
+								name="choice_{{ choice.id }}"
+								class="form-control select">
+								{% for option in choice.options %}
+								<option value="{{ option.id }}"><!--
+									-->{{ option.name }}{{ ": " + option.price|euro if option.price else "" }}<!--
+									-->{{ " (" + option.description + ")" if option.description else "" }}<!--
+								--></option>
+								{% endfor %}
+							</select>
+						</div>
+					{% endfor %}
+				{% endif %}
+			</div>
 
 			<div class="form-group {{ 'has-errors' if form.dish_id.errors }}">
 				{{ form.comment.label(class='control-label') }}<br>
@@ -202,5 +204,11 @@
 			var choice = options[index]
 			select.val(choice.value).trigger("change")
 		}
+
+		function updateChoices() {
+			var dish_id = $("#dish_id").val();
+			$("#dish_choices").html("Choices for " + dish_id);
+		}
+		$("#dish_id").on("change", updateChoices);
 	</script>
 {% endblock %}
