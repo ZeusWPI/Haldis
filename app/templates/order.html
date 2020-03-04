@@ -193,11 +193,11 @@
 	{{ super() }}
 	<script src="{{ url_for('static', filename='js/select2.min.js') }}"></script>
 	<script type="text/javascript">
-		var select = $('.select').select2({
-			'sorter': function(results) {
-				return results.sort();
-			}
-		});
+		function sortArg(sortable) {
+			return sortable.sort();
+		}
+		var select = $(".select").select2({"sorter": sortArg});
+
 		var options = select[0].options;
 		function chooseRandom() {
 			var index = Math.floor((Math.random() * options.length))
@@ -205,10 +205,61 @@
 			select.val(choice.value).trigger("change")
 		}
 
+{% if order.location %}
 		function updateChoices() {
 			var dish_id = $("#dish_id").val();
-			$("#dish_choices").html("Choices for " + dish_id);
+			var url = "{{ url_for('general_bp.location_dish', location_id=order.location.id, dish_id='DISHID') }}".replace("DISHID", encodeURI(dish_id));
+			$dish_choices = $("#dish_choices");
+			$dish_choices.find("select").attr("disabled", "disabled");
+			$.get(url)
+				.done(function(data) {
+					$dish_choices.html("");
+
+					for (var i in data) {
+						var choice = data[i];
+						var id = "choice_" + choice["id"];
+
+						var label = $("<label class='control-label'/>")
+							.attr("for", id)
+							.text(choice["name"] +
+								(choice["price"] ? ": € " + choice["price"] / 100 : "") +
+								(choice["description"] ? " (" + choice["description"] + ")" : "")
+							);
+
+						var choiceSelect = $("<select class='form-control select' />")
+							.attr("id", id)
+							.attr("name", id);
+						if (choice.type === "multi_choice") {
+							choiceSelect.attr("multiple", "multiple");
+						} else {
+							choiceSelect.attr("required", "required");
+						}
+
+						for (var j in choice["options"]) {
+							var option = choice["options"][j];
+							choiceSelect.append(
+								$("<option />").text(
+									option["name"] +
+									(option["price"] ? ": € " + option["price"] / 100 : "") +
+									(option["description"] ? " (" + option["description"] + ")" : "")
+								).attr("value", option["id"])
+							);
+						}
+
+						$dish_choices
+							.append(
+								$("<div class='form-group select2-container select2'>")
+									.append(label, "<br/>", choiceSelect),
+								" "
+							);
+						choiceSelect.select2({"sorter": sortArg});
+					}
+				}).fail(function() {
+					$("#dish_choices").html("Could not load choices");
+				});
 		}
 		$("#dish_id").on("change", updateChoices);
+		updateChoices();
+{% endif %}
 	</script>
 {% endblock %}
