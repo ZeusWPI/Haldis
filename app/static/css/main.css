@@ -293,4 +293,8 @@ h1, h2, h3, h4, h5, h6{
 
 #dish_choices {
 	margin: 0.5em 1em 1.5em;
+	transition: opacity 0.2s;
+}
+#dish_choices.loading {
+	opacity: 0.2;
 }

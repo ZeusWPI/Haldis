@@ -207,10 +207,14 @@
 
 {% if order.location %}
 		function updateChoices() {
+			$("#submit-reveals-options-msg").hide(0);
+			$dish_choices = $("#dish_choices");
+			$dish_choices.addClass("loading");
+
 			var dish_id = $("#dish_id").val();
 			var url = "{{ url_for('general_bp.location_dish', location_id=order.location.id, dish_id='DISHID') }}".replace("DISHID", encodeURI(dish_id));
-			$dish_choices = $("#dish_choices");
 			$dish_choices.find("select").attr("disabled", "disabled");
+
 			$.get(url)
 				.done(function(data) {
 					$dish_choices.html("");
@@ -254,8 +258,11 @@
 							);
 						choiceSelect.select2({"sorter": sortArg});
 					}
+					$dish_choices.removeClass("loading");
 				}).fail(function() {
 					$("#dish_choices").html("Could not load choices");
+					$dish_choices.removeClass("loading");
+					$("#submit-reveals-options-msg").show(0);
 				});
 		}
 		$("#dish_id").on("change", updateChoices);
