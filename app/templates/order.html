@@ -35,7 +35,7 @@
 		{% endif %}
 		start: {{ order.starttime.strftime("%d/%m/%Y %H:%M") }}<br>
 		{% if order.stoptime %}
-			closing time: {{ order.stoptime.strftime("%H:%M") }} (<span class="time">{{  order.stoptime|countdown }}</span>)
+			closing time: {{ order.stoptime.strftime("%H:%M") }} ({{  order.stoptime|countdown }})
 		{% else %}open{% endif %}<br/>
 		total price: {{ total_price|euro }} {% if courier_or_admin %}- remaining debts: {{ debts|euro }}{% endif %}
 	</div>
@@ -193,6 +193,7 @@
 	{{ super() }}
 	<script src="{{ url_for('static', filename='js/select2.min.js') }}"></script>
 	<script type="text/javascript">
+{% if form %}
 		function sortArg(sortable) {
 			return sortable.sort();
 		}
@@ -204,8 +205,9 @@
 			var choice = options[index]
 			select.val(choice.value).trigger("change")
 		}
+{% endif %}
 
-{% if order.location %}
+{% if form and order.location %}
 		function updateChoices() {
 			$("#submit-reveals-options-msg").hide(0);
 			$dish_choices = $("#dish_choices");

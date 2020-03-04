@@ -14,6 +14,7 @@ from flask_login import LoginManager
 from flask_migrate import Migrate, MigrateCommand
 from flask_oauthlib.client import OAuth, OAuthException
 from flask_script import Manager, Server
+from markupsafe import Markup
 
 from login import init_login
 from models import db
@@ -146,17 +147,24 @@ def add_template_filters(app: Flask) -> None:
     # pylint: disable=W0612
     @app.template_filter("countdown")
     def countdown(value, only_positive: bool = True,
-                  show_text: bool = True) -> str:
-        "A function which returns time until the order is done"
-        delta = value - datetime.now()
-        if delta.total_seconds() < 0 and only_positive:
-            return "closed"
-        hours, remainder = divmod(delta.seconds, 3600)
-        minutes, seconds = divmod(remainder, 60)
-        time = "%02d:%02d:%02d" % (hours, minutes, seconds)
-        if show_text:
-            return f"{time} left"
-        return time
+                  show_text: bool = True, reload: bool = True) -> str:
+        delta = int(value.timestamp() - datetime.now().timestamp())
+        if delta < 0 and only_positive:
+            text = "closed"
+        else:
+            carry, seconds = divmod(delta, 60)
+            carry, minutes = divmod(carry, 60)
+            days, hours    = divmod(carry, 24)
+
+            days_text = f"{days} days, " if days else ""
+
+            appendix = " left" if show_text else ""
+            text = f"{days_text}{hours:02d}:{minutes:02d}:{seconds:02d}{appendix}"
+
+        reload_str = "yes" if reload else "no"
+
+        return Markup(f"<span class='time' data-seconds='{delta}' data-reload='{reload_str}'>" +
+                      text + "</span>")
 
     @app.template_filter("year")
     def current_year(_value: typing.Any) -> str:

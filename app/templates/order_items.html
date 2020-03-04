@@ -15,6 +15,9 @@ Haldis - Order {{ order.id }}
 {% block scripts %}
 	{{ super() }}
 	<script type="text/javascript" src="{{ url_for('static', filename='js/timer.js') }}"></script>
+	<script type="text/javascript">
+		$("#open-message").html("Wait until order is closed!");
+	</script>
 {% endblock %}
 
 {% block content -%}
@@ -25,8 +28,8 @@ Haldis - Order {{ order.id }}
 
 		{% if not order.is_closed() %}
 		<div class="open-order-warning">
-			<span class="time">{{ order.stoptime|countdown }}</span><br/>
-			Refresh page when closed!
+			{{ order.stoptime|countdown }}
+			<div id="open-message">Refresh page when closed!</div>
 		</div>
 		{% endif %}
 

@@ -1,36 +1,56 @@
-/**
-* Created by feliciaan on 30/03/15.
-*/
+var haldisCountdownStart = new Date();
 $.ready(function(){
-	$('.time').each(function() {
-		var timeEl = $( this );
-		var time = timeEl.text().split(' ')[0].split(':');
+	$(".time").each(function() {
+		var timeEl = $(this);
 
-		if (timeEl.text().indexOf('closed') < 0) {
-			window.setInterval(function () {
-				time = my_tick(time);
-				if (time !== "closed") {
-					timeS = ("0" + time[0]).slice(-2) + ":" + ("0" + time[1]).slice(-2) + ":" + ("0" + time[2]).slice(-2) + " left";
+		var delta = parseInt(timeEl.data("seconds"), 10);
+		var end = new Date(haldisCountdownStart.getTime() + delta * 1000);
+
+		var now = new Date();
+		var delta = Math.floor((end - now) / 1000);
+		if (delta <= 0) {
+			timeEl.html("closed");
+			return;
+		}
+
+		function zeroPad(value) {
+			return ("0" + value).slice(-2)
+		}
+
+		var intervalId;
+
+		function update() {
+			var now = new Date();
+			var delta = Math.floor((end - now) / 1000);
+			if (delta <= 0) {
+				window.clearInterval(intervalId);
+				if (timeEl.data("reload") === "yes") {
+					$("#form").slideUp();
+					timeEl.html("closed, refreshing page...");
+					window.setTimeout(function () {
+						window.location.reload();
+					}, 2000);
 				} else {
-					timeS = "closed"
+					timeEl.html("closed");
 				}
-				timeEl.html(timeS);
-			}, 1000);
-		}
-	});
+				return;
+			}
 
-	function my_tick(time) {
-		if (time[2] > 0) {
-			time[2] = time[2] - 1;
-		} else if(time[1] > 0) {
-			time[2] = 59;
-			time[1] = time[1] - 1;
-		} else if(time[0] > 0) {
-			time[1] = 59;
-			time[0] = time[0] - 1;
-		} else {
-			return "closed";
+			var seconds = delta % 60;
+			var carry   = Math.floor(delta / 60);
+			var minutes = carry % 60;
+			carry       = Math.floor(carry / 60);
+			var hours = carry % 24;
+			var days  = Math.floor(carry / 24);
+
+			var text = "";
+			if (days) text = days + " days, ";
+			text += zeroPad(hours) + ":" + zeroPad(minutes) + ":" + zeroPad(seconds);
+			text += " left";
+
+			timeEl.html(text);
 		}
-		return time;
-	}
+		intervalId = window.setInterval(update, 1000);
+		update();
+	});
 }());
