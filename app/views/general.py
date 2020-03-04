@@ -3,7 +3,7 @@ import os
 from datetime import datetime, timedelta
 
 import yaml
-import typing
+from typing import Optional
 
 from flask import Flask, render_template, make_response
 from flask import request, jsonify
@@ -18,6 +18,9 @@ from hlds.models import Location
 from models import Order
 # import views
 from views.order import get_orders
+
+import json
+from flask import jsonify
 
 general_bp = Blueprint("general_bp", __name__)
 
@@ -129,6 +132,35 @@ def location(location_id) -> str:
     if loc is None:
         abort(404)
     return render_template("location.html", location=loc, title=loc.name)
+
+
+@general_bp.route("/location/<location_id>/<dish_id>")
+def location_dish(location_id, dish_id) -> str:
+    loc: Optional[Location] = first(filter(lambda l: l.id == location_id, location_definitions))
+    if loc is None:
+        abort(404)
+    dish = loc.dish_by_id(dish_id)
+    if dish is None:
+        abort(404)
+    return jsonify([
+        {
+            "type": c[0],
+            "id": c[1].id,
+            "name": c[1].name,
+            "description": c[1].description,
+            "options": [
+                {
+                    "id": o.id,
+                    "name": o.name,
+                    "description": o.description,
+                    "price": o.price,
+                    "tags": o.tags
+                }
+                for o in c[1].options
+            ]
+        }
+        for c in dish.choices
+    ])
 
 
 @general_bp.route("/about/")
