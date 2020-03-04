@@ -25,15 +25,16 @@ def filter_instance(cls, iterable):
 class HldsSemanticActions:
     def location(self, ast) -> Location:
         choices = {choice.id: choice for choice in filter_instance(Choice, ast["items_"])}
-        dishes = filter_instance(Dish, ast["items_"])
+        dishes: Iterable[Dish] = filter_instance(Dish, ast["items_"])
         for dish in dishes:
             for i, choice in enumerate(dish.choices):
                 if not isinstance(choice[1], Choice):
                     dish.choices[i] = (dish.choices[i][0], deepcopy(choices[choice[1]]))
 
-            # Move the base price to the first single choice if there is any
+            # Move the base price to the first single_choice if the dish has a fixed price
             first_single_choice = first(c[1] for c in dish.choices if c[0] == "single_choice")
-            if dish.price and first_single_choice:
+            price_range = dish.price_range()
+            if dish.price and price_range[0] != price_range[1] and first_single_choice:
                 for option in first_single_choice.options:
                     option.price += dish.price
                 dish.price = 0
