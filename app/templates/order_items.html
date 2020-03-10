@@ -33,7 +33,7 @@ Haldis - Order {{ order.id }}
 		</div>
 		{% endif %}
 
-		{% for key, value in order.group_by_dish().items() -%}
+		{% for key, value in order.group_by_dish(True).items() -%}
 			<div class="dish">
 				<h2><span class="quantity">{{ value["count"] }}</span> × {{ key }}</h2>
 				{% if value["comments"]|any -%}

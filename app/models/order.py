@@ -56,14 +56,18 @@ class Order(db.Model):
 
         return group
 
-    def group_by_dish(self) -> typing.Dict[str, typing.Any]:
+    def group_by_dish(self, sort_comments=False) -> typing.Dict[str, typing.Dict[str, typing.Any]]:
         "Group items of an Order by dish"
-        group: typing.Dict[str, typing.Any] = dict()
+        group: typing.Dict[str, typing.Dict[str, typing.Any]] = dict()
         for item in self.items:
             dish = group.get(item.dish_name, dict())
             dish["count"] = dish.get("count", 0) + 1
             dish["comments"] = dish.get("comments", []) + [item.comment]
             group[item.dish_name] = dish
+
+        if sort_comments:
+            for _dish_name, dish_props in group.items():
+                dish_props["comments"].sort()
 
         return group
 
