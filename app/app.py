@@ -23,26 +23,9 @@ from utils import euro_string, price_range_string
 from zeus import init_oauth
 
 
-def create_app() -> Manager:
-    "Create the Haldis application"
-    app = Flask(__name__)
-
-    # Load the config file
-    app.config.from_object("config.Configuration")
-
-    app_manager = register_plugins(app)
-    add_handlers(app)
-    add_routes(app)
-    add_template_filters(app)
-
-    # TODO do we need to return and then run the manager?
-    return app_manager
-
-
 def register_plugins(app: Flask) -> Manager:
-    "Register all the plugins to Haldis"
+    "Register Airbrake and logrotation plugins"
     # pylint: disable=W0612
-    # Register Airbrake and enable the logrotation
     if not app.debug:
         timedFileHandler = TimedRotatingFileHandler(
             app.config["LOGFILE"], when="midnight", backupCount=100
@@ -175,7 +158,17 @@ def add_template_filters(app: Flask) -> None:
     app.template_filter("any")(any)
 
 
+app = Flask(__name__)
+
+# Load the config file
+app.config.from_object("config.Configuration")
+
+app_manager = register_plugins(app)
+add_handlers(app)
+add_routes(app)
+add_template_filters(app)
+
+
 # For usage when you directly call the script with python
 if __name__ == "__main__":
-    manager = create_app()
-    manager.run()
+    app_manager.run()

@@ -1,6 +1,6 @@
 "Script for interaction and changes to the database"
 import add_admins
-from app import db, create_app
+from app import db, app_manager
 
 entry_sets = {
     "admins": add_admins.add,
@@ -69,9 +69,8 @@ def add_to_current() -> None:
             print("Not a valid answer.")
     print("Thank you for adding, come again!")
 
-manager = create_app()
 
-@manager.command
+@app_manager.command
 def setup_database(): #type: None
     "Start the database interaction script"
     print("Database modification script!")
@@ -83,4 +82,4 @@ def setup_database(): #type: None
     commit()
 
 
-manager.run()
+app_manager.run()
