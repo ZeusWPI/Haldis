@@ -18,4 +18,4 @@ location_definitions: List[Location] = parse_all_directory(DATA_DIR)
 location_definitions.sort(key=lambda l: l.name)
 
 proc = subprocess.run(["git", "rev-parse", "HEAD"], stdout=subprocess.PIPE, check=True)
-location_definition_version = proc.stdout
+location_definition_version = proc.stdout.decode().strip()
