@@ -30,10 +30,12 @@ else
 	echo "Not installing airbrake"
 fi
 
-echo -e "${B} Copying config template. All custom config options can be set in the config.py file ${E}"
-cd app
-cp config.example.py config.py
-cd ..
+if [ ! -f app/config.py ]; then
+	echo -e "${B} Copying config template. All custom config options can be set in the config.py file ${E}"
+	cp app/config.example.py app/config.py
+else
+	echo -e "${B} Found existing config.py, not copying config teplate ${E}"
+fi
 
 echo -e "${B} Seeding database ${E}"
 ./populate-db.sh
