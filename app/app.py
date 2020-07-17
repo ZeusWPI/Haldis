@@ -6,7 +6,10 @@ from logging.handlers import TimedRotatingFileHandler
 import typing
 from datetime import datetime
 
-from airbrake import Airbrake, AirbrakeHandler
+try:
+    import airbrake
+except ImportError:
+    airbrake = None
 from flask import Flask, render_template
 from flask_bootstrap import Bootstrap, StaticCDN
 from flask_debugtoolbar import DebugToolbarExtension
@@ -37,18 +40,25 @@ def register_plugins(app: Flask) -> Manager:
         loglogger.addHandler(timedFileHandler)
         app.logger.addHandler(timedFileHandler)
 
-        airbrakelogger = logging.getLogger("airbrake")
+        if app.config["AIRBRAKE_ID"]:
+            if airbrake is None:
+                raise Exception(
+                    "Airbrake support was requested (AIRBRAKE_ID is present in config), "
+                    "but could not import airbrake. Make sure it's installed"
+                )
 
-        # Airbrake
-        airbrake = Airbrake(project_id=app.config["AIRBRAKE_ID"],
-                            api_key=app.config["AIRBRAKE_KEY"])
-        # ugly hack to make this work for out errbit
-        airbrake._api_url = "http://errbit.awesomepeople.tv/api/v3/projects/{}/notices".format(  # pylint: disable=W0212
-            airbrake.project_id
-        )
+            airbrakelogger = logging.getLogger("airbrake")
 
-        airbrakelogger.addHandler(AirbrakeHandler(airbrake=airbrake))
-        app.logger.addHandler(AirbrakeHandler(airbrake=airbrake))
+            # Airbrake
+            airbrake = airbrake.Airbrake(project_id=app.config["AIRBRAKE_ID"],
+                                api_key=app.config["AIRBRAKE_KEY"])
+            # ugly hack to make this work for out errbit
+            airbrake._api_url = "http://errbit.awesomepeople.tv/api/v3/projects/{}/notices".format(  # pylint: disable=W0212
+                airbrake.project_id
+            )
+
+            airbrakelogger.addHandler(airbrake.AirbrakeHandler(airbrake=airbrake))
+            app.logger.addHandler(airbrake.AirbrakeHandler(airbrake=airbrake))
 
     # Initialize SQLAlchemy
     db.init_app(app)
