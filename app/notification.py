@@ -35,8 +35,7 @@ def post_order_to_webhook(order: Order) -> None:
     "Function that sends the notification for the order"
     message = webhook_text(order)
     if message:
-        webhookthread = WebhookSenderThread(
-            message, app.config["SLACK_WEBHOOK"])
+        webhookthread = WebhookSenderThread(message, app.config["SLACK_WEBHOOK"])
         webhookthread.start()
 
 

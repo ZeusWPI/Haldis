@@ -22,7 +22,9 @@ class Order(db.Model):
 
     def __getattr__(self, name):
         if name == "location":
-            return first(filter(lambda l: l.id == self.location_id, location_definitions))
+            return first(
+                filter(lambda l: l.id == self.location_id, location_definitions)
+            )
         raise AttributeError()
 
     def __repr__(self) -> str:
@@ -37,7 +39,9 @@ class Order(db.Model):
         Update the location name from the HLDS definition.
         User should commit after running this to make the change persistent.
         """
-        assert self.location_id, "location_id must be configured before updating from HLDS"
+        assert (
+            self.location_id
+        ), "location_id must be configured before updating from HLDS"
         self.location_name = self.location.name
 
     def group_by_user(self) -> typing.Dict[str, typing.Any]:
@@ -46,17 +50,16 @@ class Order(db.Model):
         for item in self.items:
             user = group.get(item.get_name(), dict())
             user["total"] = user.get("total", 0) + item.price
-            user["to_pay"] = (
-                user.get("to_pay", 0) +
-                item.price if not item.paid else 0
-            )
+            user["to_pay"] = user.get("to_pay", 0) + item.price if not item.paid else 0
             user["paid"] = user.get("paid", True) and item.paid
             user["dishes"] = user.get("dishes", []) + [item.dish_name]
             group[str(item.get_name())] = user
 
         return group
 
-    def group_by_dish(self, sort_comments=False) -> typing.Dict[str, typing.Dict[str, typing.Any]]:
+    def group_by_dish(
+        self, sort_comments=False
+    ) -> typing.Dict[str, typing.Dict[str, typing.Any]]:
         "Group items of an Order by dish"
         group: typing.Dict[str, typing.Dict[str, typing.Any]] = dict()
         for item in self.items:

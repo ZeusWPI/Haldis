@@ -1,15 +1,19 @@
 #!/usr/bin/env python3
 
-print("""============================
+print(
+    """============================
 s5: S5
 	osm     https://www.openstreetmap.org/node/3752879366
 	address Krijgslaan 281, 9000 Gent
 	website https://www.ugent.be/student/nl/meer-dan-studeren/resto/restos/restocampussterre.htm
-============================""")
+============================"""
+)
 
 # Paste menu from https://www.ugent.be/student/nl/meer-dan-studeren/resto/broodjes/overzicht.htm
 # here
-MENU = [l.split("\t") for l in """
+MENU = [
+    l.split("\t")
+    for l in """
 Spring break	Erwten-munt spread, komkommer, radijs, sla, croutons, cocktailsaus	€ 1,50	€ 2,40
 Groentespread	Weekelijks wisselende groentespread	€ 1,60	€ 2,60
 Brie	Brie, honing, pijnboompitten, sla	€ 1,50	€ 2,50
@@ -30,40 +34,44 @@ Maison	Ham, kaas, augurk, ei, sla, tomaat, cocktailsaus en mayonaise	€ 1,60	�
 Tropical	Ham, kaas, ananas, ei, sla, cocktailsaus	€ 1,60	€ 2,40
 Toscane	Mozzarella, prosciutto ham, sla en tomatensalsa	€ 1,60	€ 2,70
 Argenteuil	Ham, asperge, ei, komkommer, sla, tomaat en mayonaise	€ 1,50	€ 2,40
-""".strip().split("\n")]
+""".strip().split(
+        "\n"
+    )
+]
 # Sort by price. This fails if price is not always exactly "€ x,xx" but whatever
 MENU.sort(key=lambda dish: dish[2] + dish[3])
 
 SANDWICHES = [
-    [ # First price
-        ("small_white", "Klein wit  "),
-        ("small_brown", "Klein bruin"),
-    ],
-    [ # Second price
+    [("small_white", "Klein wit  "), ("small_brown", "Klein bruin"),],  # First price
+    [  # Second price
         ("large_white", "Groot wit  "),
         ("large_brown", "Groot bruin"),
         ("quattro", "    Quattro    "),
-    ]
+    ],
 ]
 
+
 def name_to_id(name):
-    return "".join(filter(
-        lambda c: ord("a") <= ord(c) <= ord("z"),
-        name.lower().replace("é", "e")
-    ))
+    return "".join(
+        filter(lambda c: ord("a") <= ord(c) <= ord("z"), name.lower().replace("é", "e"))
+    )
+
 
 for dish in MENU:
     print()
     name, description = dish[0], dish[1]
     prices = [p.replace(",", ".") for p in dish[2:]]
 
-    print("dish sandwich_{}: Broodje {} -- {}".format(name_to_id(name), name, description))
+    print(
+        "dish sandwich_{}: Broodje {} -- {}".format(name_to_id(name), name, description)
+    )
     print("\tsingle_choice sandwich: Broodje")
     for sandwiches, price in zip(SANDWICHES, prices):
         for sw_id, sw_name in sandwiches:
             print("\t\t{}: {} {}".format(sw_id, sw_name, price))
 
-print("""
+print(
+    """
 dish yoghurt:             Natuuryoghurt           € 0.4
 dish yofu:                Plantaardige yofu       € 1
 dish yoghurt_muesli:      Yoghurt met muesli      € 1
@@ -86,4 +94,5 @@ dish bionade:        Bionade                    € 1.5
 dish finley:         Finley                     € 1
 dish iced_coffee:    IJskoffie                  € 2
 dish iced_tea:       IJsthee                    € 2
-dish smoothie:       Smoothie                   € 2""")
+dish smoothie:       Smoothie                   € 2"""
+)

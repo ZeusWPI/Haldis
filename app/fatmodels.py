@@ -36,9 +36,9 @@ class FatOrder(Order, FatModel):
     @classmethod
     def items_per_order(cls):
         return (
-            Order.query.join(OrderItem).group_by(Order.id)
-            .with_entities(Order.id,
-                           func.count(OrderItem.user_id).label("total"))
+            Order.query.join(OrderItem)
+            .group_by(Order.id)
+            .with_entities(Order.id, func.count(OrderItem.user_id).label("total"))
         )
 
 

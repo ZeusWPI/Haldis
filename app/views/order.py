@@ -4,9 +4,19 @@ import typing
 from datetime import datetime
 
 from werkzeug.wrappers import Response
+
 # from flask import current_app as app
-from flask import (Blueprint, abort, flash, redirect, render_template, request,
-                   session, url_for, wrappers)
+from flask import (
+    Blueprint,
+    abort,
+    flash,
+    redirect,
+    render_template,
+    request,
+    session,
+    url_for,
+    wrappers,
+)
 from flask_login import current_user, login_required
 
 from forms import AnonOrderItemForm, OrderForm, OrderItemForm
@@ -57,8 +67,7 @@ def order_from_id(order_id: int, form: OrderForm = None, dish_id=None) -> str:
         flash("Please login to see this order.", "info")
         abort(401)
     if form is None:
-        form = AnonOrderItemForm() if current_user.is_anonymous() \
-            else OrderItemForm()
+        form = AnonOrderItemForm() if current_user.is_anonymous() else OrderItemForm()
         if order.location:
             form.populate(order.location)
     if order.is_closed():
@@ -68,8 +77,14 @@ def order_from_id(order_id: int, form: OrderForm = None, dish_id=None) -> str:
 
     dish = order.location.dish_by_id(dish_id) if order.location else None
 
-    return render_template("order.html", order=order, form=form,
-                           total_price=total_price, debts=debts, dish=dish)
+    return render_template(
+        "order.html",
+        order=order,
+        form=form,
+        total_price=total_price,
+        debts=debts,
+        dish=dish,
+    )
 
 
 @order_bp.route("/<order_id>/items")
@@ -90,8 +105,7 @@ def items_showcase(order_id: int) -> str:
 def order_edit(order_id: int) -> typing.Union[str, Response]:
     "Generate order edit view from id"
     order = Order.query.filter(Order.id == order_id).first()
-    if current_user.id is not order.courier_id and \
-            not current_user.is_admin():
+    if current_user.id is not order.courier_id and not current_user.is_admin():
         abort(401)
     if order is None:
         abort(404)
@@ -102,8 +116,7 @@ def order_edit(order_id: int) -> typing.Union[str, Response]:
         order.update_from_hlds()
         db.session.commit()
         return redirect(url_for("order_bp.order_from_id", order_id=order.id))
-    return render_template("order_edit.html", form=orderForm,
-                           order_id=order_id)
+    return render_template("order_edit.html", form=orderForm, order_id=order_id)
 
 
 @order_bp.route("/<order_id>/create", methods=["GET", "POST"])
@@ -123,8 +136,7 @@ def order_item_create(order_id: int) -> typing.Any:
     # If location doesn't exist any more, adding items is nonsensical
     if not location:
         abort(404)
-    form = AnonOrderItemForm() if current_user.is_anonymous() \
-        else OrderItemForm()
+    form = AnonOrderItemForm() if current_user.is_anonymous() else OrderItemForm()
 
     dish_id = form.dish_id.data if form.is_submitted() else request.args.get("dish")
     if dish_id and not location.dish_by_id(dish_id):
@@ -142,8 +154,14 @@ def order_item_create(order_id: int) -> typing.Any:
         chosen = [
             (
                 choice.option_by_id(request.form.get("choice_" + choice.id))
-                if choice_type == "single_choice" else
-                list(ignore_none(request.form.getlist("choice_" + choice.id, type=choice.option_by_id)))
+                if choice_type == "single_choice"
+                else list(
+                    ignore_none(
+                        request.form.getlist(
+                            "choice_" + choice.id, type=choice.option_by_id
+                        )
+                    )
+                )
             )
             for (choice_type, choice) in choices
         ]
@@ -151,14 +169,22 @@ def order_item_create(order_id: int) -> typing.Any:
 
         if dish_was_changed or not all_choices_present:
             try:
-                user_name = form.user_name.data if form.user_name.validate(form) else None
+                user_name = (
+                    form.user_name.data if form.user_name.validate(form) else None
+                )
             except AttributeError:
                 user_name = None
             comment = form.comment.data if form.comment.validate(form) else None
 
-            return redirect(url_for("order_bp.order_item_create",
-                                    order_id=order_id, dish=form.dish_id.data,
-                                    user_name=user_name, comment=comment))
+            return redirect(
+                url_for(
+                    "order_bp.order_item_create",
+                    order_id=order_id,
+                    dish=form.dish_id.data,
+                    user_name=user_name,
+                    comment=comment,
+                )
+            )
 
     # If the form was not submitted (GET request) or the form had errors: show form again
     if not form.validate_on_submit():
@@ -184,6 +210,7 @@ def order_item_create(order_id: int) -> typing.Any:
             return option.name
         except AttributeError:
             return ", ".join(o.name for o in option if no_text_tag not in o.tags)
+
     comments = list(ignore_none(_name(option) for option in chosen))
     if item.comment:
         comments.append("Comment: " + item.comment)
@@ -198,6 +225,7 @@ def order_item_create(order_id: int) -> typing.Any:
             return option.price or 0
         except AttributeError:
             return sum(o.price or 0 for o in option)
+
     item.price += sum(_price(option) for option in chosen)
 
     db.session.add(item)
@@ -216,8 +244,7 @@ def item_paid(order_id: int, item_id: int) -> typing.Optional[Response]:
     if item.order.courier_id == user_id or current_user.admin:
         item.paid = True
         db.session.commit()
-        flash("Paid %s by %s" % (item.dish_name, item.get_name()),
-              "success")
+        flash("Paid %s by %s" % (item.dish_name, item.get_name()), "success")
         return redirect(url_for("order_bp.order_from_id", order_id=order_id))
     abort(404)
 
@@ -244,8 +271,7 @@ def items_user_paid(order_id: int, user_name: str) -> typing.Optional[Response]:
         for item in items:
             item.paid = True
         db.session.commit()
-        flash("Paid %d items for %s" %
-              (len(items), item.get_name()), "success")
+        flash("Paid %d items for %s" % (len(items), item.get_name()), "success")
         return redirect(url_for("order_bp.order_from_id", order_id=order_id))
     abort(404)
 
@@ -293,7 +319,9 @@ def close_order(order_id: int) -> typing.Optional[Response]:
     order = Order.query.filter(Order.id == order_id).first()
     if order is None:
         abort(404)
-    if (current_user.id == order.courier_id or current_user.is_admin()) and not order.is_closed():
+    if (
+        current_user.id == order.courier_id or current_user.is_admin()
+    ) and not order.is_closed():
         order.stoptime = datetime.now()
         if order.courier_id == 0 or order.courier_id is None:
             courier = select_user(order.items)
@@ -332,7 +360,8 @@ def get_orders(expression=None) -> typing.List[Order]:
     order_list: typing.List[OrderForm] = []
     if expression is None:
         expression = (datetime.now() > Order.starttime) & (
-            Order.stoptime > datetime.now()
+            Order.stoptime
+            > datetime.now()
             # pylint: disable=C0121
         ) | (Order.stoptime == None)
     if not current_user.is_anonymous():
@@ -340,5 +369,6 @@ def get_orders(expression=None) -> typing.List[Order]:
     else:
         order_list = Order.query.filter(
             # pylint: disable=C0121
-            (expression & (Order.public == True))).all()
+            (expression & (Order.public == True))
+        ).all()
     return order_list

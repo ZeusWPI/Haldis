@@ -71,7 +71,7 @@ def add_to_current() -> None:
 
 
 @app_manager.command
-def setup_database(): #type: None
+def setup_database():  # type: None
     "Start the database interaction script"
     print("Database modification script!")
     print("=============================\n\n")

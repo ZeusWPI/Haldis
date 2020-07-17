@@ -17,9 +17,7 @@ class OrderItem(db.Model):
     dish_id = db.Column(db.String(64), nullable=True)
     dish_name = db.Column(db.String(120), nullable=True)
     price = db.Column(db.Integer, nullable=True)
-    paid = db.Column(
-        db.Boolean, default=False, nullable=True
-    )
+    paid = db.Column(db.Boolean, default=False, nullable=True)
     comment = db.Column(db.Text(), nullable=True)
     hlds_data_version = db.Column(db.String(40), nullable=True)
 
@@ -27,8 +25,12 @@ class OrderItem(db.Model):
 
     def __getattr__(self, name):
         if name == "dish":
-            location_id = Order.query.filter(Order.id == self.order_id).first().location_id
-            location = first(filter(lambda l: l.id == location_id, location_definitions))
+            location_id = (
+                Order.query.filter(Order.id == self.order_id).first().location_id
+            )
+            location = first(
+                filter(lambda l: l.id == location_id, location_definitions)
+            )
             if location:
                 return first(filter(lambda d: d.id == self.dish_id, location.dishes))
             else:

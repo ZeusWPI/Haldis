@@ -24,6 +24,7 @@ def main(filenames):
 
 if __name__ == "__main__":
     import sys
+
     args = sys.argv[1:]
     if "-h" in args or "--help" in args:
         print(USAGE.format(sys.argv[0]), file=sys.stderr)

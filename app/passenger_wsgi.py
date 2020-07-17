@@ -10,6 +10,7 @@ if sys.executable != INTERP:
 
 sys.path.append(os.getcwd())
 from app import create_app
+
 application = create_app().app
 
 # For running on the server with passenger etc

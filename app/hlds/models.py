@@ -6,11 +6,9 @@ from utils import euro_string, first
 
 
 def _format_tags(tags: Iterable[str]) -> str:
-    return (
-        " :: {}".format(" ".join(["{" + tag + "}" for tag in tags]))
-        if tags else
-        ""
-    )
+    return " :: {}".format(" ".join(["{" + tag + "}" for tag in tags])) \
+        if tags \
+        else ""
 
 
 def _format_price(price: int) -> str:
@@ -35,7 +33,7 @@ class Option:
             self,
             " -- {}".format(self.description) if self.description else "",
             _format_tags(self.tags),
-            _format_price(self.price)
+            _format_price(self.price),
         )
 
 
@@ -51,7 +49,7 @@ class Choice:
         return "{0.id}: {0.name}{1}\n\t\t{2}".format(
             self,
             " -- {}".format(self.description) if self.description else "",
-            "\n\t\t".join(map(str, self.options))
+            "\n\t\t".join(map(str, self.options)),
         )
 
     def option_by_id(self, option_id: str) -> Optional[Option]:
@@ -75,12 +73,14 @@ class Dish:
             " -- {}".format(self.description) if self.description else "",
             _format_tags(self.tags),
             _format_price(self.price),
-            "\n\t".join(map(_format_type_and_choice, self.choices))
+            "\n\t".join(map(_format_type_and_choice, self.choices)),
         )
 
     def price_range(self) -> Tuple[int, int]:
-        return (self.price + self._sum_f_option_prices(min),
-                self.price + self._sum_f_option_prices(max))
+        return (
+            self.price + self._sum_f_option_prices(min),
+            self.price + self._sum_f_option_prices(max),
+        )
 
     def _sum_f_option_prices(self, f):
         return sum(
@@ -91,7 +91,9 @@ class Dish:
 
 
 class Location:
-    def __init__(self, id_, *, name, dishes, osm=None, address=None, telephone=None, website=None):
+    def __init__(
+        self, id_, *, name, dishes, osm=None, address=None, telephone=None, website=None
+    ):
         self.id: str = id_
         self.name: str = name
         self.osm: Optional[str] = osm
@@ -114,11 +116,15 @@ class Location:
             "{2}"
         ).format(
             self,
-            "".join("\n\t{} {}".format(k, v) for k, v in (
-                ("osm", self.osm),
-                ("address", self.address),
-                ("telephone", self.telephone),
-                ("website", self.website),
-            ) if v is not None),
-            "\n".join(map(str, self.dishes))
+            "".join(
+                "\n\t{} {}".format(k, v)
+                for k, v in (
+                    ("osm", self.osm),
+                    ("address", self.address),
+                    ("telephone", self.telephone),
+                    ("website", self.website),
+                )
+                if v is not None
+            ),
+            "\n".join(map(str, self.dishes)),
         )

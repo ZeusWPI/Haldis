@@ -1,8 +1,7 @@
 "Script containing everything specific to ZeusWPI"
 import typing
 
-from flask import (Blueprint, current_app, flash, redirect, request, session,
-                   url_for)
+from flask import Blueprint, current_app, flash, redirect, request, session, url_for
 from flask_login import login_user
 from flask_oauthlib.client import OAuth, OAuthException
 from werkzeug.wrappers import Response

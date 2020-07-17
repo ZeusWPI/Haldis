@@ -92,8 +92,7 @@ def register_plugins(app: Flask) -> Manager:
 
     # Make cookies more secure
     app.config.update(
-        SESSION_COOKIE_HTTPONLY=True,
-        SESSION_COOKIE_SAMESITE='Lax',
+        SESSION_COOKIE_HTTPONLY=True, SESSION_COOKIE_SAMESITE="Lax",
     )
 
     if not app.debug:
@@ -140,15 +139,16 @@ def add_template_filters(app: Flask) -> None:
     "Add functions which can be used in the templates"
     # pylint: disable=W0612
     @app.template_filter("countdown")
-    def countdown(value, only_positive: bool = True,
-                  show_text: bool = True, reload: bool = True) -> str:
+    def countdown(
+        value, only_positive: bool = True, show_text: bool = True, reload: bool = True
+    ) -> str:
         delta = int(value.timestamp() - datetime.now().timestamp())
         if delta < 0 and only_positive:
             text = "closed"
         else:
             carry, seconds = divmod(delta, 60)
             carry, minutes = divmod(carry, 60)
-            days, hours    = divmod(carry, 24)
+            days, hours = divmod(carry, 24)
 
             days_text = f"{days} days, " if days else ""
 
@@ -157,8 +157,11 @@ def add_template_filters(app: Flask) -> None:
 
         reload_str = "yes" if reload else "no"
 
-        return Markup(f"<span class='time' data-seconds='{delta}' data-reload='{reload_str}'>" +
-                      text + "</span>")
+        return Markup(
+            f"<span class='time' data-seconds='{delta}' data-reload='{reload_str}'>"
+            + text
+            + "</span>"
+        )
 
     @app.template_filter("year")
     def current_year(_value: typing.Any) -> str:
