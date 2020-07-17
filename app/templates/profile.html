@@ -4,15 +4,14 @@
 {% block container %}
 	<h1>{{ current_user.username }}</h1>
 	<h3>Themes</h3>
-	<p><a class="changeThemeButton" id="customTheme">enable custom themes</a></p>
-	<p><a class="changePerformance" id="highPerformance">enable high performance</a></p>
 	<p>
 		<!-- Style attribute due to missing css -->
-		<select name="themes" id="themes_select" onchange="changeTheme()" style="width: 300px;">
-			<option disabled selected value> -- select a theme -- </option>
+		<select name="theme" id="themes_select" style="width: 300px;">
+			<option value="">[Season's default]</option>
 			{% for theme in themes_list %}
-			<option value="{{ theme.optid }}">{{ theme }}</option>
+			<option value="{{ theme.file }}">{{ theme.name }}</option>
 			{% endfor %}
 		</select>
 	</p>
+	<p><a class="changePerformance" id="heavy"></a></p>
 {% endblock %}

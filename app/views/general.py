@@ -26,6 +26,12 @@ from flask import jsonify
 general_bp = Blueprint("general_bp", __name__)
 
 
+with open(os.path.join(os.path.dirname(__file__), "themes.yml"), "r") as _stream:
+    _theme_data = yaml.safe_load(_stream)
+    THEME_OPTIONS = _theme_data["options"]
+    THEMES = _theme_data["themes"]
+
+
 @general_bp.route("/")
 def home() -> str:
     "Generate the home view"
@@ -38,79 +44,94 @@ def home() -> str:
     )
 
 
-def get_css_dict(css_path):
-    "Generate the dictionary with all the currently available themes and their names"
-    themes_dict = dict()
+def is_theme_active(theme, now):
+    theme_type = theme["type"]
 
-    # Open the YAML file with all the themes.
-    path = os.path.join(app.root_path, "views/themes.yml")
-    with open(path, "r") as stream:
-        data = yaml.safe_load(stream)
-    # Build a dictionary from the YAML file with all the themes and their attributes.
-    themes = {}
-    for item in data:
-        key = list(item.keys())[0]
-        themes[key] = item[key]
+    if theme_type == "static":
+        return True
 
-    # Get the current date.
-    current_date = datetime.now()
-    current_year = current_date.year
+    if theme_type == "seasonal":
+        start_day, start_month = map(int, theme["start"].split("/"))
+        start_datetime = datetime(year=now.year, day=start_day, month=start_month)
 
-    # Check each theme in the dictionary and return the first one that is "correct"
-    for key, theme in themes.items():
-        if theme["type"] == "static-date":
-            start_day, start_month = theme["start"].split("/")
-            start_date = datetime(year=current_year, day=int(start_day), month=int(start_month))
+        end_day, end_month = map(int, theme["end"].split("/"))
+        end_year = now.year + (1 if start_month > end_month else 0)
+        end_datetime = datetime(year=end_year, day=end_day, month=end_month)
 
-            end_day, end_month = theme["end"].split("/")
-            if int(start_month) > int(end_month):
-                current_year += 1
-            end_date = datetime(year=current_year, day=int(end_day), month=int(end_month))
+        return start_datetime <= now <= end_datetime
 
-            if start_date <= current_date <= end_date:
-                path = os.path.join(app.root_path, css_path, theme["file"])
-                themes_dict[key] = path
-    themes_dict["darkmode"] = os.path.join(
-        app.root_path, "static/css/themes/lowPerformance/darkmode.css"
-    )
-    themes_dict["lightmode"] = os.path.join(
-        app.root_path, "static/css/themes/lowPerformance/lightmode.css"
-    )
-
-    return themes_dict
+    raise Exception("Unknown theme type {}".format(theme_type))
 
 
-def css_list():
-    "Generate the list of names of all the currently available themes"
-    if request.cookies.get("performance", "") == "highPerformance":
-        css_path = "static/css/themes/highPerformance/"
-    else:
-        css_path = "static/css/themes/lowPerformance/"
-    return list(get_css_dict(css_path).keys())
+def get_theme_css(theme, options):
+    # Build filename
+    # Each option's chosen value is appended, to get something like mytheme_darkmode_heavy.css
+
+    filename = theme["file"]
+
+    for option in theme.get("options", []):
+        theme_name = theme["name"]
+        assert option in THEME_OPTIONS, f"Theme `{theme_name}` uses undefined option `{option}`"
+
+        chosen_value = options[option]
+        possible_values = list(THEME_OPTIONS[option].keys())
+
+        value = chosen_value if chosen_value in possible_values \
+            else THEME_OPTIONS[option]["_default"]
+
+        filename += "_" + value
+
+    filename += ".css"
+
+    theme_css_dir = "static/css/themes/"
+    return os.path.join(app.root_path, theme_css_dir, filename)
 
 
-@general_bp.route("/css")
-def css():
-    "Generate the css"
-    if request.cookies.get("performance", "") == "highPerformance":
-        css_path = "static/css/themes/highPerformance/"
-    else:
-        css_path = "static/css/themes/lowPerformance/"
+def get_active_themes():
+    now = datetime.now()
+    return [theme for theme in THEMES if is_theme_active(theme, now)]
 
-    cookie_theme = request.cookies.get("theme", "")
 
-    themes_dict = get_css_dict(css_path)
+@general_bp.route("/theme.css")
+def theme_css():
+    "Send appropriate CSS for current theme"
+    themes = get_active_themes()
 
-    # TODO: Fix to work with default cookie value [customTheme]
-    if cookie_theme == "customTheme":
-        path = f"{css_path}ligtmode.css"
-    else:
-        path = themes_dict[cookie_theme]
+    theme_name = request.cookies.get("theme", None)
+    theme = first((t for t in themes if t["file"] == theme_name), default=themes[-1])
 
-    f = open(path)
-    response = make_response(f.read())
+    options = {
+        name: request.cookies.get("theme_" + name, None)
+        for name in ["atmosphere", "performance"]
+    }
+
+    path = get_theme_css(theme, options)
+
+    with open(path) as f:
+        response = make_response(f.read())
     response.headers["Content-Type"] = "text/css"
-    f.close()
+
+    return response
+
+
+@general_bp.route("/current_theme.js")
+def current_theme_js():
+    themes = get_active_themes()
+
+    selected_theme_name = request.cookies.get("theme", None)
+    matching_theme = first((t for t in themes if t["file"] == selected_theme_name))
+    cur_theme = matching_theme or themes[-1]
+
+    response = make_response(rf'''
+var currentTheme        = {json.dumps(cur_theme['file'])};
+var currentThemeOptions = {json.dumps(cur_theme['options'])};
+''')
+    response.headers["Content-Type"] = "text/javascript"
+
+    # Theme name that is not valid at this moment: delete cookie
+    if matching_theme is None:
+        response.delete_cookie("theme", path="/")
+
     return response
 
 
@@ -176,7 +197,7 @@ def about() -> str:
 @login_required
 def profile() -> str:
     "Generate the profile view"
-    return render_template("profile.html", themes_list=css_list())
+    return render_template("profile.html", themes_list=get_active_themes())
 
 
 @general_bp.route("/favicon.ico")

@@ -73,4 +73,5 @@ tmp/
 .tern-port
 
 # Do not add scss cache
+.sass-cache
 *.sass-cache

@@ -1,0 +1,451 @@
+@charset "UTF-8";
+/*
+¡¡¡ OPGELET !!!
+Deze css bevat lelijke code.
+Dit komt doordat bootstrap lelijk en oud is.
+Ik zal later proberen de css te verbeteren en bootstrap weg te gooien.
+Enige discretie is aangeraden.
+
+---=§[ Arnhoudt ]§=---
+
+*/
+:root {
+  --dGray0:#F28705;
+  --dGray1:white;
+  --dGray2:#590212;
+  --dGray3:#590212;
+  --dGray4:#274001;
+  --dGray5:#274001;
+  --dGray6:#F2778D;
+  --dBlue:#F2778D; }
+
+body {
+  height: 100%;
+  font-family: Radikal,Optima,Segoe,Segoe UI,Candara,Calibri,Arial,sans-serif;
+  background-color: #2F0000; }
+
+@font-face {
+  font-family: Radikal;
+  src: url("static/fonts/radikal_regular.ttf");
+  font-weight: normal; }
+
+@font-face {
+  font-family: Radikal;
+  src: url("static/fonts/radikal_light.ttf");
+  font-weight: 200; }
+
+@font-face {
+  font-family: Radikal;
+  src: url("static/fonts/radikal_bold.ttf");
+  font-weight: bold; }
+
+.btn {
+  border-radius: 5rem;
+  color: white;
+  font-family: Arial Rounded MT Bold,Helvetica Rounded,Arial,sans-serif;
+  background-image: linear-gradient(-40deg, #F53030, #F58B9E); }
+
+.btn:hover {
+  background-image: linear-gradient(-40deg, #A81111, #FF4B33); }
+
+.navbar {
+  font-family: Arial Rounded MT Bold,Helvetica Rounded,Arial,sans-serif;
+  padding: 1.5rem;
+  background-color: transparent;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  text-transform: capitalize; }
+
+.nav > li > a {
+  padding-left: 1vw;
+  padding-right: 1vw; }
+
+.main {
+  height: 90vh;
+  overflow: scroll;
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column; }
+
+.navbar .container {
+  width: 100%;
+  padding: 0 4vw; }
+
+@media (min-width: 768px) {
+  .container {
+    width: 100%; } }
+
+@media (min-width: 992px) {
+  .main .container, .main .orders {
+    width: 970px; } }
+
+@media (min-width: 1200px) {
+  .main .container, .main .orders {
+    width: 1170px; } }
+
+.main {
+  padding-top: 2.5rem; }
+
+.order_data {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  padding: 0 3rem;
+  align-items: baseline; }
+
+.order_data h5 {
+  max-width: 60%;
+  padding-bottom: 3rem; }
+
+.expand_button {
+  padding: 1rem 0rem;
+  margin-top: -1rem;
+  width: 70%;
+  margin-bottom: 1.5rem; }
+
+.hi_im_haldis h2 {
+  display: none; }
+
+.hi_im_haldis h3 {
+  width: 100%;
+  font-family: Arial Rounded MT Bold,Helvetica Rounded,Arial,sans-serif;
+  text-align: center; }
+
+.hi_im_haldis {
+  background: linear-gradient(70deg, rgba(203, 52, 68, 0.8), rgba(135, 32, 44, 0.8));
+  border-radius: 0;
+  width: 100%; }
+
+.hi_im_haldis_wrapper {
+  width: 100%; }
+
+.darker:nth-child(even) {
+  background-color: #B62937;
+  border-radius: 2rem; }
+
+.darker:nth-child(odd) {
+  background-color: #821C25;
+  border-radius: 2rem; }
+
+.darker {
+  padding: 1rem; }
+
+.order_row:nth-child(even) .order_data {
+  background-color: #B62937;
+  border-radius: 2rem; }
+
+.order_row {
+  background: transparent; }
+
+.order_row:nth-child(odd) .order_data {
+  background-color: #821C25;
+  border-radius: 2rem; }
+
+.order_row h5 {
+  font-weight: bold; }
+
+.order_row {
+  margin-bottom: 3rem; }
+
+h3 {
+  padding-bottom: 1rem; }
+
+.home_sir {
+  font-weight: bold;
+  color: #F45D68; }
+
+.expand_button_wrapper {
+  margin-top: -1rem;
+  width: 100%;
+  display: flex;
+  justify-content: center; }
+
+.time_data {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  justify-self: right; }
+
+.navbar .navbar-nav .active a {
+  color: #ff9bae;
+  border-bottom: 1px solid #ff9bae;
+  padding-bottom: 1rem; }
+
+.navbar-nav {
+  padding-left: 2rem; }
+
+.jumbotron, .darker {
+  display: flex;
+  flex-direction: column;
+  border-radius: 4rem; }
+
+.row > div > h5 {
+  font-weight: bold;
+  padding-top: 1.5rem;
+  font-size: 2.5rem; }
+
+.row > div > .amount_of_orders {
+  font-weight: lighter;
+  font-size: 1.6rem; }
+
+.row > div .time {
+  font-weight: lighter; }
+
+.jumbotron {
+  background-color: transparent; }
+
+.navbar-default .navbar-nav .active a, .navbar-default .navbar-nav .active a:hover {
+  background-color: transparent; }
+
+.background {
+  -webkit-filter: blur(0px) brightness(80%);
+  -moz-filter: blur(0px) brightness(80%);
+  -o-filter: blur(0px) brightness(80%);
+  -ms-filter: blur(0px) brightness(80%);
+  filter: blur(0px) brightness(80%);
+  position: fixed;
+  top: 0;
+  left: 0; }
+
+footer a {
+  color: #69E8FF; }
+
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: #CB3444;
+  height: 5rem;
+  display: flex;
+  align-items: center; }
+
+footer > hr {
+  display: none; }
+
+#mapid {
+  width: 100%; }
+
+.order_overview, .order_order, .order_items, .order_ordered, .order_depts {
+  padding: 1rem 5rem 3rem 5rem; }
+
+.order_overview {
+  width: 100%; }
+
+.order_depts {
+  width: 100%;
+  margin-bottom: 10rem; }
+
+.location_data, .location_products {
+  width: 100%; }
+
+.location_products {
+  margin-bottom: 10rem; }
+
+.locations_locations {
+  padding: 1rem 5rem 3rem 5rem; }
+
+.background_wrapper {
+  position: absolute;
+  left: 0;
+  bottom: 5rem;
+  width: 100%;
+  height: 100%;
+  overflow: hidden; }
+
+.christmas_background {
+  z-index: -101;
+  width: 300%;
+  height: 300%;
+  background: linear-gradient(-45deg, #2F0000, #C20A12); }
+
+.sled {
+  width: 15rem;
+  height: 15rem;
+  transition: transform 2s ease-in 5s, rotate 1s ease-in-out 2s;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  background-image: url("static/images/themes/kerstmis/sled.svg"); }
+
+.sled_wrapper {
+  top: 0.5rem;
+  left: -7.5rem;
+  position: absolute;
+  transform: translate(-50vw, 40vh) rotate(0deg);
+  width: 15rem;
+  height: 15rem;
+  animation: sled 29s ease-in-out infinite; }
+
+.snowman_wrapper {
+  height: 17rem;
+  width: 10rem;
+  position: absolute;
+  bottom: 15rem;
+  left: -12rem;
+  animation: snowman 37s ease infinite;
+  transform-origin: right bottom; }
+
+.snowman_head {
+  position: absolute;
+  top: 0;
+  width: 10rem;
+  height: 10rem;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-image: url("static/images/themes/kerstmis/snowman_head.svg");
+  animation: snowman_head 2s ease infinite; }
+
+.snowman_body {
+  position: absolute;
+  top: 9.5rem;
+  left: 0.5rem;
+  width: 10rem;
+  height: 10rem;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-image: url("static/images/themes/kerstmis/snowman_body.svg"); }
+
+.train_button {
+  visibility: hidden; }
+
+.train_wrapper {
+  position: absolute;
+  bottom: 0.5rem;
+  transform: translateX(-80vw);
+  animation: train 47s linear infinite; }
+
+.wheel_big, .wheel_small {
+  position: absolute;
+  bottom: -0.4rem;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-image: url("static/images/themes/kerstmis/wheel.svg"); }
+
+.train {
+  position: absolute;
+  bottom: 0.5rem;
+  left: 30rem;
+  width: 30rem;
+  height: 10rem;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-image: url("static/images/themes/kerstmis/train.svg");
+  animation: whobble 1s linear alternate-reverse infinite; }
+
+.wheel_big {
+  width: 3.2rem;
+  height: 3.2rem; }
+
+.wheel_small {
+  width: 2.5rem;
+  height: 2.5rem; }
+
+.train .wheel1 {
+  animation: turn 2s linear infinite;
+  left: 3.5rem; }
+
+.train .wheel2 {
+  animation: turn 2s linear infinite, -0.1s;
+  left: 7rem; }
+
+.train .wheel3 {
+  animation: turn 2s linear infinite -0.3s;
+  left: 10.5rem; }
+
+.train .wheel4 {
+  animation: turn 1.5s linear infinite -0.5s;
+  left: 13.9rem; }
+
+.train .wheel5 {
+  animation: turn 1.5s linear infinite -0.7s;
+  left: 16.6rem; }
+
+.zeus_wagon, .mc_wagon {
+  position: absolute;
+  bottom: 1.25rem;
+  width: 30rem;
+  height: 7.5rem;
+  background-repeat: no-repeat;
+  background-size: contain;
+  animation: whobble 1s linear alternate-reverse infinite; }
+
+.mc_wagon {
+  background-image: url("static/images/themes/kerstmis/mc_wagon.svg");
+  left: 0rem; }
+
+.zeus_wagon {
+  background-image: url("static/images/themes/kerstmis/zeus_wagon.svg");
+  left: 15rem; }
+
+.zeus_wagon .wheel1, .mc_wagon .wheel1 {
+  animation: turn 2s linear infinite;
+  bottom: -1.1rem;
+  left: 2.2rem; }
+
+.zeus_wagon .wheel2, .mc_wagon .wheel2 {
+  animation: turn 2s linear infinite, -0.1s;
+  bottom: -1.1rem;
+  left: 5.75rem; }
+
+.zeus_wagon .wheel3, .mc_wagon .wheel3 {
+  animation: turn 2s linear infinite -0.3s;
+  bottom: -1.1rem;
+  left: 9.3rem; }
+
+@keyframes sled {
+  0% {
+    transform: translate(-50rem, 40vh) rotate(0deg); }
+  4% {
+    transform: translate(-50rem, 40vh) rotate(0deg); }
+  20% {
+    transform: translate(50vw, 10vh) rotate(20deg); }
+  36% {
+    transform: translate(150vw, 40vh) rotate(40deg); }
+  100% {
+    transform: translate(150vw, 40vh) rotate(40deg); } }
+
+@keyframes train {
+  0% {
+    transform: translateX(-80rem); }
+  55% {
+    transform: translateX(-80rem); }
+  85% {
+    transform: translateX(100vw); }
+  100% {
+    transform: translateX(100vw); } }
+
+@keyframes turn {
+  100% {
+    transform: rotate(360deg); } }
+
+@keyframes whobble {
+  100% {
+    transform: translateY(0.5vh); } }
+
+@keyframes snowman {
+  0% {
+    transform: rotate(0); }
+  20% {
+    transform: rotate(0); }
+  30% {
+    transform: rotate(80deg); }
+  54% {
+    transform: rotate(80deg); }
+  68% {
+    transform: rotate(0); }
+  100% {
+    transform: rotate(0); } }
+
+@keyframes snowman_head {
+  0% {
+    transform: rotate(-3deg); }
+  50% {
+    transform: rotate(3deg); }
+  100% {
+    transform: rotate(-3deg); } }
+
+/*# sourceMappingURL=christmas_lightweight.css.map */
