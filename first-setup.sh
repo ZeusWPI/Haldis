@@ -22,6 +22,14 @@ pip install pip-tools
 echo -e "${B} Downloading dependencies ${E}"
 pip-sync
 
+echo -en "${B} Do you want to install support for the Airbrake API for error logging? If you don't have an Errbit server or Airbrake account, answer no. (y/N) ${E}"
+read confirm
+if [ "$confirm" = y ]; then
+	pip install airbrake
+else
+	echo "Not installing airbrake"
+fi
+
 echo -e "${B} Copying config template. All custom config options can be set in the config.py file ${E}"
 cd app
 cp config.example.py config.py
@@ -30,4 +38,4 @@ cd ..
 echo -e "${B} Seeding database ${E}"
 ./populate-db.sh
 
-echo -e "${B} Activate your venv using 'source venv/bin/activate'.\nThen run the server with 'python app/app.py runserver' ${E}"
+echo -e "${B} Activate your venv using 'source venv/bin/activate'.\nThen run the development server with 'python app/app.py runserver' ${E}"

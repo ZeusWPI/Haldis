@@ -4,7 +4,6 @@
 #
 #    pip-compile
 #
-airbrake==2.1.2
 alembic==1.0.8            # via flask-migrate
 appdirs==1.4.3            # via black
 attrs==19.1.0             # via black
@@ -37,7 +36,7 @@ python-editor==1.0.4      # via alembic
 pyyaml==5.3
 regex==2020.1.8           # via black
 requests-oauthlib==1.1.0  # via flask-oauthlib
-requests==2.21.0          # via airbrake, requests-oauthlib
+requests==2.21.0          # via requests-oauthlib
 six==1.12.0               # via python-dateutil
 sqlalchemy==1.3.2         # via alembic, flask-sqlalchemy
 tatsu==4.4.0

@@ -44,16 +44,17 @@ def register_plugins(app: Flask) -> Manager:
             if airbrake is None:
                 raise Exception(
                     "Airbrake support was requested (AIRBRAKE_ID is present in config), "
-                    "but could not import airbrake. Make sure it's installed"
+                    "but could not import airbrake. Make sure `airbrake` is installed"
                 )
 
             airbrakelogger = logging.getLogger("airbrake")
 
             # Airbrake
-            airbrake = airbrake.Airbrake(project_id=app.config["AIRBRAKE_ID"],
-                                api_key=app.config["AIRBRAKE_KEY"])
-            # ugly hack to make this work for out errbit
-            airbrake._api_url = "http://errbit.awesomepeople.tv/api/v3/projects/{}/notices".format(  # pylint: disable=W0212
+            airbrake = airbrake.Airbrake(
+                project_id=app.config["AIRBRAKE_ID"], api_key=app.config["AIRBRAKE_KEY"]
+            )
+            # Change URL in a hacky way to make this work for our errbit
+            airbrake._api_url = "http://errbit.awesomepeople.tv/api/v3/projects/{}/notices".format(  # pylint: disable=protected-access
                 airbrake.project_id
             )
 
