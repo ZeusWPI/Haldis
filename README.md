@@ -61,6 +61,16 @@ Run `pip-compile --upgrade`
 
 For more information about managing the dependencies see [jazzband/pip-tools: A set of tools to keep your pinned Python dependencies fresh.](https://github.com/jazzband/pip-tools)
 
+## Production
+To prepare the application in a production environment, follow the same steps as for *Local setup* up to and including `./populate-db.sh`.
+
+Set DEBUG to False in `app/config.py`.
+
+See [Flask's deployment documentation](https://flask.palletsprojects.com/en/1.1.x/deploying/#self-hosted-options).
+
+Set the server's Python interpreter to `/path/to/haldis/venv/bin/python`. Doing `source venv/bin/activate` is not necessary when that binary is used.
+
+
 ## Authors
 
 * **Feliciaan De Palmenaer** - *Initial work* - [Github](https://github.com/feliciaan)
