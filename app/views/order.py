@@ -330,9 +330,6 @@ def close_order(order_id: int) -> typing.Optional[Response]:
                 order.courier_id = courier.id
         db.session.commit()
         return redirect(url_for("order_bp.order_from_id", order_id=order_id))
-    # The line below is to make sure mypy doesn't say
-    #   "Missing return statement"
-    #   https://github.com/python/mypy/issues/4223
     return None
 
 
