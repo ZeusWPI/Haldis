@@ -49,17 +49,16 @@ def register_plugins(app: Flask) -> Manager:
 
             airbrakelogger = logging.getLogger("airbrake")
 
-            # Airbrake
-            airbrake = airbrake.Airbrake(
+            airbrake_obj = airbrake.Airbrake(
                 project_id=app.config["AIRBRAKE_ID"], api_key=app.config["AIRBRAKE_KEY"]
             )
             # Change URL in a hacky way to make this work for our errbit
-            airbrake._api_url = "http://errbit.awesomepeople.tv/api/v3/projects/{}/notices".format(  # pylint: disable=protected-access
-                airbrake.project_id
+            airbrake_obj._api_url = "http://errbit.awesomepeople.tv/api/v3/projects/{}/notices".format(  # pylint: disable=protected-access
+                airbrake_obj.project_id
             )
 
-            airbrakelogger.addHandler(airbrake.AirbrakeHandler(airbrake=airbrake))
-            app.logger.addHandler(airbrake.AirbrakeHandler(airbrake=airbrake))
+            airbrakelogger.addHandler(airbrake.AirbrakeHandler(airbrake=airbrake_obj))
+            app.logger.addHandler(airbrake.AirbrakeHandler(airbrake=airbrake_obj))
 
     # Initialize SQLAlchemy
     db.init_app(app)
