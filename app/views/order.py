@@ -31,7 +31,7 @@ order_bp = Blueprint("order_bp", "order")
 @order_bp.route("/")
 def orders(form: OrderForm = None) -> str:
     "Generate general order view"
-    if form is None and not current_user.is_anonymous():
+    if form is None:
         form = OrderForm()
         location_id = request.args.get("location_id")
         form.location_id.default = location_id

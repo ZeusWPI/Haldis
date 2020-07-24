@@ -37,15 +37,12 @@ class OrderForm(Form):
 
     def populate(self) -> None:
         "Fill in the options for courier for an Order"
-        if current_user.is_admin():
-            self.courier_id.choices = [(0, None)] + [
-                (u.id, u.username) for u in User.query.order_by("username")
-            ]
-        else:
-            self.courier_id.choices = [
-                (0, None),
-                (current_user.id, current_user.username),
-            ]
+
+        self.courier_id.choices = [(0, None)] + (
+            [(u.id, u.username) for u in User.query.order_by("username")] if current_user.is_admin()
+            else [(current_user.id, current_user.username)] if current_user.is_authenticated()
+            else []
+        )
         self.location_id.choices = [(l.id, l.name) for l in location_definitions]
         if self.stoptime.data is None:
             self.stoptime.data = datetime.now() + timedelta(hours=1)
