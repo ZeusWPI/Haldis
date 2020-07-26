@@ -67,3 +67,5 @@ dish mihoen_veggies:    78. Mihoen met diverse groenten (veggie)     -- Rijstnoe
 dish chau_ming_veggies: 79. Chau ming met diverse groenten (veggie)  -- Eiernoedels                                 € 10
 dish tau_foe_ma_po:     80. Tau Foe met ma-po-saus (veggie)          -- Met gebakken rijst                          € 11.5
 dish tau_foe_mushrooms: 81. Tau Foe met Chinese champignons (veggie) -- Met gebakken rijst                          € 11.5
+
+dish chopsticks: Stokjes
