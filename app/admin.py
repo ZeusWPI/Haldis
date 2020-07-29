@@ -1,5 +1,3 @@
-"Haldis admin related views and models"
-
 import flask_login as login
 from flask import Flask
 from flask_admin import Admin
@@ -10,27 +8,40 @@ from models import Order, OrderItem, OrderItemChoice, User
 
 
 class ModelBaseView(ModelView):
-    "Base model for admin related things"
-    # pylint: disable=R0201, R0903
+    # pylint: disable=too-few-public-methods, no-self-use
     def is_accessible(self) -> bool:
-        "Check if the user has admin permission"
-        if login.current_user.is_anonymous():
-            return False
         return login.current_user.is_admin()
 
 
 class UserAdminModel(ModelBaseView):
-    "Model for user admin"
-    # pylint: disable=R0903
+    # pylint: disable=too-few-public-methods
     column_searchable_list = ("username",)
+    column_editable_list = ("username",)
+    column_default_sort = "username"
     inline_models = None
 
 
+class OrderAdminModel(ModelBaseView):
+    # pylint: disable=too-few-public-methods
+    column_list = ["starttime", "stoptime", "location_name", "location_id", "courier"]
+    column_labels = {
+        "starttime": "Start time", "stoptime": "Closing time",
+        "location_name": "Location name", "location_id": "HLDS location ID",
+        "courier": "Courier"}
+    form_excluded_columns = ["items", "courier_id"]
+    column_default_sort = ("starttime", True)
+    can_delete = False
+
+
+class OrderItemAdminModel(ModelBaseView):
+    # pylint: disable=too-few-public-methods
+    column_default_sort = ("order_id", True)
+
+
 def init_admin(app: Flask, database: SQLAlchemy) -> None:
-    "Initialize the admin related things in the app."
+    "Register admin views with Flask app."
     admin = Admin(app, name="Haldis", url="/admin", template_mode="bootstrap3")
 
     admin.add_view(UserAdminModel(User, database.session))
-    admin.add_view(ModelBaseView(Order, database.session))
-    admin.add_view(ModelBaseView(OrderItem, database.session))
-    admin.add_view(ModelBaseView(OrderItemChoice, database.session))
+    admin.add_view(OrderAdminModel(Order, database.session))
+    admin.add_view(OrderItemAdminModel(OrderItem, database.session))

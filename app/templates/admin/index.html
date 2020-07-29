@@ -1,0 +1,8 @@
+{% extends 'admin/master.html' %}
+
+{% block body %}
+<p>To edit the <strong>metadata of an order</strong>, go to <a href="{{ url_for("order.index_view") }}">Order</a>. There is
+no link from an order to the ordered items, so…</p>
+<p>To edit or delete <strong>items from orders</strong>, go straight to <a href="{{ url_for("orderitem.index_view") }}">Order Item</a>.</p>
+<p>To edit locations and their <strong>menus</strong>, edit the HLDS data files in the repository and submit a pull/merge request.</p>
+{% endblock %}

@@ -69,7 +69,6 @@ def register_plugins(app: Flask) -> Manager:
     app_manager = Manager(app)
     app_manager.add_command("db", MigrateCommand)
     app_manager.add_command("runserver", Server(port=8000))
-    # Add admin interface
     init_admin(app, db)
 
     # Init login manager
