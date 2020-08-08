@@ -8,7 +8,7 @@
 	<div class="row orders">
 		<div class="col-md-5">
 		{% if orders|count > 0 -%}
-			<h3>Open orders:</h3>
+			<h3>Open orders</h3>
 			{% for order in orders %}
 				{{ util.render_order(order) }}
 			{% endfor %}
@@ -23,7 +23,7 @@
 		</div>
 		{% if not current_user.is_anonymous() %}
 			<div class="col-md-push-1 col-md-6">
-				<h3>Create new order:</h3>
+				<h3>Create new order</h3>
 				<div class="row darker">
 					<div class="col-sm-12">
 						<form method="post" action="{{ url_for('order_bp.order_create') }}">

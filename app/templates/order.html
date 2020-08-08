@@ -41,7 +41,7 @@
 	</div>
 	{% if form -%}
 	<div class="col-md-push-1 col-md-10 darker order_order" id="form">
-		<h4>Order:</h4>
+		<h4>Order</h4>
 		<form method="post" action="{{ url_for('order_bp.order_item_create', order_id=order.id) }}">
 			<span class="pull-right">
 				<a class="btn btn-primary" onclick="chooseRandom()">Choose for me</a>
