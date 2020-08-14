@@ -1,16 +1,15 @@
-/* Custom CSS */
 :root {
-	/*Darkmode colors*/
-	--dGray0:#D0D0D8;
-	--dGray1:#8E8E93;
-	--dGray2:#636366;
-	--dGray3:#48484A;
-	--dGray4:#3A3A3C;
-	--dGray5:#2C2C2E;
-	--dGray6:#1C1C1E;
-	--dBlue:#0A84FF;
-	--FontFamily:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif;
-	--FontSize:13px;
+	/* Darkmode colors */
+	--dGray0: #D0D0D8;
+	--dGray1: #8E8E93;
+	--dGray2: #636366;
+	--dGray3: #48484A;
+	--dGray4: #3A3A3C;
+	--dGray5: #2C2C2E;
+	--dGray6: #1C1C1E;
+	--dBlue: #0A84FF;
+	--FontFamily: "Roboto","Helvetica Neue",Helvetica,Arial,sans-serif;
+	--FontSize: 13px;
 }
 
 html {
@@ -26,7 +25,7 @@ body {
 	font-size: var(--FontSize);
 }
 
-.background{
+.background {
 	position: absolute;
 	z-index: -1000;
 	top: 0;
@@ -45,12 +44,6 @@ body {
 
 .padding-top {
 	padding-top: 10px;
-}
-
-.darker {
-	background-color: #fafafa;
-	margin-top: 10px;
-	padding-bottom: 5px;
 }
 
 @media (min-width: 992px) {
@@ -121,10 +114,6 @@ body {
 	margin-top: 1.3em;
 }
 
-.order_row {
-	background: var(--dGray4);
-}
-
 .time_data{
 	display: flex;
 	justify-content: space-between;
@@ -142,14 +131,6 @@ body {
 	.md-no-right-padding {
 		padding-right: 0px;
 	}
-}
-
-/* Add clickable box */
-div.box:hover {
-	cursor: hand;
-	cursor: pointer;
-	opacity: .9;
-	box-shadow: 2px 4px 4px -1px #888888;
 }
 
 a.divLink {
@@ -198,18 +179,25 @@ a {
 .navbar {
 	background-color: var(--dGray6);
 }
-.navbar-default .navbar-nav .active a{
-	background-color: var(--dGray4);
+.navbar-default .navbar-nav .active a {
+	background-color: var(--dGray5);
 	color: var(--dGray1);
 }
-.navbar-default .navbar-nav .active a:hover{
-	background-color: var(--dGray3);
+.navbar-default .navbar-nav .active a:hover,
+.navbar-default .navbar-nav .active a:focus,
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+	background-color: var(--dGray4);
 	color: var(--dGray0);
 }
-.navbar-default .navbar-nav li a,.navbar-default .navbar-brand{
+.navbar-default .navbar-nav li a,
+.navbar-default .navbar-brand {
 	color: var(--dGray1);
 }
-.navbar-default .navbar-nav li a:hover,.navbar-default .navbar-brand:hover{
+.navbar-default .navbar-nav li a:hover,
+.navbar-default .navbar-nav li a:focus,
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus {
 	color: var(--dGray0);
 }
 hr{
@@ -220,9 +208,16 @@ h1, h2, h3, h4, h5, h6{
 	color: var(--dGray1);
 }
 
-.jumbotron, .darker {
-	background-color: var(--dGray4);
+.jumbotron, .darker, .order_row {
+	background: var(--dGray4);
 }
+
+.darker {
+	margin-top: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
 .table tbody tr td {
 	border-top: 1px solid var(--dGray3);
 }
@@ -286,9 +281,6 @@ h1, h2, h3, h4, h5, h6{
 }
 .form-control::placeholder{
 	color: var(--dGray2);
-}
-.enter_darkmode>a {
-	text-align: center;
 }
 
 #dish_choices {

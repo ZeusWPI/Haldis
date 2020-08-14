@@ -1,10 +1,10 @@
 :root {
-	--dGray0:#444444;
-	--dGray1:#666666;
-	--dGray2:#212121;
-	--dGray3:#ffffff;
-	--dGray4:#f9f9f9;
-	--dGray5:#ffffff;
+	--dGray0:#212121;
+	--dGray1:#444444;
+	--dGray2:#666666;
+	--dGray3:#cccccc;
+	--dGray4:#f1f1f1;
+	--dGray5:#f8f8f8;
 	--dGray6:#ffffff;
 	--dBlue:#0A84FF;
 }

@@ -33,13 +33,13 @@ Haldis - Order {{ order.id }}
 		</div>
 		{% endif %}
 
-		{% for key, value in order.group_by_dish(True).items() -%}
+		{% for dish_name, dish_order_items in order.group_by_dish() -%}
 			<div class="dish">
-				<h2><span class="quantity">{{ value["count"] }}</span> × {{ key }}</h2>
-				{% if value["comments"]|any -%}
+				<h2><span class="quantity">{{ dish_order_items | length }}</span> × {{ dish_name }}</h2>
+				{% if dish_order_items | map(attribute="comment") | any -%}
 					<ul class="comments">
-					{% for comment in value["comments"] -%}
-						<li>{% if comment %}{{ comment }}
+					{% for item in dish_order_items -%}
+						<li>{% if item["comment"] %}{{ item["comment"] }}
 						{% else %}<i>No comment</i>
 						{% endif %}</li>
 					{% endfor %}

@@ -171,6 +171,7 @@ def add_template_filters(app: Flask) -> None:
     app.template_filter("euro")(euro_string)
     app.template_filter("price_range")(price_range_string)
     app.template_filter("any")(any)
+    app.template_filter("all")(all)
 
 
 app = Flask(__name__)

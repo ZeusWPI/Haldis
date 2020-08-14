@@ -234,21 +234,6 @@ def order_item_create(order_id: int) -> typing.Any:
     return redirect(url_for("order_bp.order_from_id", order_id=order_id))
 
 
-@order_bp.route("/<order_id>/<item_id>/paid", methods=["POST"])
-@login_required
-# pylint: disable=R1710
-def item_paid(order_id: int, item_id: int) -> typing.Optional[Response]:
-    "Indicate payment status for an item in an order"
-    item = OrderItem.query.filter(OrderItem.id == item_id).first()
-    user_id = current_user.id
-    if item.order.courier_id == user_id or current_user.admin:
-        item.paid = True
-        db.session.commit()
-        flash("Paid %s by %s" % (item.dish_name, item.get_name()), "success")
-        return redirect(url_for("order_bp.order_from_id", order_id=order_id))
-    abort(404)
-
-
 @order_bp.route("/<order_id>/<user_name>/user_paid", methods=["POST"])
 @login_required
 # pylint: disable=R1710
@@ -269,7 +254,7 @@ def items_user_paid(order_id: int, user_name: str) -> typing.Optional[Response]:
         for item in items:
             item.paid = True
         db.session.commit()
-        flash("Paid %d items for %s" % (len(items), item.get_name()), "success")
+        flash("Paid %d items for %s" % (len(items), item.for_name), "success")
         return redirect(url_for("order_bp.order_from_id", order_id=order_id))
     abort(404)
 

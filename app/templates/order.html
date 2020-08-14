@@ -1,82 +1,123 @@
 {% extends "layout.html" %}
 {% set active_page = "orders" -%}
-{% set order_items = order.group_by_user() -%}
+{% if current_user.is_anonymous() %}
+	{% set my_items = order.for_user(anon=session.get("anon_name", "")) %}
+{% else %}
+	{% set my_items = order.for_user(user=current_user) %}
+{% endif %}
 {% set courier_or_admin = not current_user.is_anonymous() and (current_user.is_admin() or current_user.id == order.courier_id) -%}
 
 {% import "utils.html" as util %}
 
 {% block container %}
-<div class="row">
-	<div class="col-md-push-1 col-md-10 darker order_overview" id="info"><!-- Shitty html -->
-		<h3 id="order-title">Order {{ order.id }}
-		<div class="pull-right">
-			{% if order.can_close(current_user.id) -%}
-			<form action="{{ url_for('order_bp.close_order', order_id=order.id) }}" method="post" style="display:inline">
-				<input type="submit" class="btn btn-danger" value="Close"></input>
-			</form>
-			{% endif %}{% if courier_or_admin %}
-				<a class="btn btn-warning" href="{{ url_for('order_bp.order_edit', order_id=order.id) }}">Edit</a>
-		{%- endif %}
-		</div></h3>
-		courier: {{ order.courier.username }}
-		{% if order.courier == None and not current_user.is_anonymous() %}
-		<form action="{{ url_for('order_bp.volunteer', order_id=order.id) }}" method="post" style="display:inline">
-			<input type="submit" class="btn btn-primary btn-sm" value="Volunteer"></input>
-		</form>
-		{% endif %}
-		<br/>
-		location: {% if order.location %}
+<header>
+	<h2 id="order-title">Order {{ order.id }}</h2>
+
+	<div class="location">
+		{% if order.location %}
 			<a href="{{ url_for('general_bp.location', location_id=order.location_id) }}">{{ order.location_name }}</a>
 		{% else %}
 			{{ order.location_name }}
-		{% endif %}<br/>
-		{% if order.location.telephone != None %}
-			telephone: <a href="tel://{{ order.location.telephone }}">{{ order.location.telephone }}</a><br/>
 		{% endif %}
-		start: {{ order.starttime.strftime("%d/%m/%Y %H:%M") }}<br>
-		{% if order.stoptime %}
-			closing time: {{ order.stoptime.strftime("%H:%M") }} ({{  order.stoptime|countdown }})
-		{% else %}open{% endif %}<br/>
-		total price: {{ total_price|euro }} {% if courier_or_admin %}- remaining debts: {{ debts|euro }}{% endif %}
 	</div>
-	{% if form -%}
-	<div class="col-md-push-1 col-md-10 darker order_order" id="form">
-		<h4>Order</h4>
+</header>
+
+<section>
+	<div class="box" id="order_info">
+		<h3>Order information</h3>
+		<dl>
+			<dt>Location</dt>
+			<dd>
+				{% if order.location %}
+					<a href="{{ url_for('general_bp.location', location_id=order.location_id) }}">{{ order.location_name }}</a>
+				{% else %}
+					{{ order.location_name }}
+				{% endif %}
+			</dd>
+
+			<dt>Delivery at</dt>
+			<dd>
+				Zeuskelder <b>TODO</b>
+			</dd>
+
+			<dt>Courier</dt>
+			<dd>
+				{% if order.courier == None %}
+					{% if not current_user.is_anonymous() %}
+					<form action="{{ url_for('order_bp.volunteer', order_id=order.id) }}" method="post" style="display:inline">
+						<input type="submit" class="btn btn-primary btn-sm" value="Volunteer"></input>
+					</form>
+					{% else %}No-one{% endif %}
+				{% else %}
+					{{ order.courier.username }}
+				{% endif %}
+			</dd>
+
+			<br/>
+			<br/>
+			<dt>Opens</dt>
+			<dd>{{ order.starttime.strftime("%d/%m/%Y %H:%M") }}</dd>
+
+			<dt>Closes</dt>
+			<dd>
+				{% if order.stoptime %}
+					{{ order.stoptime.strftime("%H:%M") }} ({{  order.stoptime|countdown }})
+				{% else %}
+					Never
+				{% endif %}
+			</dd>
+		</dl>
+
+		<div>
+			{% if order.can_close(current_user.id) -%}
+				<form action="{{ url_for('order_bp.close_order', order_id=order.id) }}" method="post" style="display:inline">
+					<input type="submit" class="btn btn-danger" value="Close"></input>
+				</form>
+			{% endif %}
+			{% if courier_or_admin %}
+				<a class="btn" href="{{ url_for('order_bp.order_edit', order_id=order.id) }}">Edit</a>
+			{%- endif %}
+		</div>
+	</div><!--
+
+	-->{% if form %}<!--
+
+	--><div class="box" id="add_item">
+		<h3>Add item to order</h3>
+
 		<form method="post" action="{{ url_for('order_bp.order_item_create', order_id=order.id) }}">
-			<span class="pull-right">
-				<a class="btn btn-primary" onclick="chooseRandom()">Choose for me</a>
-			</span>
 			{{ form.csrf_token }}
+			<input type="hidden" name="form_for_dish" value="{{ dish.id }}" />
+
 			<div class="form-group select2-container select2 {{ 'has-errors' if form.dish_id.errors}}">
-				{{ form.dish_id.label(class='control-label') }}<br>
+				{{ form.dish_id.label }}<br>
 				{{ form.dish_id(class='form-control select') }}
 				{{ util.render_form_field_errors(form.dish_id) }}
 			</div>
 
-			<input type="hidden" name="form_for_dish" value="{{ dish.id }}" />
 			<div id="dish_choices">
 				{% if dish and dish.choices %}
-					{% for (choice_type, choice) in dish.choices %}
-						<div class="form-group select2-container select2">
-							<label class="control-label" for="choice_{{ choice.id }}">{{ choice.name }}</label><br/>
-							<select
-								{{ "multiple=multiple" if choice_type=="multi_choice" else "required=required" }}
-								name="choice_{{ choice.id }}"
-								class="form-control select">
-								{% for option in choice.options %}
-								<option value="{{ option.id }}"><!--
-									-->{{ option.name }}{{ ": " + option.price|euro if option.price else "" }}<!--
-									-->{{ " (" + option.description + ")" if option.description else "" }}<!--
-								--></option>
-								{% endfor %}
-							</select>
-						</div>
-					{% endfor %}
+				{% for (choice_type, choice) in dish.choices %}
+					<div class="form-group select2-container select2">
+						<label class="control-label" for="choice_{{ choice.id }}">{{ choice.name }}</label><br/>
+						<select
+							{{ "multiple=multiple" if choice_type=="multi_choice" else "required=required" }}
+							name="choice_{{ choice.id }}"
+							class="form-control select">
+							{% for option in choice.options %}
+							<option value="{{ option.id }}"><!--
+								-->{{ option.name }}{{ ": " + option.price|euro if option.price else "" }}<!--
+								-->{{ " (" + option.description + ")" if option.description else "" }}<!--
+							--></option>
+							{% endfor %}
+						</select>
+					</div>
+				{% endfor %}
 				{% endif %}
 			</div>
 
 			<div class="form-group {{ 'has-errors' if form.dish_id.errors }}">
-				{{ form.comment.label(class='control-label') }}<br>
+				{{ form.comment.label }}<br>
 				{{ form.comment(class='form-control', placeholder='Fill in comment, when applicable') }}
 				{{ util.render_form_field_errors(form.comment) }}
 			</div>
@@ -89,98 +130,165 @@
 				</div>
 			{% endif %}
 			<div class="form-group" style="padding-top: 8px;">
+				<a class="btn" onclick="chooseRandom();">Random</a>
+
 				{{ form.submit_button(class='btn btn-primary') }}
 				{% if not dish %}
 					<div id="submit-reveals-options-msg">If the chosen dish has options, they will be shown when you press submit, before adding the item to the order.</div>
 				{% endif %}
 			</div>
 		</form>
-	</div>
-	{%- endif %}
-</div>
-<div class="row" id="items">
-	<div class="col-md-push-1 col-md-5 darker order_items" id="items-list">
-		<h3>Items</h3>
-		<table class="table table-hover table-condensed">
-			<thead>
-				<tr><th>Name</th><th>Item</th><th>Price</th>{% if courier_or_admin %}<th>Paid?</th>{% endif %}<th>Delete</th></tr>
-			</thead>
-			<tbody>
-			{% for item in order.items -%}
-				<tr>
-					<td>{{ item.get_name() }}</td>
-					<td><span title="{{ item.comment if item.comment }}">{{ item.dish_name }}{{ "*" if item.comment }}</span></td>
-					<td>{{ item.price|euro }}</td>
-					{% if courier_or_admin %}
-						<td>
-							{% if not item.paid %}
-								<form action="{{ url_for('order_bp.item_paid', order_id=order.id, item_id=item.id) }}" method="post" style="display:inline">
-									<input type="submit" class="btn btn-xs btn-primary" value="Pay"></input>
-								</form>
-							{% else %} <span class="glyphicon glyphicon-chevron-down"></span>
-							{% endif %}
-						</td>
-					{% endif %}
-					<td>
+	</div><!--
+
+	--><div class="box" id="from_history">
+		<h3>Add from history</h3>
+		<ul>
+			<li>Todo</li>
+		</ul>
+	</div><!--
+
+	-->{% endif %}<!--
+
+	--><div class="box" id="my_items">
+		<h3>My items</h3>
+		{% if my_items %}
+			<ul>
+				{% for item in my_items %}
+				<li>
 					{% if item.can_delete(order.id, current_user.id, session.get('anon_name', '')) -%}
 						<form action="{{ url_for('order_bp.delete_item', order_id=order.id, item_id=item.id) }}" method="post" style="display:inline">
-							<button class="btn btn-link" type="submit"><span class="glyphicon glyphicon-remove"></span></button>
+							<button class="btn btn-link btn-sm" type="submit" style="padding: 0 0.5em;"><span class="glyphicon glyphicon-remove"></span></button>
 						</form>
-					{%- endif %}<br/></td>
+					{%- endif %}
+					<span class="price_aligned">{{ item.price|euro }}</span> {{ item.dish_name }}{% if item.comment %}; {{ item.comment }}{% endif %}
+				</li>
+				{% endfor %}
+			</ul>
+		{% else %}
+			<div>(None)</div>
+		{% endif %}
+	</div>
+</section>
+
+<section>
+	<div class="box" id="per_dish">
+		<h3>Ordered dishes</h3>
+		{% for dish_name, dish_order_items in order.group_by_dish() -%}
+			{% set has_comments = dish_order_items | map(attribute="comment") | any -%}
+			<div class="dish {{ 'no_comments' if not has_comments }}">
+				<h4>
+					<span class="quantity">{{ dish_order_items | length }}</span> ×
+					{{ dish_name }}
+				</h4>
+
+				{% if has_comments -%}
+					<ul class="comments">
+					{% for item in dish_order_items -%}
+					<li>{% if item["comment"] %}<span>{{ item["comment"] }}</span>
+						{% else %}<i>No comment</i>
+						{% endif %}<span class="spacer"> </span><span class="item_for">for {{ item.for_name }}</span></li>
+					{% endfor %}
+					</ul>
+				{% else %}
+					<span class="spacer"> </span><span class="item_for">for {{ dish_order_items | map(attribute="for_name") | join(", ") }}</span>
+				{%- endif %}
+
+				</p>
+			</div>
+		{%- endfor %}
+		<div class="footer">
+			Total {{ order.items.count() }} items — {{ total_price|euro }}
+			<a class="btn" href="{{ url_for('order_bp.items_showcase', order_id=order.id) }}">Shop view</a>
+		</div>
+	</div><!--
+
+	--><div class="box" id="how_to_order">
+		<h3>Ordering at {{ order.location_name }}</h3>
+		<dl>
+			{% if order.location.telephone %}
+				<dt>Telephone</dt>
+				<dd><a href="tel://{{ order.location.telephone }}">{{ order.location.telephone }}</a></dd>
+			{% endif %}
+
+			{% if order.location.website %}
+				<dt>Website</dt>
+				<dd><a href="{{ order.location.website }}">{{ order.location.website }}</a></dd>
+			{% endif %}
+
+			{% if order.location.address or order.location.osm %}
+				<dt>Location</dt>
+				<dd>
+					{% if order.location.osm %}
+					<a href="{{ order.location.osm }}">{{ order.location.address or "View on OSM" }}</a>
+					{% else %}
+					{{ order.location.address }}
+					{% endif %}
+				</dd>
+			{% endif %}
+		</dl>
+		<b>TODO Only show options that allow you to order</b>
+	</div>
+</section>
+
+<section class="single_column">
+	<div class="box" id="per_person">
+		<h3>Items per person</h3>
+		<table class="table table-condensed">
+			<thead>
+				<tr><th>Total</th><th>Name</th><th>Items</th></tr>
+			</thead>
+			<tbody>
+			{% for user_name, order_items in order.group_by_user() -%}
+				<tr>
+					<td>
+						{% set paid = order_items | map(attribute="paid") | all %}
+						<input type="checkbox" name="{{ user_name }}"
+									  {{ "disabled" if paid }} style="{{ 'opacity: 0.5' if paid }}">
+
+						<span class="price">{{ order_items | map(attribute="price") | sum | euro }}</span>
+
+						{% if paid %}paid{% endif %}
+					</td>
+					<td>{{ user_name }}</td>
+					<td class="items">
+						<ul>
+						{% for item in order_items %}
+							<li class="{{ 'paid' if item.paid }}">
+								<div class="actions">
+								{% if item.can_delete(order.id, current_user.id, session.get('anon_name', '')) -%}
+									<form action="{{ url_for('order_bp.delete_item', order_id=order.id, item_id=item.id) }}" method="post" style="display:inline">
+										<button class="btn btn-link btn-sm" type="submit" style="padding: 0 0.5em;"><span class="glyphicon glyphicon-remove"></span></button>
+									</form>
+								{% else %}
+									<span class="glyphicon glyphicon-remove" style="color: var(--dGray3); padding: 0 0.5em"></span>
+								{%- endif %}
+								</div>
+
+								<div class="price_aligned">{{ item.price|euro }}</div>
+								<div class="item_description">{{ item.dish_name }}{{ "; " + item.comment if item.comment }}</div>
+							</li>
+						{% endfor %}
+							<li>
+								<button class="btn btn-link btn-sm" onclick="alert('TODO')" style="padding: 0 0.5em;"><span class="glyphicon glyphicon-plus"></span></button>
+							</li>
+						</ul>
+					</td>
+
 				</tr>
 			{%- endfor %}
 			</tbody>
 		</table>
+
+		<div class="footer">
+			On selected:
+			<button class="btn btn-sm">Mark paid (TODO)</button>
+
+			Request payment for selected:
+			<button class="btn btn-sm"><span class="glyphicon glyphicon-piggy-bank"></span> Tab (TODO)</button>
+			<button class="btn btn-sm"><span class="glyphicon glyphicon-qrcode"></span> QR code (TODO)</button>
+		</div>
 	</div>
-	<div class="col-md-push-2 col-md-4 darker box order_ordered" id="items-ordered">
-		<h3>Ordered dishes: {{ order.items.count() }}</h3>
-		<a class="divLink" href="{{ url_for('order_bp.items_showcase', order_id=order.id) }}"></a>
-		{% for key, value in order.group_by_dish().items() -%}
-			<div class="product">
-				{{ key }}: {{ value["count"] }}
-				{% if value["comments"]|any -%}
-					<ul class="comments">
-					{% for comment in value["comments"] -%}
-						<li>{% if comment %}{{ comment }}
-						{% else %}<i>No comment</i>
-						{% endif %}</li>
-					{% endfor %}
-					</ul>
-				{%- endif %}
-			</div>
-		{%- endfor %}
-	</div>
-</div>
-<div class="row">
-	<div class="col-md-push-1 col-md-5 darker order_depts" id="debts">
-			<h3>Debts</h3>
-			<table class="table table-hover table-condensed">
-				<thead>
-					<tr><th>Name</th><th>Total</th><th>To pay</th>{% if courier_or_admin %}<th>Paid?</th>{% endif %}</tr>
-				</thead>
-				<tbody>
-				{% for key, value in order_items.items() -%}
-					<tr>
-						<td>{{ key }}</td>
-						<td>{{ value["total"]|euro }}</td>
-						<td>{{ value["to_pay"]|euro }}</td>
-						{% if courier_or_admin %}
-							<td>
-								{% if not value["to_pay"] == 0 %}
-									<form action="{{ url_for('order_bp.items_user_paid', order_id=order.id, user_name=key) }}" method="post" style="display:inline">
-										<input type="submit" class="btn btn-xs btn-primary" value="Pay"></input>
-									</form>
-								{% else %}
-									<span class="glyphicon glyphicon-chevron-down"></span>
-								{% endif %}
-							</td>
-						{% endif %}
-					</tr>
-				{%- endfor %}
-				</tbody>
-			</table>
-	</div>
-</div>
+</section>
 {% endblock %}
 
 {% block styles %}
@@ -188,6 +296,122 @@
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/select2.min.css') }}" />
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/select2-bootstrap.min.css') }}">
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/print.css') }}">
+
+	<style>
+body, h1, h2, h3, h4 {
+	color: var(--dGray0);
+}
+table {
+	overflow-wrap: break-word;
+}
+section {
+	column-count: 2;
+	column-gap: 50px;
+}
+section.single_column {
+	column-count: unset;
+}
+header {
+	margin-bottom: 25px;
+}
+h2 {
+	margin-bottom: 0;
+}
+h3 {
+	margin-top: 0;
+}
+.location {
+	font-size: 125%;
+	font-weight: 500;
+	margin-left: 2px;
+	margin-top: -5px;
+}
+.box {
+	display: inline-block;
+	vertical-align: top;
+	width: 100%;
+	border: 2px solid var(--dGray0);
+	padding: 10px;
+	margin-bottom: 50px;
+}
+
+#order_info dl {
+	column-width: 150px;
+}
+
+#from_history ul, #my_items ul, #per_person ul {
+	list-style-type: none;
+	padding: 0;
+}
+dl {
+	margin-bottom: 10px;
+}
+.box :last-child {
+	margin-bottom: 0;
+}
+
+.box h4 {
+	font-size: 110%;
+	font-weight: bold;
+	margin-bottom: 0.6em;
+}
+
+#per_dish .dish.no_comments {
+	display: flex;
+	align-items: flex-end;
+}
+#per_dish .dish.no_comments h4 {
+	margin-bottom: 0;
+	line-height: inherit;
+}
+#per_dish .comments li {
+	display: flex;
+	align-items: flex-end;
+	line-height: 1.5;
+	margin: 0.3em 0;
+}
+#per_dish .spacer {
+	content: ' ';
+	flex-grow: 1;
+	min-width: 10px;
+	border-bottom: 1px solid var(--dGray3);
+	margin: 0.3em 0.5em;
+}
+#per_dish .item_for {
+	color: var(--dGray2);
+	text-align: right;
+}
+
+
+#per_person li {
+	white-space: nowrap;
+	margin: 0;
+	vertical-align: top;
+}
+#per_person li > * {
+	display: inline-block;
+	vertical-align: top;
+}
+#per_person .item_description {
+	white-space: normal;
+}
+
+.price, .price_aligned {
+	white-space: nowrap;
+}
+.price_aligned {
+	display: inline-block;
+	width: 4em;
+}
+
+.items .paid {
+	opacity: 0.4;
+}
+
+.footer {
+	margin-top: 1em;
+}
+	</style>
 {% endblock %}
 {% block scripts %}
 	{{ super() }}
