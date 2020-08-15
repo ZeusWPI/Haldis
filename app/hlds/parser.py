@@ -33,7 +33,7 @@ class HldsSemanticActions:
                 if not isinstance(choice[1], Choice):
                     dish.choices[i] = (dish.choices[i][0], deepcopy(choices[choice[1]]))
 
-            # Move the base price to the first single_choice if the dish has a fixed price
+            # Move the base price to the first single_choice if the dish doesn't have a fixed price
             first_single_choice = first(
                 c[1] for c in dish.choices if c[0] == "single_choice"
             )
