@@ -35,12 +35,30 @@
 					<td>
 						{{ dish.description or "" }}
 						{% if dish.choices %}
-							<div class="dish-choices">
-								Choices:
+							<details class="dish-choices">
+								<summary>
 								{% set comma = joiner(",") %}
 								{% for choice in dish.choices %}{{ comma() }}
 									{{ choice[1].name }}{% endfor %}
-							</div>
+								</summary>
+								<ul>
+								{% for type, choice in dish.choices %}
+									<li><strong>{{ choice.name }}</strong>{{
+										choice.description if choice.description
+									}}{{
+										" (choose one)" if type == "single_choice"
+									}}
+										<ul>
+										{% for option in choice.options %}
+										<li>{{ option.name }}{% if option.description %}:
+											{{ option.description}}{% endif %}{% if option.price %}:
+											{{ option.price | euro }}{% endif %}</li>
+										{% endfor %}
+										</ul>
+									</li>
+								{% endfor %}
+								</ul>
+							</details>
 						{% endif %}
 					</td>
 					<td style="white-space: nowrap;">{{ dish.price_range()|price_range(true) }}<td>

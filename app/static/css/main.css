@@ -290,3 +290,15 @@ h1, h2, h3, h4, h5, h6{
 #dish_choices.loading {
 	opacity: 0.2;
 }
+
+.dish-choices summary {
+	font-style: italic;
+	cursor: pointer;
+}
+.dish-choices summary:before {
+	font-style: normal;
+	content: "⯈";
+}
+.dish-choices[open] summary:before {
+	content: "⯆";
+}
