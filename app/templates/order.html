@@ -53,15 +53,17 @@
 				{% endif %}
 			</dd>
 
-			<br/>
-			<br/>
 			<dt>Opens</dt>
-			<dd>{{ order.starttime.strftime("%d/%m/%Y %H:%M") }}</dd>
+			<dd>{{ order.starttime.strftime("%Y-%m-%d, %H:%M") }}</dd>
 
 			<dt>Closes</dt>
 			<dd>
 				{% if order.stoptime %}
-					{{ order.stoptime.strftime("%H:%M") }} ({{  order.stoptime|countdown }})
+					{% set stoptimefmt = (
+						"%H:%M" if order.stoptime.date() == order.starttime.date()
+						else "%Y-%m-%d, %H:%M"
+					) %}
+					{{ order.stoptime.strftime(stoptimefmt) }} ({{  order.stoptime|countdown }})
 				{% else %}
 					Never
 				{% endif %}
@@ -140,8 +142,8 @@
 		</form>
 	</div><!--
 
-	--><div class="box" id="from_history">
-		<h3>Add from history</h3>
+	--><div class="box" id="from_favourites">
+		<h3>Add from favourites</h3>
 		<ul>
 			<li>Todo</li>
 		</ul>
@@ -339,7 +341,7 @@ h3 {
 	column-width: 150px;
 }
 
-#from_history ul, #my_items ul, #per_person ul {
+#from_favourites ul, #my_items ul, #per_person ul {
 	list-style-type: none;
 	padding: 0;
 }
