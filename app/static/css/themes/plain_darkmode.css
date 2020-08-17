@@ -1,10 +1,13 @@
 :root {
-	--dGray0:#D0D0D8;
-	--dGray1:#8E8E93;
-	--dGray2:#636366;
-	--dGray3:#48484A;
-	--dGray4:#3A3A3C;
-	--dGray5:#2C2C2E;
-	--dGray6:#1C1C1E;
-	--dBlue:#0A84FF;
+	--gray0: #d0d0d8;
+	--gray1: #8e8e93;
+	--gray2: #636366;
+	--gray3: #48484a;
+	--gray4: #3a3a3c;
+	--gray5: #2c2c2e;
+	--gray6: #1c1c1e;
+	--accent: #0a84ff;
+
+	--bg: #222224;
+	--navbarBg: #1c1c1e;
 }
