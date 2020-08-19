@@ -67,7 +67,7 @@ class Order(db.Model):
         for _user_name, order_items in group.items():
             order_items.sort(key=lambda order_item: order_item.comment or "")
 
-        return list(sorted(group.items()))
+        return list(sorted(group.items(), key=lambda t: (t[0] or "", t[1] or "")))
 
     def group_by_dish(self) -> typing.List[typing.Tuple[str, typing.List]]:
         "Group items of an Order by dish"
@@ -82,7 +82,7 @@ class Order(db.Model):
         for _dish_name, order_items in group.items():
             order_items.sort(key=lambda order_item: (
                 (order_item.comment or "   No comment") +
-                (order_item.for_name)
+                (order_item.for_name or "")
             ))
 
         return list(sorted(group.items()))
