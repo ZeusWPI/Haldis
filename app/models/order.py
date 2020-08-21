@@ -84,7 +84,6 @@ class Order(db.Model):
         user = None
         if user_id:
             user = User.query.filter_by(id=user_id).first()
-            print(user)
         if self.courier_id == user_id or (user and user.is_admin()):
             return True
         return False

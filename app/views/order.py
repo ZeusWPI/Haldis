@@ -265,8 +265,6 @@ def items_user_paid(order_id: int, user_name: str) -> typing.Optional[Response]:
             (OrderItem.user_name == user_name) & (OrderItem.order_id == order_id)
         ).all()
     current_order = Order.query.filter(Order.id == order_id).first()
-    for item in items:
-        print(item)
     if current_order.courier_id == current_user.id or current_user.admin:
         for item in items:
             item.paid = True
@@ -285,7 +283,6 @@ def delete_item(order_id: int, item_id: int) -> typing.Any:
     item = OrderItem.query.filter(OrderItem.id == item_id).first()
     user_id = None
     if not current_user.is_anonymous():
-        print("%s tries to delete orders" % (current_user.username))
         user_id = current_user.id
     if item.can_delete(order_id, user_id, session.get("anon_name", "")):
         dish_name = item.dish_name
@@ -325,7 +322,6 @@ def close_order(order_id: int) -> typing.Optional[Response]:
         order.stoptime = datetime.now()
         if order.courier_id == 0 or order.courier_id is None:
             courier = select_user(order.items)
-            print(courier)
             if courier is not None:
                 order.courier_id = courier.id
         db.session.commit()
