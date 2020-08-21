@@ -23,212 +23,222 @@
 </header>
 
 <section>
-	<div class="box" id="order_info">
-		<h3>Order information</h3>
-		<dl>
-			<dt>Location</dt>
-			<dd>
-				{% if order.location %}
-					<a href="{{ url_for('general_bp.location', location_id=order.location_id) }}">{{ order.location_name }}</a>
-				{% else %}
-					{{ order.location_name }}
-				{% endif %}
-			</dd>
-
-			<dt>Delivery at</dt>
-			<dd>
-				Zeuskelder <b>TODO</b>
-			</dd>
-
-			<dt>Courier</dt>
-			<dd>
-				{% if order.courier == None %}
-					{% if not current_user.is_anonymous() %}
-					<form action="{{ url_for('order_bp.volunteer', order_id=order.id) }}" method="post" style="display:inline">
-						<input type="submit" class="btn btn-primary btn-sm" value="Volunteer"></input>
-					</form>
-					{% else %}No-one{% endif %}
-				{% else %}
-					{{ order.courier.username }}
-				{% endif %}
-			</dd>
-
-			<dt>Opens</dt>
-			<dd>{{ order.starttime.strftime("%Y-%m-%d, %H:%M") }}</dd>
-
-			<dt>Closes</dt>
-			<dd>
-				{% if order.stoptime %}
-					{% set stoptimefmt = (
-						"%H:%M" if order.stoptime.date() == order.starttime.date()
-						else "%Y-%m-%d, %H:%M"
-					) %}
-					{{ order.stoptime.strftime(stoptimefmt) }} ({{  order.stoptime|countdown }})
-				{% else %}
-					Never
-				{% endif %}
-			</dd>
-		</dl>
-
-		<div>
-			{% if order.can_close(current_user.id) -%}
-				<form action="{{ url_for('order_bp.close_order', order_id=order.id) }}" method="post" style="display:inline">
-					<input type="submit" class="btn btn-danger" value="Close"></input>
-				</form>
-			{% endif %}
-			{% if courier_or_admin %}
-				<a class="btn" href="{{ url_for('order_bp.order_edit', order_id=order.id) }}">Edit</a>
-			{%- endif %}
-		</div>
-	</div><!--
-
-	-->{% if form %}<!--
-
-	--><div class="box" id="add_item">
-		<h3>Add item to order</h3>
-
-		<form method="post" action="{{ url_for('order_bp.order_item_create', order_id=order.id) }}">
-			{{ form.csrf_token }}
-			<input type="hidden" name="form_for_dish" value="{{ dish.id }}" />
-
-			<div class="form-group select2-container select2 {{ 'has-errors' if form.dish_id.errors}}">
-				{{ form.dish_id.label }}<br>
-				{{ form.dish_id(class='form-control select') }}
-				{{ util.render_form_field_errors(form.dish_id) }}
-			</div>
-
-			<div id="dish_choices">
-				{% if dish and dish.choices %}
-				{% for (choice_type, choice) in dish.choices %}
-					<div class="form-group select2-container select2">
-						<label class="control-label" for="choice_{{ choice.id }}">{{ choice.name }}</label><br/>
-						<select
-							{{ "multiple=multiple" if choice_type=="multi_choice" else "required=required" }}
-							name="choice_{{ choice.id }}"
-							class="form-control select">
-							{% for option in choice.options %}
-							<option value="{{ option.id }}"><!--
-								-->{{ option.name }}{{ ": " + option.price|euro if option.price else "" }}<!--
-								-->{{ " (" + option.description + ")" if option.description else "" }}<!--
-							--></option>
-							{% endfor %}
-						</select>
-					</div>
-				{% endfor %}
-				{% endif %}
-			</div>
-
-			<div class="form-group {{ 'has-errors' if form.dish_id.errors }}">
-				{{ form.comment.label }}<br>
-				{{ form.comment(class='form-control', placeholder='Fill in comment, when applicable') }}
-				{{ util.render_form_field_errors(form.comment) }}
-			</div>
-
-			{% if current_user.is_anonymous() %}
-				<div class="form-group{{ ' has-error' if form.user_name.errors }}{{ ' required' if form.user_name.flags.required }}">
-					{{ form.user_name.label(class='control-label') }}
-					{{ form.user_name(class='form-control', placeholder='Fill in your name...') }}
-					{{ util.render_form_field_errors(form.user_name) }}
-				</div>
-			{% endif %}
-			<div class="form-group" style="padding-top: 8px;">
-				<a class="btn" onclick="chooseRandom();">Random</a>
-
-				{{ form.submit_button(class='btn btn-primary') }}
-				{% if not dish %}
-					<div id="submit-reveals-options-msg">If the chosen dish has options, they will be shown when you press submit, before adding the item to the order.</div>
-				{% endif %}
-			</div>
-		</form>
-	</div><!--
-
-	--><div class="box" id="from_favourites">
-		<h3>Add from favourites</h3>
-		<ul>
-			<li>Todo</li>
-		</ul>
-	</div><!--
-
-	-->{% endif %}<!--
-
-	--><div class="box" id="my_items">
-		<h3>My items</h3>
-		{% if my_items %}
-			<ul>
-				{% for item in my_items %}
-				<li>
-					{% if item.can_delete(order.id, current_user.id, session.get('anon_name', '')) -%}
-						<form action="{{ url_for('order_bp.delete_item', order_id=order.id, item_id=item.id) }}" method="post" style="display:inline">
-							<button class="btn btn-link btn-sm" type="submit" style="padding: 0 0.5em;"><span class="glyphicon glyphicon-remove"></span></button>
-						</form>
-					{%- endif %}
-					<span class="price_aligned">{{ item.price|euro }}</span> {{ item.dish_name }}{% if item.comment %}; {{ item.comment }}{% endif %}
-				</li>
-				{% endfor %}
-			</ul>
-		{% else %}
-			<div>(None)</div>
-		{% endif %}
-	</div>
-</section>
-
-<section>
-	<div class="box" id="per_dish">
-		<h3>Ordered dishes</h3>
-		{% for dish_name, dish_order_items in order.group_by_dish() -%}
-			{% set has_comments = dish_order_items | map(attribute="comment") | any -%}
-			<div class="dish {{ 'no_comments' if not has_comments }}">
-				<h4>
-					<span class="quantity">{{ dish_order_items | length }}</span> ×
-					{{ dish_name }}
-				</h4>
-
-				{% if has_comments -%}
-					<ul class="comments">
-					{% for item in dish_order_items -%}
-					<li>{% if item["comment"] %}<span>{{ item["comment"] }}</span>
-						{% else %}<i>No comment</i>
-						{% endif %}<span class="spacer"> </span><span class="item_for">for {{ item.for_name }}</span></li>
-					{% endfor %}
-					</ul>
-				{% else %}
-					<span class="spacer"> </span><span class="item_for">for {{ dish_order_items | map(attribute="for_name") | join(", ") }}</span>
-				{%- endif %}
-
-				</p>
-			</div>
-		{%- endfor %}
-		<div class="footer">
-			Total {{ order.items.count() }} items — {{ total_price|euro }}
-			<a class="btn" href="{{ url_for('order_bp.items_showcase', order_id=order.id) }}">Shop view</a>
-		</div>
-	</div><!--
-
-	--><div class="box" id="how_to_order">
-		<h3>Ordering at {{ order.location_name }}</h3>
-		<dl>
-			{% if order.location.telephone %}
-				<dt>Telephone</dt>
-				<dd><a href="tel://{{ order.location.telephone }}">{{ order.location.telephone }}</a></dd>
-			{% endif %}
-
-			{% if order.location.website %}
-				<dt>Website</dt>
-				<dd><a href="{{ order.location.website }}">{{ order.location.website }}</a></dd>
-			{% endif %}
-
-			{% if order.location.address or order.location.osm %}
+	<div class="column">
+		<div class="box" id="order_info">
+			<h3>Order information</h3>
+			<dl>
 				<dt>Location</dt>
 				<dd>
-					{% if order.location.osm %}
-					<a href="{{ order.location.osm }}">{{ order.location.address or "View on OSM" }}</a>
+					{% if order.location %}
+						<a href="{{ url_for('general_bp.location', location_id=order.location_id) }}">{{ order.location_name }}</a>
 					{% else %}
-					{{ order.location.address }}
+						{{ order.location_name }}
 					{% endif %}
 				</dd>
+
+				<dt>Delivery at</dt>
+				<dd>
+					Zeuskelder <b>TODO</b>
+				</dd>
+
+				<dt>Courier</dt>
+				<dd>
+					{% if order.courier == None %}
+						{% if not current_user.is_anonymous() %}
+						<form action="{{ url_for('order_bp.volunteer', order_id=order.id) }}" method="post" style="display:inline">
+							<input type="submit" class="btn btn-primary btn-sm" value="Volunteer"></input>
+						</form>
+						{% else %}No-one{% endif %}
+					{% else %}
+						{{ order.courier.username }}
+					{% endif %}
+				</dd>
+
+				<dt>Opens</dt>
+				<dd>{{ order.starttime.strftime("%Y-%m-%d, %H:%M") }}</dd>
+
+				<dt>Closes</dt>
+				<dd>
+					{% if order.stoptime %}
+						{% set stoptimefmt = (
+							"%H:%M" if order.stoptime.date() == order.starttime.date()
+							else "%Y-%m-%d, %H:%M"
+						) %}
+						{{ order.stoptime.strftime(stoptimefmt) }} ({{  order.stoptime|countdown }})
+					{% else %}
+						Never
+					{% endif %}
+				</dd>
+			</dl>
+
+			<div>
+				{% if order.can_close(current_user.id) -%}
+					<form action="{{ url_for('order_bp.close_order', order_id=order.id) }}" method="post" style="display:inline">
+						<input type="submit" class="btn btn-danger" value="Close"></input>
+					</form>
+				{% endif %}
+				{% if courier_or_admin %}
+					<a class="btn" href="{{ url_for('order_bp.order_edit', order_id=order.id) }}">Edit</a>
+				{%- endif %}
+			</div>
+		</div>
+
+
+		{% if form %}
+
+		<div class="box" id="from_favourites">
+			<h3>Add from favourites</h3>
+			<ul>
+				<li>Todo</li>
+			</ul>
+		</div>
+
+		<div class="box" id="add_item">
+			<h3>Add item to order</h3>
+
+			{% for dish in order.location.dishes %}
+				<form method="post" action="{{ url_for('order_bp.order_item_create', order_id=order.id) }}">
+					{{ form.csrf_token }}
+					<input type="hidden" name="dish_id" value="{{ dish.id }}" />
+
+					{% if form.dish_id.errors %}
+						<div class="form-group has-errors">
+							{{ util.render_form_field_errors(form.dish_id) }}
+						</div>
+					{% endif %}
+
+					<details {% if dish.id == selected_dish.id %}open="open"{% endif %}>
+						<summary class="spacecake"><span>{{ dish.name }}</span> <span class="tags"> {{ dish.tags | join(", ") }}</span><span class="spacer"></span><span>{{ dish.price_range() | price_range }}</span></summary>
+						{% for (choice_type, choice) in dish.choices %}
+							<div class="form-group select2-container select2">
+								<label class="control-label" for="choice_{{ choice.id }}">{{ choice.name }}</label><br/>
+								<select
+									{{ "multiple=multiple" if choice_type=="multi_choice" else "required=required" }}
+									name="choice_{{ choice.id }}"
+									class="form-control select">
+									{% for option in choice.options %}
+									<option value="{{ option.id }}"><!--
+										-->{{ option.name }}{{ ": " + option.price|euro if option.price else "" }}<!--
+										-->{{ " (" + option.description + ")" if option.description else "" }}<!--
+									--></option>
+									{% endfor %}
+								</select>
+							</div>
+						{% endfor %}
+
+						<div class="form-group {{ 'has-errors' if form.dish_id.errors }}">
+							{{ form.comment.label }}<br>
+							{{ form.comment(class='form-control', placeholder='Fill in comment, when applicable') }}
+							{{ util.render_form_field_errors(form.comment) }}
+						</div>
+
+						{% if current_user.is_anonymous() %}
+							<div class="form-group{{ ' has-error' if form.user_name.errors }}{{ ' required' if form.user_name.flags.required }}">
+								{{ form.user_name.label(class='control-label') }}
+								{{ form.user_name(class='form-control', placeholder='Fill in your name...') }}
+								{{ util.render_form_field_errors(form.user_name) }}
+							</div>
+						{% endif %}
+						<div class="form-group" style="padding-top: 8px;">
+							{{ form.submit_button(class='btn btn-primary') }}
+						</div>
+					</details>
+				</form>
+			{% endfor %}
+		</div>
+
+		{% endif %}
+
+	{% if form %}
+	</div>
+
+	<div class="column">
+	{% endif %}
+
+
+		<div class="box" id="my_items">
+			<h3>My items</h3>
+			{% if my_items %}
+				<ul>
+					{% for item in my_items %}
+					<li class="spacecake">
+						{% if item.can_delete(order.id, current_user.id, session.get('anon_name', '')) -%}
+							<form action="{{ url_for('order_bp.delete_item', order_id=order.id, item_id=item.id) }}" method="post" style="display:inline">
+								<button class="btn btn-link btn-sm" type="submit" style="padding: 0 0.5em;"><span class="glyphicon glyphicon-remove"></span></button>
+							</form>
+						{%- endif %}
+						<span>{{ item.dish_name }}{% if item.comment %}; {{ item.comment }}{% endif %}</span><span class="spacer"> </span><span class="price_aligned">{{ item.price | euro }}</span>
+					</li>
+					{% endfor %}
+				</ul>
+			{% else %}
+				<div>(None)</div>
 			{% endif %}
-		</dl>
-		<b>TODO Only show options that allow you to order</b>
+		</div>
+
+		<div class="box" id="how_to_order">
+			<h3>Ordering at {{ order.location_name }}</h3>
+			<dl>
+				{% if order.location.telephone %}
+					<dt>Telephone</dt>
+					<dd><a href="tel://{{ order.location.telephone }}">{{ order.location.telephone }}</a></dd>
+				{% endif %}
+
+				{% if order.location.website %}
+					<dt>Website</dt>
+					<dd><a href="{{ order.location.website }}">{{ order.location.website }}</a></dd>
+				{% endif %}
+
+				{% if order.location.address or order.location.osm %}
+					<dt>Location</dt>
+					<dd>
+						{% if order.location.osm %}
+						<a href="{{ order.location.osm }}">{{ order.location.address or "View on OSM" }}</a>
+						{% else %}
+						{{ order.location.address }}
+						{% endif %}
+					</dd>
+				{% endif %}
+			</dl>
+			<b>TODO Only show options that allow you to order</b>
+		</div>
+
+	{% if not form %}
+	</div>
+
+	<div class="column">
+	{% endif %}
+
+		<div class="box" id="per_dish">
+			<h3>Ordered dishes</h3>
+			{% for dish_name, dish_order_items in order.group_by_dish() -%}
+				{% set has_comments = dish_order_items | map(attribute="comment") | any -%}
+				<div class="dish {{ 'spacecake' if not has_comments }}">
+					<h4>
+						<span class="quantity">{{ dish_order_items | length }}</span> ×
+						{{ dish_name }}
+					</h4>
+
+					{% if has_comments -%}
+						<ul class="comments">
+						{% for item in dish_order_items -%}
+						<li class="spacecake">{% if item["comment"] %}<span>{{ item["comment"] }}</span>
+							{% else %}<i>No comment</i>
+							{% endif %}<span class="spacer"> </span><span class="item_for">for {{ item.for_name }}</span></li>
+						{% endfor %}
+						</ul>
+					{% else %}
+						<span class="spacer"> </span><span class="item_for">for {{ dish_order_items | map(attribute="for_name") | join(", ") }}</span>
+					{%- endif %}
+
+					</p>
+				</div>
+			{%- endfor %}
+			<div class="footer">
+				Total {{ order.items.count() }} items — {{ total_price|euro }}
+				<a class="btn" href="{{ url_for('order_bp.items_showcase', order_id=order.id) }}">Shop view</a>
+			</div>
+		</div>
 	</div>
 </section>
 
@@ -307,11 +317,13 @@ table {
 	overflow-wrap: break-word;
 }
 section {
-	column-count: 2;
-	column-gap: 50px;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-gap: 0 30px;
+	align-items: start;
 }
 section.single_column {
-	column-count: unset;
+	grid-template-columns: unset;
 }
 header {
 	margin-bottom: 25px;
@@ -321,20 +333,20 @@ h2 {
 }
 h3 {
 	margin-top: 0;
+	font-size: 150%;
+	font-weight: 500;
 }
 .location {
-	font-size: 125%;
+	font-size: 150%;
 	font-weight: 500;
-	margin-left: 2px;
+	margin-left: 3px;
 	margin-top: -5px;
 }
 .box {
-	display: inline-block;
-	vertical-align: top;
 	width: 100%;
 	border: 2px solid var(--gray0);
 	padding: 10px;
-	margin-bottom: 50px;
+	margin-bottom: 30px;
 }
 
 #order_info dl {
@@ -358,6 +370,30 @@ dl {
 	margin-bottom: 0.6em;
 }
 
+.spacecake {
+	display: flex;
+	align-items: flex-end;
+}
+.spacecake .spacer {
+	content: ' ';
+	flex-grow: 1;
+	min-width: 10px;
+	border-bottom: 1px solid var(--gray3);
+	margin: 0.3em 0.5em;
+}
+
+li {
+	line-height: 1.5;
+	margin: 0.5em 0;
+}
+
+#my_items li form {
+	align-self: flex-start;
+}
+
+#per_dish .comments li {
+}
+
 #per_dish .dish.no_comments {
 	display: flex;
 	align-items: flex-end;
@@ -365,19 +401,6 @@ dl {
 #per_dish .dish.no_comments h4 {
 	margin-bottom: 0;
 	line-height: inherit;
-}
-#per_dish .comments li {
-	display: flex;
-	align-items: flex-end;
-	line-height: 1.5;
-	margin: 0.3em 0;
-}
-#per_dish .spacer {
-	content: ' ';
-	flex-grow: 1;
-	min-width: 10px;
-	border-bottom: 1px solid var(--gray3);
-	margin: 0.3em 0.5em;
 }
 #per_dish .item_for {
 	color: var(--gray2);
@@ -387,7 +410,7 @@ dl {
 
 #per_person li {
 	white-space: nowrap;
-	margin: 0;
+	margin-top: 0.15em;
 	vertical-align: top;
 }
 #per_person li > * {
@@ -420,81 +443,7 @@ dl {
 	<script src="{{ url_for('static', filename='js/select2.min.js') }}"></script>
 	<script type="text/javascript">
 {% if form %}
-		function sortArg(sortable) {
-			return sortable.sort();
-		}
-		var select = $(".select").select2({"sorter": sortArg});
-
-		var options = select[0].options;
-		function chooseRandom() {
-			var index = Math.floor((Math.random() * options.length))
-			var choice = options[index]
-			select.val(choice.value).trigger("change")
-		}
-{% endif %}
-
-{% if form and order.location %}
-		function updateChoices() {
-			$("#submit-reveals-options-msg").hide(0);
-			$dish_choices = $("#dish_choices");
-			$dish_choices.addClass("loading");
-
-			var dish_id = $("#dish_id").val();
-			var url = "{{ url_for('general_bp.location_dish', location_id=order.location.id, dish_id='DISHID') }}".replace("DISHID", encodeURI(dish_id));
-			$dish_choices.find("select").attr("disabled", "disabled");
-
-			$.get(url)
-				.done(function(data) {
-					$dish_choices.html("");
-
-					for (var i in data) {
-						var choice = data[i];
-						var id = "choice_" + choice["id"];
-
-						var label = $("<label class='control-label'/>")
-							.attr("for", id)
-							.text(choice["name"] +
-								(choice["price"] ? ": € " + choice["price"] / 100 : "") +
-								(choice["description"] ? " (" + choice["description"] + ")" : "")
-							);
-
-						var choiceSelect = $("<select class='form-control select' />")
-							.attr("id", id)
-							.attr("name", id);
-						if (choice.type === "multi_choice") {
-							choiceSelect.attr("multiple", "multiple");
-						} else {
-							choiceSelect.attr("required", "required");
-						}
-
-						for (var j in choice["options"]) {
-							var option = choice["options"][j];
-							choiceSelect.append(
-								$("<option />").text(
-									option["name"] +
-									(option["price"] ? ": € " + option["price"] / 100 : "") +
-									(option["description"] ? " (" + option["description"] + ")" : "")
-								).attr("value", option["id"])
-							);
-						}
-
-						$dish_choices
-							.append(
-								$("<div class='form-group select2-container select2'>")
-									.append(label, "<br/>", choiceSelect),
-								" "
-							);
-						choiceSelect.select2({"sorter": sortArg});
-					}
-					$dish_choices.removeClass("loading");
-				}).fail(function() {
-					$("#dish_choices").html("Could not load choices");
-					$dish_choices.removeClass("loading");
-					$("#submit-reveals-options-msg").show(0);
-				});
-		}
-		$("#dish_id").on("change", updateChoices);
-		updateChoices();
+	$(".select").select2({"sorter": x => x.sort()});
 {% endif %}
 	</script>
 {% endblock %}
