@@ -48,9 +48,9 @@ dish wok1_breaded_chicken: Kippenballetjes zoetzuur  :: {has_meat} € 6
 dish wok1_breaded_pork:    Varkensballetjes zoetzuur :: {has_meat} € 6
 	single_choice bami_nasi
 
-dish wok2_chicken: Wok 2: kip zonder saus    -- Met bami of mihoen :: {has_meat} € 6
+dish wok2_chicken: Wok 2: kip zonder saus    :: {has_meat} € 6
 	single_choice bami_mihoen
-dish wok2_pork:    Wok 2: varken zonder saus -- Met bami of mihoen :: {has_meat} € 6
+dish wok2_pork:    Wok 2: varken zonder saus :: {has_meat} € 6
 	single_choice bami_mihoen
 
 dish wok3_chicken: Wok 3: kip met rijst zonder saus    :: {has_meat} € 6
