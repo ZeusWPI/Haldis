@@ -36,11 +36,6 @@
 					{% endif %}
 				</dd>
 
-				<dt>Delivery at</dt>
-				<dd>
-					Zeuskelder <b>TODO</b>
-				</dd>
-
 				<dt>Courier</dt>
 				<dd>
 					{% if order.courier == None %}
@@ -54,10 +49,10 @@
 					{% endif %}
 				</dd>
 
-				<dt>Opens</dt>
+				<dt>Order opens</dt>
 				<dd>{{ order.starttime.strftime("%Y-%m-%d, %H:%M") }}</dd>
 
-				<dt>Closes</dt>
+				<dt>Order closes</dt>
 				<dd>
 					{% if order.stoptime %}
 						{% set stoptimefmt = (
@@ -86,12 +81,14 @@
 
 		{% if form %}
 
+		<!--
 		<div class="box" id="from_favourites">
 			<h3>Add from favourites</h3>
 			<ul>
 				<li>Todo</li>
 			</ul>
 		</div>
+		-->
 
 		<div class="box" id="add_item">
 			<h3>Add item to order</h3>
@@ -200,7 +197,6 @@
 					</dd>
 				{% endif %}
 			</dl>
-			<b>TODO Only show options that allow you to order</b>
 		</div>
 
 	{% if not form %}
