@@ -105,7 +105,7 @@
 					{% endif %}
 
 					<details {% if dish.id == selected_dish.id %}open="open"{% endif %}>
-						<summary class="spacecake"><span>{{ dish.name }}</span> <span class="tags"> {{ dish.tags | join(", ") }}</span><span class="spacer"></span><span>{{ dish.price_range() | price_range }}</span></summary>
+						<summary class="spacecake"><span class="dish_name">{{ dish.name }}</span> <span class="tags"> {{ dish.tags | join(", ") }}</span><span class="description">{{ dish.description }}</span><span class="spacer"></span><span class="price">{{ dish.price_range() | price_range }}</span></summary>
 						{% for (choice_type, choice) in dish.choices %}
 							<div class="form-group select2-container select2">
 								<label class="control-label" for="choice_{{ choice.id }}">{{ choice.name }}</label><br/>
@@ -232,7 +232,8 @@
 			{%- endfor %}
 			<div class="footer">
 				Total {{ order.items.count() }} items — {{ total_price|euro }}
-				<a class="btn" href="{{ url_for('order_bp.items_showcase', order_id=order.id) }}">Shop view</a>
+				&nbsp;
+				<a class="btn btn-sm" href="{{ url_for('order_bp.items_showcase', order_id=order.id) }}">Shop view</a>
 			</div>
 		</div>
 	</div>
@@ -312,14 +313,20 @@ body, h1, h2, h3, h4 {
 table {
 	overflow-wrap: break-word;
 }
-section {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	grid-gap: 0 30px;
-	align-items: start;
+@media (min-width: 1200px) {
+	section {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		grid-gap: 0 30px;
+		align-items: start;
+	}
 }
 section.single_column {
 	grid-template-columns: unset;
+}
+.description {
+	color: #888;
+	margin-left: 1em;
 }
 header {
 	margin-bottom: 25px;
@@ -431,6 +438,17 @@ li {
 
 .footer {
 	margin-top: 1em;
+}
+
+summary {
+	line-height: 1.2;
+	margin: 0.6em 0;
+}
+summary .dish_name {
+	white-space: nowrap;
+}
+summary .dish_name, summary:before {
+	align-self: flex-start;
 }
 	</style>
 {% endblock %}
