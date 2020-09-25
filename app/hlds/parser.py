@@ -21,6 +21,12 @@ def filter_instance(cls, iterable):
     return [item for item in iterable if isinstance(item, cls)]
 
 
+class ChoiceReference:
+    def __init__(self, identifier, price):
+        self.identifier = identifier
+        self.price = price
+
+
 # pylint: disable=no-self-use
 class HldsSemanticActions:
     def location(self, ast) -> Location:
@@ -31,7 +37,16 @@ class HldsSemanticActions:
         for dish in dishes:
             for i, choice in enumerate(dish.choices):
                 if not isinstance(choice[1], Choice):
-                    dish.choices[i] = (dish.choices[i][0], deepcopy(choices[choice[1]]))
+                    choiceId, choiceRef = choice
+                    assert isinstance(choiceRef, ChoiceReference)
+                    # We must replace the ChoiceReference with the Choice it refers to. A deep copy
+                    # allows us to modify the individual Options of the Choice.
+                    choiceObject = deepcopy(choices[choiceRef.identifier])
+
+                    for option in choiceObject.options:
+                        option.price += choiceRef.price
+
+                    dish.choices[i] = (choiceId, choiceObject)
 
             # Move the base price to the first single_choice if the dish has a fixed price
             first_single_choice = first(
@@ -68,7 +83,7 @@ class HldsSemanticActions:
     def choice_block(self, ast) -> Choice:
         if ast["price"] or ast["tags"]:
             raise SemanticError(
-                "Choice blocks cannot have price or tags, put them on each of its options instead"
+                "Choice block definitions cannot have price or tags, put them on each of its options instead"
             )
 
         return Choice(
@@ -79,11 +94,14 @@ class HldsSemanticActions:
         )
 
     def indent_choice_block(self, ast) -> Tuple[str, Union[Choice, AST]]:
-        return (
-            (ast["type"], self.choice_block(ast))
-            if ast["kind"] == "declaration"
-            else (ast["type"], ast["id"])
-        )
+        if ast["kind"] == "declaration":
+            return (ast["type"], self.choice_block(ast))
+        else:
+            if ast["type"] == "single_choice" and ast["price"]:
+                raise SemanticError(
+                    "Single_choice choices can't have a price, because it would always be triggered"
+                )
+            return (ast["type"], ChoiceReference(ast["id"], ast["price"] or 0))
 
     def indent_choice_entry(self, ast) -> Option:
         return Option(
