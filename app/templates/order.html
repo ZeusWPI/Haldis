@@ -9,6 +9,11 @@
 
 {% import "utils.html" as util %}
 
+{% block metas %}
+	{{ super() }}
+	<meta name="robots" content="noindex, nofollow">
+{% endblock %}
+
 {% block container %}
 <header>
 	<h2 id="order-title">Order {{ order.id }}</h2>
