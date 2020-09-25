@@ -105,7 +105,13 @@
 					{% endif %}
 
 					<details {% if dish.id == selected_dish.id %}open="open"{% endif %}>
-						<summary class="spacecake"><span class="dish_name">{{ dish.name }}</span> <span class="tags"> {{ dish.tags | join(", ") }}</span><span class="description">{{ dish.description }}</span><span class="spacer"></span><span class="price">{{ dish.price_range() | price_range }}</span></summary>
+						<summary class="spacecake">
+							<span class="dish_name">{{ dish.name }}</span>
+							{% if dish.tags %}<span class="tags"> {{ dish.tags | join(", ") }}</span>{% endif %}
+							{% if dish.description %}<span class="description">{{ dish.description }}</span>{% endif %}
+							<span class="spacer"></span>
+							<span class="price">{{ dish.price_range() | price_range }}</span>
+						</summary>
 						{% for (choice_type, choice) in dish.choices %}
 							<div class="form-group select2-container select2">
 								<label class="control-label" for="choice_{{ choice.id }}">{{ choice.name }}</label><br/>
@@ -376,6 +382,10 @@ dl {
 .spacecake {
 	display: flex;
 	align-items: flex-end;
+}
+.spacecake .tags {
+	padding-left: 0.5em;
+	color: var(--gray2);
 }
 .spacecake .spacer {
 	content: ' ';
