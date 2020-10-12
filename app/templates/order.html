@@ -65,7 +65,7 @@
 			<h3>Add item to order</h3>
 
 			{% for dish in order.location.dishes %}
-				<form method="post" action="{{ url_for('order_bp.order_item_create', order_id=order.id) }}">
+				<form method="post" action="{{ url_for('order_bp.order_item_create', order_id=order.id) }}" id="dish_{{ dish.id }}">
 					{{ form.csrf_token }}
 					<input type="hidden" name="dish_id" value="{{ dish.id }}" />
 
@@ -187,7 +187,7 @@
 		</div>
 
 		<div class="box" id="how_to_order">
-			<h3>Ordering at {{ order.location_name }}</h3>
+			<h3>About {{ order.location_name }}</h3>
 			<dl>
 				{% if order.location.telephone %}
 					<dt>Telephone</dt>
@@ -338,8 +338,7 @@ section.single_column {
 	grid-template-columns: unset;
 }
 .description {
-	color: #888;
-	margin-left: 1em;
+	margin-bottom: 10px;
 }
 header {
 	margin-bottom: 25px;
@@ -461,20 +460,74 @@ summary {
 	line-height: 1.2;
 	margin: 0.6em 0;
 }
-summary .dish_name {
-	white-space: nowrap;
-}
 summary .dish_name, summary:before {
 	align-self: flex-start;
+}
+details[open] summary .dish_name {
+	font-weight: bold;
+}
+details[open] {
+	background-color: var(--gray5);
+	margin-left: -10px;
+	margin-right: -10px;
+	margin-bottom: 5px;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-bottom: 10px;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__rendered {
+	padding: 0 3px;
+}
+.select2-container .select2-selection--multiple {
+	min-height: 20px;
+	line-height: 1;
+}
+.select2-container .select2-search--inline .select2-search__field {
+	margin-top: 3px;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+	margin-top: 4px;
+}
+.select2-container li {
+	margin: 0;
+}
+.select2-selection--multiple .select2-search.select2-search--inline .select2-search__field:not(:focus) {
+	border-color: transparent;
+	box-shadow: none;
 }
 	</style>
 {% endblock %}
 {% block scripts %}
 	{{ super() }}
 	<script src="{{ url_for('static', filename='js/select2.min.js') }}"></script>
-	<script type="text/javascript">
 {% if form %}
-	$(".select").select2({"sorter": x => x.sort()});
-{% endif %}
+	<script type="text/javascript">
+		"use strict";
+		function openDish(detailsEl, open=null) {
+			let openAttr = detailsEl.getAttribute("open");
+			let isOpen = openAttr || openAttr == "";
+
+			$("details").removeAttr("open");
+			if (open === true || open === null && !isOpen) {
+				detailsEl.setAttribute("open", true);
+				$(detailsEl).find(".select").select2({"sorter": x => x.sort()});
+
+				let id = detailsEl.parentNode.getAttribute("id");
+				window.history.replaceState(null, "", `#${id}`);
+			} else {
+				window.history.replaceState(null, "",
+					`${window.location.origin}${window.location.pathname}`);
+			}
+		}
+
+		$("summary").on("click", e => { openDish(e.currentTarget.parentNode); return false; });
+		$(window).on("load", () => {
+			let m = window.location.hash.match(/^#dish_[a-z0-9_-]*$/);
+			if (m[0]) {
+				openDish($(m[0]).find("details")[0], open=true);
+			}
+		});
 	</script>
+{% endif %}
 {% endblock %}
