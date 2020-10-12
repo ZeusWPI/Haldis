@@ -29,6 +29,109 @@
 
 <section>
 	<div class="column">
+		<div class="box" id="my_items">
+			<h3>My items</h3>
+			{% if my_items %}
+				<ul>
+					{% for item in my_items %}
+					<li class="spacecake">
+						{% if item.can_delete(order.id, current_user.id, session.get('anon_name', '')) -%}
+							<form action="{{ url_for('order_bp.delete_item', order_id=order.id, item_id=item.id) }}" method="post" style="display:inline">
+								<button class="btn btn-link btn-sm" type="submit" style="padding: 0 0.5em;"><span class="glyphicon glyphicon-remove"></span></button>
+							</form>
+						{%- endif %}
+						<span>{{ item.dish_name }}{% if item.comment %}; {{ item.comment }}{% endif %}</span><span class="spacer"> </span><span class="price_aligned">{{ item.price | euro }}</span>
+					</li>
+					{% endfor %}
+				</ul>
+			{% else %}
+				<div>(None)</div>
+			{% endif %}
+		</div>
+
+
+		{% if form %}
+
+		<!--
+		<div class="box" id="from_favourites">
+			<h3>Add from favourites</h3>
+			<ul>
+				<li>Todo</li>
+			</ul>
+		</div>
+		-->
+
+		<div class="box" id="add_item">
+			<h3>Add item to order</h3>
+
+			{% for dish in order.location.dishes %}
+				<form method="post" action="{{ url_for('order_bp.order_item_create', order_id=order.id) }}">
+					{{ form.csrf_token }}
+					<input type="hidden" name="dish_id" value="{{ dish.id }}" />
+
+					{% if form.dish_id.errors %}
+						<div class="form-group has-errors">
+							{{ util.render_form_field_errors(form.dish_id) }}
+						</div>
+					{% endif %}
+
+					<details {% if dish.id == selected_dish.id %}open="open"{% endif %}>
+						<summary class="spacecake">
+							<span class="dish_name">{{ dish.name }}</span>
+							<!--
+							{% if dish.tags %}<span class="tags"> {{ dish.tags | join(", ") }}</span>{% endif %}
+							-->
+							<span class="spacer"></span>
+							<span class="price">{{ dish.price_range() | price_range }}</span>
+						</summary>
+						{% if dish.description %}<div class="description">{{ dish.description }}</div>{% endif %}
+						{% for (choice_type, choice) in dish.choices %}
+							<div class="form-group select2-container select2">
+								<label class="control-label" for="choice_{{ choice.id }}">{{ choice.name }}</label><br/>
+								<select
+									{{ "multiple=multiple" if choice_type=="multi_choice" else "required=required" }}
+									name="choice_{{ choice.id }}"
+									class="form-control select">
+									{% for option in choice.options %}
+									<option value="{{ option.id }}"><!--
+										-->{{ option.name }}{{ ": " + option.price|euro if option.price else "" }}<!--
+										-->{{ " (" + option.description + ")" if option.description else "" }}<!--
+									--></option>
+									{% endfor %}
+								</select>
+							</div>
+						{% endfor %}
+
+						<div class="form-group {{ 'has-errors' if form.dish_id.errors }}">
+							{{ form.comment.label }}<br>
+							{{ form.comment(class='form-control', placeholder='Fill in comment, when applicable') }}
+							{{ util.render_form_field_errors(form.comment) }}
+						</div>
+
+						{% if current_user.is_anonymous() %}
+							<div class="form-group{{ ' has-error' if form.user_name.errors }}{{ ' required' if form.user_name.flags.required }}">
+								{{ form.user_name.label(class='control-label') }}
+								{{ form.user_name(class='form-control', placeholder='Fill in your name...') }}
+								{{ util.render_form_field_errors(form.user_name) }}
+							</div>
+						{% endif %}
+						<div class="form-group" style="padding-top: 8px;">
+							{{ form.submit_button(class='btn btn-primary') }}
+						</div>
+					</details>
+				</form>
+			{% endfor %}
+		</div>
+
+		{% endif %}
+
+	{% if form %}
+	</div>
+
+	<div class="column">
+	{% endif %}
+
+
 		<div class="box" id="order_info">
 			<h3>Order information</h3>
 			<dl>
@@ -81,107 +184,6 @@
 					<a class="btn" href="{{ url_for('order_bp.order_edit', order_id=order.id) }}">Edit</a>
 				{%- endif %}
 			</div>
-		</div>
-
-
-		{% if form %}
-
-		<!--
-		<div class="box" id="from_favourites">
-			<h3>Add from favourites</h3>
-			<ul>
-				<li>Todo</li>
-			</ul>
-		</div>
-		-->
-
-		<div class="box" id="add_item">
-			<h3>Add item to order</h3>
-
-			{% for dish in order.location.dishes %}
-				<form method="post" action="{{ url_for('order_bp.order_item_create', order_id=order.id) }}">
-					{{ form.csrf_token }}
-					<input type="hidden" name="dish_id" value="{{ dish.id }}" />
-
-					{% if form.dish_id.errors %}
-						<div class="form-group has-errors">
-							{{ util.render_form_field_errors(form.dish_id) }}
-						</div>
-					{% endif %}
-
-					<details {% if dish.id == selected_dish.id %}open="open"{% endif %}>
-						<summary class="spacecake">
-							<span class="dish_name">{{ dish.name }}</span>
-							{% if dish.tags %}<span class="tags"> {{ dish.tags | join(", ") }}</span>{% endif %}
-							{% if dish.description %}<span class="description">{{ dish.description }}</span>{% endif %}
-							<span class="spacer"></span>
-							<span class="price">{{ dish.price_range() | price_range }}</span>
-						</summary>
-						{% for (choice_type, choice) in dish.choices %}
-							<div class="form-group select2-container select2">
-								<label class="control-label" for="choice_{{ choice.id }}">{{ choice.name }}</label><br/>
-								<select
-									{{ "multiple=multiple" if choice_type=="multi_choice" else "required=required" }}
-									name="choice_{{ choice.id }}"
-									class="form-control select">
-									{% for option in choice.options %}
-									<option value="{{ option.id }}"><!--
-										-->{{ option.name }}{{ ": " + option.price|euro if option.price else "" }}<!--
-										-->{{ " (" + option.description + ")" if option.description else "" }}<!--
-									--></option>
-									{% endfor %}
-								</select>
-							</div>
-						{% endfor %}
-
-						<div class="form-group {{ 'has-errors' if form.dish_id.errors }}">
-							{{ form.comment.label }}<br>
-							{{ form.comment(class='form-control', placeholder='Fill in comment, when applicable') }}
-							{{ util.render_form_field_errors(form.comment) }}
-						</div>
-
-						{% if current_user.is_anonymous() %}
-							<div class="form-group{{ ' has-error' if form.user_name.errors }}{{ ' required' if form.user_name.flags.required }}">
-								{{ form.user_name.label(class='control-label') }}
-								{{ form.user_name(class='form-control', placeholder='Fill in your name...') }}
-								{{ util.render_form_field_errors(form.user_name) }}
-							</div>
-						{% endif %}
-						<div class="form-group" style="padding-top: 8px;">
-							{{ form.submit_button(class='btn btn-primary') }}
-						</div>
-					</details>
-				</form>
-			{% endfor %}
-		</div>
-
-		{% endif %}
-
-	{% if form %}
-	</div>
-
-	<div class="column">
-	{% endif %}
-
-
-		<div class="box" id="my_items">
-			<h3>My items</h3>
-			{% if my_items %}
-				<ul>
-					{% for item in my_items %}
-					<li class="spacecake">
-						{% if item.can_delete(order.id, current_user.id, session.get('anon_name', '')) -%}
-							<form action="{{ url_for('order_bp.delete_item', order_id=order.id, item_id=item.id) }}" method="post" style="display:inline">
-								<button class="btn btn-link btn-sm" type="submit" style="padding: 0 0.5em;"><span class="glyphicon glyphicon-remove"></span></button>
-							</form>
-						{%- endif %}
-						<span>{{ item.dish_name }}{% if item.comment %}; {{ item.comment }}{% endif %}</span><span class="spacer"> </span><span class="price_aligned">{{ item.price | euro }}</span>
-					</li>
-					{% endfor %}
-				</ul>
-			{% else %}
-				<div>(None)</div>
-			{% endif %}
 		</div>
 
 		<div class="box" id="how_to_order">
@@ -289,7 +291,7 @@
 							</li>
 						{% endfor %}
 							<li>
-								<button class="btn btn-link btn-sm" onclick="alert('TODO')" style="padding: 0 0.5em;"><span class="glyphicon glyphicon-plus"></span></button>
+								<button class="btn btn-link btn-sm" onclick="alert('TODO')" style="color: green; padding: 0 0.5em;"><span class="glyphicon glyphicon-plus"></span></button>
 							</li>
 						</ul>
 					</td>
