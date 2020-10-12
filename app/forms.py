@@ -59,10 +59,7 @@ class OrderItemForm(Form):
     submit_button = SubmitField("Submit")
 
     def populate(self, location: Location) -> None:
-        self.dish_id.choices = [
-            (dish.id, (dish.name + ": " + price_range_string(dish.price_range())))
-            for dish in location.dishes
-        ]
+        self.dish_id.choices = [(dish.id, dish.name) for dish in location.dishes]
         if not self.is_submitted() and self.comment.data is None:
             self.comment.data = request.args.get("comment")
 

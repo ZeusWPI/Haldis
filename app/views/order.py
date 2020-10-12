@@ -83,7 +83,7 @@ def order_from_id(order_id: int, form: OrderForm = None, dish_id=None) -> str:
         form=form,
         total_price=total_price,
         debts=debts,
-        dish=dish,
+        selected_dish=dish,
     )
 
 
@@ -138,7 +138,7 @@ def order_item_create(order_id: int) -> typing.Any:
         abort(404)
     form = AnonOrderItemForm() if current_user.is_anonymous() else OrderItemForm()
 
-    dish_id = form.dish_id.data if form.is_submitted() else request.args.get("dish")
+    dish_id = request.form["dish_id"] if form.is_submitted() else request.args.get("dish")
     if dish_id and not location.dish_by_id(dish_id):
         abort(404)
     if not form.is_submitted():
@@ -146,7 +146,7 @@ def order_item_create(order_id: int) -> typing.Any:
     form.populate(current_order.location)
 
     if form.is_submitted():
-        form_for_dish = request.form["form_for_dish"]
+        form_for_dish = request.form["dish_id"]
         dish_was_changed = form_for_dish != "" and form_for_dish != dish_id
 
         # The form's validation tests that dish_id is valid and gives a friendly error if it's not
@@ -234,21 +234,6 @@ def order_item_create(order_id: int) -> typing.Any:
     return redirect(url_for("order_bp.order_from_id", order_id=order_id))
 
 
-@order_bp.route("/<order_id>/<item_id>/paid", methods=["POST"])
-@login_required
-# pylint: disable=R1710
-def item_paid(order_id: int, item_id: int) -> typing.Optional[Response]:
-    "Indicate payment status for an item in an order"
-    item = OrderItem.query.filter(OrderItem.id == item_id).first()
-    user_id = current_user.id
-    if item.order.courier_id == user_id or current_user.admin:
-        item.paid = True
-        db.session.commit()
-        flash("Paid %s by %s" % (item.dish_name, item.get_name()), "success")
-        return redirect(url_for("order_bp.order_from_id", order_id=order_id))
-    abort(404)
-
-
 @order_bp.route("/<order_id>/<user_name>/user_paid", methods=["POST"])
 @login_required
 # pylint: disable=R1710
@@ -269,7 +254,7 @@ def items_user_paid(order_id: int, user_name: str) -> typing.Optional[Response]:
         for item in items:
             item.paid = True
         db.session.commit()
-        flash("Paid %d items for %s" % (len(items), item.get_name()), "success")
+        flash("Paid %d items for %s" % (len(items), item.for_name), "success")
         return redirect(url_for("order_bp.order_from_id", order_id=order_id))
     abort(404)
 

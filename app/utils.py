@@ -7,7 +7,11 @@ def euro_string(value: int) -> str:
     """
     Convert cents to string formatted euro
     """
-    return "€ {}.{:02}".format(*divmod(value, 100))
+    euro, cents = divmod(value, 100)
+    if cents:
+        return "€ {}.{:02}".format(euro, cents)
+    else:
+        return "€ {}".format(euro)
 
 
 def price_range_string(price_range, include_upper=False):

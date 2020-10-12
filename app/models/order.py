@@ -44,35 +44,48 @@ class Order(db.Model):
         ), "location_id must be configured before updating from HLDS"
         self.location_name = self.location.name
 
-    def group_by_user(self) -> typing.Dict[str, typing.Any]:
+    def for_user(self, anon=None, user=None) -> typing.List:
+        return list(
+            filter(
+                (lambda i: i.user == user)
+                if user is not None
+                else (lambda i: i.user_name == anon),
+                self.items
+            )
+        )
+
+    def group_by_user(self) -> typing.List[typing.Tuple[str, typing.List]]:
         "Group items of an Order by user"
-        group: typing.Dict[str, typing.Any] = dict()
+        group: typing.Dict[str, typing.List] = dict()
+
         for item in self.items:
-            user = group.get(item.get_name(), dict())
-            user["total"] = user.get("total", 0) + item.price
-            user["to_pay"] = user.get("to_pay", 0) + item.price if not item.paid else 0
-            user["paid"] = user.get("paid", True) and item.paid
-            user["dishes"] = user.get("dishes", []) + [item.dish_name]
-            group[str(item.get_name())] = user
+            if item.for_name not in group:
+                group[item.for_name] = []
 
-        return group
+            group[item.for_name].append(item)
 
-    def group_by_dish(
-        self, sort_comments=False
-    ) -> typing.Dict[str, typing.Dict[str, typing.Any]]:
+        for _user_name, order_items in group.items():
+            order_items.sort(key=lambda order_item: order_item.comment or "")
+
+        return list(sorted(group.items(), key=lambda t: (t[0] or "", t[1] or "")))
+
+    def group_by_dish(self) -> typing.List[typing.Tuple[str, typing.List]]:
         "Group items of an Order by dish"
-        group: typing.Dict[str, typing.Dict[str, typing.Any]] = dict()
+        group: typing.Dict[str, typing.List] = dict()
+
         for item in self.items:
-            dish = group.get(item.dish_name, dict())
-            dish["count"] = dish.get("count", 0) + 1
-            dish["comments"] = dish.get("comments", []) + [item.comment]
-            group[item.dish_name] = dish
+            if item.dish_name not in group:
+                group[item.dish_name] = []
 
-        if sort_comments:
-            for _dish_name, dish_props in group.items():
-                dish_props["comments"].sort()
+            group[item.dish_name].append(item)
 
-        return group
+        for _dish_name, order_items in group.items():
+            order_items.sort(key=lambda order_item: (
+                (order_item.comment or "   No comment") +
+                (order_item.for_name or "")
+            ))
+
+        return list(sorted(group.items()))
 
     def is_closed(self) -> bool:
         return self.stoptime and datetime.now() > self.stoptime

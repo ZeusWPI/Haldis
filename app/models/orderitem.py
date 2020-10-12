@@ -37,7 +37,8 @@ class OrderItem(db.Model):
                 raise ValueError("No Location found with id: " + location_id)
         raise AttributeError()
 
-    def get_name(self) -> str:
+    @property
+    def for_name(self) -> str:
         "Get the name of the user which 'owns' the item"
         if self.user_id is not None and self.user_id > 0:
             return self.user.username
@@ -46,7 +47,7 @@ class OrderItem(db.Model):
     def __repr__(self) -> str:
         return "Order %d: %s wants %s" % (
             self.order_id or 0,
-            self.get_name(),
+            self.for_name,
             self.dish_name or "None",
         )
 

@@ -10,35 +10,33 @@ Enige discretie is aangeraden.
 
 */
 :root {
-  --dGray0:#F28705;
-  --dGray1:white;
-  --dGray2:#590212;
-  --dGray3:#590212;
-  --dGray4:#274001;
-  --dGray5:#274001;
-  --dGray6:#F2778D;
-  --dBlue:#F2778D; }
+  --gray0: #F28705;
+  --gray1: white;
+  --gray2: #590212;
+  --gray3: #590212;
+  --gray4: #274001;
+  --gray5: #274001;
+  --gray6: #F2778D;
+  --accent: #F2778D;
+  --bg: #2F0000;
+  --navbarBg: #F2778D;
+  --fontFamily: Radikal, Optima, Segoe, Segoe UI, Candara, Calibri, Arial, sans-serif; }
 
 body {
-  height: 100%;
-  font-family: Radikal,Optima,Segoe,Segoe UI,Candara,Calibri,Arial,sans-serif;
-  background-color: #2F0000; }
+  height: 100%; }
 
 @font-face {
   font-family: Radikal;
   src: url("static/fonts/radikal_regular.ttf");
   font-weight: normal; }
-
 @font-face {
   font-family: Radikal;
   src: url("static/fonts/radikal_light.ttf");
   font-weight: 200; }
-
 @font-face {
   font-family: Radikal;
   src: url("static/fonts/radikal_bold.ttf");
   font-weight: bold; }
-
 .btn {
   border-radius: 5rem;
   color: white;
@@ -77,15 +75,12 @@ body {
 @media (min-width: 768px) {
   .container {
     width: 100%; } }
-
 @media (min-width: 992px) {
   .main .container, .main .orders {
     width: 970px; } }
-
 @media (min-width: 1200px) {
   .main .container, .main .orders {
     width: 1170px; } }
-
 .main {
   padding-top: 2.5rem; }
 
@@ -407,7 +402,6 @@ footer > hr {
     transform: translate(150vw, 40vh) rotate(40deg); }
   100% {
     transform: translate(150vw, 40vh) rotate(40deg); } }
-
 @keyframes train {
   0% {
     transform: translateX(-80rem); }
@@ -417,15 +411,12 @@ footer > hr {
     transform: translateX(100vw); }
   100% {
     transform: translateX(100vw); } }
-
 @keyframes turn {
   100% {
     transform: rotate(360deg); } }
-
 @keyframes whobble {
   100% {
     transform: translateY(0.5vh); } }
-
 @keyframes snowman {
   0% {
     transform: rotate(0); }
@@ -439,7 +430,6 @@ footer > hr {
     transform: rotate(0); }
   100% {
     transform: rotate(0); } }
-
 @keyframes snowman_head {
   0% {
     transform: rotate(-3deg); }

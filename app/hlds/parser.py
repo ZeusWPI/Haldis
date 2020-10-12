@@ -48,7 +48,7 @@ class HldsSemanticActions:
 
                     dish.choices[i] = (choiceId, choiceObject)
 
-            # Move the base price to the first single_choice if the dish has a fixed price
+            # Move the base price to the first single_choice if the dish doesn't have a fixed price
             first_single_choice = first(
                 c[1] for c in dish.choices if c[0] == "single_choice"
             )
