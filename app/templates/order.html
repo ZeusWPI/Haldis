@@ -40,7 +40,7 @@
 								<button class="btn btn-link btn-sm" type="submit" style="padding: 0 0.5em;"><span class="glyphicon glyphicon-remove"></span></button>
 							</form>
 						{%- endif %}
-						<span>{{ item.dish_name }}{% if item.comment %}; {{ item.comment }}{% endif %}</span><span class="spacer"> </span><span class="price_aligned">{{ item.price | euro }}</span>
+						<span>{{ item.dish_name }}{% if item.comment %}; {{ item.comment }}{% endif %}</span><span class="spacer"> </span><span class="price">{{ item.price | euro }}</span>
 					</li>
 					{% endfor %}
 				</ul>
@@ -82,7 +82,7 @@
 							{% if dish.tags %}<span class="tags"> {{ dish.tags | join(", ") }}</span>{% endif %}
 							-->
 							<span class="spacer"></span>
-							<span class="price_aligned">{{ dish.price_range() | price_range }}</span>
+							<span class="price">{{ dish.price_range() | price_range }}</span>
 						</summary>
 						{% if dish.description %}<div class="description">{{ dish.description }}</div>{% endif %}
 						{% for (choice_type, choice) in dish.choices %}
