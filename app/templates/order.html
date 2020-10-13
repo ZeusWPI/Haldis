@@ -82,7 +82,7 @@
 							{% if dish.tags %}<span class="tags"> {{ dish.tags | join(", ") }}</span>{% endif %}
 							-->
 							<span class="spacer"></span>
-							<span class="price">{{ dish.price_range() | price_range }}</span>
+							<span class="price_aligned">{{ dish.price_range() | price_range }}</span>
 						</summary>
 						{% if dish.description %}<div class="description">{{ dish.description }}</div>{% endif %}
 						{% for (choice_type, choice) in dish.choices %}
@@ -374,7 +374,7 @@ h3 {
 	margin-bottom: 30px;
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 500px) {
 	#order_info dl {
 		display: grid;
 		grid-template-columns: 1fr 1fr;
