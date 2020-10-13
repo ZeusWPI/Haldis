@@ -232,7 +232,7 @@
 			<h3>Ordered dishes</h3>
 			{% for dish_name, dish_order_items in order.group_by_dish() -%}
 				{% set has_comments = dish_order_items | map(attribute="comment") | any -%}
-				<div class="dish {{ 'spacecake' if not has_comments }}">
+				<div class="dish {{ 'spacecake no_comments' if not has_comments }}">
 					<h4>
 						<span class="quantity">{{ dish_order_items | length }}</span> ×
 						{{ dish_name }}
@@ -361,6 +361,11 @@ h3 {
 	font-size: 150%;
 	font-weight: 500;
 }
+h4 {
+	margin-bottom: 0.6em;
+	font-size: 110%;
+	font-weight: 500;
+}
 .location {
 	font-size: 150%;
 	font-weight: 500;
@@ -392,12 +397,6 @@ dl {
 	margin-bottom: 0;
 }
 
-.box h4 {
-	font-size: 110%;
-	font-weight: bold;
-	margin-bottom: 0.6em;
-}
-
 .spacecake {
 	display: flex;
 	align-items: flex-end;
@@ -426,10 +425,6 @@ li {
 #per_dish .comments li {
 }
 
-#per_dish .dish.no_comments {
-	display: flex;
-	align-items: flex-end;
-}
 #per_dish .dish.no_comments h4 {
 	margin-bottom: 0;
 	line-height: inherit;
