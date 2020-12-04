@@ -124,7 +124,7 @@ def current_theme_js():
 
     response = make_response(rf'''
 var currentTheme        = {json.dumps(cur_theme['file'])};
-var currentThemeOptions = {json.dumps(cur_theme['options'])};
+var currentThemeOptions = {json.dumps(cur_theme.get('options', []))};
 ''')
     response.headers["Content-Type"] = "text/javascript"
 
