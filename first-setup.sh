@@ -40,4 +40,14 @@ fi
 echo -e "${B} Seeding database ${E}"
 ./populate-db.sh
 
+if [ ! -d "menus" ]; then
+	echo -en "${B} Do you want to use the Zeus HLDS menus? If not, you will have to clone your own menu repository. (Y/n) ${E}"
+	read confirm
+	if [ "$confirm" = n ]; then
+		echo "Not cloning the Zeus HLDS menus"
+	else
+		git clone https://git.zeus.gent/haldis/menus.git
+	fi
+fi
+
 echo -e "${B} Activate your venv using 'source venv/bin/activate'.\nThen run the development server with 'python app/app.py runserver' ${E}"

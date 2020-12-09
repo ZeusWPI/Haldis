@@ -31,14 +31,10 @@ def add_all() -> None:
 
 def recreate_from_scratch() -> None:
     "Recreate a completely new database"
-    confirmation = "Are you very very sure? (Will delete previous entries!) (y/N) "
-    if input(confirmation).lower() in yes:
-        print("Resetting the database!")
-        db.drop_all()
-        db.create_all()
-        add_to_current()
-    else:
-        print("You cancelled.")
+    print("Resetting the database!")
+    db.drop_all()
+    db.create_all()
+    add_to_current()
 
 
 def add_to_current() -> None:
@@ -75,7 +71,7 @@ def setup_database():  # type: None
     "Start the database interaction script"
     print("Database modification script!")
     print("=============================\n\n")
-    if check_if_overwrite():
+    if (not db.engine.table_names()) or check_if_overwrite():
         recreate_from_scratch()
     else:
         add_to_current()
