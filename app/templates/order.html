@@ -170,7 +170,7 @@
 							<form action="{{ url_for('order_bp.volunteer', order_id=order.id) }}" method="post" style="display:inline">
 								<input type="submit" class="btn btn-primary btn-sm" value="Volunteer"></input>
 							</form>
-							{% else %}No-one{% endif %}
+							{% else %}No-one yet{% endif %}
 						{% else %}
 							{{ order.courier.username }}
 						{% endif %}
