@@ -1,0 +1,93 @@
+:root {
+	--bg: #eee;
+	--ticketBg: #fff;
+	--fg: #000;
+	--dashes: 1px dashed #444;
+	--fontFamily: "Roboto","Helvetica Neue",Helvetica,Arial,sans-serif;
+	--fontSize: 16px;
+}
+
+html, body {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background: var(--bg);
+	color: var(--fg);
+	font-family: var(--fontFamily);
+	font-size: var(--fontSize);
+	line-height: 1.2;
+}
+
+.ticket {
+	background: var(--ticketBg);
+	font-size: 16px;
+	padding: 0;
+	max-width: 500px;
+	margin: 25px auto;
+	margin: 7vh auto;
+	box-shadow: 0 0.15em 0.3em rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 500px) {
+	body {
+		background: var(--ticketBg);
+	}
+	.ticket {
+		margin: 0;
+		box-shadow: none;
+	}
+}
+
+h1 {
+	font-size: 200%;
+	margin: 0 ;
+	padding: 0.3em 0 0.3em;
+	border-bottom: var(--dashes);
+	text-align: center;
+}
+h2 {
+	font-size: 110%;
+	font-weight: bold;
+	margin-bottom: 0.6em;
+}
+
+.open-order-warning {
+	font-size: 150%;
+	text-align: center;
+	padding: 1em 0.5em;
+	background-color: rgba(255, 0, 0, 0.1);
+}
+
+.dish {
+	padding: 0 0.5em;
+}
+@media (min-width: 500px) {
+	.dish {
+		padding: 0 1em;
+	}
+}
+
+.quantity {
+	font-size: 110%;
+}
+
+.comments {
+	padding-left: 2em;
+}
+.comments li {
+	margin: 0.5em 0 0;
+}
+
+.total {
+	border-top: var(--dashes);
+	text-align: center;
+	padding: 0.5em 0;
+	margin-top: 1.3em;
+}
+
+.time_data{
+	display: flex;
+	justify-content: space-between;
+}

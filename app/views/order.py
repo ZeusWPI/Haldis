@@ -88,7 +88,7 @@ def order_from_id(order_id: int, form: OrderForm = None, dish_id=None) -> str:
 
 
 @order_bp.route("/<order_id>/items")
-def items_showcase(order_id: int) -> str:
+def items_shop_view(order_id: int) -> str:
     "Generate order items view from id"
     order = Order.query.filter(Order.id == order_id).first()
     if order is None:
