@@ -256,7 +256,7 @@
 			<div class="footer">
 				Total {{ order.items.count() }} items — {{ total_price|euro }}
 				&nbsp;
-				<a class="btn btn-sm" href="{{ url_for('order_bp.items_showcase', order_id=order.id) }}">Shop view</a>
+				<a class="btn btn-sm" href="{{ url_for('order_bp.items_shop_view', order_id=order.id) }}">Shop view</a>
 			</div>
 		</div>
 	</div>
@@ -313,9 +313,7 @@
 
 		<div class="footer">
 			On selected:
-			<button class="btn btn-sm">Mark paid (TODO)</button>
-
-			Request payment for selected:
+			<button class="btn btn-sm"><span class="glyphicon glyphicon-ok"></span> Mark paid (TODO)</button>
 			<button class="btn btn-sm"><span class="glyphicon glyphicon-piggy-bank"></span> Tab (TODO)</button>
 			<button class="btn btn-sm"><span class="glyphicon glyphicon-qrcode"></span> QR code (TODO)</button>
 		</div>
@@ -472,7 +470,8 @@ li {
 
 summary {
 	line-height: 1.2;
-	margin: 0.6em 0;
+	margin: 0 -10px;
+	padding: 4px 10px;
 }
 summary .dish_name, summary:before {
 	align-self: flex-start;
@@ -480,14 +479,16 @@ summary .dish_name, summary:before {
 details[open] summary .dish_name {
 	font-weight: bold;
 }
+details {
+	margin: 0 -10px;
+	padding: 0 10px;
+}
 details[open] {
 	background-color: var(--gray5);
-	margin-left: -10px;
-	margin-right: -10px;
-	margin-bottom: 5px;
-	padding-left: 10px;
-	padding-right: 10px;
-	padding-bottom: 10px;
+	padding-bottom: 5px;
+}
+details:not([open]) summary:hover {
+	background-color: var(--gray5);
 }
 
 .select2-container--default .select2-selection--multiple .select2-selection__rendered {

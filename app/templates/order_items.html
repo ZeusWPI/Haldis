@@ -7,9 +7,7 @@ Haldis - Order {{ order.id }}
 
 {% block styles %}
 	{{ super() }}
-	<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" media="screen">
-	<link rel="stylesheet" href="{{ url_for('general_bp.theme_css') }}" media="screen">
-	<link rel="stylesheet" href="{{ url_for('static', filename='css/print.css') }}" media="print">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/shop_view.css') }}" media="screen">
 {% endblock %}
 
 {% block scripts %}
@@ -23,7 +21,7 @@ Haldis - Order {{ order.id }}
 {% block content -%}
 	{{ utils.flashed_messages(container=True) }}
 
-	<div class="darker showcase" id="items-ordered">
+	<div class="ticket" id="items-ordered">
 		<h1>Haldis order {{ order.id }}</h1>
 
 		{% if not order.is_closed() %}
