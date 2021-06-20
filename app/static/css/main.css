@@ -63,12 +63,9 @@ body {
 .showcase {
 	font-size: 16px;
 	line-height: 1.2;
-}
-
-.showcase {
 	padding: 0;
 	max-width: 500px;
-	margin: 0 auto;
+	margin: 0 auto 70px;
 }
 
 .showcase h1 {
