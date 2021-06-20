@@ -25,8 +25,9 @@ syn keyword hldsChoiceType    single_choice multi_choice nextgroup=hldsBlockIdAf
 syn match   hldsBlockId          "^[a-z0-9_-]\+: "
 syn match   hldsBlockIdAftrKywrd "[a-z0-9_-]\+: " contained
 
-syn match   hldsTag       " {[a-z0-9_-]\+}"
-syn match   hldsPrice     "€ *[0-9]\+\(\.[0-9]\+\|\)"
+syn match   _doubleSpace  "  \+" nextgroup=hldsTag,hldsPrice
+syn match   hldsTag       "{[a-z0-9_-]\+}\( \|$\)"            contained nextgroup=hldsTag,hldsPrice
+syn match   hldsPrice     "€ *[0-9]\+\(\.[0-9]\+\|\)\( \|$\)" contained
 
 syn match   hldsComment       "#.*$" contains=hldsTodo,@Spell
 syn keyword hldsTodo          FIXME NOTE NOTES TODO XXX contained

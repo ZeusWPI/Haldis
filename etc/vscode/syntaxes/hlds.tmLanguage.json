@@ -33,13 +33,8 @@
 		"tags": {
 			"patterns": [
 				{
-					"match": "(::)\\s*({[a-zA-Z-_]*}\\s*)*",
-					"name": "markup.italic",
-					"captures": {
-						"1": {
-							"name": "markup.bold"
-						}
-					}
+					"match": " +( +{[a-zA-Z-_]*})*",
+					"name": "markup.italic"
 				}
 			]
 		},
