@@ -31,13 +31,16 @@ Haldis - Order {{ order.id }}
 		</div>
 		{% endif %}
 
-		{% for dish_name, dish_order_items in order.group_by_dish() -%}
+		{% for dish_name, dish_quantity, dish_comment_groups in order.group_by_dish() -%}
 			<div class="dish">
-				<h2><span class="quantity">{{ dish_order_items | length }}</span> × {{ dish_name }}</h2>
-				{% if dish_order_items | map(attribute="comment") | any -%}
+				<h2><span class="quantity">{{ dish_quantity }}</span> × {{ dish_name }}</h2>
+				{% if dish_comment_groups | map("first") | any -%}
 					<ul class="comments">
-					{% for item in dish_order_items -%}
-						<li>{% if item["comment"] %}{{ item["comment"] }}
+					{% for comment, items in dish_comment_groups -%}
+					<li><span class="quantity">{{ items | length }}</span> ×
+						{% if comment %}
+							{% set semicolon = joiner(";") %}
+							{% for comment_part in comment %}<span class="comment_part_separator">{{ semicolon() }} </span><span class="comment_part">{{ comment_part }}</span>{% endfor %}
 						{% else %}<i>No comment</i>
 						{% endif %}</li>
 					{% endfor %}
