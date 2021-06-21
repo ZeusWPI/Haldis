@@ -71,7 +71,7 @@ class Order(db.Model):
         return list(sorted(group.items(), key=lambda t: (t[0] or "", t[1] or "")))
 
     def group_by_dish(self) \
-            -> typing.List[typing.Tuple[str, int, typing.List[typing.Tuple[typing.List[str], typing.List]]]]:
+            -> typing.List[typing.Tuple[str, int, typing.List[typing.Tuple[str, typing.List]]]]:
         "Group items of an Order by dish"
         group: typing.Dict[str, typing.Dict[str, typing.List]] = \
             defaultdict(lambda: defaultdict(list))
@@ -85,10 +85,7 @@ class Order(db.Model):
                 # Amount of items of this dish
                 sum(map(len, comment_group.values())),
                 sorted(
-                    (
-                        (list(map(str.strip, comment.split(";"))) if comment else []),
-                        sorted(items, key=lambda x: (x.for_name or ""))
-                    )
+                    (comment, sorted(items, key=lambda x: (x.for_name or "")))
                     for comment, items in comment_group.items()
                 )
             )

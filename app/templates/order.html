@@ -241,10 +241,9 @@
 					{% if has_comments -%}
 						<ul class="comments">
 						{% for comment, items in dish_comment_groups -%}
-						<li class="spacecake"><span class="comment"><span class="quantity">{{ items | length }}</span> ×
-							{% if comment %}
-								{% set semicolon = joiner(";") %}
-								{% for comment_part in comment %}<span class="comment_part_separator">{{ semicolon() }} </span><span class="comment_part">{{ comment_part }}</span>{% endfor %}
+						<li class="spacecake"><span class="comment">
+							<span class="quantity">{{ items | length }}</span> ×
+							{% if comment %}{{ comment }}
 							{% else %}<i>No comment</i>
 							{% endif %}</span><span class="spacer"> </span><span class="item_for">for {{ items | map(attribute="for_name") | join(", ") }}</span></li>
 						{% endfor %}
