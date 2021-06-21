@@ -1,6 +1,7 @@
 "Script for everything Order related in the database"
 import typing
 from datetime import datetime
+from collections import defaultdict
 
 from utils import first
 from hlds.definitions import location_definitions
@@ -69,23 +70,30 @@ class Order(db.Model):
 
         return list(sorted(group.items(), key=lambda t: (t[0] or "", t[1] or "")))
 
-    def group_by_dish(self) -> typing.List[typing.Tuple[str, typing.List]]:
+    def group_by_dish(self) \
+            -> typing.List[typing.Tuple[str, int, typing.List[typing.Tuple[typing.List[str], typing.List]]]]:
         "Group items of an Order by dish"
-        group: typing.Dict[str, typing.List] = dict()
+        group: typing.Dict[str, typing.Dict[str, typing.List]] = \
+            defaultdict(lambda: defaultdict(list))
 
         for item in self.items:
-            if item.dish_name not in group:
-                group[item.dish_name] = []
+            group[item.dish_name][item.comment].append(item)
 
-            group[item.dish_name].append(item)
-
-        for _dish_name, order_items in group.items():
-            order_items.sort(key=lambda order_item: (
-                (order_item.comment or "   No comment") +
-                (order_item.for_name or "")
-            ))
-
-        return list(sorted(group.items()))
+        return sorted(
+            (
+                dish_name,
+                # Amount of items of this dish
+                sum(map(len, comment_group.values())),
+                sorted(
+                    (
+                        (list(map(str.strip, comment.split(";"))) if comment else []),
+                        sorted(items, key=lambda x: (x.for_name or ""))
+                    )
+                    for comment, items in comment_group.items()
+                )
+            )
+            for dish_name, comment_group in group.items()
+        )
 
     def is_closed(self) -> bool:
         return self.stoptime and datetime.now() > self.stoptime

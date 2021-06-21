@@ -230,24 +230,27 @@
 
 		<div class="box" id="per_dish">
 			<h3>Ordered dishes</h3>
-			{% for dish_name, dish_order_items in order.group_by_dish() -%}
-				{% set has_comments = dish_order_items | map(attribute="comment") | any -%}
+			{% for dish_name, dish_quantity, dish_comment_groups in order.group_by_dish() -%}
+				{% set has_comments = dish_comment_groups | length > 1 or (dish_comment_groups | map("first") | any) -%}
 				<div class="dish {{ 'spacecake no_comments' if not has_comments }}">
 					<h4>
-						<span class="quantity">{{ dish_order_items | length }}</span> ×
+						<span class="quantity">{{ dish_quantity }}</span> ×
 						{{ dish_name }}
 					</h4>
 
 					{% if has_comments -%}
 						<ul class="comments">
-						{% for item in dish_order_items -%}
-						<li class="spacecake">{% if item["comment"] %}<span>{{ item["comment"] }}</span>
+						{% for comment, items in dish_comment_groups -%}
+						<li class="spacecake"><span class="comment"><span class="quantity">{{ items | length }}</span> ×
+							{% if comment %}
+								{% set semicolon = joiner(";") %}
+								{% for comment_part in comment %}<span class="comment_part_separator">{{ semicolon() }} </span><span class="comment_part">{{ comment_part }}</span>{% endfor %}
 							{% else %}<i>No comment</i>
-							{% endif %}<span class="spacer"> </span><span class="item_for">for {{ item.for_name }}</span></li>
+							{% endif %}</span><span class="spacer"> </span><span class="item_for">for {{ items | map(attribute="for_name") | join(", ") }}</span></li>
 						{% endfor %}
 						</ul>
 					{% else %}
-						<span class="spacer"> </span><span class="item_for">for {{ dish_order_items | map(attribute="for_name") | join(", ") }}</span>
+						<span class="spacer"> </span><span class="item_for">for {{ dish_comment_groups[0][1] | map(attribute="for_name") | join(", ") }}</span>
 					{%- endif %}
 
 					</p>
@@ -436,6 +439,10 @@ li {
 #per_dish .item_for {
 	color: var(--gray2);
 	text-align: right;
+}
+#per_dish .comments {
+	padding-left: 1.5em;
+	list-style-type: none;
 }
 
 
