@@ -38,9 +38,7 @@ Haldis - Order {{ order.id }}
 					<ul class="comments">
 					{% for comment, items in dish_comment_groups -%}
 					<li><span class="quantity">{{ items | length }}</span> ×
-						{% if comment %}
-							{% set semicolon = joiner(";") %}
-							{% for comment_part in comment %}<span class="comment_part_separator">{{ semicolon() }} </span><span class="comment_part">{{ comment_part }}</span>{% endfor %}
+						{% if comment %}{{ comment }}
 						{% else %}<i>No comment</i>
 						{% endif %}</li>
 					{% endfor %}
