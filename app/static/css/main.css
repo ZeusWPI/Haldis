@@ -146,8 +146,13 @@ a {
 .navbar-default .navbar-brand:focus {
 	color: var(--gray0);
 }
-hr{
+hr {
 	border-top: 1px solid var(--gray2);
+	margin: 0;
+	margin-bottom: 23px;
+}
+footer {
+	padding: 23px 0;
 }
 
 h1, h2, h3, h4, h5, h6{
