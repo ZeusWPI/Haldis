@@ -7,8 +7,8 @@
 <div class="row location_data" xmlns="http://www.w3.org/1999/html">
 	<div class="col-md-push-1 col-md-5 darker">
 		<h3>{{ location.name }}</h3>
-		{% if location.address   %}<span class="glyphicon glyphicon-home"></span> {{ location.address   }}<br/>{% endif %}
-		{% if location.telephone %}<span class="glyphicon glyphicon-phone"></span>{{ location.telephone }}<br/>{% endif %}
+		{% if location.address   %}<span class="glyphicon glyphicon-home"></span>{{ location.address }}<br/>{% endif %}
+		{% if location.telephone %}<span class="glyphicon glyphicon-phone"></span><a href="tel:{{ location.telephone }}">{{ location.telephone }}</a><br/>{% endif %}
 		{% if location.website   %}<span class="glyphicon glyphicon-link"></span> <a href="{{ location.website}}">{{ location.website }}</a> <br/>{% endif %}
 		{% if location.osm       %}<span class="glyphicon glyphicon-map-marker"></span> <a href="{{ location.osm}}">{{ location.osm }}</a> <br/>{% endif %}
 		{% if not current_user.is_anonymous() %}
