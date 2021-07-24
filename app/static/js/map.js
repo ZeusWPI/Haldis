@@ -4,7 +4,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 
-let base_request_uri = "https://photon.komoot.de/api/?limit=1&q=";
+let base_request_uri = "https://photon.komoot.io/api/?limit=1&q=";
 
 function performRequest(url, location, success_callback) {
 	var request = new XMLHttpRequest();
