@@ -6,7 +6,7 @@
 	const YEAR = 60 * 60 * 24 * 365;
 
 	const storeCookieAndReload = (name, value) => {
-		document.cookie = name + " = " + value + "; Path=/; Max-Age=" + (50 * YEAR);
+		document.cookie = name + " = " + value + "; Path=/; Secure; SameSite=strict; Max-Age=" + (50 * YEAR);
 		location.reload();
 	}
 
