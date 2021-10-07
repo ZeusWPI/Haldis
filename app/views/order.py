@@ -16,7 +16,6 @@ from flask import (
     session,
     url_for,
     wrappers,
-    jsonify,
 )
 from flask_login import current_user, login_required
 
