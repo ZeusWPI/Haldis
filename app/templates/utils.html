@@ -4,22 +4,23 @@
 		<h5>{{ order.location_name }}</h5>
 		<b class="amount_of_orders">{{ order.items.count() }} orders</b></p>
 		<p class="time_data">
-		{% if order.stoptime %}
+			{% if order.stoptime %}
 			<span><b>Closes </b>{{ order.stoptime.strftime("%H:%M") }}</span>{{ order.stoptime|countdown }}
-		{% else %}open{% endif %}<br/>
+			{% else %}open{% endif %}<br />
 	</div>
 	<div class="col-md-4 col-lg-3 expand_button_wrapper">
-		<a class="btn btn-primary btn-block align-bottom expand_button" href="{{ url_for('order_bp.order_from_id', order_id=order.id) }}">Expand</a>
+		<a class="btn btn-primary btn-block align-bottom expand_button"
+			href="{{ url_for('order_bp.order_from_id', order_id=order.id) }}">Expand</a>
 	</div>
 </div>
 {%- endmacro %}
 
 {% macro render_form_field_errors(field) %}
 {%- if field.errors %}
-	{%- for error in field.errors %}
-		<p class="help-block">{{error}}</p>
-	{%- endfor %}
+{%- for error in field.errors %}
+<p class="help-block">{{error}}</p>
+{%- endfor %}
 {%- elif field.description -%}
-	<p class="help-block">{{field.description|safe}}</p>
+<p class="help-block">{{field.description|safe}}</p>
 {%- endif %}
 {% endmacro %}

@@ -16,6 +16,7 @@ from flask import (
     session,
     url_for,
     wrappers,
+    jsonify,
 )
 from flask_login import current_user, login_required
 
@@ -97,7 +98,21 @@ def items_shop_view(order_id: int) -> str:
         flash("Please login to see this order.", "info")
         abort(401)
     total_price = sum([o.price for o in order.items])
+
     return render_template("order_items.html", order=order, total_price=total_price)
+
+@order_bp.route("/<order_id>/items/partial")
+def items_shop_view_partial(order_id: int) -> str:
+    "Generate order items partial view from id"
+    order = Order.query.filter(Order.id == order_id).first()
+    if order is None:
+        abort(404)
+    if current_user.is_anonymous() and not order.public:
+        flash("Please login to see this order.", "info")
+        abort(401)
+    total_price = sum([o.price for o in order.items])
+
+    return render_template("partials/order_items.html", order=order, total_price=total_price)
 
 
 @order_bp.route("/<order_id>/edit", methods=["GET", "POST"])

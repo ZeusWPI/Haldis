@@ -135,39 +135,41 @@ def add_routes(application: Flask) -> None:
     if application.debug:
         application.register_blueprint(debug_bp, url_prefix="/debug")
 
+def countdown(
+    value, only_positive: bool = True, show_text: bool = True, reload: bool = True,
+    on_timeout: str = "() => {}"
+) -> str:
+    print((value, only_positive, show_text))
+    delta = int(value.timestamp() - datetime.now().timestamp())
+    if delta < 0 and only_positive:
+        text = "closed"
+    else:
+        carry, seconds = divmod(delta, 60)
+        carry, minutes = divmod(carry, 60)
+        days, hours = divmod(carry, 24)
+
+        days_text = f"{days} days, " if days else ""
+
+        appendix = " left" if show_text else ""
+        text = f"{days_text}{hours:02d}:{minutes:02d}:{seconds:02d}{appendix}"
+
+    reload_str = "yes" if reload else "no"
+
+    return Markup(
+        f"<span class='time' data-onfinish='{on_timeout}' data-seconds='{delta}' data-reload='{reload_str}'>"
+        + text
+        + "</span>"
+    )
+
+def current_year(_value: typing.Any) -> str:
+    return str(datetime.now().year)
 
 def add_template_filters(app: Flask) -> None:
     "Add functions which can be used in the templates"
     # pylint: disable=W0612
-    @app.template_filter("countdown")
-    def countdown(
-        value, only_positive: bool = True, show_text: bool = True, reload: bool = True
-    ) -> str:
-        delta = int(value.timestamp() - datetime.now().timestamp())
-        if delta < 0 and only_positive:
-            text = "closed"
-        else:
-            carry, seconds = divmod(delta, 60)
-            carry, minutes = divmod(carry, 60)
-            days, hours = divmod(carry, 24)
 
-            days_text = f"{days} days, " if days else ""
-
-            appendix = " left" if show_text else ""
-            text = f"{days_text}{hours:02d}:{minutes:02d}:{seconds:02d}{appendix}"
-
-        reload_str = "yes" if reload else "no"
-
-        return Markup(
-            f"<span class='time' data-seconds='{delta}' data-reload='{reload_str}'>"
-            + text
-            + "</span>"
-        )
-
-    @app.template_filter("year")
-    def current_year(_value: typing.Any) -> str:
-        return str(datetime.now().year)
-
+    app.template_filter("year")(current_year)
+    app.template_filter("countdown")(countdown)
     app.template_filter("euro")(euro_string)
     app.template_filter("price_range")(price_range_string)
     app.template_filter("any")(any)

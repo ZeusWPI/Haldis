@@ -1,0 +1,18 @@
+{% import "utils.html" as util -%}
+{% for dish_name, dish_quantity, dish_comment_groups in order.group_by_dish() -%}
+<div class="dish">
+	<h2><span class="quantity">{{ dish_quantity }}</span> × {{ dish_name }}</h2>
+	{% if dish_comment_groups | map("first") | any -%}
+	<ul class="comments">
+		{% for comment, items in dish_comment_groups -%}
+		<li><span class="quantity">{{ items | length }}</span> ×
+			{% if comment %}{{ comment }}
+			{% else %}<i>No comment</i>
+			{% endif %}</li>
+		{% endfor %}
+	</ul>
+	{%- endif %}
+	</p>
+</div>
+{%- endfor %}
+<div class="total">Total {{ items_count }} items — {{ order.items.count()|euro }}</div>

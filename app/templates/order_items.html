@@ -1,53 +1,58 @@
 {% extends "bootstrap/base.html" %}
 {% import "bootstrap/utils.html" as utils %}
+{% import "utils.html" as util -%}
 
 {% block title %}
 Haldis - Order {{ order.id }}
 {% endblock %}
 
 {% block styles %}
-	{{ super() }}
-	<link rel="stylesheet" href="{{ url_for('static', filename='css/shop_view.css') }}" media="screen">
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/shop_view.css') }}" media="screen">
 {% endblock %}
 
 {% block scripts %}
-	{{ super() }}
-	<script type="text/javascript" src="{{ url_for('static', filename='js/timer.js') }}"></script>
-	<script type="text/javascript">
-		$("#open-message").html("Wait until order is closed!");
-	</script>
+{{ super() }}
+<script type="text/javascript" src="{{ url_for('static', filename='js/timer.js') }}"></script>
+<script>
+	async function __reload_partial() {
+		const resp = await fetch('items/partialss');
+
+		if (resp.status >= 300 || resp.status < 200)
+			throw "bloob";
+
+		const html = await resp.text();
+		document.getElementById("dish_listing").innerHTML = html;
+	}
+
+	window.try_reload_partial = function () {
+		const box = document.getElementById("open-message-box")
+		box.innerHTML = "Trying to reload partial";
+
+		__reload_partial().catch(() => {
+			box.innerHTML = "Failed to refresh page! <br> Be careful!";
+		});
+	}
+
+	$("#open-message").html("Wait until order is closed!");
+</script>
 {% endblock %}
 
 {% block content -%}
-	{{ utils.flashed_messages(container=True) }}
+{{ utils.flashed_messages(container=True) }}
 
-	<div class="ticket" id="items-ordered">
-		<h1>Haldis order {{ order.id }}</h1>
+<div class="ticket" id="items-ordered">
+	<h1>Haldis order {{ order.id }}</h1>
 
-		{% if not order.is_closed() %}
-		<div class="open-order-warning">
-			{{ order.stoptime|countdown }}
-			<div id="open-message">Refresh page when closed!</div>
-		</div>
-		{% endif %}
-
-		{% for dish_name, dish_quantity, dish_comment_groups in order.group_by_dish() -%}
-			<div class="dish">
-				<h2><span class="quantity">{{ dish_quantity }}</span> × {{ dish_name }}</h2>
-				{% if dish_comment_groups | map("first") | any -%}
-					<ul class="comments">
-					{% for comment, items in dish_comment_groups -%}
-					<li><span class="quantity">{{ items | length }}</span> ×
-						{% if comment %}{{ comment }}
-						{% else %}<i>No comment</i>
-						{% endif %}</li>
-					{% endfor %}
-					</ul>
-				{%- endif %}
-				</p>
-			</div>
-		{%- endfor %}
-		<div class="total">Total {{ order.items.count() }} items — {{ total_price|euro }}</div>
+	{# {% if not order.is_closed() %} #}
+	<div id="open-message-box" class="open-order-warning">
+		{{ order.stoptime|countdown(on_timeout="{() => try_reload_partial()}") }}
+		<div id="open-message">Refresh page when closed!</div>
 	</div>
+	{# {% endif %} #}
 
+	<div id="dish_listing">
+		{% include 'partials/order_items.html' %}
+	</div>
+</div>
 {%- endblock %}
