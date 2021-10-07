@@ -44,12 +44,12 @@ Haldis - Order {{ order.id }}
 <div class="ticket" id="items-ordered">
 	<h1>Haldis order {{ order.id }}</h1>
 
-	{# {% if not order.is_closed() %} #}
+	{% if not order.is_closed() %}
 	<div id="open-message-box" class="open-order-warning">
-		{{ order.stoptime|countdown(on_timeout="{() => try_reload_partial()}") }}
+		{{ order.stoptime|countdown(on_timeout="{() => try_reload_partial()}", reload="no") }}
 		<div id="open-message">Refresh page when closed!</div>
 	</div>
-	{# {% endif %} #}
+	{% endif %}
 
 	<div id="dish_listing">
 		{% include 'partials/order_items.html' %}

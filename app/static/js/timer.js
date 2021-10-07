@@ -9,7 +9,6 @@ $.ready(function(){
 		var now = new Date();
 		var delta = Math.floor((end - now) / 1000);
 
-		console.log("delta", delta)
 		if (delta <= 0) {
 			eval(timeEl.data("onfinish"))
 			timeEl.html("closed");
@@ -32,15 +31,15 @@ $.ready(function(){
 				if (timeEl.data("onfinish")) {
 					eval(timeEl.data("onfinish"))
 				}
-				// if (timeEl.data("reload") === "yes") {
-				// 	$("#form").slideUp();
-				// 	timeEl.html("closed, refreshing page...");
-				// 	window.setTimeout(function () {
-				// 		window.location.reload();
-				// 	}, 2000);
-				// } else {
+				if (timeEl.data("reload") === "yes") {
+					$("#form").slideUp();
+					timeEl.html("closed, refreshing page...");
+					window.setTimeout(function () {
+						window.location.reload();
+					}, 2000);
+				} else {
 					timeEl.html("closed");
-				// }
+				}
 				return;
 			}
 
@@ -62,8 +61,3 @@ $.ready(function(){
 		update();
 	});
 }());
-
-
-function finish_timer() {
-	console.log("finishing timer thing thing")
-}
