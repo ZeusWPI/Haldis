@@ -9,13 +9,15 @@
 	('general_bp.about', 'About'),
 	('stats_blueprint.stats', 'Stats'),
 ] -%}
+
 {% if current_user.is_admin() -%}
 	{% set navbar = navbar + [('admin.index', 'Admin')] -%}
 {% endif -%}
+
 {% set active_page = active_page|default('index') -%}
 
 {% block title %}
-Haldis - {{ active_page|capitalize }}
+	Haldis - {{ active_page|capitalize }}
 	{% if title %}
 		- {{ title }}
 	{% endif %}
@@ -33,6 +35,26 @@ Haldis - {{ active_page|capitalize }}
 	<script type="text/javascript" src="{{ url_for('general_bp.current_theme_js') }}"></script>
 	<script type="text/javascript" src="{{ url_for('static', filename='js/theme.js') }}"></script>
 	<script type="text/javascript" src="{{ url_for('static', filename='js/timer.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/pwa.js') }}"></script>
+{% endblock %}
+
+{% block head %}
+	{{ super() }}
+
+	<!-- Manifest (for PWA support) -->
+	<link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+
+	<!-- Favicons -->
+	<link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}">
+	<link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='icons/favicon-32x32.png') }}">
+	<link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='icons/favicon-16x16.png') }}">
+	<link rel="mask-icon" href="{{ url_for('static', filename='icons/safari-pinned-tab.svg') }}" color="#5bbad5">
+	<link rel="shortcut icon" href="{{ url_for('static', filename='icons/favicon.ico') }}">
+
+	<!-- Theme colors -->
+	<meta name="msapplication-TileColor" content="#1c1c1c">
+	<meta name="msapplication-config" content="{{ url_for('static', filename='browserconfig.xml') }}">
+	<meta name="theme-color" content="#1c1c1c">
 {% endblock %}
 
 {% block navbar %}
