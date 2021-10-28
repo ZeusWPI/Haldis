@@ -1,8 +1,8 @@
 {
   "name": "Haldis",
   "short_name": "Haldis",
-  "description": "Zeus WPI's drink ordering system",
-  "theme_color": "#ff6600",
+  "description": "Zeus WPI's food ordering system",
+  "theme_color": "#ff7f00",
   "background_color": "#1c1c1c",
   "display": "standalone",
   "scope": "/",
