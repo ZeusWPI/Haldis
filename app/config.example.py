@@ -13,5 +13,3 @@ class Configuration:
     LOGFILE = "haldis.log"
     ZEUS_KEY = "tomtest"
     ZEUS_SECRET = "blargh"
-    AIRBRAKE_ID = ""
-    AIRBRAKE_KEY = ""

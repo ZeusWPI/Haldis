@@ -22,14 +22,6 @@ pip install pip-tools
 echo -e "${B} Downloading dependencies ${E}"
 pip-sync
 
-echo -en "${B} Do you want to install support for the Airbrake API for error logging? If you don't have an Errbit server or Airbrake account, answer no. (y/N) ${E}"
-read confirm
-if [ "$confirm" = y ]; then
-	pip install airbrake
-else
-	echo "Not installing airbrake"
-fi
-
 if [ ! -f app/config.py ]; then
 	echo -e "${B} Copying config template. All custom config options can be set in the config.py file ${E}"
 	cp app/config.example.py app/config.py
