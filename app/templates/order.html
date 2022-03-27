@@ -267,6 +267,7 @@
 <section class="single_column">
 	<div class="box" id="per_person">
 		<h3>Items per person</h3>
+		<form action="{{ url_for('order_bp.items_user_paid', order_id=order.id) }}" method="post">
 		<table class="table table-condensed">
 			<thead>
 				<tr><th>Total</th><th>Name</th><th>Items</th></tr>
@@ -276,12 +277,20 @@
 				<tr>
 					<td>
 						{% set paid = order_items | map(attribute="paid") | all %}
-						<input type="checkbox" name="{{ user_name }}"
-									  {{ "disabled" if paid }} style="{{ 'opacity: 0.5' if paid }}">
+						{% set can_modify_payment = True %}
+						{% for order_item in order_items %}
+							{% if not order_item.can_modify_payment(order.id, current_user.id) %}
+								{% set can_modify_payment = False %}
+							{% endif %}
+						{% endfor %}
+						<input type="checkbox" name="user_names" value="{{ user_name }}"
+								{{ "disabled" if not can_modify_payment }}>
 
-						<span class="price">{{ order_items | map(attribute="price") | sum | euro }}</span>
+						<span class="price" style="{{ 'opacity: 0.5' if paid }}">
+							{{ order_items | map(attribute="price") | sum | euro }}
+						</span>
 
-						{% if paid %}paid{% endif %}
+						{% if paid %}<span class="glyphicon glyphicon-ok"></span>{% endif %}
 					</td>
 					<td>{{ user_name }}</td>
 					<td class="items">
@@ -315,10 +324,12 @@
 
 		<div class="footer">
 			On selected:
-			<button class="btn btn-sm"><span class="glyphicon glyphicon-ok"></span> Mark paid (TODO)</button>
-			<button class="btn btn-sm"><span class="glyphicon glyphicon-piggy-bank"></span> Tab (TODO)</button>
-			<button class="btn btn-sm"><span class="glyphicon glyphicon-qrcode"></span> QR code (TODO)</button>
+			<button name="action" value="mark_paid" class="btn btn-sm"><span class="glyphicon glyphicon-ok"></span> Mark paid</button>
+			<button name="action" value="mark_unpaid" class="btn btn-sm">Mark unpaid</button>
+			<button disabled name="action" value="tab" class="btn btn-sm"><span class="glyphicon glyphicon-piggy-bank"></span> Tab (TODO)</button>
+			<button disabled name="action" value="qr" class="btn btn-sm"><span class="glyphicon glyphicon-qrcode"></span> QR code (TODO)</button>
 		</div>
+		</form>
 	</div>
 </section>
 {% endblock %}

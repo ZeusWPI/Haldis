@@ -73,3 +73,12 @@ class OrderItem(db.Model):
         if user and (user.is_admin() or user == self.order.courier):
             return True
         return False
+
+    # pylint: disable=W0613
+    def can_modify_payment(self, order_id: int, user_id: int) -> bool:
+        if int(self.order_id) != int(order_id):
+            return False
+        user = User.query.filter(User.id == user_id).first()
+        if user and (user.is_admin() or user == self.order.courier):
+            return True
+        return False
