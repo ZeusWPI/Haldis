@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -euo pipefail
 # A simple file to run all instructions from the README
 ## this should be run in the root of the repository
