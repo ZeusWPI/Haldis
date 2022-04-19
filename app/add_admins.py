@@ -1,10 +1,11 @@
-"Script for adding users as admin to Haldis."
+"""Script for adding users as admin to Haldis."""
+
 from app import db
 from models import User
 
 
 def add() -> None:
-    "Add users as admin."
+    """Add users as admin."""
     feli = User()
     feli.configure("feliciaan", True, 0)
     db.session.add(feli)

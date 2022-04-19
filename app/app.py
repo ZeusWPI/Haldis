@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
-"Main Haldis script"
+"""Main Haldis script"""
+
 import logging
 from logging.handlers import TimedRotatingFileHandler
 import typing
