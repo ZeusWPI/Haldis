@@ -2,6 +2,8 @@
 import typing
 from datetime import datetime
 from collections import defaultdict
+import secrets
+import string
 
 from utils import first
 from hlds.definitions import location_definitions
@@ -18,8 +20,14 @@ class Order(db.Model):
     starttime = db.Column(db.DateTime)
     stoptime = db.Column(db.DateTime)
     public = db.Column(db.Boolean, default=True)
+    slug = db.Column(db.String(7))
 
     items = db.relationship("OrderItem", backref="order", lazy="dynamic")
+
+    def __init__(self):
+        super().__init__()
+        alphabet = string.ascii_letters + string.digits
+        self.slug = ''.join(secrets.choice(alphabet) for i in range(7))
 
     def __getattr__(self, name):
         if name == "location":
