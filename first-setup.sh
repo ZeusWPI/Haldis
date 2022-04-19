@@ -12,8 +12,7 @@ E="${normal}"
 if [ ! -d "venv" ]; then
 	PYTHON_VERSION=$(cat .python-version)
 	echo -e "${B} No venv found, creating a new one with version ${PYTHON_VERSION} ${E}"
-	pip install virtualenv
-	virtualenv -p $PYTHON_VERSION venv
+	python3 -m virtualenv -p $PYTHON_VERSION venv
 fi
 source venv/bin/activate
 
