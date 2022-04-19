@@ -1,5 +1,7 @@
-"Script for interaction and changes to the database"
+"""Script for interaction and changes to the database"""
+
 import add_admins
+
 from app import db, app_manager
 
 entry_sets = {
@@ -11,13 +13,13 @@ no = ["no", "n"]
 
 
 def commit() -> None:
-    "Commit all the things to the database"
+    """Commit all the things to the database"""
     db.session.commit()
     print("Committing successful")
 
 
 def check_if_overwrite() -> bool:
-    "Check if the user wants to overwrite the previous database"
+    """Check if the user wants to overwrite the previous database"""
     answer = input("Do you want to overwrite the previous database? (y/N) ")
     return answer.lower() in yes
 
@@ -30,7 +32,7 @@ def add_all() -> None:
 
 
 def recreate_from_scratch() -> None:
-    "Recreate a completely new database"
+    """Recreate a completely new database"""
     print("Resetting the database!")
     db.drop_all()
     db.create_all()
@@ -38,7 +40,7 @@ def recreate_from_scratch() -> None:
 
 
 def add_to_current() -> None:
-    "Add things to the current database"
+    """Add things to the current database"""
     available = [entry_set for entry_set in entry_sets]
 
     def add_numbers() -> str:
@@ -68,7 +70,7 @@ def add_to_current() -> None:
 
 @app_manager.command
 def setup_database():  # type: None
-    "Start the database interaction script"
+    """Start the database interaction script"""
     print("Database modification script!")
     print("=============================\n\n")
     if (not db.engine.table_names()) or check_if_overwrite():
