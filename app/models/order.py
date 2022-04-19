@@ -18,6 +18,7 @@ class Order(db.Model):
     starttime = db.Column(db.DateTime)
     stoptime = db.Column(db.DateTime)
     public = db.Column(db.Boolean, default=True)
+    organizing_id = db.Column(db.String(64), default="")
 
     items = db.relationship("OrderItem", backref="order", lazy="dynamic")
 
@@ -31,9 +32,9 @@ class Order(db.Model):
     def __repr__(self) -> str:
         # pylint: disable=R1705
         if self.location:
-            return "Order %d @ %s" % (self.id, self.location.name or "None")
+            return "Order %d @ %s for %s" % (self.id, self.location.name or "None", self.organizing_id or "None")
         else:
-            return "Order %d" % (self.id)
+            return "Order %d for %s" % (self.id, self.organizing_id or "None")
 
     def update_from_hlds(self) -> None:
         """

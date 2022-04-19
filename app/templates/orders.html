@@ -38,6 +38,11 @@
 								{{ form.location_id(class='form-control select') }}
 								{{ util.render_form_field_errors(form.location_id) }}
 							</div>
+							<div class="form-group select2 {{ 'has-errors' if form.courier_id.errors else ''}}">
+								{{ form.organizing_id.label(class='control-label') }}<br>
+								{{ form.organizing_id(class='form-control select') }}
+								{{ util.render_form_field_errors(form.courier_id) }}
+							</div>
 							{% if current_user.is_admin() %}
 								<div class="form-group{{ ' has-error' if form.starttime.errors }}{{ ' required' if form.starttime.flags.required }}{{ ' hidden' if not current_user.is_admin() }}">
 									{{ form.starttime.label(class='control-label') }}
