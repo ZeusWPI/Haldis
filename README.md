@@ -62,6 +62,20 @@ Run `pip-compile --upgrade`
 
 For more information about managing the dependencies see [jazzband/pip-tools: A set of tools to keep your pinned Python dependencies fresh.](https://github.com/jazzband/pip-tools)
 
+### Github CI - WIP
+
+CI/CD is done with the help of [dagger.io](). The tooling can easily be installed
+by running the following wherever you want to install the binary (I propose
+creating a `~/.local/bin` and adding it to your `PATH`). The install scripts
+fetches the latest version and installs the binaries in a `./bin` folder of the
+current working directory.
+
+```
+curl -L https://dl.dagger.io/dagger/install.sh | sh
+```
+
+On every push the CI will run `isort`, `black` and `pylint` against the codebase.
+
 ## Production
 To prepare the application in a production environment, follow the same steps as for *Local setup* up to and including `./populate-db.sh`.
 

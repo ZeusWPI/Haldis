@@ -1,0 +1,22 @@
+FROM python:3.9-bullseye
+
+ENV VIRTUAL_ENV=/opt/venv
+RUN python3 -m venv $VIRTUAL_ENV
+ENV PATH="${VIRTUAL_ENV}/bin:${PATH}"
+
+WORKDIR /src
+COPY requirements.in .
+RUN pip install pip-tools && \
+	pip-compile
+
+COPY ./ /src
+
+RUN adduser --system --group haldis && \
+	chown -R haldis:haldis /opt/venv && \
+	chown -R haldis:haldis /src
+
+USER haldis
+
+COPy pylint-requirements.txt .
+RUN pip install pylint black isort && \
+    pip install -r pylint-requirements.txt
