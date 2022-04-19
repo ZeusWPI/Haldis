@@ -1,9 +1,8 @@
 "Script for everything related to logging in and out"
 from flask import Blueprint, abort, redirect, session, url_for
 from flask_login import current_user, logout_user
-from werkzeug.wrappers import Response
-
 from models import User
+from werkzeug.wrappers import Response
 from zeus import zeus_login
 
 auth_bp = Blueprint("auth_bp", __name__)

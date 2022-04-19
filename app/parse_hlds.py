@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 
-from tatsu.util import asjson
 from hlds.parser import parse_files
-
 
 USAGE = """{0} [filename]...
 Parse HLDS files, print as JSON

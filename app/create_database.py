@@ -2,7 +2,7 @@
 
 import add_admins
 
-from app import db, app_manager
+from app import app_manager, db
 
 entry_sets = {
     "admins": add_admins.add,
@@ -27,7 +27,7 @@ def check_if_overwrite() -> bool:
 def add_all() -> None:
     "Add all possible entries in the entry_sets to the database"
     for entry_set, function in entry_sets.items():
-        print("Adding {}.".format(entry_set))
+        print(f"Adding {entry_set}.")
         function()
 
 
@@ -45,14 +45,14 @@ def add_to_current() -> None:
 
     def add_numbers() -> str:
         return "  ".join(
-            ["{}({}), ".format(loc, i) for i, loc in enumerate(available)]
+            [f"{loc}({i}), " for i, loc in enumerate(available)]
         ).rstrip(", ")
 
     while input("Do you still want to add something? (Y/n) ").lower() not in no:
         print(
             "What do you want to add? (Use numbers, or A for all, or C for cancel)   "
         )
-        answer = input("Available: {}  : ".format(add_numbers()))
+        answer = input(f"Available: {add_numbers()}  : ")
         if answer.lower() == "a":
             add_all()
             available = []
@@ -60,7 +60,7 @@ def add_to_current() -> None:
             pass
         elif answer.isnumeric() and answer in [str(x) for x in range(len(available))]:
             answer_index = int(answer)
-            print("Adding {}.".format(available[answer_index]))
+            print(f"Adding {available[answer_index]}.")
             entry_sets[str(available[answer_index])]()
             del available[answer_index]
         else:

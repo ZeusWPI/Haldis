@@ -39,4 +39,4 @@ class User(db.Model):
         return str(self.id)
 
     def __repr__(self) -> str:
-        return "%s" % self.username
+        return f"{self.username}"

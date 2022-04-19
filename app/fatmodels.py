@@ -1,10 +1,9 @@
 import typing
 
-from sqlalchemy.sql import desc, func
-
 from hlds.definitions import location_definitions
-from hlds.models import Location, Dish
+from hlds.models import Dish, Location
 from models import Order, OrderItem, User
+from sqlalchemy.sql import desc, func
 
 
 class FatModel:

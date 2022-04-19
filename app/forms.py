@@ -1,25 +1,16 @@
 "Script for everything form related in Haldis"
 from datetime import datetime, timedelta
-
 from typing import Optional
 
-from flask import session, request
+from flask import request, session
 from flask_login import current_user
 from flask_wtf import FlaskForm as Form
-from wtforms import (
-    DateTimeField,
-    SelectField,
-    SelectMultipleField,
-    StringField,
-    SubmitField,
-    FieldList,
-    validators,
-)
-
-from utils import euro_string, price_range_string
 from hlds.definitions import location_definitions
-from hlds.models import Location, Dish, Choice
+from hlds.models import Choice, Dish, Location
 from models import User
+from utils import euro_string, price_range_string
+from wtforms import (DateTimeField, FieldList, SelectField,
+                     SelectMultipleField, StringField, SubmitField, validators)
 
 
 class OrderForm(Form):

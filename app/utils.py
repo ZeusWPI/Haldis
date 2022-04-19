@@ -9,9 +9,9 @@ def euro_string(value: int) -> str:
     """
     euro, cents = divmod(value, 100)
     if cents:
-        return "€ {}.{:02}".format(euro, cents)
+        return f"€ {euro}.{cents:02}"
     else:
-        return "€ {}".format(euro)
+        return f"€ {euro}"
 
 
 def price_range_string(price_range, include_upper=False):

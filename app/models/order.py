@@ -1,10 +1,11 @@
 "Script for everything Order related in the database"
 import typing
-from datetime import datetime
 from collections import defaultdict
+from datetime import datetime
 
-from utils import first
 from hlds.definitions import location_definitions
+from utils import first
+
 from .database import db
 from .user import User
 
@@ -31,9 +32,9 @@ class Order(db.Model):
     def __repr__(self) -> str:
         # pylint: disable=R1705
         if self.location:
-            return "Order %d @ %s" % (self.id, self.location.name or "None")
+            return f"Order {self.id} @ {self.location.name or 'None'}"
         else:
-            return "Order %d" % (self.id)
+            return f"Order {self.id}"
 
     def update_from_hlds(self) -> None:
         """
@@ -46,19 +47,21 @@ class Order(db.Model):
         self.location_name = self.location.name
 
     def for_user(self, anon=None, user=None) -> typing.List:
+        "Get the items for a certain user"
         return list(
             filter(
                 (lambda i: i.user == user)
                 if user is not None
                 else (lambda i: i.user_name == anon),
-                self.items
+                self.items,
             )
         )
 
     def group_by_user(self) -> typing.List[typing.Tuple[str, typing.List]]:
         "Group items of an Order by user"
-        group: typing.Dict[str, typing.List] = dict()
+        group: typing.Dict[str, typing.List] = {}
 
+        # pylint: disable=E1133
         for item in self.items:
             if item.for_name not in group:
                 group[item.for_name] = []
@@ -70,12 +73,17 @@ class Order(db.Model):
 
         return list(sorted(group.items(), key=lambda t: (t[0] or "", t[1] or "")))
 
-    def group_by_dish(self) \
-            -> typing.List[typing.Tuple[str, int, typing.List[typing.Tuple[str, typing.List]]]]:
+    def group_by_dish(
+        self,
+    ) -> typing.List[
+        typing.Tuple[str, int, typing.List[typing.Tuple[str, typing.List]]]
+    ]:
         "Group items of an Order by dish"
-        group: typing.Dict[str, typing.Dict[str, typing.List]] = \
-            defaultdict(lambda: defaultdict(list))
+        group: typing.Dict[str, typing.Dict[str, typing.List]] = defaultdict(
+            lambda: defaultdict(list)
+        )
 
+        # pylint: disable=E1133
         for item in self.items:
             group[item.dish_name][item.comment].append(item)
 
@@ -87,12 +95,13 @@ class Order(db.Model):
                 sorted(
                     (comment, sorted(items, key=lambda x: (x.for_name or "")))
                     for comment, items in comment_group.items()
-                )
+                ),
             )
             for dish_name, comment_group in group.items()
         )
 
     def is_closed(self) -> bool:
+        "Return whether or not the order is closed"
         return self.stoptime and datetime.now() > self.stoptime
 
     def can_close(self, user_id: int) -> bool:

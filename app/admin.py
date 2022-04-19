@@ -3,7 +3,6 @@ from flask import Flask
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 from flask_sqlalchemy import SQLAlchemy
-
 from models import Order, OrderItem, OrderItemChoice, User
 
 
@@ -26,8 +25,10 @@ class OrderAdminModel(ModelBaseView):
     column_default_sort = ("starttime", True)
     column_list = ["starttime", "stoptime", "location_name", "location_id", "courier"]
     column_labels = {
-        "starttime": "Start Time", "stoptime": "Closing Time",
-        "location_id": "HLDS Location ID"}
+        "starttime": "Start Time",
+        "stoptime": "Closing Time",
+        "location_id": "HLDS Location ID",
+    }
     form_excluded_columns = ["items", "courier_id"]
     can_delete = False
 
@@ -36,13 +37,25 @@ class OrderItemAdminModel(ModelBaseView):
     # pylint: disable=too-few-public-methods
     column_default_sort = ("order_id", True)
     column_list = [
-        "order_id", "order.location_name", "user_name", "user", "dish_name", "dish_id", "comment", "price", "paid",
-        "hlds_data_version"
+        "order_id",
+        "order.location_name",
+        "user_name",
+        "user",
+        "dish_name",
+        "dish_id",
+        "comment",
+        "price",
+        "paid",
+        "hlds_data_version",
     ]
     column_labels = {
-        "order_id": "Order", "order.location_name": "Order's Location",
-        "user_name": "Anon. User", "user_id": "Registered User",
-        "hlds_data_version": "HLDS Data Version", "dish_id": "HLDS Dish ID"}
+        "order_id": "Order",
+        "order.location_name": "Order's Location",
+        "user_name": "Anon. User",
+        "user_id": "Registered User",
+        "hlds_data_version": "HLDS Data Version",
+        "dish_id": "HLDS Dish ID",
+    }
 
 
 def init_admin(app: Flask, database: SQLAlchemy) -> None:
