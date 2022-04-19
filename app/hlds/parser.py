@@ -1,16 +1,17 @@
 #!/usr/bin/env python3
 
-from glob import glob
-from os import path
 import itertools
 from copy import deepcopy
-from typing import Iterable, List, Union, Tuple
+from glob import glob
+from os import path
+from typing import Iterable, List, Tuple, Union
+
 from tatsu import parse as tatsu_parse
 from tatsu.ast import AST
 from tatsu.exceptions import SemanticError
-from .models import Location, Choice, Option, Dish
 from utils import first
 
+from .models import Choice, Dish, Location, Option
 
 # TODO Use proper way to get resources, see https://stackoverflow.com/a/10935674
 with open(path.join(path.dirname(__file__), "hlds.tatsu")) as fh:
@@ -58,14 +59,16 @@ class HldsSemanticActions:
                     option.price += dish.price
                 dish.price = 0
         dishes = list(dishes)
-        dishes.append(Dish(
-            "custom",
-            name="Vrije keuze",
-            description="Zet wat je wil in comment",
-            price=0,
-            tags=[],
-            choices=[],
-        ))
+        dishes.append(
+            Dish(
+                "custom",
+                name="Vrije keuze",
+                description="Zet wat je wil in comment",
+                price=0,
+                tags=[],
+                choices=[],
+            )
+        )
 
         attributes = {att["key"]: att["value"] for att in ast["attributes"]}
 
@@ -145,7 +148,7 @@ def parse(menu: str) -> List[Location]:
 
 
 def parse_file(filename: str) -> List[Location]:
-    with open(filename, "r") as file_handle:
+    with open(filename) as file_handle:
         return parse(file_handle.read())
 
 

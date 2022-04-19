@@ -6,4 +6,4 @@ These are not imported in this module's init, to avoid opening the definition fi
 parser on them when testing other code in this module, or when testing the parser on other files.
 """
 
-from .models import Location, Choice, Option
+from .models import Choice, Location, Option

@@ -1,12 +1,12 @@
 "Script containing everything specific to ZeusWPI"
 import typing
 
-from flask import Blueprint, current_app, flash, redirect, request, session, url_for
+from flask import (Blueprint, current_app, flash, redirect, request, session,
+                   url_for)
 from flask_login import login_user
 from flask_oauthlib.client import OAuth, OAuthException
-from werkzeug.wrappers import Response
-
 from models import User, db
+from werkzeug.wrappers import Response
 
 oauth_bp = Blueprint("oauth_bp", __name__)
 
@@ -14,8 +14,7 @@ oauth_bp = Blueprint("oauth_bp", __name__)
 def zeus_login():
     "Log in using ZeusWPI"
     return current_app.zeus.authorize(
-        callback=url_for("oauth_bp.authorized", _external=True)
-    )
+        callback=url_for("oauth_bp.authorized", _external=True))
 
 
 @oauth_bp.route("/login/zeus/authorized")
@@ -25,10 +24,8 @@ def authorized() -> typing.Any:
     "Check authorized status"
     resp = current_app.zeus.authorized_response()
     if resp is None:
-        return "Access denied: reason=%s error=%s" % (
-            request.args["error"],
-            request.args["error_description"],
-        )
+        # pylint: disable=C0301
+        return f"Access denied: reason={request.args['error']} error={request.args['error_description']}"
     if isinstance(resp, OAuthException):
         return f"Access denied: {resp.message}<br>{resp.data}"
 

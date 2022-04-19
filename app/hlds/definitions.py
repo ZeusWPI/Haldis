@@ -1,11 +1,11 @@
 # Import this class to load the standard HLDS definitions
 
+import subprocess
 from os import path
 from typing import List
-import subprocess
-from .parser import parse_all_directory
-from .models import Location
 
+from .models import Location
+from .parser import parse_all_directory
 
 __all__ = ["location_definitions", "location_definition_version"]
 

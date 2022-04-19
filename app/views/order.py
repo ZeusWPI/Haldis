@@ -3,27 +3,16 @@ import random
 import typing
 from datetime import datetime
 
-from werkzeug.wrappers import Response
-
 # from flask import current_app as app
-from flask import (
-    Blueprint,
-    abort,
-    flash,
-    redirect,
-    render_template,
-    request,
-    session,
-    url_for,
-    wrappers,
-)
+from flask import (Blueprint, abort, flash, redirect, render_template, request,
+                   session, url_for, wrappers)
 from flask_login import current_user, login_required
-
 from forms import AnonOrderItemForm, OrderForm, OrderItemForm
+from hlds.definitions import location_definition_version, location_definitions
 from models import Order, OrderItem, User, db
-from hlds.definitions import location_definitions, location_definition_version
 from notification import post_order_to_webhook
 from utils import ignore_none
+from werkzeug.wrappers import Response
 
 order_bp = Blueprint("order_bp", "order")
 
@@ -72,8 +61,8 @@ def order_from_id(order_id: int, form: OrderForm = None, dish_id=None) -> str:
             form.populate(order.location)
     if order.is_closed():
         form = None
-    total_price = sum([o.price for o in order.items])
-    debts = sum([o.price for o in order.items if not o.paid])
+    total_price = sum(o.price for o in order.items)
+    debts = sum(o.price for o in order.items if not o.paid)
 
     dish = order.location.dish_by_id(dish_id) if order.location else None
 
@@ -96,7 +85,7 @@ def items_shop_view(order_id: int) -> str:
     if current_user.is_anonymous() and not order.public:
         flash("Please login to see this order.", "info")
         abort(401)
-    total_price = sum([o.price for o in order.items])
+    total_price = sum(o.price for o in order.items)
     return render_template("order_items.html", order=order, total_price=total_price)
 
 
@@ -138,7 +127,9 @@ def order_item_create(order_id: int) -> typing.Any:
         abort(404)
     form = AnonOrderItemForm() if current_user.is_anonymous() else OrderItemForm()
 
-    dish_id = request.form["dish_id"] if form.is_submitted() else request.args.get("dish")
+    dish_id = (
+        request.form["dish_id"] if form.is_submitted() else request.args.get("dish")
+    )
     if dish_id and not location.dish_by_id(dish_id):
         abort(404)
     if not form.is_submitted():
@@ -347,6 +338,6 @@ def get_orders(expression=None) -> typing.List[Order]:
     else:
         order_list = Order.query.filter(
             # pylint: disable=C0121
-            (expression & (Order.public == True))
+            expression & (Order.public == True)
         ).all()
     return order_list

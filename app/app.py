@@ -3,10 +3,11 @@
 """Main Haldis script"""
 
 import logging
-from logging.handlers import TimedRotatingFileHandler
 import typing
 from datetime import datetime
+from logging.handlers import TimedRotatingFileHandler
 
+from admin import init_admin
 from flask import Flask, render_template
 from flask_bootstrap import Bootstrap, StaticCDN
 from flask_debugtoolbar import DebugToolbarExtension
@@ -14,10 +15,8 @@ from flask_login import LoginManager
 from flask_migrate import Migrate, MigrateCommand
 from flask_oauthlib.client import OAuth, OAuthException
 from flask_script import Manager, Server
-from markupsafe import Markup
-
-from admin import init_admin
 from login import init_login
+from markupsafe import Markup
 from models import db
 from models.anonymous_user import AnonymouseUser
 from utils import euro_string, price_range_string
@@ -69,7 +68,8 @@ def register_plugins(app: Flask) -> Manager:
 
     # Make cookies more secure
     app.config.update(
-        SESSION_COOKIE_HTTPONLY=True, SESSION_COOKIE_SAMESITE="Lax",
+        SESSION_COOKIE_HTTPONLY=True,
+        SESSION_COOKIE_SAMESITE="Lax",
     )
 
     if not app.debug:
@@ -95,11 +95,11 @@ def add_routes(application: Flask) -> None:
     # import views  # TODO convert to blueprint
     # import views.stats  # TODO convert to blueprint
 
-    from views.order import order_bp
-    from views.general import general_bp
-    from views.stats import stats_blueprint
-    from views.debug import debug_bp
     from login import auth_bp
+    from views.debug import debug_bp
+    from views.general import general_bp
+    from views.order import order_bp
+    from views.stats import stats_blueprint
     from zeus import oauth_bp
 
     application.register_blueprint(general_bp, url_prefix="/")

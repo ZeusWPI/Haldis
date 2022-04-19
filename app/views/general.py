@@ -1,32 +1,26 @@
 "Script to generate the general views of Haldis"
+import json
 import os
 from datetime import datetime, timedelta
-
-import yaml
 from typing import Optional
 
-from flask import Flask, render_template, make_response
-from flask import request, jsonify
-from flask import Blueprint, abort
+import yaml
+from flask import Blueprint, Flask, abort
 from flask import current_app as app
-from flask import send_from_directory, url_for
+from flask import (jsonify, make_response, render_template, request,
+                   send_from_directory, url_for)
 from flask_login import login_required
-
-from utils import first
 from hlds.definitions import location_definitions
 from hlds.models import Location
 from models import Order
-
+from utils import first
 # import views
 from views.order import get_orders
-
-import json
-from flask import jsonify
 
 general_bp = Blueprint("general_bp", __name__)
 
 
-with open(os.path.join(os.path.dirname(__file__), "themes.yml"), "r") as _stream:
+with open(os.path.join(os.path.dirname(__file__), "themes.yml")) as _stream:
     _theme_data = yaml.safe_load(_stream)
     THEME_OPTIONS = _theme_data["options"]
     THEMES = _theme_data["themes"]
@@ -37,7 +31,7 @@ def home() -> str:
     "Generate the home view"
     prev_day = datetime.now() - timedelta(days=1)
     recently_closed = get_orders(
-        ((Order.stoptime > prev_day) & (Order.stoptime < datetime.now()))
+        (Order.stoptime > prev_day) & (Order.stoptime < datetime.now())
     )
     return render_template(
         "home.html", orders=get_orders(), recently_closed=recently_closed
@@ -60,7 +54,7 @@ def is_theme_active(theme, now):
 
         return start_datetime <= now <= end_datetime
 
-    raise Exception("Unknown theme type {}".format(theme_type))
+    raise Exception(f"Unknown theme type {theme_type}")
 
 
 def get_theme_css(theme, options):
@@ -71,13 +65,18 @@ def get_theme_css(theme, options):
 
     for option in theme.get("options", []):
         theme_name = theme["name"]
-        assert option in THEME_OPTIONS, f"Theme `{theme_name}` uses undefined option `{option}`"
+        assert (
+            option in THEME_OPTIONS
+        ), f"Theme `{theme_name}` uses undefined option `{option}`"
 
         chosen_value = options[option]
         possible_values = list(THEME_OPTIONS[option].keys())
 
-        value = chosen_value if chosen_value in possible_values \
+        value = (
+            chosen_value
+            if chosen_value in possible_values
             else THEME_OPTIONS[option]["_default"]
+        )
 
         filename += "_" + value
 
@@ -119,13 +118,15 @@ def current_theme_js():
     themes = get_active_themes()
 
     selected_theme_name = request.cookies.get("theme", None)
-    matching_theme = first((t for t in themes if t["file"] == selected_theme_name))
+    matching_theme = first(t for t in themes if t["file"] == selected_theme_name)
     cur_theme = matching_theme or themes[-1]
 
-    response = make_response(rf'''
+    response = make_response(
+        rf"""
 var currentTheme        = {json.dumps(cur_theme['file'])};
 var currentThemeOptions = {json.dumps(cur_theme.get('options', []))};
-''')
+"""
+    )
     response.headers["Content-Type"] = "text/javascript"
 
     # Theme name that is not valid at this moment: delete cookie
@@ -166,25 +167,27 @@ def location_dish(location_id, dish_id) -> str:
     dish = loc.dish_by_id(dish_id)
     if dish is None:
         abort(404)
-    return jsonify([
-        {
-            "type": c[0],
-            "id": c[1].id,
-            "name": c[1].name,
-            "description": c[1].description,
-            "options": [
-                {
-                    "id": o.id,
-                    "name": o.name,
-                    "description": o.description,
-                    "price": o.price,
-                    "tags": o.tags,
-                }
-                for o in c[1].options
-            ],
-        }
-        for c in dish.choices
-    ])
+    return jsonify(
+        [
+            {
+                "type": c[0],
+                "id": c[1].id,
+                "name": c[1].name,
+                "description": c[1].description,
+                "options": [
+                    {
+                        "id": o.id,
+                        "name": o.name,
+                        "description": o.description,
+                        "price": o.price,
+                        "tags": o.tags,
+                    }
+                    for o in c[1].options
+                ],
+            }
+            for c in dish.choices
+        ]
+    )
 
 
 @general_bp.route("/about/")
@@ -204,7 +207,7 @@ def profile() -> str:
 def favicon() -> str:
     "Generate the favicon"
     # pylint: disable=R1705
-    if not get_orders((Order.stoptime > datetime.now())):
+    if not get_orders(Order.stoptime > datetime.now()):
         return send_from_directory(
             os.path.join(app.root_path, "static"),
             "favicon.ico",

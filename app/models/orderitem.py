@@ -1,8 +1,9 @@
 "Script for everything OrderItem related in the database"
 from datetime import datetime
 
-from utils import first
 from hlds.definitions import location_definitions
+from utils import first
+
 from .database import db
 from .order import Order
 from .user import User
@@ -21,20 +22,20 @@ class OrderItem(db.Model):
     comment = db.Column(db.Text(), nullable=True)
     hlds_data_version = db.Column(db.String(40), nullable=True)
 
-    choices = db.relationship("OrderItemChoice", backref="order_item", lazy="dynamic")
+    choices = db.relationship("OrderItemChoice",
+                              backref="order_item",
+                              lazy="dynamic")
 
     def __getattr__(self, name):
         if name == "dish":
-            location_id = (
-                Order.query.filter(Order.id == self.order_id).first().location_id
-            )
+            location_id = (Order.query.filter(
+                Order.id == self.order_id).first().location_id)
             location = first(
-                filter(lambda l: l.id == location_id, location_definitions)
-            )
+                filter(lambda l: l.id == location_id, location_definitions))
             if location:
-                return first(filter(lambda d: d.id == self.dish_id, location.dishes))
-            else:
-                raise ValueError("No Location found with id: " + location_id)
+                return first(
+                    filter(lambda d: d.id == self.dish_id, location.dishes))
+            raise ValueError(f"No Location found with id: {location_id}")
         raise AttributeError()
 
     @property
@@ -45,11 +46,7 @@ class OrderItem(db.Model):
         return self.user_name
 
     def __repr__(self) -> str:
-        return "Order %d: %s wants %s" % (
-            self.order_id or 0,
-            self.for_name,
-            self.dish_name or "None",
-        )
+        return "Order {self.order_id or 0}: {self.for_name} wants {self.dish_name or 'None'}"
 
     def update_from_hlds(self) -> None:
         """

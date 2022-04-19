@@ -17,12 +17,12 @@ def list_routes() -> str:
     for rule in app.url_map.iter_rules():
         options = {}
         for arg in rule.arguments:
-            options[arg] = "[{0}]".format(arg)
+            options[arg] = f"[{arg}]"
         print(rule.endpoint)
         methods = ",".join(rule.methods)
         url = url_for(rule.endpoint, **options)
         line = urllib.parse.unquote(
-            "{:50s} {:20s} {}".format(rule.endpoint, methods, url)
+            f"{rule.endpoint:50s} {methods:20s} {url}"
         )
         output.append(line)
 
