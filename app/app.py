@@ -24,6 +24,7 @@ from zeus import init_oauth
 
 
 def register_plugins(app: Flask) -> Manager:
+    """Register the plugins to the app"""
     # pylint: disable=W0612
     if not app.debug:
         timedFileHandler = TimedRotatingFileHandler(
@@ -79,7 +80,8 @@ def register_plugins(app: Flask) -> Manager:
 
 
 def add_handlers(app: Flask) -> None:
-    "Add handlers for 4xx error codes"
+    """Add handlers for 4xx error codes"""
+
     # pylint: disable=W0612,W0613
     @app.errorhandler(404)
     def handle404(e) -> typing.Tuple[str, int]:
@@ -91,7 +93,7 @@ def add_handlers(app: Flask) -> None:
 
 
 def add_routes(application: Flask) -> None:
-    "Add all routes to Haldis"
+    """Add all routes to Haldis"""
     # import views  # TODO convert to blueprint
     # import views.stats  # TODO convert to blueprint
 
@@ -113,7 +115,8 @@ def add_routes(application: Flask) -> None:
 
 
 def add_template_filters(app: Flask) -> None:
-    "Add functions which can be used in the templates"
+    """Add functions which can be used in the templates"""
+
     # pylint: disable=W0612
     @app.template_filter("countdown")
     def countdown(
@@ -150,17 +153,22 @@ def add_template_filters(app: Flask) -> None:
     app.template_filter("all")(all)
 
 
-app = Flask(__name__)
+def create_app():
+    """Initializer for the Flask app object"""
+    app = Flask(__name__)
 
-# Load the config file
-app.config.from_object("config.Configuration")
+    # Load the config file
+    app.config.from_object("config.Configuration")
 
-app_manager = register_plugins(app)
-add_handlers(app)
-add_routes(app)
-add_template_filters(app)
+    app_manager = register_plugins(app)
+    add_handlers(app)
+    add_routes(app)
+    add_template_filters(app)
+
+    return app_manager
 
 
 # For usage when you directly call the script with python
 if __name__ == "__main__":
-    app_manager.run()
+    app_mgr = create_app()
+    app_mgr.run()
