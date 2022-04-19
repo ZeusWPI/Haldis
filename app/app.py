@@ -23,76 +23,77 @@ from utils import euro_string, price_range_string
 from zeus import init_oauth
 
 
-def register_plugins(_app: Flask) -> Manager:
-    "Register the plugins to the app"
+def register_plugins(app: Flask) -> Manager:
+    """Register the plugins to the app"""
     # pylint: disable=W0612
-    if not _app.debug:
+    if not app.debug:
         timedFileHandler = TimedRotatingFileHandler(
-            _app.config["LOGFILE"], when="midnight", backupCount=100
+            app.config["LOGFILE"], when="midnight", backupCount=100
         )
         timedFileHandler.setLevel(logging.DEBUG)
 
         loglogger = logging.getLogger("werkzeug")
         loglogger.setLevel(logging.DEBUG)
         loglogger.addHandler(timedFileHandler)
-        _app.logger.addHandler(timedFileHandler)
+        app.logger.addHandler(timedFileHandler)
 
     # Initialize SQLAlchemy
-    db.init_app(_app)
+    db.init_app(app)
 
     # Initialize Flask-Migrate
-    migrate = Migrate(_app, db)
-    _app_manager = Manager(_app)
-    _app_manager.add_command("db", MigrateCommand)
-    _app_manager.add_command("runserver", Server(port=8000))
-    init_admin(_app, db)
+    migrate = Migrate(app, db)
+    app_manager = Manager(app)
+    app_manager.add_command("db", MigrateCommand)
+    app_manager.add_command("runserver", Server(port=8000))
+    init_admin(app, db)
 
     # Init login manager
     login_manager = LoginManager()
-    login_manager.init_app(_app)
+    login_manager.init_app(app)
     login_manager.anonymous_user = AnonymouseUser
-    init_login(_app)
+    init_login(app)
 
     # Add oauth
-    zeus = init_oauth(_app)
-    _app.zeus = zeus
+    zeus = init_oauth(app)
+    app.zeus = zeus
 
     # Load the bootstrap local cdn
-    Bootstrap(_app)
-    _app.config["BOOTSTRAP_SERVE_LOCAL"] = True
+    Bootstrap(app)
+    app.config["BOOTSTRAP_SERVE_LOCAL"] = True
 
     # use our own bootstrap theme
-    _app.extensions["bootstrap"]["cdns"]["bootstrap"] = StaticCDN()
+    app.extensions["bootstrap"]["cdns"]["bootstrap"] = StaticCDN()
 
     # Load the flask debug toolbar
-    toolbar = DebugToolbarExtension(_app)
+    toolbar = DebugToolbarExtension(app)
 
     # Make cookies more secure
-    _app.config.update(
+    app.config.update(
         SESSION_COOKIE_HTTPONLY=True,
         SESSION_COOKIE_SAMESITE="Lax",
     )
 
-    if not _app.debug:
-        _app.config.update(SESSION_COOKIE_SECURE=True)
+    if not app.debug:
+        app.config.update(SESSION_COOKIE_SECURE=True)
 
-    return _app_manager
+    return app_manager
 
 
-def add_handlers(_app: Flask) -> None:
-    "Add handlers for 4xx error codes"
+def add_handlers(app: Flask) -> None:
+    """Add handlers for 4xx error codes"""
+
     # pylint: disable=W0612,W0613
-    @_app.errorhandler(404)
+    @app.errorhandler(404)
     def handle404(e) -> typing.Tuple[str, int]:
         return render_template("errors/404.html"), 404
 
-    @_app.errorhandler(401)
+    @app.errorhandler(401)
     def handle401(e) -> typing.Tuple[str, int]:
         return render_template("errors/401.html"), 401
 
 
 def add_routes(application: Flask) -> None:
-    "Add all routes to Haldis"
+    """Add all routes to Haldis"""
     # import views  # TODO convert to blueprint
     # import views.stats  # TODO convert to blueprint
 
@@ -113,8 +114,9 @@ def add_routes(application: Flask) -> None:
         application.register_blueprint(debug_bp, url_prefix="/debug")
 
 
-def add_template_filters(_app: Flask) -> None:
-    "Add functions which can be used in the templates"
+def add_template_filters(app: Flask) -> None:
+    """Add functions which can be used in the templates"""
+
     # pylint: disable=W0612
     @app.template_filter("countdown")
     def countdown(
@@ -145,23 +147,28 @@ def add_template_filters(_app: Flask) -> None:
     def current_year(_value: typing.Any) -> str:
         return str(datetime.now().year)
 
-    _app.template_filter("euro")(euro_string)
-    _app.template_filter("price_range")(price_range_string)
-    _app.template_filter("any")(any)
-    _app.template_filter("all")(all)
+    app.template_filter("euro")(euro_string)
+    app.template_filter("price_range")(price_range_string)
+    app.template_filter("any")(any)
+    app.template_filter("all")(all)
 
 
-app = Flask(__name__)
+def create_app():
+    """Initializer for the Flask app object"""
+    app = Flask(__name__)
 
-# Load the config file
-app.config.from_object("config.Configuration")
+    # Load the config file
+    app.config.from_object("config.Configuration")
 
-app_manager = register_plugins(app)
-add_handlers(app)
-add_routes(app)
-add_template_filters(app)
+    app_manager = register_plugins(app)
+    add_handlers(app)
+    add_routes(app)
+    add_template_filters(app)
+
+    return app_manager
 
 
 # For usage when you directly call the script with python
 if __name__ == "__main__":
-    app_manager.run()
+    app_mgr = create_app()
+    app_mgr.run()
