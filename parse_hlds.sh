@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -euo pipefail
 
 # args = map(lambda arg: arg if x[0] in "/-" else pwd+arg, sys.argv[1:])
