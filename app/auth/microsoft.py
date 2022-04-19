@@ -44,7 +44,7 @@ def authorized() -> typing.Any:
     client.set_token(resp.data)
 
     resp = client.users.get_me()
-    print(resp.data)
+    # print(resp.data)
 
     username = resp.data['userPrincipalName']
     microsoft_uuid = resp.data['id']
