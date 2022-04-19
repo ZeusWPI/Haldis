@@ -41,7 +41,7 @@ def recreate_from_scratch() -> None:
 
 def add_to_current() -> None:
     """Add things to the current database"""
-    available = [entry_set for entry_set in entry_sets]
+    available = list(entry_sets)
 
     def add_numbers() -> str:
         return "  ".join(

@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+"Module used for parsing the HLDS files"
 
 from hlds.parser import parse_files
 

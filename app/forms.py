@@ -50,6 +50,7 @@ class OrderItemForm(Form):
     submit_button = SubmitField("Submit")
 
     def populate(self, location: Location) -> None:
+        "Populate the order item form"
         self.dish_id.choices = [(dish.id, dish.name) for dish in location.dishes]
         if not self.is_submitted() and self.comment.data is None:
             self.comment.data = request.args.get("comment")
