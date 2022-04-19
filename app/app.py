@@ -16,6 +16,8 @@ from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager, Server
 from auth.login import init_login
 from markupsafe import Markup
+
+from config import Configuration
 from models import db
 from models.anonymous_user import AnonymouseUser
 from utils import euro_string, price_range_string
@@ -108,8 +110,9 @@ def add_routes(application: Flask) -> None:
     application.register_blueprint(order_bp, url_prefix="/order")
     application.register_blueprint(stats_blueprint, url_prefix="/stats")
     application.register_blueprint(auth_bp, url_prefix="/")
-    application.register_blueprint(auth_microsoft_bp,
-                                   url_prefix="/users/auth/microsoft_graph_auth")  # "/auth/microsoft")
+    if Configuration.ENABLE_MICROSOFT_AUTH:
+        application.register_blueprint(auth_microsoft_bp,
+                                       url_prefix="/users/auth/microsoft_graph_auth")  # "/auth/microsoft")
     application.register_blueprint(auth_zeus_bp, url_prefix="/auth/zeus")
 
     if application.debug:
@@ -166,6 +169,10 @@ def create_app():
     add_handlers(app)
     add_routes(app)
     add_template_filters(app)
+
+    @app.context_processor
+    def inject_config():
+        return dict(configuration=Configuration)
 
     return app_manager
 

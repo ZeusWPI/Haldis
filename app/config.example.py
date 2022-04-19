@@ -14,5 +14,7 @@ class Configuration:
     LOGFILE = "haldis.log"
     ZEUS_KEY = "tomtest"
     ZEUS_SECRET = "blargh"
+
+    ENABLE_MICROSOFT_AUTH = False
     MICROSOFT_AUTH_ID = ""
     MICROSOFT_AUTH_SECRET = ""
