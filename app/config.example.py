@@ -1,4 +1,4 @@
-"An example for a Haldis config"
+"""An example for a Haldis config"""
 # config
 
 
@@ -14,3 +14,5 @@ class Configuration:
     LOGFILE = "haldis.log"
     ZEUS_KEY = "tomtest"
     ZEUS_SECRET = "blargh"
+    MICROSOFT_AUTH_ID = ""
+    MICROSOFT_AUTH_SECRET = ""

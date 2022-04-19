@@ -3,11 +3,15 @@ from models import db
 
 
 class User(db.Model):
-    "Class used for configuring the User model in the database"
+    """Class used for configuring the User model in the database"""
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     admin = db.Column(db.Boolean)
     bias = db.Column(db.Integer)
+    # Microsoft OAUTH info
+    microsoft_uuid = db.Column(db.String(120), unique=True)
+    ugent_username = db.Column(db.String(80), unique=True)
+    # Relations
     runs = db.relation(
         "Order",
         backref="courier",
@@ -16,11 +20,12 @@ class User(db.Model):
     )
     orderItems = db.relationship("OrderItem", backref="user", lazy="dynamic")
 
-    def configure(self, username: str, admin: bool, bias: int) -> None:
-        "Configure the User"
+    def configure(self, username: str, admin: bool, bias: int, microsoft_uuid: str = None) -> None:
+        """Configure the User"""
         self.username = username
         self.admin = admin
         self.bias = bias
+        self.microsoft_uuid = microsoft_uuid
 
     # pylint: disable=C0111, R0201
     def is_authenticated(self) -> bool:

@@ -4,24 +4,30 @@ import typing
 from flask import (Blueprint, current_app, flash, redirect, request, session,
                    url_for)
 from flask_login import login_user
-from flask_oauthlib.client import OAuth, OAuthException
+from flask_oauthlib.client import OAuth, OAuthException, OAuthRemoteApp
 from models import User, db
 from werkzeug.wrappers import Response
 
-oauth_bp = Blueprint("oauth_bp", __name__)
+auth_zeus_bp = Blueprint("auth_zeus_bp", __name__)
 
 
 def zeus_login():
-    "Log in using ZeusWPI"
+    """Log in using ZeusWPI"""
     return current_app.zeus.authorize(
-        callback=url_for("oauth_bp.authorized", _external=True))
+        callback=url_for("auth_zeus_bp.authorized", _external=True))
 
 
-@oauth_bp.route("/login/zeus/authorized")
+@auth_zeus_bp.route("/login")
+def login():
+    """Function to handle a user trying to log in"""
+    return zeus_login()
+
+
+@auth_zeus_bp.route("/authorized")
 def authorized() -> typing.Any:
     # type is 'typing.Union[str, Response]', but this errors due to
     #   https://github.com/python/mypy/issues/7187
-    "Check authorized status"
+    """Check authorized status"""
     resp = current_app.zeus.authorized_response()
     if resp is None:
         # pylint: disable=C0301
@@ -45,8 +51,8 @@ def authorized() -> typing.Any:
     return redirect(url_for("general_bp.home"))
 
 
-def init_oauth(app):
-    "Initialize the OAuth for ZeusWPI"
+def init_oauth(app) -> OAuthRemoteApp:
+    """Initialize the OAuth for ZeusWPI"""
     oauth = OAuth(app)
 
     zeus = oauth.remote_app(
@@ -69,13 +75,13 @@ def init_oauth(app):
 
 
 def login_and_redirect_user(user) -> Response:
-    "Log in the user and then redirect them"
+    """Log in the user and then redirect them"""
     login_user(user)
     return redirect(url_for("general_bp.home"))
 
 
 def create_user(username) -> User:
-    "Create a temporary user if it is needed"
+    """Create a temporary user if it is needed"""
     user = User()
     user.configure(username, False, 1)
     db.session.add(user)

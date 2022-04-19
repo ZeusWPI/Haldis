@@ -12,3 +12,4 @@ black
 pymysql
 pyyaml
 tatsu<5.6 # >=5.6 needs Python >=3.8
+microsoftgraph-python
