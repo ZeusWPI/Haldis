@@ -12,18 +12,39 @@
 {% block metas %}
 	{{ super() }}
 	<meta name="robots" content="noindex, nofollow">
+
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/qrcode.min.js') }}"></script>
 {% endblock %}
 
 {% block container %}
-<header>
-	<h2 id="order-title">Order {{ order.id }}</h2>
+<header class="row">
+	<div class="col-md-2" style="padding-top: 2em">
+		<div id="qrcode"></div>
+		<script type="text/javascript">
+			var qrcode = new QRCode(document.getElementById("qrcode"), {
+					text: "{{ url_for("order_bp.order_from_slug", order_slug=order.slug, _external=True) }}",
+					width: 128,
+					height: 128,
+					colorDark : "#000000",
+					colorLight : "#ffffff",
+					correctLevel : QRCode.CorrectLevel.H
+			});
+		</script>
+	</div>
+	<div class="col-md-10">
+		<h2 id="order-title">Order {{ order.id }}</h2>
 
-	<div class="location">
-		{% if order.location %}
-			<a href="{{ url_for('general_bp.location', location_id=order.location_id) }}">{{ order.location_name }}</a>
-		{% else %}
-			{{ order.location_name }}
-		{% endif %}
+		<div class="location">
+			{% if order.location %}
+				<a href="{{ url_for('general_bp.location', location_id=order.location_id) }}">{{ order.location_name }}</a>
+			{% else %}
+				{{ order.location_name }}
+			{% endif %}
+		</div>
+		<div>
+			Unique order link: <code>{{ url_for("order_bp.order_from_slug", order_slug=order.slug, _external=True) }}</code>
+		</div>
 	</div>
 </header>
 
