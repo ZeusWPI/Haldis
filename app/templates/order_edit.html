@@ -11,7 +11,7 @@
 				<h3>Edit order</h3>
 				<div class="row darker">
 					<div class="col-sm-12">
-						<form method="post" action="{{ url_for('.order_edit', order_id=order_id) }}">
+						<form method="post" action="{{ url_for('.order_edit', order_slug=order_slug) }}">
 							{{ form.csrf_token }}
 							<div class="form-group select2 {{ 'has-errors' if form.courier_id.errors else ''}}">
 								{{ form.courier_id.label(class='control-label') }}<br>

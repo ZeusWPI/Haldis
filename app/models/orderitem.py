@@ -10,7 +10,7 @@ from .user import User
 
 
 class OrderItem(db.Model):
-    "Class used for configuring the OrderItem model in the database"
+    """Class used for configuring the OrderItem model in the database"""
     id = db.Column(db.Integer, primary_key=True)
     order_id = db.Column(db.Integer, db.ForeignKey("order.id"), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
@@ -60,7 +60,7 @@ class OrderItem(db.Model):
 
     # pylint: disable=W0613
     def can_delete(self, order_id: int, user_id: int, name: str) -> bool:
-        "Check if a user can delete an item"
+        """Check if a user can delete an item"""
         if int(self.order_id) != int(order_id):
             return False
         if self.order.is_closed():

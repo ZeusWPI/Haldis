@@ -1,7 +1,9 @@
-"Script for everything Order related in the database"
+"""Script for everything Order related in the database"""
 import typing
 from collections import defaultdict
 from datetime import datetime
+import secrets
+import string
 
 from hlds.definitions import location_definitions
 from utils import first
@@ -10,8 +12,13 @@ from .database import db
 from .user import User
 
 
+def generate_slug():
+    alphabet = string.ascii_letters + string.digits
+    return ''.join(secrets.choice(alphabet) for i in range(7))
+
+
 class Order(db.Model):
-    "Class used for configuring the Order model in the database"
+    """Class used for configuring the Order model in the database"""
     id = db.Column(db.Integer, primary_key=True)
     courier_id = db.Column(db.Integer, nullable=True)
     location_id = db.Column(db.String(64))
@@ -19,6 +26,7 @@ class Order(db.Model):
     starttime = db.Column(db.DateTime)
     stoptime = db.Column(db.DateTime)
     public = db.Column(db.Boolean, default=True)
+    slug = db.Column(db.String(7), default=generate_slug, unique=True)
 
     items = db.relationship("OrderItem", backref="order", lazy="dynamic")
 
@@ -47,7 +55,7 @@ class Order(db.Model):
         self.location_name = self.location.name
 
     def for_user(self, anon=None, user=None) -> typing.List:
-        "Get the items for a certain user"
+        """Get the items for a certain user"""
         return list(
             filter(
                 (lambda i: i.user == user)
@@ -58,7 +66,7 @@ class Order(db.Model):
         )
 
     def group_by_user(self) -> typing.List[typing.Tuple[str, typing.List]]:
-        "Group items of an Order by user"
+        """Group items of an Order by user"""
         group: typing.Dict[str, typing.List] = {}
 
         # pylint: disable=E1133
@@ -78,7 +86,7 @@ class Order(db.Model):
     ) -> typing.List[
         typing.Tuple[str, int, typing.List[typing.Tuple[str, typing.List]]]
     ]:
-        "Group items of an Order by dish"
+        """Group items of an Order by dish"""
         group: typing.Dict[str, typing.Dict[str, typing.List]] = defaultdict(
             lambda: defaultdict(list)
         )
@@ -101,11 +109,11 @@ class Order(db.Model):
         )
 
     def is_closed(self) -> bool:
-        "Return whether or not the order is closed"
+        """Return whether the order is closed"""
         return self.stoptime and datetime.now() > self.stoptime
 
     def can_close(self, user_id: int) -> bool:
-        "Check if a user can close the Order"
+        """Check if a user can close the Order"""
         if self.stoptime and self.stoptime < datetime.now():
             return False
         user = None

@@ -36,7 +36,7 @@
 					{% for item in my_items %}
 					<li class="spacecake">
 						{% if item.can_delete(order.id, current_user.id, session.get('anon_name', '')) -%}
-							<form action="{{ url_for('order_bp.delete_item', order_id=order.id, item_id=item.id) }}" method="post" style="display:inline">
+							<form action="{{ url_for('order_bp.delete_item', order_slug=order.slug, item_id=item.id) }}" method="post" style="display:inline">
 								<button class="btn btn-link btn-sm" type="submit" style="padding: 0 0.5em;"><span class="glyphicon glyphicon-remove"></span></button>
 							</form>
 						{%- endif %}
@@ -65,7 +65,7 @@
 			<h3>Add item to order</h3>
 
 			{% for dish in order.location.dishes %}
-				<form method="post" action="{{ url_for('order_bp.order_item_create', order_id=order.id) }}" id="dish_{{ dish.id }}">
+				<form method="post" action="{{ url_for('order_bp.order_item_create', order_slug=order.slug) }}" id="dish_{{ dish.id }}">
 					{{ form.csrf_token }}
 					<input type="hidden" name="dish_id" value="{{ dish.id }}" />
 
@@ -167,7 +167,7 @@
 					<dd>
 						{% if order.courier == None %}
 							{% if not current_user.is_anonymous() %}
-							<form action="{{ url_for('order_bp.volunteer', order_id=order.id) }}" method="post" style="display:inline">
+							<form action="{{ url_for('order_bp.volunteer', order_slug=order.slug) }}" method="post" style="display:inline">
 								<input type="submit" class="btn btn-primary btn-sm" value="Volunteer"></input>
 							</form>
 							{% else %}No-one yet{% endif %}
@@ -180,12 +180,12 @@
 
 			<div>
 				{% if order.can_close(current_user.id) -%}
-					<form action="{{ url_for('order_bp.close_order', order_id=order.id) }}" method="post" style="display:inline">
+					<form action="{{ url_for('order_bp.close_order', order_slug=order.slug) }}" method="post" style="display:inline">
 						<input type="submit" class="btn btn-danger" value="Close"></input>
 					</form>
 				{% endif %}
 				{% if courier_or_admin %}
-					<a class="btn" href="{{ url_for('order_bp.order_edit', order_id=order.id) }}">Edit</a>
+					<a class="btn" href="{{ url_for('order_bp.order_edit', order_slug=order.slug) }}">Edit</a>
 				{%- endif %}
 			</div>
 		</div>
@@ -258,7 +258,7 @@
 			<div class="footer">
 				Total {{ order.items.count() }} items — {{ total_price|euro }}
 				&nbsp;
-				<a class="btn btn-sm" href="{{ url_for('order_bp.items_shop_view', order_id=order.id) }}">Shop view</a>
+				<a class="btn btn-sm" href="{{ url_for('order_bp.items_shop_view', order_slug=order.slug) }}">Shop view</a>
 			</div>
 		</div>
 	</div>
@@ -290,7 +290,7 @@
 							<li class="{{ 'paid' if item.paid }}">
 								<div class="actions">
 								{% if item.can_delete(order.id, current_user.id, session.get('anon_name', '')) -%}
-									<form action="{{ url_for('order_bp.delete_item', order_id=order.id, item_id=item.id) }}" method="post" style="display:inline">
+									<form action="{{ url_for('order_bp.delete_item', order_slug=order.slug, item_id=item.id) }}" method="post" style="display:inline">
 										<button class="btn btn-link btn-sm" type="submit" style="padding: 0 0.5em;"><span class="glyphicon glyphicon-remove"></span></button>
 									</form>
 								{% else %}
