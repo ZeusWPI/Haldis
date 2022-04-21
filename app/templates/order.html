@@ -316,9 +316,6 @@
 								<div class="item_description">{{ item.dish_name }}{{ "; " + item.comment if item.comment }}</div>
 							</li>
 						{% endfor %}
-							<li>
-								<button class="btn btn-link btn-sm" onclick="alert('TODO')" style="color: green; padding: 0 0.5em;"><span class="glyphicon glyphicon-plus"></span></button>
-							</li>
 						</ul>
 					</td>
 
@@ -331,8 +328,6 @@
 			On selected:
 			<button name="action" value="mark_paid" class="btn btn-sm"><span class="glyphicon glyphicon-ok"></span> Mark paid</button>
 			<button name="action" value="mark_unpaid" class="btn btn-sm">Mark unpaid</button>
-			<button disabled name="action" value="tab" class="btn btn-sm"><span class="glyphicon glyphicon-piggy-bank"></span> Tab (TODO)</button>
-			<button disabled name="action" value="qr" class="btn btn-sm"><span class="glyphicon glyphicon-qrcode"></span> QR code (TODO)</button>
 
 			{% if order.is_closed() %}
 				&nbsp; <span style="border-left: 1px solid var(--gray0); display: inline-block;">&nbsp;</span>&nbsp;
