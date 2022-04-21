@@ -119,12 +119,14 @@
 			$(".noscript").css("display", "none");
 			$(".script").css("display", "unset");
 
-			$("#per_dish input").on("change", e => {
+			function updatePerPersonPrices(e) {
 				console.log(e.target);
 				for (let item_id of e.target.dataset.forItems.split(",")) {
 					$("#item_" + item_id).val(e.target.value);
 				}
-			});
+			};
+			$("#per_dish input").on("change", updatePerPersonPrices);
+			$("#per_dish input").on("keyup", updatePerPersonPrices);
 		});
 	</script>
 {% endblock %}
