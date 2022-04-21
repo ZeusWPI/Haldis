@@ -1,0 +1,130 @@
+{% extends "layout.html" %}
+{% set active_page = "orders" -%}
+
+{% import "utils.html" as util %}
+
+{% block metas %}
+	{{ super() }}
+	<meta name="robots" content="noindex, nofollow">
+{% endblock %}
+
+{% block container %}
+<header>
+	<h2 id="order-title">Edit prices</h2>
+	<div>Only applied to <a href="{{ url_for('order_bp.order_from_id', order_id=order.id) }}">order {{ order.id }}</a>. To permanently change prices for {{ order.location_name }}, edit the <a href="https://git.zeus.gent/haldis/menus/-/blob/master/{{order.location_id}}.hlds">HLDS location definition</a>.</div>
+</header>
+
+<form action="{{ url_for('order_bp.prices', order_id=order.id) }}" method="post">
+	<div class="col-md-6" id="per_dish">
+		<h3>Per dish</h3>
+		<div class="noscript">This functionality requires JavaScript.</div>
+		<div class="script">
+
+			<table class="table table-condensed">
+				<thead>
+					<tr><th colspan="2">Dish</th><th>Price</th></tr>
+				</thead>
+				<tbody>
+				{% for dish_name, dish_quantity, dish_comment_groups in order.group_by_dish() -%}
+					{% set has_comments = dish_comment_groups | length > 1 or (dish_comment_groups | map("first") | any) -%}
+					{% for comment, items in dish_comment_groups -%}
+
+						<tr>
+							{% if loop.first %}
+							<td rowspan="{{dish_comment_groups | length }}">
+								<span class="quantity">{{ dish_quantity }}</span> ×
+								{{ dish_name }}
+							</td>
+							{% endif %}
+
+							<td>
+								<span class="quantity">{{ items | length }}</span> ×
+								{% if comment %}{{ comment }}
+								{% else %}<i>No comment</i>
+								{% endif %}
+							</td>
+
+							<td>
+								{% set price = items[0].price | euro("") %}
+								{% set item_ids = items | map(attribute="id") %}
+								€ <input type="text" data-for-items="{{ item_ids | join(",") }}" value="{{ price }}">
+							</td>
+						</tr>
+
+					{% endfor %}
+				{%- endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<div class="col-md-6" id="per_person">
+		<h3>Per person</h3>
+		<table class="table table-condensed">
+			<thead>
+				<tr><th>Name</th><th>Items</th></tr>
+			</thead>
+			<tbody>
+			{% for user_name, order_items in order.group_by_user() -%}
+				<tr>
+					<td>{{ user_name }}</td>
+					<td class="items">
+						<ul>
+						{% for item in order_items %}
+							<li class="{{ 'paid' if item.paid }}">
+								€ <input type="text" value="{{ item.price|euro("") }}" name="item_{{ item.id }}" id="item_{{ item.id }}">
+								<span class="item_description">{{ item.dish_name }}{{ "; " + item.comment if item.comment }}</span>
+							</li>
+						{% endfor %}
+						</ul>
+					</td>
+
+				</tr>
+			{%- endfor %}
+			</tbody>
+		</table>
+	</div>
+
+	<div>
+		<a href="{{ url_for('order_bp.order_from_id', order_id=order.id) }}" class="btn btn-sm">Cancel</a>
+		<button class="btn btn-sm btn-primary">Apply</button>
+	</div>
+</form>
+
+{% endblock %}
+
+{% block styles %}
+	{{ super() }}
+	<style>
+.script {
+	display: none;
+}
+
+#per_dish ul, #per_person ul {
+	list-style-type: none;
+	padding: 0;
+}
+
+#per_dish input, #per_person input {
+	width: 3em;
+}
+	</style>
+{% endblock %}
+
+{% block scripts %}
+	{{ super() }}
+	<script type="text/javascript">
+		"use strict";
+		$(window).on("load", () => {
+			$(".noscript").css("display", "none");
+			$(".script").css("display", "unset");
+
+			$("#per_dish input").on("change", e => {
+				console.log(e.target);
+				for (let item_id of e.target.dataset.forItems.split(",")) {
+					$("#item_" + item_id).val(e.target.value);
+				}
+			});
+		});
+	</script>
+{% endblock %}

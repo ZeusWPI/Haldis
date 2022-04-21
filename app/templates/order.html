@@ -307,7 +307,12 @@
 								{%- endif %}
 								</div>
 
-								<div class="price_aligned">{{ item.price|euro }}</div>
+								<div class="price_aligned">
+									{{ item.price|euro }}
+									{% if item.price_modified %}
+										<span class="glyphicon glyphicon-pencil" style="opacity: 0.5" title="Edited"></span>
+									{% endif %}
+								</div>
 								<div class="item_description">{{ item.dish_name }}{{ "; " + item.comment if item.comment }}</div>
 							</li>
 						{% endfor %}
@@ -328,6 +333,14 @@
 			<button name="action" value="mark_unpaid" class="btn btn-sm">Mark unpaid</button>
 			<button disabled name="action" value="tab" class="btn btn-sm"><span class="glyphicon glyphicon-piggy-bank"></span> Tab (TODO)</button>
 			<button disabled name="action" value="qr" class="btn btn-sm"><span class="glyphicon glyphicon-qrcode"></span> QR code (TODO)</button>
+
+			{% if order.is_closed() %}
+				&nbsp; <span style="border-left: 1px solid var(--gray0); display: inline-block;">&nbsp;</span>&nbsp;
+				<a href="{{ url_for('order_bp.prices', order_id=order.id) }}" class="btn btn-sm">
+					<span class="glyphicon glyphicon-pencil"></span>  Edit prices
+				</a>
+			{% endif %}
+
 		</div>
 		</form>
 	</div>

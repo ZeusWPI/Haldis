@@ -1,5 +1,6 @@
 "Script to generate the order related views of Haldis"
 import random
+import re
 import typing
 from datetime import datetime
 
@@ -11,7 +12,7 @@ from forms import AnonOrderItemForm, OrderForm, OrderItemForm
 from hlds.definitions import location_definition_version, location_definitions
 from models import Order, OrderItem, User, db
 from notification import post_order_to_webhook
-from utils import ignore_none
+from utils import ignore_none, parse_euro_string
 from werkzeug.wrappers import Response
 
 order_bp = Blueprint("order_bp", "order")
@@ -321,6 +322,54 @@ def close_order(order_id: int) -> typing.Optional[Response]:
         db.session.commit()
         return redirect(url_for("order_bp.order_from_id", order_id=order_id))
     return None
+
+
+@order_bp.route("/<order_id>/prices", methods=["GET", "POST"])
+@login_required
+def prices(order_id: int) -> typing.Optional[Response]:
+    order = Order.query.filter(Order.id == order_id).first()
+    if order is None:
+        abort(404)
+    if (
+            current_user.is_anonymous() or
+            not (current_user.is_admin() or current_user.id == order.courier_id)
+    ):
+        flash("Only the courier can edit prices.", "error")
+        return redirect(url_for("order_bp.order_from_id", order_id=order_id))
+    if not order.is_closed():
+        flash("Cannot modify prices until the order is closed.", "error")
+        return redirect(url_for("order_bp.order_from_id", order_id=order_id))
+
+    if request.method == "GET":
+        return render_template(
+            "order_prices.html",
+            order=order,
+        )
+    else:
+        new_prices = {}
+
+        for key, value in request.form.items():
+            m = re.fullmatch("item_([0-9]+)", key)
+            if not m:
+                continue
+            item_id = int(m.group(1))
+
+            price = parse_euro_string(value)
+            if not price:
+                flash(f"Could not recognize '{value}' as a price")
+                continue
+
+            new_prices[item_id] = price
+
+        for item in order.items:
+            new_price = new_prices.get(item.id)
+            if new_price is not None and new_price != item.price:
+                item.price = new_price
+                item.price_modified = datetime.now()
+        db.session.commit()
+
+    return redirect(url_for("order_bp.order_from_id", order_id=order_id))
+
 
 
 def select_user(items) -> typing.Optional[User]:
