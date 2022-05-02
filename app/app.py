@@ -165,10 +165,10 @@ def create_app():
     add_routes(app)
     add_template_filters(app)
 
-    return app_manager
+    return app, app_manager
 
 
 # For usage when you directly call the script with python
 if __name__ == "__main__":
-    app_mgr = create_app()
+    app, app_mgr = create_app()
     app_mgr.run()

@@ -20,7 +20,7 @@ sys.path.append(os.getcwd())
 # and the WSGI object to be called `application`
 from app import create_app
 
-application = create_app()
+application, appmgr = create_app()
 
 # For running on the server with passenger etc
 if __name__ == "__main__":
