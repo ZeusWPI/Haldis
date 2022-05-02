@@ -330,14 +330,8 @@ def prices(order_id: int) -> typing.Optional[Response]:
     order = Order.query.filter(Order.id == order_id).first()
     if order is None:
         abort(404)
-    if (
-            current_user.is_anonymous() or
-            not (current_user.is_admin() or current_user.id == order.courier_id)
-    ):
-        flash("Only the courier can edit prices.", "error")
-        return redirect(url_for("order_bp.order_from_id", order_id=order_id))
-    if not order.is_closed():
-        flash("Cannot modify prices until the order is closed.", "error")
+    if not order.can_modify_prices(current_user.id):
+        flash("You cannot modify the prices at this time.", "error")
         return redirect(url_for("order_bp.order_from_id", order_id=order_id))
 
     if request.method == "GET":

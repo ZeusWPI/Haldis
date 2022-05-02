@@ -114,3 +114,17 @@ class Order(db.Model):
         if self.courier_id == user_id or (user and user.is_admin()):
             return True
         return False
+
+    def can_modify_prices(self, user_id: int) -> bool:
+        if not self.is_closed():
+            return False
+        if user_id is None:
+            return False
+        if self.courier_id == user_id:
+            return True
+        user = User.query.filter_by(id=user_id).first()
+        return user and user.is_admin()
+
+    def can_modify_payment(self, user_id: int) -> bool:
+        user = User.query.filter_by(id=user_id).first()
+        return user and (user.is_admin() or user == self.order.courier)

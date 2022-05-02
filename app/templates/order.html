@@ -290,9 +290,9 @@
 							{{ order_items | map(attribute="price") | sum | euro }}
 						</span>
 
-						{% if paid %}<span class="glyphicon glyphicon-ok"></span>{% endif %}
+						{% if paid %}<span class="glyphicon glyphicon-ok" style="opacity: 0.5"></span>{% endif %}
 					</td>
-					<td>{{ user_name }}</td>
+					<td style="{{ 'opacity: 0.5' if paid }}">{{ user_name }}</td>
 					<td class="items">
 						<ul>
 						{% for item in order_items %}
@@ -325,11 +325,13 @@
 		</table>
 
 		<div class="footer">
+			{% if order.can_modify_payment(current_user.id) %}
 			On selected:
 			<button name="action" value="mark_paid" class="btn btn-sm"><span class="glyphicon glyphicon-ok"></span> Mark paid</button>
 			<button name="action" value="mark_unpaid" class="btn btn-sm">Mark unpaid</button>
+			{% endif %}
 
-			{% if order.is_closed() %}
+			{% if order.can_modify_prices(current_user.id) %}
 				&nbsp; <span style="border-left: 1px solid var(--gray0); display: inline-block;">&nbsp;</span>&nbsp;
 				<a href="{{ url_for('order_bp.prices', order_id=order.id) }}" class="btn btn-sm">
 					<span class="glyphicon glyphicon-pencil"></span>  Edit prices
