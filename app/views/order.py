@@ -226,10 +226,12 @@ def order_item_create(order_id: int) -> typing.Any:
     return redirect(url_for("order_bp.order_from_id", order_id=order_id))
 
 
-@order_bp.route("/<order_id>/users_paid", methods=["POST"])
+@order_bp.route("/<order_id>/modify_items", methods=["POST"])
 @login_required
 # pylint: disable=R1710
-def items_user_paid(order_id: int) -> typing.Optional[Response]:
+def modify_items(order_id: int) -> typing.Optional[Response]:
+    if "delete_item" in request.form:
+        return delete_item(order_id, int(request.form["delete_item"]))
     user_names = request.form.getlist("user_names")
     if request.form.get("action") == "mark_paid":
         return set_items_paid(order_id, user_names, True)
@@ -237,6 +239,7 @@ def items_user_paid(order_id: int) -> typing.Optional[Response]:
         return set_items_paid(order_id, user_names, False)
     else:
         abort(404)
+        return None
 
 def set_items_paid(order_id: int, user_names: typing.Iterable[str], paid: bool):
     total_paid_items = 0
