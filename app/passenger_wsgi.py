@@ -18,8 +18,9 @@ sys.path.append(os.getcwd())
 
 # Phusion Passenger expects this file to be called `passenger_wsgi.py`
 # and the WSGI object to be called `application`
-from app import app as application
+from app import create_app
 
 # For running on the server with passenger etc
 if __name__ == "__main__":
+    application = create_app()
     application.run()
