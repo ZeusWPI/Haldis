@@ -18,6 +18,7 @@ class OrderItem(db.Model):
     dish_id = db.Column(db.String(64), nullable=True)
     dish_name = db.Column(db.String(120), nullable=True)
     price = db.Column(db.Integer, nullable=True)
+    price_modified = db.Column(db.DateTime, nullable=True)
     paid = db.Column(db.Boolean, default=False, nullable=True)
     comment = db.Column(db.Text(), nullable=True)
     hlds_data_version = db.Column(db.String(40), nullable=True)
@@ -68,6 +69,15 @@ class OrderItem(db.Model):
         if self.user is not None and self.user_id == user_id:
             return True
         if user_id is None:
+            return False
+        user = User.query.filter(User.id == user_id).first()
+        if user and (user.is_admin() or user == self.order.courier):
+            return True
+        return False
+
+    # pylint: disable=W0613
+    def can_modify_payment(self, order_id: int, user_id: int) -> bool:
+        if int(self.order_id) != int(order_id):
             return False
         user = User.query.filter(User.id == user_id).first()
         if user and (user.is_admin() or user == self.order.courier):

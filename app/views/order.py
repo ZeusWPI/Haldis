@@ -1,5 +1,6 @@
 "Script to generate the order related views of Haldis"
 import random
+import re
 import typing
 from datetime import datetime
 
@@ -11,7 +12,7 @@ from forms import AnonOrderItemForm, OrderForm, OrderItemForm
 from hlds.definitions import location_definition_version, location_definitions
 from models import Order, OrderItem, User, db
 from notification import post_order_to_webhook
-from utils import ignore_none
+from utils import ignore_none, parse_euro_string
 from werkzeug.wrappers import Response
 
 order_bp = Blueprint("order_bp", "order")
@@ -225,29 +226,47 @@ def order_item_create(order_id: int) -> typing.Any:
     return redirect(url_for("order_bp.order_from_id", order_id=order_id))
 
 
-@order_bp.route("/<order_id>/<user_name>/user_paid", methods=["POST"])
+@order_bp.route("/<order_id>/users_paid", methods=["POST"])
 @login_required
 # pylint: disable=R1710
-def items_user_paid(order_id: int, user_name: str) -> typing.Optional[Response]:
-    "Indicate payment status for a user in an order"
-    user = User.query.filter(User.username == user_name).first()
-    items: typing.List[OrderItem] = []
-    if user:
-        items = OrderItem.query.filter(
-            (OrderItem.user_id == user.id) & (OrderItem.order_id == order_id)
-        ).all()
+def items_user_paid(order_id: int) -> typing.Optional[Response]:
+    user_names = request.form.getlist("user_names")
+    if request.form.get("action") == "mark_paid":
+        return set_items_paid(order_id, user_names, True)
+    elif request.form.get("action") == "mark_unpaid":
+        return set_items_paid(order_id, user_names, False)
     else:
-        items = OrderItem.query.filter(
-            (OrderItem.user_name == user_name) & (OrderItem.order_id == order_id)
-        ).all()
-    current_order = Order.query.filter(Order.id == order_id).first()
-    if current_order.courier_id == current_user.id or current_user.admin:
+        abort(404)
+
+def set_items_paid(order_id: int, user_names: typing.Iterable[str], paid: bool):
+    total_paid_items = 0
+    total_failed_items = 0
+    for user_name in user_names:
+        user = User.query.filter(User.username == user_name).first()
+        items: typing.List[OrderItem] = []
+        if user:
+            items = OrderItem.query.filter(
+                (OrderItem.user_id == user.id) & (OrderItem.order_id == order_id)
+            ).all()
+        else:
+            items = OrderItem.query.filter(
+                (OrderItem.user_name == user_name) & (OrderItem.order_id == order_id)
+            ).all()
+
         for item in items:
-            item.paid = True
-        db.session.commit()
-        flash("Paid %d items for %s" % (len(items), item.for_name), "success")
-        return redirect(url_for("order_bp.order_from_id", order_id=order_id))
-    abort(404)
+            if item.can_modify_payment(order_id, current_user.id):
+                if item.paid != paid:
+                    item.paid = paid
+                    total_paid_items += 1
+            else:
+                total_failed_items += 1
+
+    db.session.commit()
+    if total_failed_items == 0:
+        flash("Marked %d items as paid" % (total_paid_items,), "success")
+    else:
+        flash("Failed to mark %d items as paid (succeeded in marking %d items as paid)" % (total_failed_items, total_paid_items), "error")
+    return redirect(url_for("order_bp.order_from_id", order_id=order_id))
 
 
 @order_bp.route("/<order_id>/<item_id>/delete", methods=["POST"])
@@ -303,6 +322,54 @@ def close_order(order_id: int) -> typing.Optional[Response]:
         db.session.commit()
         return redirect(url_for("order_bp.order_from_id", order_id=order_id))
     return None
+
+
+@order_bp.route("/<order_id>/prices", methods=["GET", "POST"])
+@login_required
+def prices(order_id: int) -> typing.Optional[Response]:
+    order = Order.query.filter(Order.id == order_id).first()
+    if order is None:
+        abort(404)
+    if (
+            current_user.is_anonymous() or
+            not (current_user.is_admin() or current_user.id == order.courier_id)
+    ):
+        flash("Only the courier can edit prices.", "error")
+        return redirect(url_for("order_bp.order_from_id", order_id=order_id))
+    if not order.is_closed():
+        flash("Cannot modify prices until the order is closed.", "error")
+        return redirect(url_for("order_bp.order_from_id", order_id=order_id))
+
+    if request.method == "GET":
+        return render_template(
+            "order_prices.html",
+            order=order,
+        )
+    else:
+        new_prices = {}
+
+        for key, value in request.form.items():
+            m = re.fullmatch("item_([0-9]+)", key)
+            if not m:
+                continue
+            item_id = int(m.group(1))
+
+            price = parse_euro_string(value)
+            if not price:
+                flash(f"Could not recognize '{value}' as a price")
+                continue
+
+            new_prices[item_id] = price
+
+        for item in order.items:
+            new_price = new_prices.get(item.id)
+            if new_price is not None and new_price != item.price:
+                item.price = new_price
+                item.price_modified = datetime.now()
+        db.session.commit()
+
+    return redirect(url_for("order_bp.order_from_id", order_id=order_id))
+
 
 
 def select_user(items) -> typing.Optional[User]:
