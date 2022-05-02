@@ -277,14 +277,8 @@
 				<tr>
 					<td>
 						{% set paid = order_items | map(attribute="paid") | all %}
-						{% set can_modify_payment = True %}
-						{% for order_item in order_items %}
-							{% if not order_item.can_modify_payment(order.id, current_user.id) %}
-								{% set can_modify_payment = False %}
-							{% endif %}
-						{% endfor %}
 						<input type="checkbox" name="user_names" value="{{ user_name }}"
-								{{ "disabled" if not can_modify_payment }}>
+								{{ "disabled" if not order.can_modify_payment(current_user.id) }}>
 
 						<span class="price" style="{{ 'opacity: 0.5' if paid }}">
 							{{ order_items | map(attribute="price") | sum | euro }}
