@@ -62,8 +62,8 @@ def order_from_id(order_id: int, form: OrderForm = None, dish_id=None) -> str:
             form.populate(order.location)
     if order.is_closed():
         form = None
-    total_price = sum(o.price for o in order.items)
-    debts = sum(o.price for o in order.items if not o.paid)
+    total_price = sum(o.price or 0 for o in order.items)
+    debts = sum(o.price or 0 for o in order.items if not o.paid)
 
     dish = order.location.dish_by_id(dish_id) if order.location else None
 
@@ -86,7 +86,7 @@ def items_shop_view(order_id: int) -> str:
     if current_user.is_anonymous() and not order.public:
         flash("Please login to see this order.", "info")
         abort(401)
-    total_price = sum(o.price for o in order.items)
+    total_price = sum(o.price or 0 for o in order.items)
     return render_template("order_items.html", order=order, total_price=total_price)
 
 
