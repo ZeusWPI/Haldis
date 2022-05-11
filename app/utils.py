@@ -4,10 +4,12 @@ import re
 from typing import Iterable, Optional
 
 
-def euro_string(value: int, unit="€ ") -> str:
+def euro_string(value: Optional[int], unit="€ ") -> str:
     """
     Convert cents to string formatted euro
     """
+    if value is None:
+        return "✗"
     euro, cents = divmod(value, 100)
     if cents:
         return f"{unit}{euro}.{cents:02}"

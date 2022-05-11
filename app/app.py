@@ -19,7 +19,7 @@ from login import init_login
 from markupsafe import Markup
 from models import db
 from models.anonymous_user import AnonymouseUser
-from utils import euro_string, price_range_string
+from utils import euro_string, price_range_string, ignore_none
 from zeus import init_oauth
 
 
@@ -151,6 +151,7 @@ def add_template_filters(app: Flask) -> None:
     app.template_filter("price_range")(price_range_string)
     app.template_filter("any")(any)
     app.template_filter("all")(all)
+    app.template_filter("ignore_none")(ignore_none)
 
 
 def create_app():

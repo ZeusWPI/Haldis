@@ -281,7 +281,7 @@
 								{{ "disabled" if not order.can_modify_payment(current_user.id) }}>
 
 						<span class="price" style="{{ 'opacity: 0.5' if paid }}">
-							{{ order_items | map(attribute="price") | sum | euro }}
+							{{ order_items | map(attribute="price") | ignore_none | sum | euro }}
 						</span>
 
 						{% if paid %}<span class="glyphicon glyphicon-ok" style="opacity: 0.5"></span>{% endif %}
