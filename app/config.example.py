@@ -8,7 +8,7 @@ class Configuration:
     SQLALCHEMY_DATABASE_URI = "sqlite:///haldis.db"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     DEBUG = True
-    HALDIS_ADMIN_USERS = []
+    HALDIS_ADMINS = []
     SECRET_KEY = "<change>"
     SLACK_WEBHOOK = None
     LOGFILE = "haldis.log"

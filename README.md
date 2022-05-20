@@ -26,7 +26,7 @@ Afterwards upgrade the database to the latest version using
 	cd app
 	python3 app.py db upgrade
 
-You can now still seed the database by running, note that you might want to put your name in the `HALDIS_ADMIN_USERS` in `app/config.py`
+You can now still seed the database by running, note that you might want to put your name in the `HALDIS_ADMINS` in `app/config.py`
 
 	./populate-db.sh
 
