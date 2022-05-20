@@ -27,7 +27,7 @@ class Order(db.Model):
     stoptime = db.Column(db.DateTime)
     public = db.Column(db.Boolean, default=True)
     slug = db.Column(db.String(7), default=generate_slug, unique=True)
-    association = db.Column(db.String(120))
+    association = db.Column(db.String(120), nullable=False)
 
     items = db.relationship("OrderItem", backref="order", lazy="dynamic")
 
