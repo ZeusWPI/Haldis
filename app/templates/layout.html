@@ -14,12 +14,6 @@
 	{% set navbar = navbar + [('admin.index', 'Admin')] -%}
 {% endif -%}
 
-{% if not current_user.is_anonymous() -%}
-	{% for association in current_user.association_list() %}
-		{% set navbar = navbar + [('general_bp.home', association)] -%}
-	{% endfor -%}
-{% endif -%}
-
 {% set active_page = active_page|default('index') -%}
 
 {% block title %}
