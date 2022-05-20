@@ -288,7 +288,7 @@
 <section class="single_column">
 	<div class="box" id="per_person">
 		<h3>Items per person</h3>
-		<form action="{{ url_for('order_bp.modify_items', order_id=order.id) }}" method="post">
+		<form action="{{ url_for('order_bp.modify_items', order_slug=order.slug) }}" method="post">
 		<table class="table table-condensed">
 			<thead>
 				<tr><th>Total</th><th>Name</th><th>Items</th></tr>
