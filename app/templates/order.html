@@ -348,7 +348,7 @@
 
 			{% if order.can_modify_prices(current_user.id) %}
 				&nbsp; <span style="border-left: 1px solid var(--gray0); display: inline-block;">&nbsp;</span>&nbsp;
-				<a href="{{ url_for('order_bp.prices', order_id=order.id) }}" class="btn btn-sm">
+				<a href="{{ url_for('order_bp.prices', order_slug=order.slug) }}" class="btn btn-sm">
 					<span class="glyphicon glyphicon-pencil"></span>  Edit prices
 				</a>
 			{% endif %}

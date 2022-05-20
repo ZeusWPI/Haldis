@@ -233,9 +233,9 @@ def modify_items(order_slug: str) -> typing.Optional[Response]:
         return delete_item(order_slug, int(request.form["delete_item"]))
     user_names = request.form.getlist("user_names")
     if request.form.get("action") == "mark_paid":
-        return set_items_paid(order_id, user_names, True)
+        return set_items_paid(order_slug, user_names, True)
     elif request.form.get("action") == "mark_unpaid":
-        return set_items_paid(order_id, user_names, False)
+        return set_items_paid(order_slug, user_names, False)
     else:
         abort(404)
         return None
@@ -328,15 +328,15 @@ def close_order(order_slug: str) -> typing.Optional[Response]:
     return None
 
 
-@order_bp.route("/<order_id>/prices", methods=["GET", "POST"])
+@order_bp.route("/<order_slug>/prices", methods=["GET", "POST"])
 @login_required
-def prices(order_id: int) -> typing.Optional[Response]:
-    order = Order.query.filter(Order.id == order_id).first()
+def prices(order_slug: str) -> typing.Optional[Response]:
+    order = Order.query.filter(Order.slug == order_slug).first()
     if order is None:
         abort(404)
     if not order.can_modify_prices(current_user.id):
         flash("You cannot modify the prices at this time.", "error")
-        return redirect(url_for("order_bp.order_from_id", order_id=order_id))
+        return redirect(url_for("order_bp.order_from_slug", order_slug=order.slug))
 
     if request.method == "GET":
         return render_template(
@@ -366,7 +366,7 @@ def prices(order_id: int) -> typing.Optional[Response]:
                 item.price_modified = datetime.now()
         db.session.commit()
 
-    return redirect(url_for("order_bp.order_from_id", order_id=order_id))
+    return redirect(url_for("order_bp.order_from_slug", order_slug=order.slug))
 
 
 

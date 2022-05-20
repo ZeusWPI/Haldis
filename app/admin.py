@@ -44,6 +44,7 @@ class OrderItemAdminModel(ModelBaseView):
     column_default_sort = ("order_id", True)
     column_list = [
         "order_id",
+        "slug",
         "order.location_name",
         "user_name",
         "user",
