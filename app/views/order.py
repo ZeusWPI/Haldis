@@ -27,7 +27,7 @@ def orders(form: OrderForm = None) -> str:
         form.location_id.default = location_id
         form.process()
         form.populate()
-    return render_template("orders.html", orders=get_orders(), form=form)
+    return render_template("orders.html", orders=get_orders(expression=Order.association.in_(current_user.association_list())), form=form)
 
 
 @order_bp.route("/create", methods=["POST"])

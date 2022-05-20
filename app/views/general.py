@@ -9,7 +9,7 @@ from flask import Blueprint, Flask, abort
 from flask import current_app as app
 from flask import (jsonify, make_response, render_template, request,
                    send_from_directory, url_for)
-from flask_login import login_required
+from flask_login import current_user, login_required
 from hlds.definitions import location_definitions
 from hlds.models import Location
 from models import Order
@@ -31,10 +31,12 @@ def home() -> str:
     "Generate the home view"
     prev_day = datetime.now() - timedelta(days=1)
     recently_closed = get_orders(
-        (Order.stoptime > prev_day) & (Order.stoptime < datetime.now())
+        (Order.stoptime > prev_day) & (Order.stoptime < datetime.now()) & Order.association.in_(current_user.association_list())
     )
     return render_template(
-        "home.html", orders=get_orders(), recently_closed=recently_closed
+        "home.html", orders=get_orders(
+            ((datetime.now() > Order.starttime) & (Order.stoptime > datetime.now()) | (Order.stoptime == None)) & Order.association.in_(current_user.association_list())
+        ), recently_closed=recently_closed
     )
 
 
