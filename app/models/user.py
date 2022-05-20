@@ -1,4 +1,6 @@
 "Script for everything User related in the database"
+from typing import List
+
 from models import db
 
 
@@ -8,6 +10,10 @@ class User(db.Model):
     username = db.Column(db.String(80), unique=True, nullable=False)
     admin = db.Column(db.Boolean)
     bias = db.Column(db.Integer)
+    # Assocation logic
+    associations = db.Column(db.String(120))
+
+    # Relations
     runs = db.relation(
         "Order",
         backref="courier",
@@ -16,11 +22,17 @@ class User(db.Model):
     )
     orderItems = db.relationship("OrderItem", backref="user", lazy="dynamic")
 
-    def configure(self, username: str, admin: bool, bias: int) -> None:
-        "Configure the User"
+    def association_list(self) -> List[str]:
+        return self.associations.split(",")
+
+    def configure(self, username: str, admin: bool, bias: int, associations: List[str] = None) -> None:
+        """Configure the User"""
+        if associations is None:
+            associations = []
         self.username = username
         self.admin = admin
         self.bias = bias
+        self.associations = ",".join(associations)
 
     # pylint: disable=C0111, R0201
     def is_authenticated(self) -> bool:
