@@ -12,18 +12,39 @@
 {% block metas %}
 	{{ super() }}
 	<meta name="robots" content="noindex, nofollow">
+
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/qrcode.min.js') }}"></script>
 {% endblock %}
 
 {% block container %}
-<header>
-	<h2 id="order-title">Order {{ order.id }}</h2>
+<header class="row">
+	<div class="col-md-2" style="padding-top: 2em">
+		<div id="qrcode"></div>
+		<script type="text/javascript">
+			var qrcode = new QRCode(document.getElementById("qrcode"), {
+					text: "{{ url_for("order_bp.order_from_slug", order_slug=order.slug, _external=True) }}",
+					width: 128,
+					height: 128,
+					colorDark : "#000000",
+					colorLight : "#ffffff",
+					correctLevel : QRCode.CorrectLevel.H
+			});
+		</script>
+	</div>
+	<div class="col-md-10">
+		<h2 id="order-title">Order {{ order.id }}</h2>
 
-	<div class="location">
-		{% if order.location %}
-			<a href="{{ url_for('general_bp.location', location_id=order.location_id) }}">{{ order.location_name }}</a>
-		{% else %}
-			{{ order.location_name }}
-		{% endif %}
+		<div class="location">
+			{% if order.location %}
+				<a href="{{ url_for('general_bp.location', location_id=order.location_id) }}">{{ order.location_name }}</a>
+			{% else %}
+				{{ order.location_name }}
+			{% endif %}
+		</div>
+		<div>
+			Unique order link: <code>{{ url_for("order_bp.order_from_slug", order_slug=order.slug, _external=True) }}</code>
+		</div>
 	</div>
 </header>
 
@@ -36,7 +57,7 @@
 					{% for item in my_items %}
 					<li class="spacecake">
 						{% if item.can_delete(order.id, current_user.id, session.get('anon_name', '')) -%}
-							<form action="{{ url_for('order_bp.delete_item', order_id=order.id, item_id=item.id) }}" method="post" style="display:inline">
+							<form action="{{ url_for('order_bp.delete_item', order_slug=order.slug, item_id=item.id) }}" method="post" style="display:inline">
 								<button class="btn btn-link btn-sm" type="submit" style="padding: 0 0.5em;"><span class="glyphicon glyphicon-remove"></span></button>
 							</form>
 						{%- endif %}
@@ -65,7 +86,7 @@
 			<h3>Add item to order</h3>
 
 			{% for dish in order.location.dishes %}
-				<form method="post" action="{{ url_for('order_bp.order_item_create', order_id=order.id) }}" id="dish_{{ dish.id }}">
+				<form method="post" action="{{ url_for('order_bp.order_item_create', order_slug=order.slug) }}" id="dish_{{ dish.id }}">
 					{{ form.csrf_token }}
 					<input type="hidden" name="dish_id" value="{{ dish.id }}" />
 
@@ -167,7 +188,7 @@
 					<dd>
 						{% if order.courier == None %}
 							{% if not current_user.is_anonymous() %}
-							<form action="{{ url_for('order_bp.volunteer', order_id=order.id) }}" method="post" style="display:inline">
+							<form action="{{ url_for('order_bp.volunteer', order_slug=order.slug) }}" method="post" style="display:inline">
 								<input type="submit" class="btn btn-primary btn-sm" value="Volunteer"></input>
 							</form>
 							{% else %}No-one yet{% endif %}
@@ -180,12 +201,12 @@
 
 			<div>
 				{% if order.can_close(current_user.id) -%}
-					<form action="{{ url_for('order_bp.close_order', order_id=order.id) }}" method="post" style="display:inline">
+					<form action="{{ url_for('order_bp.close_order', order_slug=order.slug) }}" method="post" style="display:inline">
 						<input type="submit" class="btn btn-danger" value="Close"></input>
 					</form>
 				{% endif %}
 				{% if courier_or_admin %}
-					<a class="btn" href="{{ url_for('order_bp.order_edit', order_id=order.id) }}">Edit</a>
+					<a class="btn" href="{{ url_for('order_bp.order_edit', order_slug=order.slug) }}">Edit</a>
 				{%- endif %}
 			</div>
 		</div>
@@ -258,7 +279,7 @@
 			<div class="footer">
 				Total {{ order.items.count() }} items — {{ total_price|euro }}
 				&nbsp;
-				<a class="btn btn-sm" href="{{ url_for('order_bp.items_shop_view', order_id=order.id) }}">Shop view</a>
+				<a class="btn btn-sm" href="{{ url_for('order_bp.items_shop_view', order_slug=order.slug) }}">Shop view</a>
 			</div>
 		</div>
 	</div>
@@ -267,7 +288,7 @@
 <section class="single_column">
 	<div class="box" id="per_person">
 		<h3>Items per person</h3>
-		<form action="{{ url_for('order_bp.modify_items', order_id=order.id) }}" method="post">
+		<form action="{{ url_for('order_bp.modify_items', order_slug=order.slug) }}" method="post">
 		<table class="table table-condensed">
 			<thead>
 				<tr><th>Total</th><th>Name</th><th>Items</th></tr>
@@ -293,7 +314,9 @@
 							<li class="{{ 'paid' if item.paid }}">
 								<div class="actions">
 								{% if item.can_delete(order.id, current_user.id, session.get('anon_name', '')) -%}
-									<button class="btn btn-link btn-sm" type="submit" name="delete_item" value="{{ item.id }}" style="padding: 0 0.5em;"><span class="glyphicon glyphicon-remove"></span></button>
+									<form action="{{ url_for('order_bp.delete_item', order_slug=order.slug, item_id=item.id) }}" method="post" style="display:inline">
+										<button class="btn btn-link btn-sm" type="submit" style="padding: 0 0.5em;"><span class="glyphicon glyphicon-remove"></span></button>
+									</form>
 								{% else %}
 									<span class="glyphicon glyphicon-remove" style="color: var(--gray3); padding: 0 0.5em; cursor: not-allowed"></span>
 								{%- endif %}
