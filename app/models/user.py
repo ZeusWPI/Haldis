@@ -11,7 +11,7 @@ class User(db.Model):
     admin = db.Column(db.Boolean)
     bias = db.Column(db.Integer)
     # Assocation logic
-    associations = db.Column(db.String(120), nullable=False)
+    associations = db.Column(db.String(), nullable=False, server_default="")
 
     # Relations
     runs = db.relation(
