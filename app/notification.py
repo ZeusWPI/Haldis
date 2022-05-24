@@ -64,5 +64,5 @@ def remaining_minutes(value) -> str:
     delta = value - datetime.now()
     if delta.total_seconds() < 0:
         return "0"
-    minutes = delta.total_seconds() // 60
+    minutes = int(delta.total_seconds() // 60)
     return f"{minutes:02}"
