@@ -132,19 +132,3 @@ class Order(db.Model):
     def can_modify_payment(self, user_id: int) -> bool:
         user = User.query.filter_by(id=user_id).first()
         return user and (user.is_admin() or user == self.courier)
-
-    @staticmethod
-    def get_by_slug(slug: str) -> "typing.Optional[Order]":
-        """
-        Find an order by slug. Also matches orders by ID if they don't have a slug
-        """
-        order_id = None
-        try:
-            order_id = int(slug)
-        except:
-            pass
-
-        return Order.query.filter(
-            (Order.slug == slug) |
-            ((Order.slug == None) & (Order.id == order_id))
-        ).first()

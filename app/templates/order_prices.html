@@ -11,10 +11,10 @@
 {% block container %}
 <header>
 	<h2 id="order-title">Edit prices</h2>
-	<div>Only applied to <a href="{{ url_for('order_bp.order_from_slug', order_slug=order.slug or order.id) }}">order {{ order.id }}</a>. To permanently change prices for {{ order.location_name }}, edit the <a href="https://git.zeus.gent/haldis/menus/-/blob/master/{{order.location_id}}.hlds">HLDS location definition</a>.</div>
+	<div>Only applied to <a href="{{ url_for('order_bp.order_from_slug', order_slug=order.slug) }}">order {{ order.id }}</a>. To permanently change prices for {{ order.location_name }}, edit the <a href="https://git.zeus.gent/haldis/menus/-/blob/master/{{order.location_id}}.hlds">HLDS location definition</a>.</div>
 </header>
 
-<form action="{{ url_for('order_bp.prices', order_slug=order.slug or order.id) }}" method="post">
+<form action="{{ url_for('order_bp.prices', order_slug=order.slug) }}" method="post">
 	<div class="col-md-6" id="per_dish">
 		<h3>Per dish</h3>
 		<div class="noscript">This functionality requires JavaScript.</div>
@@ -86,7 +86,7 @@
 	</div>
 
 	<div>
-		<a href="{{ url_for('order_bp.order_from_slug', order_slug=order.slug or order.id) }}" class="btn btn-sm">Cancel</a>
+		<a href="{{ url_for('order_bp.order_from_slug', order_slug=order.slug) }}" class="btn btn-sm">Cancel</a>
 		<button class="btn btn-sm btn-primary">Apply</button>
 	</div>
 </form>
