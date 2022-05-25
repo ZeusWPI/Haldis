@@ -2,7 +2,7 @@
 <div class="row order_row">
 	<div class="col-md-8 col-lg-9 order_data">
 		<h5>{{ order.location_name }}</h5>
-		<b class="amount_of_orders">{{ order.items.count() }} orders</b></p>
+		<b class="amount_of_orders">{{ order.items.count() }} items ordered</b></p>
 		<p class="time_data">
 		{% if order.stoptime %}
 			<span><b>Closes </b>{{ order.stoptime.strftime("%H:%M") }}</span>{{ order.stoptime|countdown }}
