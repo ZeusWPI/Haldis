@@ -9,7 +9,7 @@
 		{% else %}open{% endif %}<br/>
 	</div>
 	<div class="col-md-4 col-lg-3 expand_button_wrapper">
-		<a class="btn btn-primary btn-block align-bottom expand_button" href="{{ url_for('order_bp.order_from_slug', order_slug=order.slug) }}">Expand</a>
+		<a class="btn btn-primary btn-block align-bottom expand_button" href="{{ url_for('order_bp.order_from_slug', order_slug=(order.slug or order.id)) }}">Expand</a>
 	</div>
 </div>
 {%- endmacro %}

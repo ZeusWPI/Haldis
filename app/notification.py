@@ -18,7 +18,7 @@ def webhook_text(order: Order) -> typing.Optional[str]:
     if order.courier is not None:
         # pylint: disable=C0301, C0209
         return "<!channel|@channel> {3} is going to {1}, order <{0}|here>! Deadline in {2} minutes!".format(
-            url_for("order_bp.order_from_slug", order_slug=order.slug, _external=True),
+            url_for("order_bp.order_from_slug", order_slug=order.slug or order.id, _external=True),
             order.location_name,
             remaining_minutes(order.stoptime),
             order.courier.username.title(),
@@ -28,7 +28,7 @@ def webhook_text(order: Order) -> typing.Optional[str]:
     return "<!channel|@channel> New order for {}. Deadline in {} minutes. <{}|Open here.>".format(
         order.location_name,
         remaining_minutes(order.stoptime),
-        url_for("order_bp.order_from_slug", order_slug=order.slug, _external=True),
+        url_for("order_bp.order_from_slug", order_slug=order.slug or order.id, _external=True),
     )
 
 

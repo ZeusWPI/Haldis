@@ -43,14 +43,14 @@ def order_create() -> typing.Union[str, Response]:
         db.session.add(order)
         db.session.commit()
         post_order_to_webhook(order)
-        return redirect(url_for("order_bp.order_from_slug", order_slug=order.slug))
+        return redirect(url_for("order_bp.order_from_slug", order_slug=order.slug or order.id))
     return orders(form=orderForm)
 
 
 @order_bp.route("/<order_slug>")
 def order_from_slug(order_slug: str, form: OrderForm = None, dish_id=None) -> str:
     """Generate order view from id"""
-    order = Order.query.filter(Order.slug == order_slug).first()
+    order = Order.get_by_slug(order_slug)
     if order is None:
         abort(404)
     if current_user.is_anonymous() and not order.public:
@@ -80,7 +80,7 @@ def order_from_slug(order_slug: str, form: OrderForm = None, dish_id=None) -> st
 @order_bp.route("/<order_slug>/items")
 def items_shop_view(order_slug: int) -> str:
     """Generate order items view from id"""
-    order = Order.query.filter(Order.slug == order_slug).first()
+    order = Order.get_by_slug(order_slug)
     if order is None:
         abort(404)
     if current_user.is_anonymous() and not order.public:
@@ -94,7 +94,7 @@ def items_shop_view(order_slug: int) -> str:
 @login_required
 def order_edit(order_slug: str) -> typing.Union[str, Response]:
     """Generate order edit view from id"""
-    order = Order.query.filter(Order.slug == order_slug).first()
+    order = Order.get_by_slug(order_slug)
     if current_user.id is not order.courier_id and not current_user.is_admin():
         abort(401)
     if order is None:
@@ -105,8 +105,8 @@ def order_edit(order_slug: str) -> typing.Union[str, Response]:
         order_form.populate_obj(order)
         order.update_from_hlds()
         db.session.commit()
-        return redirect(url_for("order_bp.order_from_slug", order_slug=order.slug))
-    return render_template("order_edit.html", form=order_form, order_slug=order.slug)
+        return redirect(url_for("order_bp.order_from_slug", order_slug=order.slug or order.id))
+    return render_template("order_edit.html", form=order_form, order_slug=order.slug or order.id)
 
 
 @order_bp.route("/<order_slug>/create", methods=["GET", "POST"])
@@ -114,7 +114,7 @@ def order_item_create(order_slug: str) -> typing.Any:
     # type is 'typing.Union[str, Response]', but this errors due to
     #   https://github.com/python/mypy/issues/7187
     """Add item to order from slug"""
-    current_order = Order.query.filter(Order.slug == order_slug).first()
+    current_order = Order.get_by_slug(order_slug)
     if current_order is None:
         abort(404)
     if current_order.is_closed():
@@ -171,7 +171,7 @@ def order_item_create(order_slug: str) -> typing.Any:
             return redirect(
                 url_for(
                     "order_bp.order_item_create",
-                    order_slug=current_order.slug,
+                    order_slug=current_order.slug or current_order.id,
                     dish=form.dish_id.data,
                     user_name=user_name,
                     comment=comment,
@@ -241,7 +241,7 @@ def modify_items(order_slug: str) -> typing.Optional[Response]:
         return None
 
 def set_items_paid(order_slug: str, user_names: typing.Iterable[str], paid: bool):
-    order = Order.query.filter(Order.slug == order_slug).first()
+    order = Order.get_by_slug(order_slug)
     total_paid_items = 0
     total_failed_items = 0
     for user_name in user_names:
@@ -279,7 +279,9 @@ def delete_item(order_slug: str, item_id: int) -> typing.Any:
     #   https://github.com/python/mypy/issues/7187
     """Delete an item from an order"""
     item: OrderItem = OrderItem.query.filter(OrderItem.id == item_id).first()
-    order: Order = Order.query.filter(Order.slug == order_slug).first()
+    order = Order.get_by_slug(order_slug)
+    if order is None:
+        abort(404)
     user_id = None
     if not current_user.is_anonymous():
         user_id = current_user.id
@@ -296,7 +298,7 @@ def delete_item(order_slug: str, item_id: int) -> typing.Any:
 @login_required
 def volunteer(order_slug: str) -> Response:
     """Add a volunteer to an order"""
-    order = Order.query.filter(Order.slug == order_slug).first()
+    order = Order.get_by_slug(order_slug)
     if order is None:
         abort(404)
     if order.courier_id is None or order.courier_id == 0:
@@ -305,14 +307,14 @@ def volunteer(order_slug: str) -> Response:
         flash("Thank you for volunteering!")
     else:
         flash("Volunteering not possible!")
-    return redirect(url_for("order_bp.order_from_slug", order_slug=order.slug))
+    return redirect(url_for("order_bp.order_from_slug", order_slug=order.slug or order.id))
 
 
 @order_bp.route("/<order_slug>/close", methods=["POST"])
 @login_required
 def close_order(order_slug: str) -> typing.Optional[Response]:
     """Close an order"""
-    order = Order.query.filter(Order.slug == order_slug).first()
+    order = Order.get_by_slug(order_slug)
     if order is None:
         abort(404)
     if (
@@ -331,12 +333,12 @@ def close_order(order_slug: str) -> typing.Optional[Response]:
 @order_bp.route("/<order_slug>/prices", methods=["GET", "POST"])
 @login_required
 def prices(order_slug: str) -> typing.Optional[Response]:
-    order = Order.query.filter(Order.slug == order_slug).first()
+    order = Order.get_by_slug(order_slug)
     if order is None:
         abort(404)
     if not order.can_modify_prices(current_user.id):
         flash("You cannot modify the prices at this time.", "error")
-        return redirect(url_for("order_bp.order_from_slug", order_slug=order.slug))
+        return redirect(url_for("order_bp.order_from_slug", order_slug=order.slug or order.id))
 
     if request.method == "GET":
         return render_template(
@@ -366,7 +368,7 @@ def prices(order_slug: str) -> typing.Optional[Response]:
                 item.price_modified = datetime.now()
         db.session.commit()
 
-    return redirect(url_for("order_bp.order_from_slug", order_slug=order.slug))
+    return redirect(url_for("order_bp.order_from_slug", order_slug=order.slug or order.id))
 
 
 
