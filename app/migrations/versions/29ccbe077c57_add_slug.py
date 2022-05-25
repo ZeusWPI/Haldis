@@ -12,12 +12,34 @@ down_revision = '55013fe95bea'
 
 from alembic import op
 import sqlalchemy as sa
+from sqlalchemy.sql import text
 
 def upgrade():
-    op.add_column('order', sa.Column('slug', sa.String(length=7), nullable=True))
-    op.create_unique_constraint(None, 'order', ['slug'])
+    op.add_column('order', sa.Column(
+        'slug',
+        sa.String(length=7),
+        nullable=False,
+        # Default: random alphanumerical string
+        server_default=text('SUBSTRING(MD5(RAND()) FROM 1 FOR 7)')
+    ))
+    op.create_unique_constraint('order_slug_unique', 'order', ['slug'])
+
+    # Trigger to handle duplicates: generate new slug if slug already exists
+    op.execute(text(
+        """
+        CREATE TRIGGER order_before_insert
+          BEFORE UPDATE ON `order`
+          FOR EACH ROW
+          BEGIN
+            WHILE (NEW.slug IS NULL OR (SELECT id FROM `order` WHERE slug = NEW.slug) IS NOT NULL) DO
+              SET NEW.slug = SUBSTRING(MD5(RAND()) FROM 1 FOR 7);
+            END WHILE;
+          END
+        """
+    ))
 
 
 def downgrade():
-    op.drop_constraint(None, 'order', type_='unique')
+    op.execute(text("DROP TRIGGER order_before_insert"))
+    op.drop_constraint('order_slug_unique', 'order', type_='unique')
     op.drop_column('order', 'slug')
