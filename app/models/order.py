@@ -2,7 +2,6 @@
 import typing
 from collections import defaultdict
 from datetime import datetime
-import secrets
 import string
 
 from hlds.definitions import location_definitions
@@ -10,11 +9,6 @@ from utils import first
 
 from .database import db
 from .user import User
-
-
-def generate_slug():
-    alphabet = string.ascii_letters + string.digits
-    return ''.join(secrets.choice(alphabet) for i in range(7))
 
 
 class Order(db.Model):
@@ -26,7 +20,9 @@ class Order(db.Model):
     starttime = db.Column(db.DateTime)
     stoptime = db.Column(db.DateTime)
     public = db.Column(db.Boolean, default=True)
-    slug = db.Column(db.String(7), default=generate_slug, unique=True)
+    # The default value for `slug`, a random 7-character alphanumerical string,
+    # is created on the database side. See migrations/versions/29ccbe077c57_add_slug.py
+    slug = db.Column(db.String(7), unique=True)
     association = db.Column(db.String(120), nullable=False, server_default="")
 
     items = db.relationship("OrderItem", backref="order", lazy="dynamic")
