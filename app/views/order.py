@@ -21,19 +21,22 @@ order_bp = Blueprint("order_bp", "order")
 @order_bp.route("/")
 def orders(form: OrderForm = None) -> str:
     """Generate general order view"""
-    if form is None and not current_user.is_anonymous():
+    if form is None and current_user.association_list():
         form = OrderForm()
         location_id = request.args.get("location_id")
         form.location_id.default = location_id
         form.process()
         form.populate()
-    return render_template("orders.html", orders=get_orders(), form=form)
+    return render_template("orders.html", orders=get_orders(expression=Order.association.in_(current_user.association_list())), form=form)
 
 
 @order_bp.route("/create", methods=["POST"])
 @login_required
 def order_create() -> typing.Union[str, Response]:
     """Generate order create view"""
+    if not current_user.association_list():
+        flash("Not allowed to create an order.", "info")
+        abort(401)
     orderForm = OrderForm()
     orderForm.populate()
     if orderForm.validate_on_submit():

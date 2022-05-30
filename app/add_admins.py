@@ -10,5 +10,5 @@ def add() -> None:
     """Add users as admin."""
     for username in Configuration.HALDIS_ADMINS:
         user = User()
-        user.configure(username, True, 0)
+        user.configure(username, True, 0, associations=["zeus"])
         db.session.add(user)

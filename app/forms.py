@@ -24,6 +24,7 @@ class OrderForm(Form):
         "Starttime", default=datetime.now, format="%d-%m-%Y %H:%M"
     )
     stoptime = DateTimeField("Stoptime", format="%d-%m-%Y %H:%M")
+    association = SelectField("Association", coerce=str, validators=[validators.required()])
     submit_button = SubmitField("Submit")
 
     def populate(self) -> None:
@@ -38,6 +39,7 @@ class OrderForm(Form):
                 (current_user.id, current_user.username),
             ]
         self.location_id.choices = [(l.id, l.name) for l in location_definitions]
+        self.association.choices = current_user.association_list()
         if self.stoptime.data is None:
             self.stoptime.data = datetime.now() + timedelta(hours=1)
 
