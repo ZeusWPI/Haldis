@@ -27,7 +27,7 @@ def orders(form: OrderForm = None) -> str:
         form.location_id.default = location_id
         form.process()
         form.populate()
-    return render_template("orders.html", orders=get_orders(expression=Order.association.in_(current_user.association_list())), form=form)
+    return render_template("orders.html", orders=get_orders(), form=form)
 
 
 @order_bp.route("/create", methods=["POST"])
@@ -396,16 +396,17 @@ def get_orders(expression=None) -> typing.List[Order]:
     """Give the list of all currently open and public Orders"""
     order_list: typing.List[OrderForm] = []
     if expression is None:
-        expression = (datetime.now() > Order.starttime) & (
-            Order.stoptime
-            > datetime.now()
-            # pylint: disable=C0121
-        ) | (Order.stoptime == None)
+        expression = ((datetime.now() > Order.starttime) & (
+                Order.stoptime
+                > datetime.now()
+                # pylint: disable=C0121
+            ) | (Order.stoptime == None)
+        ) & (Order.association.in_(current_user.association_list()))
     if not current_user.is_anonymous():
         order_list = Order.query.filter(expression).all()
     else:
         order_list = Order.query.filter(
             # pylint: disable=C0121
-            expression & (Order.public == True)
+            expression & (Order.public == True) & (Order.association.in_(current_user.association_list()))
         ).all()
     return order_list

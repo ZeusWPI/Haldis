@@ -31,11 +31,11 @@ def home() -> str:
     "Generate the home view"
     prev_day = datetime.now() - timedelta(days=1)
     recently_closed = get_orders(
-        (Order.stoptime > prev_day) & (Order.stoptime < datetime.now()) & Order.association.in_(current_user.association_list())
+        (Order.stoptime > prev_day) & (Order.stoptime < datetime.now())
     )
     return render_template(
         "home.html", orders=get_orders(
-            ((datetime.now() > Order.starttime) & (Order.stoptime > datetime.now()) | (Order.stoptime == None)) & Order.association.in_(current_user.association_list())
+            ((datetime.now() > Order.starttime) & (Order.stoptime > datetime.now()) | (Order.stoptime == None))
         ), recently_closed=recently_closed
     )
 
