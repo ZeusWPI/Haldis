@@ -17,7 +17,7 @@ BASE58_ALPHABET = \
 def generate_slug():
     secret = ''.join(secrets.choice(BASE58_ALPHABET) for i in range(7))
     while Order.query.filter(Order.slug == secret).first() is not None:
-        secret = ''.join(secrets.choice(alphabet) for i in range(7))
+        secret = ''.join(secrets.choice(BASE58_ALPHABET) for i in range(7))
     return secret
 
 class Order(db.Model):
