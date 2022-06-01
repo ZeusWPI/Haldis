@@ -11,8 +11,7 @@ from utils import first
 from .database import db
 from .user import User
 
-BASE58_ALPHABET = \
-    b'123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
+BASE58_ALPHABET = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
 
 def generate_slug():
     secret = ''.join(secrets.choice(BASE58_ALPHABET) for i in range(7))
