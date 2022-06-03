@@ -17,7 +17,7 @@ from sqlalchemy.sql import text
 def upgrade():
     op.add_column('order', sa.Column(
         'slug',
-        sa.String(length=7),
+        sa.String(length=8),
         nullable=False,
         # Default: random alphanumerical string
         server_default=text('SUBSTRING(MD5(RAND()) FROM 1 FOR 7)')
