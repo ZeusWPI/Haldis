@@ -11,12 +11,12 @@ from utils import first
 from .database import db
 from .user import User
 
-BASE34_ALPHABET = '123456789abcdefghijkmnopqrstuvwxyz'
+BASE31_ALPHABET = '23456789abcdefghjkmnpqrstuvwxyz'
 
 def generate_slug():
-    secret = ''.join(secrets.choice(BASE34_ALPHABET) for i in range(8))
+    secret = ''.join(secrets.choice(BASE31_ALPHABET) for i in range(8))
     while Order.query.filter(Order.slug == secret).first() is not None:
-        secret = ''.join(secrets.choice(BASE34_ALPHABET) for i in range(8))
+        secret = ''.join(secrets.choice(BASE31_ALPHABET) for i in range(8))
     return secret
 
 class Order(db.Model):
