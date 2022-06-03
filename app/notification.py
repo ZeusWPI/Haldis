@@ -21,7 +21,7 @@ def webhook_text(order: Order) -> typing.Optional[str]:
             url_for("order_bp.order_from_slug", order_slug=order.slug, _external=True),
             order.location_name,
             remaining_minutes(order.stoptime),
-            order.courier.username.title(),
+            order.courier.username,
         )
 
     # pylint: disable=C0209
