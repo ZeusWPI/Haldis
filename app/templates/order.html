@@ -314,9 +314,7 @@
 							<li class="{{ 'paid' if item.paid }}">
 								<div class="actions">
 								{% if item.can_delete(order.id, current_user.id, session.get('anon_name', '')) -%}
-									<form action="{{ url_for('order_bp.delete_item', order_slug=order.slug, item_id=item.id) }}" method="post" style="display:inline">
-										<button class="btn btn-link btn-sm" type="submit" style="padding: 0 0.5em;"><span class="glyphicon glyphicon-remove"></span></button>
-									</form>
+									<button class="btn btn-link btn-sm" type="submit" name="delete_item" value="{{ item.id }}" style="padding: 0 0.5em;"><span class="glyphicon glyphicon-remove"></span></button>
 								{% else %}
 									<span class="glyphicon glyphicon-remove" style="color: var(--gray3); padding: 0 0.5em; cursor: not-allowed"></span>
 								{%- endif %}
