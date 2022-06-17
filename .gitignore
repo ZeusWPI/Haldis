@@ -78,3 +78,6 @@ tmp/
 # Do not add scss cache
 .sass-cache
 *.sass-cache
+
+# Ignore dagger CI cue.mod folder
+cue.mod
