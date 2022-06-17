@@ -77,7 +77,7 @@ def login_and_redirect_user(user) -> Response:
 def create_user(username) -> User:
     "Create a temporary user if it is needed"
     user = User()
-    user.configure(username, False, 1)
+    user.configure(username, False, 1, associations=["zeus"])
     db.session.add(user)
     db.session.commit()
     return user

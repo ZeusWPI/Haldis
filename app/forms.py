@@ -24,6 +24,7 @@ class OrderForm(Form):
         "Starttime", default=datetime.now, format="%d-%m-%Y %H:%M"
     )
     stoptime = DateTimeField("Stoptime", format="%d-%m-%Y %H:%M")
+    association = SelectField("Association", coerce=str, validators=[validators.required()])
     submit_button = SubmitField("Submit")
 
     def populate(self) -> None:
@@ -38,6 +39,7 @@ class OrderForm(Form):
                 (current_user.id, current_user.username),
             ]
         self.location_id.choices = [(l.id, l.name) for l in location_definitions]
+        self.association.choices = current_user.association_list()
         if self.stoptime.data is None:
             self.stoptime.data = datetime.now() + timedelta(hours=1)
 
@@ -50,6 +52,7 @@ class OrderItemForm(Form):
     submit_button = SubmitField("Submit")
 
     def populate(self, location: Location) -> None:
+        "Populate the order item form"
         self.dish_id.choices = [(dish.id, dish.name) for dish in location.dishes]
         if not self.is_submitted() and self.comment.data is None:
             self.comment.data = request.args.get("comment")
@@ -76,7 +79,7 @@ class AnonOrderItemForm(OrderItemForm):
                 self.user_name.data = session.get("anon_name", None)
 
     def validate(self) -> bool:
-        "Check if the provided anon_name is not already taken"
+        """Check if the provided anon_name is not already taken"""
         rv = OrderForm.validate(self)
         if not rv:
             return False

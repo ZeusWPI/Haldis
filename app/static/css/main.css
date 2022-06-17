@@ -243,9 +243,9 @@ details summary {
 }
 details summary:before {
 	font-style: normal;
-	content: "⯈";
+	content: "▸";
 	padding-right: 0.4em;
 }
 details[open] summary:before {
-	content: "⯆";
+	content: "▾";
 }

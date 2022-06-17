@@ -11,29 +11,29 @@ from models.order import Order
 
 
 def webhook_text(order: Order) -> typing.Optional[str]:
-    "Function that makes the text for the notification"
+    """Function that makes the text for the notification"""
     if order.location_id == "test":
         return None
 
     if order.courier is not None:
         # pylint: disable=C0301, C0209
         return "<!channel|@channel> {3} is going to {1}, order <{0}|here>! Deadline in {2} minutes!".format(
-            url_for("order_bp.order_from_id", order_id=order.id, _external=True),
+            url_for("order_bp.order_from_slug", order_slug=order.slug, _external=True),
             order.location_name,
             remaining_minutes(order.stoptime),
-            order.courier.username.title(),
+            order.courier.username,
         )
 
     # pylint: disable=C0209
     return "<!channel|@channel> New order for {}. Deadline in {} minutes. <{}|Open here.>".format(
         order.location_name,
         remaining_minutes(order.stoptime),
-        url_for("order_bp.order_from_id", order_id=order.id, _external=True),
+        url_for("order_bp.order_from_slug", order_slug=order.slug, _external=True),
     )
 
 
 def post_order_to_webhook(order: Order) -> None:
-    "Function that sends the notification for the order"
+    """Function that sends the notification for the order"""
     message = webhook_text(order)
     if message:
         webhookthread = WebhookSenderThread(message, app.config["SLACK_WEBHOOK"])
@@ -41,7 +41,7 @@ def post_order_to_webhook(order: Order) -> None:
 
 
 class WebhookSenderThread(Thread):
-    "Extension of the Thread class, which sends a webhook for the notification"
+    """Extension of the Thread class, which sends a webhook for the notification"""
 
     def __init__(self, message: str, url: str) -> None:
         super().__init__()
@@ -52,7 +52,7 @@ class WebhookSenderThread(Thread):
         self.slack_webhook()
 
     def slack_webhook(self) -> None:
-        "The webhook for the specified chat platform"
+        """The webhook for the specified chat platform"""
         if self.url:
             requests.post(self.url, json={"text": self.message})
         else:
@@ -60,9 +60,9 @@ class WebhookSenderThread(Thread):
 
 
 def remaining_minutes(value) -> str:
-    "Return the remaining minutes until the deadline of and order"
+    """Return the remaining minutes until the deadline of and order"""
     delta = value - datetime.now()
     if delta.total_seconds() < 0:
         return "0"
-    minutes = delta.total_seconds() // 60
+    minutes = int(delta.total_seconds() // 60)
     return f"{minutes:02}"
