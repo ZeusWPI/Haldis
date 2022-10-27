@@ -155,60 +155,66 @@
 
 		<div class="box" id="order_info">
 			<h3>Order information</h3>
-			<dl>
-				<div>
-					<dt>Order opens</dt>
-					<dd>{{ order.starttime.strftime("%Y-%m-%d, %H:%M") }}</dd>
+			<div class="row">
+				<dl class="col-md-10 col-lg-8">
+					<div>
+						<dt>Order opens</dt>
+						<dd>{{ order.starttime.strftime("%Y-%m-%d, %H:%M") }}</dd>
 
-					<dt>Order closes</dt>
-					<dd>
-						{% if order.stoptime %}
-							{% set stoptimefmt = (
-								"%H:%M" if order.stoptime.date() == order.starttime.date()
-								else "%Y-%m-%d, %H:%M"
-							) %}
-							{{ order.stoptime.strftime(stoptimefmt) }} ({{  order.stoptime|countdown }})
-						{% else %}
-							Never
-						{% endif %}
-					</dd>
+						<dt>Order closes</dt>
+						<dd>
+							{% if order.stoptime %}
+								{% set stoptimefmt = (
+									"%H:%M" if order.stoptime.date() == order.starttime.date()
+									else "%Y-%m-%d, %H:%M"
+								) %}
+								{{ order.stoptime.strftime(stoptimefmt) }} ({{  order.stoptime|countdown }})
+							{% else %}
+								Never
+							{% endif %}
+						</dd>
+					</div>
+
+					<div>
+						<dt>Location</dt>
+						<dd>
+							{% if order.location %}
+								<a href="{{ url_for('general_bp.location', location_id=order.location_id) }}">{{ order.location_name }}</a>
+							{% else %}
+								{{ order.location_name }}
+							{% endif %}
+						</dd>
+
+						<dt>Courier</dt>
+						<dd>
+							{% if order.courier == None %}
+								{% if not current_user.is_anonymous() %}
+								<form action="{{ url_for('order_bp.volunteer', order_slug=order.slug) }}" method="post" style="display:inline">
+									<input type="submit" class="btn btn-primary btn-sm" value="Volunteer"></input>
+								</form>
+								{% else %}No-one yet{% endif %}
+							{% else %}
+								{{ order.courier.username }}
+							{% endif %}
+						</dd>
+					</div>
+
+				</dl>
+
+				<div class="col-md-2 col-lg-4">
+					<img src="https://dsa.ugent.be/api/verenigingen/{{ order.association }}/logo" class="img-responsive align-top" style="max-width:200px;width:100%">
 				</div>
-
-				<div>
-					<dt>Location</dt>
-					<dd>
-						{% if order.location %}
-							<a href="{{ url_for('general_bp.location', location_id=order.location_id) }}">{{ order.location_name }}</a>
-						{% else %}
-							{{ order.location_name }}
-						{% endif %}
-					</dd>
-
-					<dt>Courier</dt>
-					<dd>
-						{% if order.courier == None %}
-							{% if not current_user.is_anonymous() %}
-							<form action="{{ url_for('order_bp.volunteer', order_slug=order.slug) }}" method="post" style="display:inline">
-								<input type="submit" class="btn btn-primary btn-sm" value="Volunteer"></input>
-							</form>
-							{% else %}No-one yet{% endif %}
-						{% else %}
-							{{ order.courier.username }}
-						{% endif %}
-					</dd>
-				</div>
-			</dl>
-
-			<div>
-				{% if order.can_close(current_user.id) -%}
-					<form action="{{ url_for('order_bp.close_order', order_slug=order.slug) }}" method="post" style="display:inline">
-						<input type="submit" class="btn btn-danger" value="Close"></input>
-					</form>
-				{% endif %}
-				{% if courier_or_admin %}
-					<a class="btn" href="{{ url_for('order_bp.order_edit', order_slug=order.slug) }}">Edit</a>
-				{%- endif %}
 			</div>
+			
+			{% if order.can_close(current_user.id) -%}
+				<form action="{{ url_for('order_bp.close_order', order_slug=order.slug) }}" method="post" style="display:inline">
+					<input type="submit" class="btn btn-danger" value="Close"></input>
+				</form>
+			{% endif %}
+			{% if courier_or_admin %}
+				<a class="btn" href="{{ url_for('order_bp.order_edit', order_slug=order.slug) }}">Edit</a>
+			{%- endif %}
+			
 		</div>
 
 		<div class="box" id="how_to_order">
