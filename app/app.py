@@ -174,10 +174,11 @@ def create_app():
 
 # For usage when you directly call the script with python
 if __name__ == "__main__":
-    sentry_sdk.init(
-        dsn=Configuration.SENTRY_DSN,
-        integrations=[FlaskIntegration()]
-    )
+    if Configuration.SENTRY_DSN:
+        sentry_sdk.init(
+            dsn=Configuration.SENTRY_DSN,
+            integrations=[FlaskIntegration()]
+        )
 
     app, app_mgr = create_app()
     app_mgr.run()
