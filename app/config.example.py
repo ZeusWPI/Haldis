@@ -12,6 +12,6 @@ class Configuration:
     SECRET_KEY = "<change>"
     SLACK_WEBHOOK = None
     LOGFILE = "haldis.log"
-    SENTRY_DSN = "<change>"
+    SENTRY_DSN = None
     ZEUS_KEY = "tomtest"
     ZEUS_SECRET = "blargh"
