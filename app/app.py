@@ -8,7 +8,7 @@ from datetime import datetime
 from logging.handlers import TimedRotatingFileHandler
 
 from admin import init_admin
-from flask import Flask, render_template
+from flask import Flask, render_template, Response
 from flask_bootstrap import Bootstrap, StaticCDN
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_login import LoginManager
@@ -158,6 +158,12 @@ def create_app():
     """Initializer for the Flask app object"""
     app = Flask(__name__)
 
+    @app.route('/robots.txt')
+    def noindex():
+        r = Response(response="User-Agent: *\nDisallow: /\n", status=200, mimetype="text/plain")
+        r.headers["Content-Type"] = "text/plain; charset=utf-8"
+        return r
+    
     # Load the config file
     app.config.from_object("config.Configuration")
 
