@@ -39,18 +39,27 @@ def authorized() -> typing.Any:
     client.set_token(resp.data)
 
     resp = client.users.get_me()
-    username = resp.data['userPrincipalName']
     microsoft_uuid = resp.data['id']
+    username = resp.data['userPrincipalName']
 
+    # Fail if fields are not populated
+    if not microsoft_uuid or not username:
+        flash("You're not allowed to enter, please contact a system administrator")
+        return redirect(url_for("general_bp.home"))
+
+    # Find existing user by Microsoft UUID (userPrincipalName can change)
+    user = User.query.filter_by(microsoft_uuid=microsoft_uuid).first()
+    if user:
+        return login_and_redirect_user(user)
+
+    # Find existing user by username (pre-existing account)
     user = User.query.filter_by(username=username).first()
-    if username and user:
-        return login_and_redirect_user(user)
-    elif username:
-        user = create_user(username, microsoft_uuid)
+    if user:
         return login_and_redirect_user(user)
 
-    flash("You're not allowed to enter, please contact a system administrator")
-    return redirect(url_for("general_bp.home"))
+    # No user found, create a new one
+    user = create_user(username, microsoft_uuid=microsoft_uuid)
+    return login_and_redirect_user(user)
 
 
 def login_and_redirect_user(user) -> Response:
@@ -59,7 +68,7 @@ def login_and_redirect_user(user) -> Response:
     return redirect(url_for("general_bp.home"))
 
 
-def create_user(username, microsoft_uuid) -> User:
+def create_user(username, *, microsoft_uuid) -> User:
     """Create a temporary user if it is needed"""
     user = User()
     user.configure(username, False, 1, microsoft_uuid=microsoft_uuid)
