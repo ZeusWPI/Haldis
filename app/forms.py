@@ -30,8 +30,11 @@ class OrderForm(Form):
     def populate(self) -> None:
         "Fill in the options for courier for an Order"
         if current_user.is_admin():
-            self.courier_id.choices = [(0, None)] + [
-                (u.id, u.username) for u in User.query.order_by("username")
+            self.courier_id.choices = [
+                (0, None),
+                (current_user.id, current_user.username),
+            ] + [
+                (u.id, u.username) for u in User.query.order_by("username") if u.id != current_user.id
             ]
         else:
             self.courier_id.choices = [

@@ -3,11 +3,13 @@
 """Main Haldis script"""
 
 import logging
+import sentry_sdk
 import typing
 from datetime import datetime
 from logging.handlers import TimedRotatingFileHandler
 
 from admin import init_admin
+from config import Configuration
 from flask import Flask, render_template, Response
 from flask_bootstrap import Bootstrap, StaticCDN
 from flask_debugtoolbar import DebugToolbarExtension
@@ -19,6 +21,7 @@ from login import init_login
 from markupsafe import Markup
 from models import db
 from models.anonymous_user import AnonymouseUser
+from sentry_sdk.integrations.flask import FlaskIntegration
 from utils import euro_string, price_range_string, ignore_none
 from zeus import init_oauth
 
@@ -177,5 +180,11 @@ def create_app():
 
 # For usage when you directly call the script with python
 if __name__ == "__main__":
+    if Configuration.SENTRY_DSN:
+        sentry_sdk.init(
+            dsn=Configuration.SENTRY_DSN,
+            integrations=[FlaskIntegration()]
+        )
+
     app, app_mgr = create_app()
     app_mgr.run()

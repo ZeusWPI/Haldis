@@ -1,14 +1,17 @@
 {% macro render_order(order) -%}
 <div class="row order_row">
-	<div class="col-md-8 col-lg-9 order_data">
+	<div class="col-md-6 order_data">
 		<h5>{{ order.location_name }}</h5>
-		<b class="amount_of_orders">{{ order.items.count() }} items ordered</b></p>
+		<b class="amount_of_orders">{{ order.items.count() }} items ordered for {{ order.association }}</b></p>
 		<p class="time_data">
 		{% if order.stoptime %}
 			<span><b>Closes </b>{{ order.stoptime.strftime("%H:%M") }}</span>{{ order.stoptime|countdown }}
 		{% else %}open{% endif %}<br/>
 	</div>
-	<div class="col-md-4 col-lg-3 expand_button_wrapper">
+	<div class="col-md-3">
+		<img src="https://dsa.ugent.be/api/verenigingen/{{ order.association }}/logo" class="img-responsive align-bottom" style="max-width:200px;width:100%">
+	</div>
+	<div class="col-md-3 expand_button_wrapper">
 		<a class="btn btn-primary btn-block align-bottom expand_button" href="{{ url_for('order_bp.order_from_slug', order_slug=order.slug) }}">Expand</a>
 	</div>
 </div>
