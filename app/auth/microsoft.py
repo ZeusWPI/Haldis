@@ -11,7 +11,7 @@ auth_microsoft_bp = Blueprint("auth_microsoft_bp", __name__)
 
 client = Client(Configuration.MICROSOFT_AUTH_ID,
                 Configuration.MICROSOFT_AUTH_SECRET,
-                account_type='common')  # by default common, thus account_type is optional parameter.
+                account_type="ugentbe.onmicrosoft.com")
 
 
 def microsoft_login():
