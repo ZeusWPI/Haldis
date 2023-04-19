@@ -12,7 +12,6 @@ class User(db.Model):
     bias = db.Column(db.Integer)
     # Microsoft OAUTH info
     microsoft_uuid = db.Column(db.String(120), unique=True)
-    ugent_username = db.Column(db.String(80), unique=True)
     # Association logic
     associations = db.Column(db.String(255), nullable=False, server_default="")
 
@@ -28,7 +27,7 @@ class User(db.Model):
     def association_list(self) -> List[str]:
         return self.associations.split(",")
 
-    def configure(self, username: str, admin: bool, bias: int, microsoft_uuid: str = None, associations: Optional[List[str]] = None) -> None:
+    def configure(self, username: str, admin: bool, bias: int, *, microsoft_uuid: str = None, associations: Optional[List[str]] = None) -> None:
         """Configure the User"""
         if associations is None:
             associations = []

@@ -36,25 +36,16 @@ def authorized() -> typing.Any:
     oauth_code = request.args['code']
 
     resp = client.exchange_code(url_for("auth_microsoft_bp.authorized", _external=True), oauth_code)
-
-    # access_token = resp.data['access_token']
-    # id_token = resp.data['id_token']
-    # expires_in = resp.data['expires_in']
-
     client.set_token(resp.data)
 
     resp = client.users.get_me()
-    # print(resp.data)
-
     username = resp.data['userPrincipalName']
     microsoft_uuid = resp.data['id']
 
     user = User.query.filter_by(username=username).first()
-
     if username and user:
         return login_and_redirect_user(user)
     elif username:
-        # TODO Save 'ugent_username' or something similar
         user = create_user(username, microsoft_uuid)
         return login_and_redirect_user(user)
 
@@ -71,7 +62,7 @@ def login_and_redirect_user(user) -> Response:
 def create_user(username, microsoft_uuid) -> User:
     """Create a temporary user if it is needed"""
     user = User()
-    user.configure(username, False, 1, microsoft_uuid)
+    user.configure(username, False, 1, microsoft_uuid=microsoft_uuid)
     db.session.add(user)
     db.session.commit()
     return user

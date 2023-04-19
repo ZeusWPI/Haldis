@@ -8,22 +8,22 @@ import typing
 from datetime import datetime
 from logging.handlers import TimedRotatingFileHandler
 
-from admin import init_admin
 from flask import Flask, render_template
 from flask_bootstrap import Bootstrap, StaticCDN
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_login import LoginManager
 from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager, Server
-from auth.login import init_login
 from markupsafe import Markup
 
+from admin import init_admin
+from auth.login import init_login
+from auth.zeus import init_oauth
 from config import Configuration
 from models import db
 from models.anonymous_user import AnonymouseUser
 from sentry_sdk.integrations.flask import FlaskIntegration
 from utils import euro_string, price_range_string, ignore_none
-from auth.zeus import init_oauth
 
 
 def register_plugins(app: Flask) -> Manager:
