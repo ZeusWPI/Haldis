@@ -1,4 +1,4 @@
-"An example for a Haldis config"
+"""An example for a Haldis config"""
 # config
 
 
@@ -15,3 +15,7 @@ class Configuration:
     SENTRY_DSN = None
     ZEUS_KEY = "tomtest"
     ZEUS_SECRET = "blargh"
+
+    ENABLE_MICROSOFT_AUTH = False
+    MICROSOFT_AUTH_ID = ""
+    MICROSOFT_AUTH_SECRET = ""
