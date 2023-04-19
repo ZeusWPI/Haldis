@@ -28,11 +28,12 @@ class OrderAdminModel(ModelBaseView):
     "Class for the model of a OrderAdmin"
     # pylint: disable=too-few-public-methods
     column_default_sort = ("starttime", True)
-    column_list = ["starttime", "stoptime", "location_name", "location_id", "courier"]
+    column_list = ["starttime", "stoptime", "location_name", "location_id", "courier", "association"]
     column_labels = {
         "starttime": "Start Time",
         "stoptime": "Closing Time",
         "location_id": "HLDS Location ID",
+        "association": "Association",
     }
     form_excluded_columns = ["items", "courier_id"]
     can_delete = False
@@ -44,6 +45,7 @@ class OrderItemAdminModel(ModelBaseView):
     column_default_sort = ("order_id", True)
     column_list = [
         "order_id",
+        "slug",
         "order.location_name",
         "user_name",
         "user",

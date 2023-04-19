@@ -4,7 +4,7 @@ import add_admins
 
 from app import create_app, db
 
-app_manager = create_app()
+app, app_manager = create_app()
 
 entry_sets = {
     "admins": add_admins.add,

@@ -1,4 +1,6 @@
 "Script for everything User related in the database"
+from typing import List, Optional
+
 from models import db
 
 
@@ -11,6 +13,9 @@ class User(db.Model):
     # Microsoft OAUTH info
     microsoft_uuid = db.Column(db.String(120), unique=True)
     ugent_username = db.Column(db.String(80), unique=True)
+    # Association logic
+    associations = db.Column(db.String(255), nullable=False, server_default="")
+
     # Relations
     runs = db.relation(
         "Order",
@@ -20,12 +25,18 @@ class User(db.Model):
     )
     orderItems = db.relationship("OrderItem", backref="user", lazy="dynamic")
 
-    def configure(self, username: str, admin: bool, bias: int, microsoft_uuid: str = None) -> None:
+    def association_list(self) -> List[str]:
+        return self.associations.split(",")
+
+    def configure(self, username: str, admin: bool, bias: int, microsoft_uuid: str = None, associations: Optional[List[str]] = None) -> None:
         """Configure the User"""
+        if associations is None:
+            associations = []
         self.username = username
         self.admin = admin
         self.bias = bias
         self.microsoft_uuid = microsoft_uuid
+        self.associations = ",".join(associations)
 
     # pylint: disable=C0111, R0201
     def is_authenticated(self) -> bool:

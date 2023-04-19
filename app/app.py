@@ -3,6 +3,7 @@
 """Main Haldis script"""
 
 import logging
+import sentry_sdk
 import typing
 from datetime import datetime
 from logging.handlers import TimedRotatingFileHandler
@@ -20,7 +21,8 @@ from markupsafe import Markup
 from config import Configuration
 from models import db
 from models.anonymous_user import AnonymouseUser
-from utils import euro_string, price_range_string
+from sentry_sdk.integrations.flask import FlaskIntegration
+from utils import euro_string, price_range_string, ignore_none
 from auth.zeus import init_oauth
 
 
@@ -156,6 +158,7 @@ def add_template_filters(app: Flask) -> None:
     app.template_filter("price_range")(price_range_string)
     app.template_filter("any")(any)
     app.template_filter("all")(all)
+    app.template_filter("ignore_none")(ignore_none)
 
 
 def create_app():
@@ -174,10 +177,16 @@ def create_app():
     def inject_config():
         return dict(configuration=Configuration)
 
-    return app_manager
+    return app, app_manager
 
 
 # For usage when you directly call the script with python
 if __name__ == "__main__":
-    app_mgr = create_app()
+    if Configuration.SENTRY_DSN:
+        sentry_sdk.init(
+            dsn=Configuration.SENTRY_DSN,
+            integrations=[FlaskIntegration()]
+        )
+
+    app, app_mgr = create_app()
     app_mgr.run()

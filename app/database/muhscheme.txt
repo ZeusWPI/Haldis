@@ -9,6 +9,7 @@ user
 
 order
 	id
+	slug                secret used in URL
 	courier_id
 	location_id         HLDS identifier
 	location_name       this allows historical orders to keep the same location name
