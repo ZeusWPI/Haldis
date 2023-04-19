@@ -1,0 +1,17 @@
+version: "3.4"
+
+services:
+  app:
+    build:
+      target: "development"
+    environment:
+      - MARIADB_DATABASE=haldis
+      - MARIADB_USER=haldis
+      - MARIADB_PASSWORD=haldis
+    volumes: ["$PWD:/src"]
+  database:
+    environment:
+      - MARIADB_DATABASE=haldis
+      - MARIADB_ROOT_PASSWORD=mariadb
+      - MARIADB_USER=haldis
+      - MARIADB_PASSWORD=haldis

@@ -17,5 +17,8 @@ DATA_DIR = ROOT_DIR / "menus"
 location_definitions: List[Location] = parse_all_directory(str(DATA_DIR))
 location_definitions.sort(key=lambda l: l.name)
 
-proc = subprocess.run(["git", "rev-parse", "HEAD"], stdout=subprocess.PIPE, cwd=str(ROOT_DIR), check=True)
-location_definition_version = proc.stdout.decode().strip()
+try:
+    proc = subprocess.run(["git", "rev-parse", "HEAD"], stdout=subprocess.PIPE, cwd=str(ROOT_DIR), check=True)
+    location_definition_version = proc.stdout.decode().strip()
+except FileNotFoundError:
+    location_definition_version = ""
