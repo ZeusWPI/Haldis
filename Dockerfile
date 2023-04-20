@@ -19,4 +19,4 @@ FROM development AS production
 RUN pip install waitress
 
 CMD python app.py db upgrade && \
-    python wsgi.py
+    python waitress_wsgi.py
