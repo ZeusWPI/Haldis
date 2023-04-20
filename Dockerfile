@@ -5,6 +5,10 @@ WORKDIR /src
 
 RUN pip install pymysql
 
+ADD https://git.zeus.gent/haldis/menus/-/archive/master/menus-master.tar /tmp
+RUN mkdir menus && \
+	tar --directory=menus --extract --strip-components=1 --file=/tmp/menus-master.tar
+
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 

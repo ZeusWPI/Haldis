@@ -4,7 +4,6 @@
 # Include source, config and scripts
 !app
 !etc
-!menus
 !*.md
 !*.sh
 !*.txt
