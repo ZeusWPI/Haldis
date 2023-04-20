@@ -3,7 +3,6 @@ import typing
 from collections import defaultdict
 from datetime import datetime
 import secrets
-import string
 
 from hlds.definitions import location_definitions
 from utils import first
@@ -11,13 +10,13 @@ from utils import first
 from .database import db
 from .user import User
 
-BASE31_ALPHABET = '23456789abcdefghjkmnpqrstuvwxyz'
 
 def generate_slug():
-    secret = ''.join(secrets.choice(BASE31_ALPHABET) for i in range(8))
+    secret = secrets.token_urlsafe(24)
     while Order.query.filter(Order.slug == secret).first() is not None:
-        secret = ''.join(secrets.choice(BASE31_ALPHABET) for i in range(8))
+        secret = secrets.token_urlsafe(24)
     return secret
+
 
 class Order(db.Model):
     """Class used for configuring the Order model in the database"""
@@ -28,7 +27,7 @@ class Order(db.Model):
     starttime = db.Column(db.DateTime)
     stoptime = db.Column(db.DateTime)
     public = db.Column(db.Boolean, default=True)
-    slug = db.Column(db.String(8), default=generate_slug, unique=True)
+    slug = db.Column(db.String(36), default=generate_slug, unique=True)
     association = db.Column(db.String(120), nullable=False, server_default="")
 
     items = db.relationship("OrderItem", backref="order", lazy="dynamic")
