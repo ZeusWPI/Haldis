@@ -1,7 +1,6 @@
 # Import this class to load the standard HLDS definitions
-
 import subprocess
-from os import path
+from pathlib import Path
 from typing import List
 
 from .models import Location
@@ -12,10 +11,11 @@ __all__ = ["location_definitions", "location_definition_version"]
 # pylint: disable=invalid-name
 
 # TODO Use proper way to get resources, see https://stackoverflow.com/a/10935674
-DATA_DIR = path.join(path.dirname(__file__), "..", "..", "menus")
+ROOT_DIR = Path(__file__).parent.parent.parent
+DATA_DIR = ROOT_DIR / "menus"
 
-location_definitions: List[Location] = parse_all_directory(DATA_DIR)
+location_definitions: List[Location] = parse_all_directory(str(DATA_DIR))
 location_definitions.sort(key=lambda l: l.name)
 
-proc = subprocess.run(["git", "rev-parse", "HEAD"], stdout=subprocess.PIPE, check=True)
+proc = subprocess.run(["git", "rev-parse", "HEAD"], stdout=subprocess.PIPE, cwd=str(ROOT_DIR), check=True)
 location_definition_version = proc.stdout.decode().strip()
