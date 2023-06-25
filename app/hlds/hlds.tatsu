@@ -29,9 +29,9 @@ location = >location_header items:{ block } ;
 
 
 attributes =
-	name:/[^\n#]*?(?= +-- |  | *\n| *#)/
+	name:/[^\n#]*?(?= +-- |  | €| *\n| *#)/
 	[ s '--' ~ s description:/[^\n#]*?(?=  | *\n| *#)/ ]
-	[ / {2,}/ ~
+	[ / +/ ~
 		[ {[ s ] ('{' tags+:identifier '}')} / +|$/ ]
 		[ price:price ]
 	]
