@@ -1,0 +1,10 @@
+# Ignore everything
+*
+
+# Include source, config and scripts
+!app
+!etc
+!*.md
+!*.sh
+!*.txt
+!LICENSE

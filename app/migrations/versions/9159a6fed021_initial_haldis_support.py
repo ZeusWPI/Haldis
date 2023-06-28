@@ -112,14 +112,12 @@ def upgrade():
         )
     )
     # Historical product data migrated, drop obsolete column and table
-    op.execute(text("ALTER TABLE order_item DROP FOREIGN KEY order_item_ibfk_3"))
+    op.drop_constraint("order_item_ibfk_3", "order_item", type_="foreignkey")
     op.drop_column("order_item", "product_id")
     op.drop_table("product")
 
     # ----------------------------------------------------------------------------------------------
     # Migrate historical location data to orders
-
-    op.execute(text("ALTER TABLE `order` DROP FOREIGN KEY order_ibfk_2"))
     op.alter_column(
         "order",
         "location_id",
@@ -157,6 +155,7 @@ def upgrade():
     for query in chain(new_location_id, [location_name_from_location]):
         op.execute(query)
     # Historical location data migrated, drop obsolete column and table
+    op.drop_constraint("order_ibfk_1", "order", type_="foreignkey")
     op.drop_column("order", "legacy_location_id")
     op.drop_table("location")
 

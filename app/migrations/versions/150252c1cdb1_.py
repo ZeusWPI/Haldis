@@ -43,7 +43,7 @@ def upgrade():
         sa.Column("starttime", sa.DateTime(), nullable=True),
         sa.Column("stoptime", sa.DateTime(), nullable=True),
         sa.Column("public", sa.Boolean(), nullable=True),
-        sa.ForeignKeyConstraint(["location_id"], ["location.id"]),
+        sa.ForeignKeyConstraint(["location_id"], ["location.id"], name="order_ibfk_1"),
         sa.PrimaryKeyConstraint("id"),
     )
     op.create_table(
@@ -65,7 +65,7 @@ def upgrade():
         sa.Column("extra", sa.String(length=254), nullable=True),
         sa.Column("name", sa.String(length=120), nullable=True),
         sa.ForeignKeyConstraint(["order_id"], ["order.id"]),
-        sa.ForeignKeyConstraint(["product_id"], ["product.id"]),
+        sa.ForeignKeyConstraint(["product_id"], ["product.id"], name="order_item_ibfk_3"),
         sa.ForeignKeyConstraint(["user_id"], ["user.id"]),
         sa.PrimaryKeyConstraint("id"),
     )
