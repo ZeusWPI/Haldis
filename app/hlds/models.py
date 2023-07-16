@@ -88,6 +88,12 @@ class Dish:
         )
 
     def _sum_f_option_prices(self, f):
+        for (_, choice) in self.choices:
+            if len(choice.options) == 0:
+                print((f"[PARSE ERROR] At least 1 option expected in dish choice.\n"
+                       f"\tDish:\t'{self.name}'\n"
+                       f"\tChoice:\t'{choice.name}'\n"))
+                exit(1)
         return sum(
             f(option.price for option in choice.options)
             for (choice_type, choice) in self.choices
