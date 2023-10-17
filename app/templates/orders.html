@@ -89,9 +89,24 @@
 	<script src="{{ url_for('static', filename='js/bootstrap-datetimepicker.min.js') }}"></script>
 	<script type="text/javascript">
 		$.ready(function(){
+			let allowFarFuture = false;
+			let onePass = false;
+			let oldDate = null;
 			$('.select').select2();
 			$('.datetimepicker').datetimepicker({
 				format: 'DD-MM-YYYY HH:mm'
+			})
+			$('#stoptime').on("dp.change", (e) => {
+				if (onePass) {
+					onePass = false;
+					return;
+				}
+				if (e.date.isAfter(moment().add(1, 'd')) && !allowFarFuture) {
+					allowFarFuture = confirm("Are you sure you want to create an order with closes later than 1 day")
+					if (!allowFarFuture) {
+						$(e.currentTarget).data("DateTimePicker").date(e.oldDate)
+					}
+				}
 			});
 		}());
 	</script>
