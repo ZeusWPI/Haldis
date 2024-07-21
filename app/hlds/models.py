@@ -104,13 +104,15 @@ class Location:
                  osm=None,
                  address=None,
                  telephone=None,
-                 website=None):
+                 website=None,
+                 opening_hours=None):
         self.id: str = id_
         self.name: str = name
         self.osm: Optional[str] = osm
         self.address: Optional[str] = address
         self.telephone: Optional[str] = telephone
         self.website: Optional[str] = website
+        self.opening_hours: Optional[str] = opening_hours
 
         self.dishes: List[Dish] = dishes
 

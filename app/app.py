@@ -4,6 +4,7 @@
 
 import logging
 from flask_migrate import Migrate
+import requests
 import sentry_sdk
 import typing
 from datetime import datetime
@@ -23,6 +24,8 @@ from app.models import db
 from app.models.anonymous_user import AnonymouseUser
 from sentry_sdk.integrations.flask import FlaskIntegration
 from app.utils import euro_string, price_range_string, ignore_none
+
+import app.hlds.definitions as hlds
 
 
 def register_plugins(app: Flask) -> Flask:
@@ -175,6 +178,9 @@ def create_app():
     add_handlers(app)
     add_routes(app)
     add_template_filters(app)
+
+    # Extend locations with OSM data
+    hlds.extend_locations_with_osm(app)
 
     @app.context_processor
     def inject_config():
