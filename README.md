@@ -13,6 +13,14 @@ Be lazier today!
 
 ## Local setup
 
+### Docker
+
+	docker compose up
+
+This uses the `config.docker.py` file as the config.
+
+### Manual
+
 There is a special script to get started with the project. Just run it in the root of the project.
 Note: this script might require you to install a certain python version, you can do this using your favorite tool e.g. [pyenv](https://github.com/pyenv/pyenv#simple-python-version-management-pyenv)
 
