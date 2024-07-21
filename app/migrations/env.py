@@ -63,6 +63,8 @@ def run_migrations_online():
     )
 
     connection = engine.connect()
+    args = current_app.extensions["migrate"].configure_args
+    args["render_as_batch"] = True
     context.configure(
         connection=connection,
         target_metadata=target_metadata,

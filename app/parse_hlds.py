@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 "Module used for parsing the HLDS files"
 
-from hlds.parser import parse_files
+from .hlds.parser import parse_files
 
 USAGE = """{0} [filename]...
 Parse HLDS files, print as JSON
@@ -16,7 +16,7 @@ def main(filenames):
     if filenames:
         location_definitions = parse_files(filenames)
     else:
-        from hlds.definitions import location_definitions
+        from .hlds.definitions import location_definitions
 
     print("\n\n".join(map(str, location_definitions)))
 

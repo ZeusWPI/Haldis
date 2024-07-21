@@ -1,8 +1,8 @@
 """Script for adding users as admin to Haldis."""
-from models import User
+from .models import User
 
 from app import db
-from models import User
+from .models import User
 from config import Configuration
 
 

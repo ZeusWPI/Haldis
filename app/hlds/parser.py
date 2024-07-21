@@ -9,7 +9,7 @@ from typing import Iterable, List, Tuple, Union
 from tatsu import parse as tatsu_parse
 from tatsu.ast import AST
 from tatsu.exceptions import SemanticError
-from utils import first
+from ..utils import first
 
 from .models import Choice, Dish, Location, Option
 

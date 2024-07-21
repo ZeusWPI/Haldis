@@ -5,10 +5,10 @@ from typing import Optional
 from flask import request, session
 from flask_login import current_user
 from flask_wtf import FlaskForm as Form
-from hlds.definitions import location_definitions
-from hlds.models import Choice, Dish, Location
-from models import User
-from utils import euro_string, price_range_string
+from .hlds.definitions import location_definitions
+from .hlds.models import Choice, Dish, Location
+from .models import User
+from .utils import euro_string, price_range_string
 from wtforms import (DateTimeField, FieldList, SelectField,
                      SelectMultipleField, StringField, SubmitField, validators)
 
@@ -18,13 +18,13 @@ class OrderForm(Form):
     # pylint: disable=R0903
     courier_id = SelectField("Courier", coerce=int)
     location_id = SelectField(
-        "Location", coerce=str, validators=[validators.required()]
+        "Location", coerce=str, validators=[validators.DataRequired()]
     )
     starttime = DateTimeField(
         "Starttime", default=datetime.now, format="%d-%m-%Y %H:%M"
     )
     stoptime = DateTimeField("Stoptime", format="%d-%m-%Y %H:%M")
-    association = SelectField("Association", coerce=str, validators=[validators.required()])
+    association = SelectField("Association", coerce=str, validators=[validators.DataRequired()])
     submit_button = SubmitField("Submit")
 
     def populate(self) -> None:
@@ -67,7 +67,7 @@ class AnonOrderItemForm(OrderItemForm):
     For Users who aren't logged in
     """
 
-    user_name = StringField("Name", validators=[validators.required()])
+    user_name = StringField("Name", validators=[validators.DataRequired()])
 
     def populate(self, location: Location) -> None:
         """

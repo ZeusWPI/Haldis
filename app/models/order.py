@@ -5,8 +5,8 @@ from datetime import datetime
 import secrets
 import string
 
-from hlds.definitions import location_definitions
-from utils import first
+from ..hlds.definitions import location_definitions
+from ..utils import first
 
 from .database import db
 from .user import User
@@ -54,7 +54,7 @@ class Order(db.Model):
         """
         assert (
             self.location_id
-        ), "location_id must be configured before updating from HLDS"
+        ), "location_id must be configured before updating from .hlds"
         self.location_name = self.location.name
 
     def for_user(self, anon=None, user=None) -> typing.List:

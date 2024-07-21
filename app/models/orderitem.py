@@ -1,8 +1,8 @@
 "Script for everything OrderItem related in the database"
 from datetime import datetime
 
-from hlds.definitions import location_definitions
-from utils import first
+from ..hlds.definitions import location_definitions
+from ..utils import first
 
 from .database import db
 from .order import Order
@@ -54,8 +54,8 @@ class OrderItem(db.Model):
         Update the dish name and price from the HLDS definition.
         User should commit after running this to make the change persistent.
         """
-        assert self.order_id, "order_id must be configured before updating from HLDS"
-        assert self.dish_id, "dish_id must be configured before updating from HLDS"
+        assert self.order_id, "order_id must be configured before updating from .hlds"
+        assert self.dish_id, "dish_id must be configured before updating from .hlds"
         self.dish_name = self.dish.name
         self.price = self.dish.price
 

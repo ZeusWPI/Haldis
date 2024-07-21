@@ -10,12 +10,12 @@ from flask import current_app as app
 from flask import (jsonify, make_response, render_template, request,
                    send_from_directory, url_for)
 from flask_login import current_user, login_required
-from hlds.definitions import location_definitions
-from hlds.models import Location
-from models import Order
-from utils import first
+from ..hlds.definitions import location_definitions
+from ..hlds.models import Location
+from ..models import Order
+from ..utils import first
 # import views
-from views.order import get_orders
+from ..views.order import get_orders
 
 general_bp = Blueprint("general_bp", __name__)
 

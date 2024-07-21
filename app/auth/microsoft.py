@@ -4,8 +4,8 @@ from flask import Blueprint, url_for, request, redirect, flash, Response
 from flask_login import login_user
 from microsoftgraph.client import Client
 
-from config import Configuration
-from models import User, db
+from ..config import Configuration
+from ..models import User, db
 
 auth_microsoft_bp = Blueprint("auth_microsoft_bp", __name__)
 

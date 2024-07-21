@@ -1,16 +1,16 @@
-Flask<2
+Flask
 Flask-Login
 Flask-Bootstrap
-Flask-SQLAlchemy<3
+Flask-SQLAlchemy
 Flask-DebugToolbar
 Flask-WTF
 Flask-OAuthlib
-Flask-Admin<2
-Flask-Migrate<3
-Flask-Script<3
+Flask-Admin
+Flask-Migrate
+Flask-Script
 black
 pymysql
 pyyaml
-tatsu<5.6 # >=5.6 needs Python >=3.8
+tatsu
 microsoftgraph-python
 sentry-sdk[flask]

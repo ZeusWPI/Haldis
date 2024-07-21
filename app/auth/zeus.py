@@ -5,7 +5,7 @@ from flask import (Blueprint, current_app, flash, redirect, request, session,
                    url_for)
 from flask_login import login_user
 from flask_oauthlib.client import OAuth, OAuthException, OAuthRemoteApp
-from models import User, db
+from ..models import User, db
 from werkzeug.wrappers import Response
 
 auth_zeus_bp = Blueprint("auth_zeus_bp", __name__)
