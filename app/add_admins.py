@@ -1,9 +1,7 @@
 """Script for adding users as admin to Haldis."""
-from .models import User
-
-from app import db
-from .models import User
-from config import Configuration
+from app.app import db
+from app.models import User
+from app.config import Configuration
 
 
 def add() -> None:

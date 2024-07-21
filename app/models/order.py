@@ -5,8 +5,8 @@ from datetime import datetime
 import secrets
 import string
 
-from ..hlds.definitions import location_definitions
-from ..utils import first
+from app.hlds.definitions import location_definitions
+from app.utils import first
 
 from .database import db
 from .user import User

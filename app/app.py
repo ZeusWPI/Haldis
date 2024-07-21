@@ -9,22 +9,20 @@ import typing
 from datetime import datetime
 from logging.handlers import TimedRotatingFileHandler
 
-from .admin import init_admin
-from .config import Configuration
 from flask import Flask, render_template, Response
 from flask_bootstrap import Bootstrap, StaticCDN
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_login import LoginManager
 from markupsafe import Markup
 
-from .admin import init_admin
-from .auth.login import init_login
-from .auth.zeus import init_oauth
-from .config import Configuration
-from .models import db
-from .models.anonymous_user import AnonymouseUser
+from app.admin import init_admin
+from app.auth.login import init_login
+from app.auth.zeus import init_oauth
+from app.config import Configuration
+from app.models import db
+from app.models.anonymous_user import AnonymouseUser
 from sentry_sdk.integrations.flask import FlaskIntegration
-from .utils import euro_string, price_range_string, ignore_none
+from app.utils import euro_string, price_range_string, ignore_none
 
 
 def register_plugins(app: Flask) -> Flask:
