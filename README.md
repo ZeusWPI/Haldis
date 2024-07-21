@@ -14,6 +14,7 @@ Be lazier today!
 ## Local setup
 
 ### Docker
+From the root of the project, run:
 
 	docker compose up
 
