@@ -19,7 +19,7 @@ from markupsafe import Markup
 
 from .admin import init_admin
 from .auth.login import init_login
-# from .auth.zeus import init_oauth
+from .auth.zeus import init_oauth
 from .config import Configuration
 from .models import db
 from .models.anonymous_user import AnonymouseUser
@@ -55,8 +55,8 @@ def register_plugins(app: Flask) -> Flask:
     init_login(app)
 
     # Add oauth
-    # zeus = init_oauth(app)
-    # app.zeus = zeus
+    zeus = init_oauth(app)
+    app.zeus = zeus
 
     # Load the bootstrap local cdn
     Bootstrap(app)

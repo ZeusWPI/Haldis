@@ -4,7 +4,6 @@ Flask-Bootstrap
 Flask-SQLAlchemy
 Flask-DebugToolbar
 Flask-WTF
-Flask-OAuthlib
 Flask-Admin
 Flask-Migrate
 Flask-Script
@@ -14,3 +13,4 @@ pyyaml
 tatsu
 microsoftgraph-python
 sentry-sdk[flask]
+Authlib
