@@ -43,4 +43,4 @@ if [ ! -d "menus" ]; then
 	fi
 fi
 
-echo -e "${B} Activate your venv using 'source venv/bin/activate'.\nThen run the development server with 'python app/app.py runserver' ${E}"
+echo -e "${B} Activate your venv using 'source venv/bin/activate'.\nThen run the development server with 'flask run --port=8000 --debug' from within the app folder ${E}"

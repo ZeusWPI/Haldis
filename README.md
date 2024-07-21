@@ -68,6 +68,11 @@ No module named '_sqlite3'
 ```
 -> install `libsqlite3-dev` or equivalent
 
+```
+Error: Failed to find Flask application or factory in module 'app'. Use 'app:name' to specify one.
+```
+-> `cd app`
+
 
 ## Production
 To prepare the application in a production environment, follow the same steps as for *Local setup* up to and including `./populate-db.sh`.
