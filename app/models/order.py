@@ -54,7 +54,7 @@ class Order(db.Model):
         """
         assert (
             self.location_id
-        ), "location_id must be configured before updating from .hlds"
+        ), "location_id must be configured before updating from HLDS"
         self.location_name = self.location.name
 
     def for_user(self, anon=None, user=None) -> typing.List:
