@@ -14,3 +14,4 @@ tatsu
 microsoftgraph-python
 sentry-sdk[flask]
 Authlib
+opening-hours-py

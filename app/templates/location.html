@@ -6,6 +6,15 @@
 {% block container %}
 <div class="row location_data" xmlns="http://www.w3.org/1999/html">
 	<div class="col-md-push-1 col-md-5 darker">
+		{% if location.opening_hours %}
+		<h4>
+			{% if location.is_open() %}
+			<span class="label label-success">Open Now</span>
+			{% else %}
+			<span class="label label-danger">Closed</span>
+			{% endif %}
+		</h4>
+		{% endif %}
 		<h3>{{ location.name }}</h3>
 		{% if location.opening_hours %}<span class="glyphicon glyphicon-time"></span>{{ location.opening_hours }}<br/>{% endif %}
 		{% if location.address   %}<span class="glyphicon glyphicon-home"></span>{{ location.address }}<br/>{% endif %}

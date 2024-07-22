@@ -2,6 +2,7 @@
 # pylint: disable=too-few-public-methods
 
 from typing import Any, Iterable, List, Mapping, Optional, Tuple
+from opening_hours import OpeningHours
 
 from ..utils import euro_string, first
 
@@ -118,6 +119,11 @@ class Location:
 
     def dish_by_id(self, dish_id: str) -> Optional[Dish]:
         return first(filter(lambda d: d.id == dish_id, self.dishes))
+    
+    
+
+    def is_open(self) -> bool:
+        return OpeningHours(self.opening_hours).is_open()
 
     def __str__(self):
         return ("============================\n"

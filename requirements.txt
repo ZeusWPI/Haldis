@@ -86,6 +86,8 @@ microsoftgraph-python==1.1.8.1
     # via -r requirements.in
 mypy-extensions==1.0.0
     # via black
+opening-hours-py==0.6.18
+    # via -r requirements.in
 packaging==24.1
     # via
     #   black
