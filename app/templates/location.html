@@ -16,7 +16,10 @@
 		</h4>
 		{% endif %}
 		<h3>{{ location.name }}</h3>
-		{% if location.opening_hours %}<span class="glyphicon glyphicon-time"></span>{{ location.opening_hours }}<br/>{% endif %}
+		{% if location.opening_hours %}
+		<span class="glyphicon glyphicon-triangle-right"></span>{{ location.next_change_str() }}<br/>
+		<span class="glyphicon glyphicon-time"></span>{{ location.opening_hours }}<br/>
+		{% endif %}
 		{% if location.address   %}<span class="glyphicon glyphicon-home"></span>{{ location.address }}<br/>{% endif %}
 		{% if location.telephone %}<span class="glyphicon glyphicon-phone"></span><a href="tel:{{ location.telephone }}">{{ location.telephone }}</a><br/>{% endif %}
 		{% if location.website   %}<span class="glyphicon glyphicon-link"></span> <a href="{{ location.website}}">{{ location.website }}</a> <br/>{% endif %}

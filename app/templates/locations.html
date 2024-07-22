@@ -14,7 +14,10 @@
 			<tbody>
 			{% for loc in locations -%}
 				<tr>
-					<td>{% if not loc.opening_hours %}⚫{% elif loc.is_open() %}🟢{% else %}🔴{% endif %}</td>
+					<td>
+						<div title="{{ loc.next_change_str() }}">
+							{{ loc.is_open_symbol() }}
+						</div></td>
 					<td><a href="{{ url_for('general_bp.location', location_id=loc.id) }}">{{ loc.name }}</a></td>
 					<td>{{ loc.address }}<td>
 					<td><a href="{{ loc.website }}"><span class="glyphicon glyphicon-link"></span> {{ loc.website }}</a></td>

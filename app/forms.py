@@ -41,7 +41,7 @@ class OrderForm(Form):
                 (0, None),
                 (current_user.id, current_user.username),
             ]
-        self.location_id.choices = [(l.id, l.name) for l in location_definitions]
+        self.location_id.choices = [(l.id, f"{l.is_open_symbol()} {l.name}") for l in location_definitions]
         self.association.choices = current_user.association_list()
         if self.stoptime.data is None:
             self.stoptime.data = datetime.now() + timedelta(hours=1)
