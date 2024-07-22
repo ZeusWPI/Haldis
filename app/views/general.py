@@ -147,7 +147,7 @@ def map_view() -> str:
 @general_bp.route("/location")
 def locations() -> str:
     "Generate the location view"
-    return render_template("locations.html", locations=location_definitions)
+    return render_template("locations.html", locations=sorted(location_definitions, key=lambda l: l.is_open(), reverse=True))
 
 
 @general_bp.route("/location/<location_id>")

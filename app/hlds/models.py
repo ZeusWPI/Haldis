@@ -122,6 +122,8 @@ class Location:
         return first(filter(lambda d: d.id == dish_id, self.dishes))
 
     def is_open(self) -> bool:
+        if not self.opening_hours:
+            return False
         return OpeningHours(self.opening_hours).is_open()
 
     def is_open_symbol(self) -> str:
@@ -132,7 +134,7 @@ class Location:
 
     def next_change_str(self) -> Optional[str]:
         if self.opening_hours is None:
-            return ""
+            return "Unknown, add opening hours to OSM!"
 
         state_str = "Opening" if not self.is_open() else "Closing"
 
