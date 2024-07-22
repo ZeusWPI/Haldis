@@ -1,7 +1,7 @@
 "Script for everything User related in the database"
 from typing import List, Optional
 
-from models import db
+from ..models import db
 
 
 class User(db.Model):

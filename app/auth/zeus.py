@@ -4,8 +4,10 @@ import typing
 from flask import (Blueprint, current_app, flash, redirect, request, session,
                    url_for)
 from flask_login import login_user
-from flask_oauthlib.client import OAuth, OAuthException, OAuthRemoteApp
-from models import User, db
+# from flask_oauthlib.client import OAuth, OAuthException, OAuthRemoteApp
+from authlib.integrations.flask_client import OAuth
+from authlib.integrations.base_client.errors import OAuthError
+from ..models import User, db
 from werkzeug.wrappers import Response
 
 auth_zeus_bp = Blueprint("auth_zeus_bp", __name__)
@@ -13,8 +15,7 @@ auth_zeus_bp = Blueprint("auth_zeus_bp", __name__)
 
 def zeus_login():
     """Log in using ZeusWPI"""
-    return current_app.zeus.authorize(
-        callback=url_for("auth_zeus_bp.authorized", _external=True))
+    return current_app.zeus.authorize_redirect(url_for("auth_zeus_bp.authorized", _external=True))
 
 
 @auth_zeus_bp.route("/login")
@@ -28,16 +29,17 @@ def authorized() -> typing.Any:
     # type is 'typing.Union[str, Response]', but this errors due to
     #   https://github.com/python/mypy/issues/7187
     """Check authorized status"""
-    resp = current_app.zeus.authorized_response()
-    if resp is None:
-        # pylint: disable=C0301
-        return f"Access denied: reason={request.args['error']} error={request.args['error_description']}"
-    if isinstance(resp, OAuthException):
-        return f"Access denied: {resp.message}<br>{resp.data}"
-
-    session["zeus_token"] = (resp["access_token"], "")
-    me = current_app.zeus.get("current_user/")
-    username = me.data.get("username", "").lower()
+    try: 
+        resp = current_app.zeus.authorize_access_token()
+    except Exception as e:
+        if isinstance(e, OAuthError):
+            flash("Permission denied")
+        else:
+            flash("An error occurred while logging in, please contact a system administrator")
+        return redirect(url_for("general_bp.home"))
+    
+    me = current_app.zeus.get("current_user")
+    username = me.json().get("username", "").lower()
 
     user = User.query.filter_by(username=username).first()
     # pylint: disable=R1705
@@ -51,27 +53,22 @@ def authorized() -> typing.Any:
     return redirect(url_for("general_bp.home"))
 
 
-def init_oauth(app) -> OAuthRemoteApp:
+def init_oauth(app):
     """Initialize the OAuth for ZeusWPI"""
     oauth = OAuth(app)
 
-    zeus = oauth.remote_app(
-        "zeus",
-        consumer_key=app.config["ZEUS_KEY"],
-        consumer_secret=app.config["ZEUS_SECRET"],
+    oauth.register(
+        name="zeus",
+        client_id=app.config["ZEUS_KEY"],
+        client_secret=app.config["ZEUS_SECRET"],
         request_token_params={},
-        base_url="https://adams.ugent.be/oauth/api/",
+        api_base_url="https://adams.ugent.be/oauth/api/",
         access_token_method="POST",
         access_token_url="https://adams.ugent.be/oauth/oauth2/token/",
         authorize_url="https://adams.ugent.be/oauth/oauth2/authorize/",
     )
 
-    # pylint: disable=W0612
-    @zeus.tokengetter
-    def get_zeus_oauth_token():
-        return session.get("zeus_token")
-
-    return zeus
+    return oauth.create_client('zeus')
 
 
 def login_and_redirect_user(user) -> Response:

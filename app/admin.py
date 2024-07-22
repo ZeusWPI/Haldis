@@ -4,7 +4,7 @@ from flask import Flask
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 from flask_sqlalchemy import SQLAlchemy
-from models import Order, OrderItem, OrderItemChoice, User
+from .models import Order, OrderItem, OrderItemChoice, User
 
 
 class ModelBaseView(ModelView):

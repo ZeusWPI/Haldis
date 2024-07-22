@@ -1,13 +1,15 @@
 """Script for interaction and changes to the database"""
 
-import add_admins
+from app.add_admins import add
 
-from app import create_app, db
+from app.app import create_app, db
 
-app, app_manager = create_app()
+from sqlalchemy import inspect
+
+app = create_app()
 
 entry_sets = {
-    "admins": add_admins.add,
+    "admins": add,
 }
 
 yes = ["yes", "y"]
@@ -70,16 +72,13 @@ def add_to_current() -> None:
     print("Thank you for adding, come again!")
 
 
-@app_manager.command
-def setup_database():  # type: None
+with app.app_context():
     """Start the database interaction script"""
     print("Database modification script!")
     print("=============================\n\n")
-    if (not db.engine.table_names()) or check_if_overwrite():
+    if (not inspect(db.engine).get_table_names()) or check_if_overwrite():
         recreate_from_scratch()
     else:
         add_to_current()
     commit()
 
-
-app_manager.run()

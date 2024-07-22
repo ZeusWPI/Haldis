@@ -1,5 +1,5 @@
 "Script to generate the stats related views of Haldis"
-from fatmodels import FatLocation, FatOrder, FatOrderItem, FatUser
+from ..fatmodels import FatLocation, FatOrder, FatOrderItem, FatUser
 from flask import Blueprint
 from flask import current_app as app
 from flask import render_template

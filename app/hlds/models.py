@@ -3,7 +3,7 @@
 
 from typing import Any, Iterable, List, Mapping, Optional, Tuple
 
-from utils import euro_string, first
+from ..utils import euro_string, first
 
 
 def _format_tags(tags: Iterable[str]) -> str:

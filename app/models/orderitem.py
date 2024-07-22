@@ -1,8 +1,8 @@
 "Script for everything OrderItem related in the database"
 from datetime import datetime
 
-from hlds.definitions import location_definitions
-from utils import first
+from ..hlds.definitions import location_definitions
+from ..utils import first
 
 from .database import db
 from .order import Order

@@ -13,6 +13,15 @@ Be lazier today!
 
 ## Local setup
 
+### Docker
+From the root of the project, run:
+
+	docker compose up
+
+This uses the `config.docker.py` file as the config.
+
+### Manual
+
 There is a special script to get started with the project. Just run it in the root of the project.
 Note: this script might require you to install a certain python version, you can do this using your favorite tool e.g. [pyenv](https://github.com/pyenv/pyenv#simple-python-version-management-pyenv)
 
@@ -24,7 +33,7 @@ If you are using a database other then sqlite you will first need to configure t
 Afterwards upgrade the database to the latest version using
 
 	cd app
-	python3 app.py db upgrade
+	flask db upgrade
 
 You can now still seed the database by running, note that you might want to put your name in the `HALDIS_ADMINS` in `app/config.py`
 
@@ -39,7 +48,7 @@ Activate the virtual environment using
 
 Finally run the webserver with
 
-	python3 app/app.py runserver
+	`flask run --port=8000 --debug`
 
 Make sure to use localhost instead of 127.0.0.1 if you want to be able to login.
 
@@ -48,8 +57,8 @@ Make sure to use localhost instead of 127.0.0.1 if you want to be able to login.
 ### Changing the database
 
 1. Update models located in 'app/models.py'
-2. Run `python app/app.py db migrate` to create a new migration.
-3. Apply the changes to the database using `python app/app.py db upgrade`
+2. Run `flask db migrate` to create a new migration.
+3. Apply the changes to the database using `flask db upgrade`
 
 ### Adding dependencies/libraries
 
@@ -61,6 +70,18 @@ Make sure to use localhost instead of 127.0.0.1 if you want to be able to login.
 Run `pip-compile --upgrade`
 
 For more information about managing the dependencies see [jazzband/pip-tools: A set of tools to keep your pinned Python dependencies fresh.](https://github.com/jazzband/pip-tools)
+
+### Problems
+```
+No module named '_sqlite3'
+```
+-> install `libsqlite3-dev` or equivalent
+
+```
+Error: Failed to find Flask application or factory in module 'app'. Use 'app:name' to specify one.
+```
+-> `cd app`
+
 
 ## Production
 To prepare the application in a production environment, follow the same steps as for *Local setup* up to and including `./populate-db.sh`.

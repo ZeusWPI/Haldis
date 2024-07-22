@@ -12,5 +12,4 @@ for i in "$@"; do
 	esac
 done
 
-cd "$(dirname "$0")/app"
 exec ../venv/bin/python parse_hlds.py "${args[@]}"

@@ -8,7 +8,8 @@ services:
       - MARIADB_DATABASE=haldis
       - MARIADB_USER=haldis
       - MARIADB_PASSWORD=haldis
-    volumes: ["$PWD:/src"]
+    volumes: ["$PWD/app:/src/app", "$PWD/app/config.docker.py:/src/app/config.py", "$PWD/menus:/src/menus"]
+
   database:
     environment:
       - MARIADB_DATABASE=haldis

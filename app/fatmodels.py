@@ -1,9 +1,9 @@
 "Module used for everything related to the fat versions of models"
 import typing
 
-from hlds.definitions import location_definitions
-from hlds.models import Dish, Location
-from models import Order, OrderItem, User
+from .hlds.definitions import location_definitions
+from .hlds.models import Dish, Location
+from .models import Order, OrderItem, User
 from sqlalchemy.sql import desc, func
 
 

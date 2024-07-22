@@ -9,7 +9,7 @@ from typing import Iterable, List, Tuple, Union
 from tatsu import parse as tatsu_parse
 from tatsu.ast import AST
 from tatsu.exceptions import SemanticError
-from utils import first
+from ..utils import first
 
 from .models import Choice, Dish, Location, Option
 
@@ -149,8 +149,13 @@ def parse(menu: str) -> List[Location]:
 
 def parse_file(filename: str) -> List[Location]:
     with open(filename) as file_handle:
-        return parse(file_handle.read())
+        try:
+            location = parse(file_handle.read())
+        except Exception as e:
+            print(f"Error parsing {filename}: {e}, skipping")
+            return []
 
+    return location
 
 def parse_files(files: Iterable[str]) -> List[Location]:
     menus = map(parse_file, files)

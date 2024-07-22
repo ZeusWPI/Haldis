@@ -7,7 +7,7 @@ from threading import Thread
 import requests
 from flask import current_app as app
 from flask import url_for
-from models.order import Order
+from .models.order import Order
 
 
 def webhook_text(order: Order) -> typing.Optional[str]:

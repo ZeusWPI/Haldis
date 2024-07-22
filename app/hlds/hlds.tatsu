@@ -7,7 +7,7 @@
 # Don't ignore any whitespace
 @@whitespace :: //
 
-@@eol_comments :: /[ \t]*#.*?$/
+@@eol_comments :: /[ \t]*#[^\n]*/
 @@keyword :: single_choice multi_choice dish preset  only requires except
 
 

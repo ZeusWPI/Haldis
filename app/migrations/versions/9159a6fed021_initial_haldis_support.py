@@ -15,7 +15,6 @@ from itertools import chain
 
 import sqlalchemy as sa
 from alembic import op
-from hlds.definitions import location_definitions
 from sqlalchemy.sql import column, table, text
 
 LOCATION_LEGACY_TO_HLDS = {

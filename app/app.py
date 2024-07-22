@@ -3,32 +3,29 @@
 """Main Haldis script"""
 
 import logging
+from flask_migrate import Migrate
 import sentry_sdk
 import typing
 from datetime import datetime
 from logging.handlers import TimedRotatingFileHandler
 
-from admin import init_admin
-from config import Configuration
 from flask import Flask, render_template, Response
 from flask_bootstrap import Bootstrap, StaticCDN
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_login import LoginManager
-from flask_migrate import Migrate, MigrateCommand
-from flask_script import Manager, Server
 from markupsafe import Markup
 
-from admin import init_admin
-from auth.login import init_login
-from auth.zeus import init_oauth
-from config import Configuration
-from models import db
-from models.anonymous_user import AnonymouseUser
+from app.admin import init_admin
+from app.auth.login import init_login
+from app.auth.zeus import init_oauth
+from app.config import Configuration
+from app.models import db
+from app.models.anonymous_user import AnonymouseUser
 from sentry_sdk.integrations.flask import FlaskIntegration
-from utils import euro_string, price_range_string, ignore_none
+from app.utils import euro_string, price_range_string, ignore_none
 
 
-def register_plugins(app: Flask) -> Manager:
+def register_plugins(app: Flask) -> Flask:
     """Register the plugins to the app"""
     # pylint: disable=W0612
     if not app.debug:
@@ -47,9 +44,6 @@ def register_plugins(app: Flask) -> Manager:
 
     # Initialize Flask-Migrate
     migrate = Migrate(app, db)
-    app_manager = Manager(app)
-    app_manager.add_command("db", MigrateCommand)
-    app_manager.add_command("runserver", Server(port=8000))
     init_admin(app, db)
 
     # Init login manager
@@ -81,7 +75,7 @@ def register_plugins(app: Flask) -> Manager:
     if not app.debug:
         app.config.update(SESSION_COOKIE_SECURE=True)
 
-    return app_manager
+    return app
 
 
 def add_handlers(app: Flask) -> None:
@@ -102,13 +96,13 @@ def add_routes(application: Flask) -> None:
     # import views  # TODO convert to blueprint
     # import views.stats  # TODO convert to blueprint
 
-    from auth.login import auth_bp
-    from auth.microsoft import auth_microsoft_bp
-    from auth.zeus import auth_zeus_bp
-    from views.debug import debug_bp
-    from views.general import general_bp
-    from views.order import order_bp
-    from views.stats import stats_blueprint
+    from .auth.login import auth_bp
+    from .auth.microsoft import auth_microsoft_bp
+    from .auth.zeus import auth_zeus_bp
+    from .views.debug import debug_bp
+    from .views.general import general_bp
+    from .views.order import order_bp
+    from .views.stats import stats_blueprint
 
     application.register_blueprint(general_bp, url_prefix="/")
     application.register_blueprint(order_bp, url_prefix="/order")
@@ -174,9 +168,10 @@ def create_app():
         return r
     
     # Load the config file
-    app.config.from_object("config.Configuration")
+    config = Configuration()
+    app.config.from_object(config)
 
-    app_manager = register_plugins(app)
+    app = register_plugins(app)
     add_handlers(app)
     add_routes(app)
     add_template_filters(app)
@@ -185,9 +180,9 @@ def create_app():
     def inject_config():
         return dict(configuration=Configuration)
 
-    return app, app_manager
+    return app
 
-
+app = create_app()
 # For usage when you directly call the script with python
 if __name__ == "__main__":
     if Configuration.SENTRY_DSN:
