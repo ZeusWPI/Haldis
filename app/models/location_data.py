@@ -7,9 +7,8 @@ from .database import db
 @dataclass
 class LocationData(db.Model):
     """Class used for configuring the LocationData model in the database"""
-    id = db.Column(db.Integer, primary_key=True)
     osm_node_id = db.Column(db.String(32))
-    hlds_id = db.Column(db.String(64))
+    hlds_id = db.Column(db.String(64), primary_key=True)
     name = db.Column(db.String(128))
     opening_hours = db.Column(db.String(128))
     phone = db.Column(db.String(32))

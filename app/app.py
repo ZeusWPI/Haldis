@@ -180,6 +180,7 @@ def create_app():
     add_template_filters(app)
 
     # Extend locations with OSM data
+    # This requires migrations to be done, so comment this out to run the migrations?
     hlds.extend_locations_with_osm(app)
 
     @app.context_processor
