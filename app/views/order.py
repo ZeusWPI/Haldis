@@ -1,8 +1,9 @@
 """Script to generate the order related views of Haldis"""
+from crypt import methods
 import random
 import re
 import typing
-from datetime import datetime
+from datetime import datetime, timedelta
 
 # from flask import current_app as app
 from flask import (Blueprint, abort, flash, redirect, render_template, request,
@@ -53,7 +54,7 @@ def order_create() -> typing.Union[str, Response]:
 @order_bp.route("/<order_slug>")
 def order_from_slug(order_slug: str, form: OrderForm = None, dish_id=None) -> str:
     """Generate order view from id"""
-    order = Order.query.filter(Order.slug == order_slug).first()
+    order: Order | None = Order.query.filter(Order.slug == order_slug).first()
     if order is None:
         abort(404)
     if current_user.is_anonymous() and not order.public:
@@ -91,6 +92,22 @@ def items_shop_view(order_slug: int) -> str:
         abort(401)
     total_price = sum(o.price or 0 for o in order.items)
     return render_template("order_items.html", order=order, total_price=total_price)
+
+@order_bp.route("/<order_slug>/extend", methods=["POST"])
+def order_extend(order_slug: str):
+    """Extend an order"""
+    order: Order | None = Order.query.filter(Order.slug == order_slug).first()
+    if order is None:
+        abort(404)
+    if current_user.id is not order.courier_id and not current_user.is_admin():
+        abort(401)
+
+    if order.is_closed():
+        order.stoptime = datetime.now() + timedelta(minutes=3)
+    else:
+        order.stoptime = order.stoptime + timedelta(minutes=3)
+    db.session.commit()
+    return redirect(url_for("order_bp.order_from_slug", order_slug=order.slug))
 
 
 @order_bp.route("/<order_slug>/edit", methods=["GET", "POST"])
