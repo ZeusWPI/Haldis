@@ -1,4 +1,5 @@
 """Script for everything Order related in the database"""
+
 import typing
 from collections import defaultdict
 from datetime import datetime
@@ -11,16 +12,19 @@ from app.utils import first
 from .database import db
 from .user import User
 
-BASE31_ALPHABET = '23456789abcdefghjkmnpqrstuvwxyz'
+BASE31_ALPHABET = "23456789abcdefghjkmnpqrstuvwxyz"
+
 
 def generate_slug():
-    secret = ''.join(secrets.choice(BASE31_ALPHABET) for i in range(8))
+    secret = "".join(secrets.choice(BASE31_ALPHABET) for i in range(8))
     while Order.query.filter(Order.slug == secret).first() is not None:
-        secret = ''.join(secrets.choice(BASE31_ALPHABET) for i in range(8))
+        secret = "".join(secrets.choice(BASE31_ALPHABET) for i in range(8))
     return secret
+
 
 class Order(db.Model):
     """Class used for configuring the Order model in the database"""
+
     id = db.Column(db.Integer, primary_key=True)
     courier_id = db.Column(db.Integer, nullable=True)
     location_id = db.Column(db.String(64))
@@ -61,9 +65,11 @@ class Order(db.Model):
         """Get the items for a certain user"""
         return list(
             filter(
-                (lambda i: i.user == user)
-                if user is not None
-                else (lambda i: i.user_name == anon),
+                (
+                    (lambda i: i.user == user)
+                    if user is not None
+                    else (lambda i: i.user_name == anon)
+                ),
                 self.items,
             )
         )

@@ -1,4 +1,5 @@
 """Script for everything related to logging in and out"""
+
 from flask import Blueprint, abort, redirect, session, url_for
 from flask_login import current_user, logout_user
 from ..models import User

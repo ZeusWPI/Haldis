@@ -6,6 +6,7 @@ from ..models import db
 
 class User(db.Model):
     """Class used for configuring the User model in the database"""
+
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     admin = db.Column(db.Boolean)
@@ -27,7 +28,15 @@ class User(db.Model):
     def association_list(self) -> List[str]:
         return self.associations.split(",")
 
-    def configure(self, username: str, admin: bool, bias: int, *, microsoft_uuid: str = None, associations: Optional[List[str]] = None) -> None:
+    def configure(
+        self,
+        username: str,
+        admin: bool,
+        bias: int,
+        *,
+        microsoft_uuid: str = None,
+        associations: Optional[List[str]] = None,
+    ) -> None:
         """Configure the User"""
         if associations is None:
             associations = []

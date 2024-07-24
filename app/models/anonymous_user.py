@@ -1,5 +1,6 @@
 "AnonymouseUser for people who are not logged in the normal way"
 from typing import List
+
 # pylint: disable=R0201,C0111
 
 

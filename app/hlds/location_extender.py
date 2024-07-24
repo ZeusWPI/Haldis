@@ -5,6 +5,8 @@ from app.models import db
 
 from urllib.parse import urlparse
 import os
+
+
 def extend_locations(app, hlds_locations: list[Location]) -> list[Location]:
     """
     Extend the HLDS locations with the OSM data
@@ -30,6 +32,7 @@ def extend_locations(app, hlds_locations: list[Location]) -> list[Location]:
     hlds_locations.sort(key=lambda l: l.name)
     return hlds_locations
 
+
 def get_data_and_update(location: Location):
     if not location.osm:
         return
@@ -37,7 +40,9 @@ def get_data_and_update(location: Location):
     path = urlparse(location.osm).path
     location_data = get_data_from_osm_node(path)
     location_data.hlds_id = location.id
-    db_location_data: LocationData | None = LocationData.query.filter_by(hlds_id=location.id).first()
+    db_location_data: LocationData | None = LocationData.query.filter_by(
+        hlds_id=location.id
+    ).first()
     if db_location_data:
         db_location_data.housenumber = location_data.housenumber
         db_location_data.name = location_data.name
@@ -48,13 +53,16 @@ def get_data_and_update(location: Location):
     else:
         db.session.add(location_data)
     db.session.commit()
-    
+
     location = update_location(location, location_data)
 
 
 def get_data_from_osm_node(path: str) -> LocationData:
     print(f"https://api.openstreetmap.org/api/0.6{path}")
-    resp = get(f"https://api.openstreetmap.org/api/0.6{path}", headers={'Accept': 'application/json'})
+    resp = get(
+        f"https://api.openstreetmap.org/api/0.6{path}",
+        headers={"Accept": "application/json"},
+    )
     if resp.status_code == 200:
         element = resp.json().get("elements", [{}])[0]
         node_id = element.get("id")
@@ -76,8 +84,11 @@ def get_data_from_osm_node(path: str) -> LocationData:
 
 
 def update_location(location: Location, location_data: LocationData) -> Location:
-    if location_data.phone: location.telephone = location_data.phone
-    if location_data.website: location.website = location_data.website
-    if location_data.opening_hours: location.opening_hours = location_data.opening_hours
+    if location_data.phone:
+        location.telephone = location_data.phone
+    if location_data.website:
+        location.website = location_data.website
+    if location_data.opening_hours:
+        location.opening_hours = location_data.opening_hours
 
     return location

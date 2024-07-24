@@ -1,4 +1,5 @@
 """Script to generate the order related views of Haldis"""
+
 from crypt import methods
 import random
 import re
@@ -6,8 +7,17 @@ import typing
 from datetime import datetime, timedelta
 
 # from flask import current_app as app
-from flask import (Blueprint, abort, flash, redirect, render_template, request,
-                   session, url_for, wrappers)
+from flask import (
+    Blueprint,
+    abort,
+    flash,
+    redirect,
+    render_template,
+    request,
+    session,
+    url_for,
+    wrappers,
+)
 from flask_login import current_user, login_required
 from ..forms import AnonOrderItemForm, OrderForm, OrderItemForm
 from ..hlds.definitions import location_definition_version, location_definitions
@@ -92,6 +102,7 @@ def items_shop_view(order_slug: int) -> str:
         abort(401)
     total_price = sum(o.price or 0 for o in order.items)
     return render_template("order_items.html", order=order, total_price=total_price)
+
 
 @order_bp.route("/<order_slug>/extend", methods=["POST"])
 def order_extend(order_slug: str):
@@ -260,6 +271,7 @@ def modify_items(order_slug: str) -> typing.Optional[Response]:
         abort(404)
         return None
 
+
 def set_items_paid(order_slug: str, user_names: typing.Iterable[str], paid: bool):
     order = Order.query.filter(Order.slug == order_slug).first()
     total_paid_items = 0
@@ -288,7 +300,11 @@ def set_items_paid(order_slug: str, user_names: typing.Iterable[str], paid: bool
     if total_failed_items == 0:
         flash("Marked %d items as paid" % (total_paid_items,), "success")
     else:
-        flash("Failed to mark %d items as paid (succeeded in marking %d items as paid)" % (total_failed_items, total_paid_items), "error")
+        flash(
+            "Failed to mark %d items as paid (succeeded in marking %d items as paid)"
+            % (total_failed_items, total_paid_items),
+            "error",
+        )
     return redirect(url_for("order_bp.order_from_slug", order_slug=order_slug))
 
 
@@ -389,7 +405,6 @@ def prices(order_slug: str) -> typing.Optional[Response]:
     return redirect(url_for("order_bp.order_from_slug", order_slug=order.slug))
 
 
-
 def select_user(items) -> typing.Optional[User]:
     """Select a random user from those who are signed up for the order"""
     user = None
@@ -413,17 +428,22 @@ def get_orders(expression=None) -> typing.List[Order]:
     """Give the list of all currently open and public Orders"""
     order_list: typing.List[OrderForm] = []
     if expression is None:
-        expression = ((datetime.now() > Order.starttime) & (
+        expression = (
+            (datetime.now() > Order.starttime)
+            & (
                 Order.stoptime
                 > datetime.now()
                 # pylint: disable=C0121
-            ) | (Order.stoptime == None)
+            )
+            | (Order.stoptime == None)
         ) & (Order.association.in_(current_user.association_list()))
     if not current_user.is_anonymous():
         order_list = Order.query.filter(expression).all()
     else:
         order_list = Order.query.filter(
             # pylint: disable=C0121
-            expression & (Order.public == True) & (Order.association.in_(current_user.association_list()))
+            expression
+            & (Order.public == True)
+            & (Order.association.in_(current_user.association_list()))
         ).all()
     return order_list

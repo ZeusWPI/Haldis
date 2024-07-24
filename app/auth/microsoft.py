@@ -9,15 +9,19 @@ from ..models import User, db
 
 auth_microsoft_bp = Blueprint("auth_microsoft_bp", __name__)
 
-client = Client(Configuration.MICROSOFT_AUTH_ID,
-                Configuration.MICROSOFT_AUTH_SECRET,
-                account_type="ugentbe.onmicrosoft.com")
+client = Client(
+    Configuration.MICROSOFT_AUTH_ID,
+    Configuration.MICROSOFT_AUTH_SECRET,
+    account_type="ugentbe.onmicrosoft.com",
+)
 
 
 def microsoft_login():
     """Log in using Microsoft"""
     scope = ["openid", "profile", "User.Read", "User.Read.All"]
-    url = client.authorization_url(url_for("auth_microsoft_bp.authorized", _external=True), scope, state=None)
+    url = client.authorization_url(
+        url_for("auth_microsoft_bp.authorized", _external=True), scope, state=None
+    )
     return redirect(url)
 
 
@@ -33,14 +37,16 @@ def authorized() -> typing.Any:
     #   https://github.com/python/mypy/issues/7187
     """Check authorized status"""
 
-    oauth_code = request.args['code']
+    oauth_code = request.args["code"]
 
-    resp = client.exchange_code(url_for("auth_microsoft_bp.authorized", _external=True), oauth_code)
+    resp = client.exchange_code(
+        url_for("auth_microsoft_bp.authorized", _external=True), oauth_code
+    )
     client.set_token(resp.data)
 
     resp = client.users.get_me()
-    microsoft_uuid = resp.data['id']
-    username = resp.data['userPrincipalName']
+    microsoft_uuid = resp.data["id"]
+    username = resp.data["userPrincipalName"]
 
     # Fail if fields are not populated
     if not microsoft_uuid or not username:

@@ -1,4 +1,5 @@
 """An example for a Haldis config"""
+
 import os
 
 
@@ -9,7 +10,9 @@ class Configuration:
     MARIADB_DB = os.environ.get("MARIADB_DATABASE")
     MARIADB_USER = os.environ.get("MARIADB_USER")
     MARIADB_PASS = os.environ.get("MARIADB_PASSWORD")
-    SQLALCHEMY_DATABASE_URI = f"mysql+pymysql://{MARIADB_USER}:{MARIADB_PASS}@{MARIADB_HOST}/{MARIADB_DB}"
+    SQLALCHEMY_DATABASE_URI = (
+        f"mysql+pymysql://{MARIADB_USER}:{MARIADB_PASS}@{MARIADB_HOST}/{MARIADB_DB}"
+    )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     DEBUG = True
     HALDIS_ADMINS = []
