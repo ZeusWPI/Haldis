@@ -66,8 +66,8 @@ Activate venv
 
 Install packages
 	
-	pip install pip-tools
-	pip-sync
+	pip install poetry
+	poetry install
 
 Make config
 
@@ -96,14 +96,11 @@ Profit
 
 ### Adding dependencies/libraries
 
-1. Add new dependency to the `requirements.in` file
-2. Run `pip-compile` to freeze the dependency into the `requirements.txt` file together with its own deps
-3. Run `pip-sync` to download frozen deps
+1. Add new dependency by running `poetry add <package>`
+2. Run `poetry install` to add the dependency to the lock file
 
 ### Updating dependencies
-Run `pip-compile --upgrade`
-
-For more information about managing the dependencies see [jazzband/pip-tools: A set of tools to keep your pinned Python dependencies fresh.](https://github.com/jazzband/pip-tools)
+Run `poetry update`
 
 ### Problems
 ```
