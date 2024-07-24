@@ -26,7 +26,7 @@ from sentry_sdk.integrations.flask import FlaskIntegration
 from app.utils import euro_string, price_range_string, ignore_none
 
 import app.hlds.definitions as hlds
-
+    
 
 def register_plugins(app: Flask) -> Flask:
     """Register the plugins to the app"""

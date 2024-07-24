@@ -18,10 +18,10 @@ source venv/bin/activate
 
 
 echo -e "${B} Installing pip-tools ${E}"
-pip install pip-tools
+pip install poetry
 
 echo -e "${B} Downloading dependencies ${E}"
-pip-sync
+poetry install
 
 if [ ! -f app/config.py ]; then
 	echo -e "${B} Copying config template. All custom config options can be set in the config.py file ${E}"
