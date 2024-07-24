@@ -16,7 +16,9 @@ RUN poetry export --without-hashes --format=requirements.txt > requirements.txt
 
 FROM python:3.12.4-slim AS build
 
-RUN apt update -y && apt install -y build-essential cargo
+RUN apt update -y && apt install -y build-essential curl
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
+ENV PATH="/root/.cargo/bin:${PATH}"
 
 COPY --from=compile requirements.txt .
 
