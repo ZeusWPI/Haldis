@@ -71,7 +71,7 @@ class Dish:
         self.tags: List[str] = tags
 
         # The str in (str, Choice) is the type of choice: single_choice or multi_choice
-        self.choices: List[(str, Choice)] = choices
+        self.choices: list[tuple[str, Choice]] = choices
 
     def __str__(self):
         return "dish {0.id}: {0.name}{1}{2}{3}\n\t{4}".format(
@@ -118,6 +118,13 @@ class Location:
         self.website: Optional[str] = website
         self.opening_hours: Optional[str] = opening_hours
 
+        for dish in dishes:
+            for (_, choice) in dish.choices:
+                if len(choice.options) == 0:
+                    print((f"[PARSE ERROR] At least 1 option expected in dish choice.\n"
+                        f"\tDish:\t'{self.name}'\n"
+                        f"\tChoice:\t'{choice.name}'\n"))
+                    raise ValueError("At least 1 option expected in dish choice.")
         self.dishes: List[Dish] = dishes
 
     def dish_by_id(self, dish_id: str) -> Optional[Dish]:

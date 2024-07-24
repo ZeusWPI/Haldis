@@ -4,6 +4,7 @@ import itertools
 from copy import deepcopy
 from glob import glob
 from os import path
+import traceback
 from typing import Iterable, List, Tuple, Union
 
 from tatsu import parse as tatsu_parse
@@ -154,6 +155,7 @@ def parse_file(filename: str) -> List[Location]:
         try:
             location = parse(file_handle.read())
         except Exception as e:
+            print(traceback.format_exc())
             print(f"Error parsing {filename}: {e}, skipping")
             return []
 
