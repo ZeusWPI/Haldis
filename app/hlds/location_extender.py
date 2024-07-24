@@ -13,7 +13,7 @@ def extend_locations(app, hlds_locations: list[Location]) -> list[Location]:
     with app.app_context():
         existing_data: list[LocationData] = LocationData.query.all()
         # force refresh data
-        if os.environ.get("REFRESH_OSM") == "true":
+        if app.config["REFRESH_OSM"]:
             for location in hlds_locations:
                 get_data_and_update(location)
         # only get missing data

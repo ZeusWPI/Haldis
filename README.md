@@ -119,7 +119,9 @@ Error: Failed to find Flask application or factory in module 'app'. Use 'app:nam
 ## Production
 To prepare the application in a production environment, follow the same steps as for *Local setup* up to and including `./populate-db.sh`.
 
-Set DEBUG to False in `app/config.py`.
+In `app/config.py`:
+- Set DEBUG to False 
+- Set REFRESH_OSM to True (to refresh all data every time the application starts)
 
 See [Flask's deployment documentation](https://flask.palletsprojects.com/en/1.1.x/deploying/#self-hosted-options).
 

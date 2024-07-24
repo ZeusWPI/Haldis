@@ -20,6 +20,7 @@ class Configuration:
     SENTRY_DSN = None
     ZEUS_KEY = "tomtest"
     ZEUS_SECRET = "blargh"
+    REFRESH_OSM = False
 
     ENABLE_MICROSOFT_AUTH = False
     MICROSOFT_AUTH_ID = ""
