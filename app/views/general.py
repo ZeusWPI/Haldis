@@ -10,7 +10,7 @@ from flask import current_app as app
 from flask import (jsonify, make_response, render_template, request,
                    send_from_directory, url_for)
 from flask_login import current_user, login_required
-from ..hlds.definitions import location_definitions
+from ..hlds.definitions import location_definitions, time_sorted_locations
 from ..hlds.models import Location
 from ..models import Order
 from ..utils import first
@@ -147,7 +147,7 @@ def map_view() -> str:
 @general_bp.route("/location")
 def locations() -> str:
     "Generate the location view"
-    return render_template("locations.html", locations=location_definitions)
+    return render_template("locations.html", locations=time_sorted_locations())
 
 
 @general_bp.route("/location/<location_id>")

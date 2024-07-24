@@ -9,11 +9,15 @@
 		<h3>Locations</h3>
 		<table class="table table-hover table-condensed">
 			<thead>
-				<tr><th>Name</th><th>Address</th><th></th><th></th><th></th></tr>
+				<tr><th>Open</th><th>Name</th><th>Address</th><th></th><th></th><th></th></tr>
 			</thead>
 			<tbody>
 			{% for loc in locations -%}
 				<tr>
+					<td>
+						<div title="{{ loc.next_change_str() }}">
+							{{ loc.is_open_symbol() }}
+						</div></td>
 					<td><a href="{{ url_for('general_bp.location', location_id=loc.id) }}">{{ loc.name }}</a></td>
 					<td>{{ loc.address }}<td>
 					<td><a href="{{ loc.website }}"><span class="glyphicon glyphicon-link"></span> {{ loc.website }}</a></td>

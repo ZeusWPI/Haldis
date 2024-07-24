@@ -249,3 +249,7 @@ details summary:before {
 details[open] summary:before {
 	content: "▾";
 }
+
+.glyphicon {
+	padding-right: 0.5rem;
+}

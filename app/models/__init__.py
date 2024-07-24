@@ -15,3 +15,4 @@ from .order import Order
 from .orderitem import OrderItem
 from .orderitemchoice import OrderItemChoice
 from .user import User
+from .location_data import LocationData
