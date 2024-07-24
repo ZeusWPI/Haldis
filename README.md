@@ -65,7 +65,8 @@ Activate venv
 	source venv/bin/activate
 
 Install packages
-
+	
+	pip install pip-tools
 	pip-sync
 
 Make config
