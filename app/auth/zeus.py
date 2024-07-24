@@ -1,9 +1,9 @@
 "Script containing everything specific to ZeusWPI"
 import typing
 
-from flask import (Blueprint, current_app, flash, redirect, request, session,
-                   url_for)
+from flask import Blueprint, current_app, flash, redirect, request, session, url_for
 from flask_login import login_user
+
 # from flask_oauthlib.client import OAuth, OAuthException, OAuthRemoteApp
 from authlib.integrations.flask_client import OAuth
 from authlib.integrations.base_client.errors import OAuthError
@@ -15,7 +15,9 @@ auth_zeus_bp = Blueprint("auth_zeus_bp", __name__)
 
 def zeus_login():
     """Log in using ZeusWPI"""
-    return current_app.zeus.authorize_redirect(url_for("auth_zeus_bp.authorized", _external=True))
+    return current_app.zeus.authorize_redirect(
+        url_for("auth_zeus_bp.authorized", _external=True)
+    )
 
 
 @auth_zeus_bp.route("/login")
@@ -29,15 +31,17 @@ def authorized() -> typing.Any:
     # type is 'typing.Union[str, Response]', but this errors due to
     #   https://github.com/python/mypy/issues/7187
     """Check authorized status"""
-    try: 
+    try:
         resp = current_app.zeus.authorize_access_token()
     except Exception as e:
         if isinstance(e, OAuthError):
             flash("Permission denied")
         else:
-            flash("An error occurred while logging in, please contact a system administrator")
+            flash(
+                "An error occurred while logging in, please contact a system administrator"
+            )
         return redirect(url_for("general_bp.home"))
-    
+
     me = current_app.zeus.get("current_user")
     username = me.json().get("username", "").lower()
 
@@ -68,7 +72,7 @@ def init_oauth(app):
         authorize_url="https://adams.ugent.be/oauth/oauth2/authorize/",
     )
 
-    return oauth.create_client('zeus')
+    return oauth.create_client("zeus")
 
 
 def login_and_redirect_user(user) -> Response:

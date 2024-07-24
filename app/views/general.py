@@ -7,13 +7,20 @@ from typing import Optional
 import yaml
 from flask import Blueprint, Flask, abort
 from flask import current_app as app
-from flask import (jsonify, make_response, render_template, request,
-                   send_from_directory, url_for)
+from flask import (
+    jsonify,
+    make_response,
+    render_template,
+    request,
+    send_from_directory,
+    url_for,
+)
 from flask_login import current_user, login_required
 from ..hlds.definitions import location_definitions, time_sorted_locations
 from ..hlds.models import Location
 from ..models import Order
 from ..utils import first
+
 # import views
 from ..views.order import get_orders
 
@@ -34,9 +41,14 @@ def home() -> str:
         (Order.stoptime > prev_day) & (Order.stoptime < datetime.now())
     )
     return render_template(
-        "home.html", orders=get_orders(
-            ((datetime.now() > Order.starttime) & (Order.stoptime > datetime.now()) | (Order.stoptime == None))
-        ), recently_closed=recently_closed
+        "home.html",
+        orders=get_orders(
+            (
+                (datetime.now() > Order.starttime) & (Order.stoptime > datetime.now())
+                | (Order.stoptime == None)
+            )
+        ),
+        recently_closed=recently_closed,
     )
 
 

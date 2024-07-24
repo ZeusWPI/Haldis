@@ -9,8 +9,15 @@ from .hlds.definitions import location_definitions, time_sorted_locations
 from .hlds.models import Choice, Dish, Location
 from .models import User
 from .utils import euro_string, price_range_string
-from wtforms import (DateTimeField, FieldList, SelectField,
-                     SelectMultipleField, StringField, SubmitField, validators)
+from wtforms import (
+    DateTimeField,
+    FieldList,
+    SelectField,
+    SelectMultipleField,
+    StringField,
+    SubmitField,
+    validators,
+)
 
 
 class OrderForm(Form):
@@ -24,7 +31,9 @@ class OrderForm(Form):
         "Starttime", default=datetime.now, format="%d-%m-%Y %H:%M"
     )
     stoptime = DateTimeField("Stoptime", format="%d-%m-%Y %H:%M")
-    association = SelectField("Association", coerce=str, validators=[validators.DataRequired()])
+    association = SelectField(
+        "Association", coerce=str, validators=[validators.DataRequired()]
+    )
     submit_button = SubmitField("Submit")
 
     def populate(self) -> None:
@@ -34,14 +43,18 @@ class OrderForm(Form):
                 (0, None),
                 (current_user.id, current_user.username),
             ] + [
-                (u.id, u.username) for u in User.query.order_by("username") if u.id != current_user.id
+                (u.id, u.username)
+                for u in User.query.order_by("username")
+                if u.id != current_user.id
             ]
         else:
             self.courier_id.choices = [
                 (0, None),
                 (current_user.id, current_user.username),
             ]
-        self.location_id.choices = [(l.id, f"{l.is_open_symbol()} {l.name}") for l in time_sorted_locations()]
+        self.location_id.choices = [
+            (l.id, f"{l.is_open_symbol()} {l.name}") for l in time_sorted_locations()
+        ]
         self.association.choices = current_user.association_list()
         if self.stoptime.data is None:
             self.stoptime.data = datetime.now() + timedelta(hours=1)

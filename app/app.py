@@ -112,8 +112,9 @@ def add_routes(application: Flask) -> None:
     application.register_blueprint(stats_blueprint, url_prefix="/stats")
     application.register_blueprint(auth_bp, url_prefix="/")
     if Configuration.ENABLE_MICROSOFT_AUTH:
-        application.register_blueprint(auth_microsoft_bp,
-                                       url_prefix="/users/auth/microsoft_graph_auth")  # "/auth/microsoft")
+        application.register_blueprint(
+            auth_microsoft_bp, url_prefix="/users/auth/microsoft_graph_auth"
+        )  # "/auth/microsoft")
     application.register_blueprint(auth_zeus_bp, url_prefix="/auth/zeus")
 
     if application.debug:
@@ -164,12 +165,14 @@ def create_app():
     """Initializer for the Flask app object"""
     app = Flask(__name__)
 
-    @app.route('/robots.txt')
+    @app.route("/robots.txt")
     def noindex():
-        r = Response(response="User-Agent: *\nDisallow: /\n", status=200, mimetype="text/plain")
+        r = Response(
+            response="User-Agent: *\nDisallow: /\n", status=200, mimetype="text/plain"
+        )
         r.headers["Content-Type"] = "text/plain; charset=utf-8"
         return r
-    
+
     # Load the config file
     config = Configuration()
     app.config.from_object(config)
@@ -189,14 +192,12 @@ def create_app():
 
     return app
 
+
 app = create_app()
 # For usage when you directly call the script with python
 if __name__ == "__main__":
     if Configuration.SENTRY_DSN:
-        sentry_sdk.init(
-            dsn=Configuration.SENTRY_DSN,
-            integrations=[FlaskIntegration()]
-        )
+        sentry_sdk.init(dsn=Configuration.SENTRY_DSN, integrations=[FlaskIntegration()])
 
     app, app_mgr = create_app()
     app_mgr.run()

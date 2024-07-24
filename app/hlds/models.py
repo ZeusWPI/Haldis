@@ -10,8 +10,7 @@ from ..utils import euro_string, first
 
 def _format_tags(tags: Iterable[str]) -> str:
     # pylint: disable=consider-using-f-string
-    return " :: {}".format(" ".join(["{" + tag + "}"
-                                     for tag in tags])) if tags else ""
+    return " :: {}".format(" ".join(["{" + tag + "}" for tag in tags])) if tags else ""
 
 
 def _format_price(price: int) -> str:
@@ -93,21 +92,24 @@ class Dish:
         return sum(
             f(option.price for option in choice.options)
             for (choice_type, choice) in self.choices
-            if choice_type == "single_choice")
+            if choice_type == "single_choice"
+        )
 
 
 class Location:
 
-    def __init__(self,
-                 id_,
-                 *,
-                 name,
-                 dishes,
-                 osm=None,
-                 address=None,
-                 telephone=None,
-                 website=None,
-                 opening_hours=None):
+    def __init__(
+        self,
+        id_,
+        *,
+        name,
+        dishes,
+        osm=None,
+        address=None,
+        telephone=None,
+        website=None,
+        opening_hours=None,
+    ):
         self.id: str = id_
         self.name: str = name
         self.osm: Optional[str] = osm
@@ -149,18 +151,24 @@ class Location:
         return f"{state_str} {time_str}"
 
     def __str__(self):
-        return ("============================\n"
-                "{0.id}: {0.name}"
-                "{1}\n"
-                "============================\n"
-                "\n"
-                "{2}").format(
-                    self,
-                    "".join(f"\n\t{k} {v}" for k, v in (
-                        ("osm", self.osm),
-                        ("address", self.address),
-                        ("telephone", self.telephone),
-                        ("website", self.website),
-                    ) if v is not None),
-                    "\n".join(map(str, self.dishes)),
+        return (
+            "============================\n"
+            "{0.id}: {0.name}"
+            "{1}\n"
+            "============================\n"
+            "\n"
+            "{2}"
+        ).format(
+            self,
+            "".join(
+                f"\n\t{k} {v}"
+                for k, v in (
+                    ("osm", self.osm),
+                    ("address", self.address),
+                    ("telephone", self.telephone),
+                    ("website", self.website),
                 )
+                if v is not None
+            ),
+            "\n".join(map(str, self.dishes)),
+        )

@@ -130,9 +130,11 @@ class HldsSemanticActions:
         return 100 * int(ast["value_unit"]) + (
             0
             if not ast["value_cents"]
-            else 10 * int(ast["value_cents"])
-            if len(ast["value_cents"]) == 1
-            else int(ast["value_cents"])
+            else (
+                10 * int(ast["value_cents"])
+                if len(ast["value_cents"]) == 1
+                else int(ast["value_cents"])
+            )
         )
 
     def _default(self, ast):
@@ -156,6 +158,7 @@ def parse_file(filename: str) -> List[Location]:
             return []
 
     return location
+
 
 def parse_files(files: Iterable[str]) -> List[Location]:
     menus = map(parse_file, files)

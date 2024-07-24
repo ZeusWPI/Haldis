@@ -21,9 +21,7 @@ def list_routes() -> str:
         print(rule.endpoint)
         methods = ",".join(rule.methods)
         url = url_for(rule.endpoint, **options)
-        line = urllib.parse.unquote(
-            f"{rule.endpoint:50s} {methods:20s} {url}"
-        )
+        line = urllib.parse.unquote(f"{rule.endpoint:50s} {methods:20s} {url}")
         output.append(line)
 
     string = ""

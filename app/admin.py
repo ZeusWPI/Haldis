@@ -9,6 +9,7 @@ from .models import Order, OrderItem, OrderItemChoice, User
 
 class ModelBaseView(ModelView):
     "Class for the base view of the model"
+
     # pylint: disable=too-few-public-methods, no-self-use
     def is_accessible(self) -> bool:
         "Function to check if the logged in user is an admin"
@@ -28,7 +29,14 @@ class OrderAdminModel(ModelBaseView):
     "Class for the model of a OrderAdmin"
     # pylint: disable=too-few-public-methods
     column_default_sort = ("starttime", True)
-    column_list = ["starttime", "stoptime", "location_name", "location_id", "courier", "association"]
+    column_list = [
+        "starttime",
+        "stoptime",
+        "location_name",
+        "location_id",
+        "courier",
+        "association",
+    ]
     column_labels = {
         "starttime": "Start Time",
         "stoptime": "Closing Time",
