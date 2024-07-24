@@ -3,8 +3,5 @@
 
 # Include source, config and scripts
 !app
-!etc
-!*.md
-!*.sh
-!*.txt
+!requirements.txt
 !LICENSE

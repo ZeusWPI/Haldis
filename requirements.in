@@ -7,7 +7,6 @@ Flask-WTF
 Flask-Admin
 Flask-Migrate
 Flask-Script
-black
 pymysql
 pyyaml
 tatsu
