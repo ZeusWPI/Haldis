@@ -15,6 +15,7 @@ __pycache__/
 .Python
 env/
 venv/
+.venv/
 build/
 develop-eggs/
 dist/
@@ -71,10 +72,10 @@ app/config.py
 *.sqlite
 
 tmp/
-<<<<<<< HEAD
 
 .tern-port
 
 # Do not add scss cache
 .sass-cache
 *.sass-cache
+.venv

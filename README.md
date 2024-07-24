@@ -52,6 +52,39 @@ Finally run the webserver with
 
 Make sure to use localhost instead of 127.0.0.1 if you want to be able to login.
 
+### Manual 2
+
+Get correct python version, see `.python-version`. Use asdf or pyenv or something
+
+Make a venv
+
+	python -m venv venv
+
+Activate venv
+
+	source venv/bin/activate
+
+Install packages
+
+	pip-sync
+
+Make config
+
+	cp app/config.example.py app/config.py
+
+Look in config and set stuff **(If using sqlite, set an absolute path!)**
+
+Setup db
+
+	cd app
+	flask db upgrade
+
+Run
+
+	flask run --port=8000 --debug
+
+Profit
+
 ## Development
 
 ### Changing the database
