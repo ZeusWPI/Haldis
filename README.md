@@ -33,7 +33,7 @@ If you are using a database other then sqlite you will first need to configure t
 Afterwards upgrade the database to the latest version using
 
 	cd app
-	flask db upgrade
+	flask --app migrate_app db upgrade
 
 You can now still seed the database by running, note that you might want to put your name in the `HALDIS_ADMINS` in `app/config.py`
 
@@ -77,7 +77,7 @@ Look in config and set stuff **(If using sqlite, set an absolute path!)**
 Setup db
 
 	cd app
-	flask db upgrade
+	flask --app migrate_app db upgrade
 
 Run
 
@@ -91,7 +91,7 @@ Profit
 
 1. Update models located in 'app/models.py'
 2. Run `flask db migrate` to create a new migration.
-3. Apply the changes to the database using `flask db upgrade`
+3. Apply the changes to the database using `flask --app migrate_app db upgrade`
 
 ### Adding dependencies/libraries
 
