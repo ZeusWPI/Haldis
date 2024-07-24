@@ -5,7 +5,7 @@ from typing import Optional
 from flask import request, session
 from flask_login import current_user
 from flask_wtf import FlaskForm as Form
-from .hlds.definitions import location_definitions
+from .hlds.definitions import location_definitions, time_sorted_locations
 from .hlds.models import Choice, Dish, Location
 from .models import User
 from .utils import euro_string, price_range_string
@@ -41,7 +41,7 @@ class OrderForm(Form):
                 (0, None),
                 (current_user.id, current_user.username),
             ]
-        self.location_id.choices = [(l.id, f"{l.is_open_symbol()} {l.name}") for l in location_definitions]
+        self.location_id.choices = [(l.id, f"{l.is_open_symbol()} {l.name}") for l in time_sorted_locations()]
         self.association.choices = current_user.association_list()
         if self.stoptime.data is None:
             self.stoptime.data = datetime.now() + timedelta(hours=1)

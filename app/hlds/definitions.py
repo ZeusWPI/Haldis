@@ -18,6 +18,9 @@ DATA_DIR = ROOT_DIR / "menus"
 
 location_definitions: List[Location] = parse_all_directory(str(DATA_DIR))
 
+def time_sorted_locations() -> List[Location]:
+    return sorted(location_definitions, key=lambda x: [True, None, False].index(x.is_open()))
+
 def extend_locations_with_osm(app) -> None:
     global location_definitions
     location_definitions = extend_locations(app, location_definitions)
