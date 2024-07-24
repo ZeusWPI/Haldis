@@ -21,9 +21,9 @@ COPY . .
 
 WORKDIR /src/app
 CMD flask --app migrate_app db upgrade && \
-    flask run -h 0.0.0.0 -p 8000
+    flask run --port=8000 --debug --host=0.0.0.0
 
-FROM development AS production
+FROM development AS production  
 
 RUN pip install waitress
 
