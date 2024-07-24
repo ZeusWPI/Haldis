@@ -101,7 +101,11 @@ def order_extend(order_slug: str):
         abort(404)
     if current_user.id is not order.courier_id and not current_user.is_admin():
         abort(401)
-    order.stoptime = datetime.now() + timedelta(minutes=3)
+
+    if order.is_closed():
+        order.stoptime = datetime.now() + timedelta(minutes=3)
+    else:
+        order.stoptime = order.stoptime + timedelta(minutes=3)
     db.session.commit()
     return redirect(url_for("order_bp.order_from_slug", order_slug=order.slug))
 

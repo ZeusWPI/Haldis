@@ -213,11 +213,9 @@
 			{% endif %}
 			{% if courier_or_admin %}
 				<a class="btn" href="{{ url_for('order_bp.order_edit', order_slug=order.slug) }}">Edit</a>
-				{% if order.is_closed() %}
 				<form action="{{ url_for('order_bp.order_extend', order_slug=order.slug) }}" method="post" style="display:inline">
 					<input type="submit" class="btn btn-primary" value="Extend by 3 minutes"></input>
 				</form>
-				{% endif %}
 			{%- endif %}
 			
 		</div>
