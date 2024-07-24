@@ -1,5 +1,12 @@
 # syntax=docker/dockerfile:1
-FROM python:3.12.4-slim AS compile
+FROM python:3.12.4-alpine3.20 AS compile
+
+WORKDIR /
+
+ADD https://git.zeus.gent/Haldis/menus/archive/master.tar.gz .
+
+RUN mkdir menus && \
+	tar --directory=menus --extract --strip-components=1 --file=master.tar.gz
 
 RUN pip install poetry
 
@@ -7,24 +14,19 @@ COPY pyproject.toml poetry.lock .
 
 RUN poetry export --without-hashes --format=requirements.txt > requirements.txt
 
-FROM python:3.12.4-slim AS build
+FROM python:3.12.4-alpine3.20 AS build
 
-# install cargo
-RUN apt-get -y update; apt-get -y install curl build-essential
-RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
-ENV PATH="/root/.cargo/bin:${PATH}"
+RUN apk add build-base cargo
 
 COPY --from=compile requirements.txt .
 
 RUN pip install -r requirements.txt
 
-FROM python:3.12.4-slim AS development
+FROM python:3.12.4-alpine3.20 AS development
 
 WORKDIR /src
 
-ADD https://git.zeus.gent/Haldis/menus/archive/master.tar.gz /tmp
-RUN mkdir menus && \
-	tar --directory=menus --extract --strip-components=1 --file=/tmp/master.tar.gz
+COPY --from=compile menus menus
 
 COPY --from=build /usr/local/lib/python3.12/site-packages /usr/local/lib/python3.12/site-packages
 

@@ -3,5 +3,6 @@
 
 # Include source, config and scripts
 !app
-!requirements.txt
+!pyproject.toml
+!poetry.lock
 !LICENSE
