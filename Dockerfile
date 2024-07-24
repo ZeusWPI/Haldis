@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM python:3.12.4-alpine3.20 AS compile
+FROM python:3.12.4-slim AS compile
 
 WORKDIR /
 
@@ -14,15 +14,15 @@ COPY pyproject.toml poetry.lock .
 
 RUN poetry export --without-hashes --format=requirements.txt > requirements.txt
 
-FROM python:3.12.4-alpine3.20 AS build
+FROM python:3.12.4-slim AS build
 
-RUN apk add build-base cargo
+RUN apt update -y && apt install -y build-essential cargo
 
 COPY --from=compile requirements.txt .
 
 RUN pip install -r requirements.txt
 
-FROM python:3.12.4-alpine3.20 AS development
+FROM python:3.12.4-slim AS development
 
 WORKDIR /src
 
