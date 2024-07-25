@@ -44,5 +44,6 @@ FROM development AS production
 
 RUN pip install waitress
 
-CMD python -m flask --app migrate_app db upgrade && \
-    python waitress_wsgi.py
+CMD python -m flask --app app/migrate_app db upgrade
+WORKDIR /src
+CMD python waitress_wsgi.py

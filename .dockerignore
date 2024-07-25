@@ -3,6 +3,7 @@
 
 # Include source, config and scripts
 !app
+!waitress_wsgi.py
 !pyproject.toml
 !poetry.lock
 !LICENSE
