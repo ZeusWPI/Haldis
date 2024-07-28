@@ -10,4 +10,4 @@ if __name__ == "__main__":
         sentry_sdk.init(dsn=Configuration.SENTRY_DSN, integrations=[FlaskIntegration()])
 
     app = create_app()
-    serve(app, host="0.0.0.0", port=8000)
+    serve(app, host="0.0.0.0", port=8000, url_scheme='https')
