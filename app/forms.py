@@ -94,9 +94,9 @@ class AnonOrderItemForm(OrderItemForm):
             if self.user_name.data is None:
                 self.user_name.data = session.get("anon_name", None)
 
-    def validate(self) -> bool:
+    def validate(self, *args, **kwargs) -> bool:
         """Check if the provided anon_name is not already taken"""
-        rv = OrderForm.validate(self)
+        rv = OrderForm.validate(self, *args, **kwargs)
         if not rv:
             return False
 
