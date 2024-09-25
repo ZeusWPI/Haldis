@@ -66,10 +66,10 @@ def init_oauth(app):
         client_id=app.config["ZEUS_KEY"],
         client_secret=app.config["ZEUS_SECRET"],
         request_token_params={},
-        api_base_url="https://adams.ugent.be/oauth/api/",
+        api_base_url="https://zauth.zeus.gent/",
         access_token_method="POST",
-        access_token_url="https://adams.ugent.be/oauth/oauth2/token/",
-        authorize_url="https://adams.ugent.be/oauth/oauth2/authorize/",
+        access_token_url="https://zauth.zeus.gent/oauth/token/",
+        authorize_url="https://zauth.zeus.gent/oauth/authorize/",
     )
 
     return oauth.create_client("zeus")
