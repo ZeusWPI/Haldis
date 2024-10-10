@@ -151,10 +151,14 @@ class Location:
     def next_change_str(self) -> Optional[str]:
         if self.opening_hours is None:
             return "Unknown, add opening hours to OSM!"
+        try:
+            openinghours = OpeningHours(self.opening_hours)
+        except SyntaxError:
+            return "Unknown, OSM opening hours contain syntax error"
 
         state_str = "Opening" if not self.is_open() else "Closing"
 
-        next_time: datetime = OpeningHours(self.opening_hours).next_change()
+        next_time: datetime = openinghours.next_change()
         if next_time.date() == datetime.now().date():
             time_str = next_time.strftime("today at %H:%M")
         elif next_time.date() == datetime.now().date() + timedelta(days=1):
