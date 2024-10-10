@@ -4,6 +4,7 @@
 from datetime import datetime, timedelta
 from typing import Any, Iterable, List, Mapping, Optional, Tuple
 from opening_hours import OpeningHours
+import warnings
 
 from ..utils import euro_string, first
 
@@ -138,6 +139,7 @@ class Location:
         try:
             return OpeningHours(self.opening_hours).is_open()
         except SyntaxError:
+            warnings.warn(f"Opening hour syntax parsing for {self.name} failed")
             return None
 
     def is_open_symbol(self) -> str:
