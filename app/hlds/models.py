@@ -133,7 +133,12 @@ class Location:
     def is_open(self) -> bool | None:
         if not self.opening_hours:
             return None
-        return OpeningHours(self.opening_hours).is_open()
+        # Try to parse OSM opening hours, but ignore syntax errors
+        # See https://wiki.openstreetmap.org/wiki/Key:opening_hours/specification
+        try:
+            return OpeningHours(self.opening_hours).is_open()
+        except SyntaxError:
+            return None
 
     def is_open_symbol(self) -> str:
         if self.opening_hours is None:
