@@ -1,6 +1,6 @@
 """An example for a Haldis config"""
 
-# import os
+import os
 
 
 class Configuration:
@@ -15,7 +15,7 @@ class Configuration:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     DEBUG = True
     HALDIS_ADMINS = []
-    SECRET_KEY = "<change>"
+    SECRET_KEY = os.urandom(32) # Change this to a fixed, random value
     SLACK_WEBHOOK = None
     LOGFILE = "haldis.log"
     SENTRY_DSN = None

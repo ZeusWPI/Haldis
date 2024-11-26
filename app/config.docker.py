@@ -16,7 +16,7 @@ class Configuration:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     DEBUG = True
     HALDIS_ADMINS = []
-    SECRET_KEY = "<change>"
+    SECRET_KEY = os.urandom(32)
     SLACK_WEBHOOK = None
     LOGFILE = "haldis.log"
     SENTRY_DSN = None
