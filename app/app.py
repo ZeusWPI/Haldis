@@ -73,6 +73,7 @@ def register_plugins(app: Flask) -> Flask:
     app.config.update(
         SESSION_COOKIE_HTTPONLY=True,
         SESSION_COOKIE_SAMESITE="Lax",
+        PERMANENT_SESSION_LIFETIME=3*31*24*60*60,
     )
 
     if not app.debug:
