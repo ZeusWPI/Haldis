@@ -78,6 +78,7 @@ def init_oauth(app):
 def login_and_redirect_user(user) -> Response:
     """Log in the user and then redirect them"""
     login_user(user)
+    session.permanent = True
     return redirect(url_for("general_bp.home"))
 
 
