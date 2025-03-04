@@ -61,7 +61,7 @@ flask-sqlalchemy==2.5.1
     #   flask-migrate
 flask-wtf==0.15.1
     # via -r requirements.in
-greenlet==1.1.0
+greenlet==3.0.3
     # via sqlalchemy
 idna==2.10
     # via requests
@@ -95,7 +95,7 @@ python-dateutil==2.8.1
     # via alembic
 python-editor==1.0.4
     # via alembic
-pyyaml==5.4.1
+pyyaml==6.0.1
     # via -r requirements.in
 regex==2021.4.4
     # via black
