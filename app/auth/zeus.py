@@ -46,16 +46,25 @@ def authorized() -> typing.Any:
     username = me.json().get("username", "").lower()
 
     user = User.query.filter_by(username=username).first()
-    # pylint: disable=R1705
-    if username and user:
-        return login_and_redirect_user(user)
-    elif username:
+
+    if not username:
+        flash("You're not allowed to enter, please contact a system administrator")
+        return redirect(url_for("general_bp.home"))
+
+    if not user:
         user = create_user(username)
-        return login_and_redirect_user(user)
 
-    flash("You're not allowed to enter, please contact a system administrator")
-    return redirect(url_for("general_bp.home"))
+    roles = me.json().get("roles", [])
+    if "bestuur" in roles or "haldis_admin" in roles:
+        user.admin = True
+        db.session.add(user)
+        db.session.commit()
+    else:
+        user.admin = False
+        db.session.add(user)
+        db.session.commit()
 
+    return login_and_redirect_user(user)
 
 def init_oauth(app):
     """Initialize the OAuth for ZeusWPI"""
@@ -70,6 +79,7 @@ def init_oauth(app):
         access_token_method="POST",
         access_token_url="https://zauth.zeus.gent/oauth/token/",
         authorize_url="https://zauth.zeus.gent/oauth/authorize/",
+        client_kwargs={'scope': 'roles'}
     )
 
     return oauth.create_client("zeus")
