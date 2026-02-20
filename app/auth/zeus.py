@@ -47,22 +47,17 @@ def authorized() -> typing.Any:
 
     user = User.query.filter_by(username=username).first()
 
-    if not username:
-        flash("You're not allowed to enter, please contact a system administrator")
-        return redirect(url_for("general_bp.home"))
-
     if not user:
         user = create_user(username)
 
     roles = me.json().get("roles", [])
     if "bestuur" in roles or "haldis_admin" in roles:
         user.admin = True
-        db.session.add(user)
-        db.session.commit()
     else:
         user.admin = False
-        db.session.add(user)
-        db.session.commit()
+
+    db.session.add(user)
+    db.session.commit()
 
     return login_and_redirect_user(user)
 
