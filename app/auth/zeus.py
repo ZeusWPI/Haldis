@@ -51,10 +51,7 @@ def authorized() -> typing.Any:
         user = create_user(username)
 
     roles = me.json().get("roles", [])
-    if "bestuur" in roles or "haldis_admin" in roles:
-        user.admin = True
-    else:
-        user.admin = False
+    user.admin = "bestuur" in roles or "haldis_admin" in roles
 
     db.session.add(user)
     db.session.commit()
