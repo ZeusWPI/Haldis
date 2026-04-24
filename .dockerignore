@@ -5,5 +5,5 @@
 !app
 !waitress_wsgi.py
 !pyproject.toml
-!poetry.lock
+!uv.lock
 !LICENSE

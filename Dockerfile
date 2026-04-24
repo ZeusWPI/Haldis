@@ -1,23 +1,16 @@
 # syntax=docker/dockerfile:1
-FROM python:3.12.4-slim AS compile
+FROM python:3.12.4-slim AS build
 
 WORKDIR /
-
-RUN pip install poetry
-
-COPY pyproject.toml poetry.lock .
-
-RUN poetry export --without-hashes --format=requirements.txt > requirements.txt
-
-FROM python:3.12.4-slim AS build
 
 RUN apt update -y && apt install -y build-essential curl git
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
 ENV PATH="/root/.cargo/bin:${PATH}"
 
-COPY --from=compile requirements.txt .
-
-RUN pip install -r requirements.txt
+COPY pyproject.toml uv.lock .
+RUN pip install uv
+ENV UV_PROJECT_ENVIRONMENT="/usr/local/"
+RUN uv sync --locked
 
 RUN git clone https://git.zeus.gent/Haldis/menus.git menus
 
