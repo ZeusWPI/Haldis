@@ -1,9 +1,9 @@
-name: Docker main build
+name: Docker master build
 
 on:
   push:
     branches:
-      - main
+      - master
 
 concurrency:
   group: docker-main
