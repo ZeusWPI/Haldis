@@ -32,6 +32,8 @@ class ChoiceReference:
 # pylint: disable=no-self-use
 class HldsSemanticActions:
     def location(self, ast) -> Location:
+        attributes = {att["key"]: att["value"] for att in ast["attributes"]}
+
         choices = {
             choice.id: choice for choice in filter_instance(Choice, ast["items_"])
         }
@@ -60,18 +62,19 @@ class HldsSemanticActions:
                     option.price += dish.price
                 dish.price = 0
         dishes = list(dishes)
-        dishes.append(
-            Dish(
-                "custom",
-                name="Vrije keuze",
-                description="Zet wat je wil in comment",
-                price=0,
-                tags=[],
-                choices=[],
-            )
-        )
 
-        attributes = {att["key"]: att["value"] for att in ast["attributes"]}
+        if attributes.get("free_choice","yes") != "no":
+            dishes.append(
+                Dish(
+                    "custom",
+                    name="Vrije keuze",
+                    description="Zet wat je wil in comment",
+                    price=0,
+                    tags=[],
+                    choices=[],
+                )
+            )
+
 
         return Location(
             ast["id"],
