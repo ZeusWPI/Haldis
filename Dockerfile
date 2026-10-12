@@ -7,7 +7,7 @@ RUN apt update -y && apt install -y build-essential curl git
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
 ENV PATH="/root/.cargo/bin:${PATH}"
 
-COPY pyproject.toml uv.lock .
+COPY pyproject.toml uv.lock ./
 RUN pip install uv
 ENV UV_PROJECT_ENVIRONMENT="/usr/local/"
 RUN uv sync --locked
