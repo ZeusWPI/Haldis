@@ -5,6 +5,7 @@ from app.models import db
 
 from urllib.parse import urlparse
 import os
+import re
 
 
 def extend_locations(app, hlds_locations: list[Location]) -> list[Location]:
@@ -38,6 +39,10 @@ def get_data_and_update(location: Location):
         return
 
     path = urlparse(location.osm).path
+    if re.match("^/(node|way)/[0-9]+$", path) is None:
+        print(f"Malformed osm field, cannot query (not a node or way): {location.osm}")
+        return
+
     location_data = get_data_from_osm_node(path)
     location_data.hlds_id = location.id
     db_location_data: LocationData | None = LocationData.query.filter_by(
