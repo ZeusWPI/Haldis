@@ -158,8 +158,8 @@ def parse_file(filename: str) -> List[Location]:
         try:
             location = parse(file_handle.read())
         except Exception as e:
-            print(traceback.format_exc())
-            print(f"Error parsing {filename}: {e}, skipping")
+            #print(traceback.format_exc())
+            print(f"Skipping {filename} due to parsing error:\n{e}")
             return []
 
     return location
