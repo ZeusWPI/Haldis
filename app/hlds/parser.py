@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import itertools
+import sys
 from copy import deepcopy
 from glob import glob
 from os import path
@@ -176,11 +177,15 @@ def parse_files(files: Iterable[str]) -> List[Location]:
 
 def parse_all_directory(directory: str) -> List[Location]:
     r = requests.get(Configuration.HAM_URL + "/api/menu")
-    print(r)
+    if r.status_code != 200:
+        print(f"Failed to fetch menus from HAM: {r}", file=sys.stderr)
     menus = json.loads(r.content)
     locations = []
     for menu in menus:
         r2 = requests.get(Configuration.HAM_URL + "/api/menu/" + menu)
+        if r2.status_code != 200:
+            print(f"Failed to fetch {menu} menu from HAM: {r}", file=sys.stderr)
+            continue
         jsonmenu = json.loads(r2.content)
         jsondish = jsonmenu["dishes"]
         common_choices = jsonmenu["common_choices"]
