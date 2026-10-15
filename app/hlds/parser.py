@@ -244,11 +244,11 @@ def get_choices(common_choices, choice_selections) -> List[Choice]:
 
 
 def get_tags(index, jsondish) -> List[str]:
-    tabs = []
+    tags = []
     if jsondish[index]["is_vegan"]:
-        tabs.append("vegan")
+        tags.append("vegan")
     if jsondish[index]["is_vegetarian"]:
-        tabs.append("vegetarian")
+        tags.append("vegetarian")
     if jsondish[index]["is_glutenfree"]:
-        tabs.append("glutenfree")
-    return tabs
+        tags.append("glutenfree")
+    return tags
