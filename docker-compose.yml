@@ -12,6 +12,8 @@ services:
       - MARIADB_USER
       - MARIADB_PASSWORD
     networks: [haldis]
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
   database:
     image: docker.io/library/mariadb:10.8
     hostname: database
@@ -23,6 +25,7 @@ services:
       - MARIADB_PASSWORD
     networks: [haldis]
     volumes: [haldis_data:/var/lib/mysql]
+
 networks:
   haldis:
 volumes:

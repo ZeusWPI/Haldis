@@ -23,6 +23,7 @@ class Configuration:
     ZEUS_KEY = "tomtest"
     ZEUS_SECRET = "blargh"
     REFRESH_OSM = False
+    HAM_URL = "http://host.docker.internal:3000"
 
     ENABLE_MICROSOFT_AUTH = False
     MICROSOFT_AUTH_ID = ""

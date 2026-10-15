@@ -1,11 +1,17 @@
 #!/usr/bin/env python3
 
 import itertools
+import sys
 from copy import deepcopy
 from glob import glob
 from os import path
 import traceback
+import requests
+from sqlalchemy.dialects.oracle import dictionary
+
+from app.config import Configuration
 from typing import Iterable, List, Tuple, Union
+import json
 
 from tatsu import parse as tatsu_parse
 from tatsu.ast import AST
@@ -63,7 +69,7 @@ class HldsSemanticActions:
                 dish.price = 0
         dishes = list(dishes)
 
-        if attributes.get("free_choice","yes") != "no":
+        if attributes.get("free_choice", "yes") != "no":
             dishes.append(
                 Dish(
                     "custom",
@@ -74,7 +80,6 @@ class HldsSemanticActions:
                     choices=[],
                 )
             )
-
 
         return Location(
             ast["id"],
@@ -171,6 +176,79 @@ def parse_files(files: Iterable[str]) -> List[Location]:
 
 
 def parse_all_directory(directory: str) -> List[Location]:
+    r = requests.get(Configuration.HAM_URL + "/api/menu")
+    if r.status_code != 200:
+        print(f"Failed to fetch menus from HAM: {r}", file=sys.stderr)
+    menus = json.loads(r.content)
+    locations = []
+    for menu in menus:
+        r2 = requests.get(Configuration.HAM_URL + "/api/menu/" + menu)
+        if r2.status_code != 200:
+            print(f"Failed to fetch {menu} menu from HAM: {r}", file=sys.stderr)
+            continue
+        jsonmenu = json.loads(r2.content)
+        jsondish = jsonmenu["dishes"]
+        common_choices = jsonmenu["common_choices"]
+        dishes = [
+            Dish(
+                jsondish[i]["id"],
+                name=jsondish[i]["name"],
+                description=jsondish[i]["description"],
+                price=jsondish[i]["price"],
+                choices=get_choices(common_choices, jsondish[i]["choices"]),
+                tags=get_tags(i, jsondish)
+            ) for i in range(len(jsonmenu["dishes"]))
+        ]
+        menu2 = Location(
+            jsonmenu["id"],
+            name=jsonmenu["name"],
+            dishes=dishes,
+            osm=jsonmenu["osm"]
+        )
+        locations.append(menu2)
+    return locations
     # TODO Use proper way to get resources, see https://stackoverflow.com/a/10935674
-    files = glob(path.join(directory, "**.hlds"), recursive=True)
-    return parse_files(files)
+    #files = glob(path.join(directory, "**.hlds"), recursive=True)
+    #return parse_files(files)
+
+
+def get_id(common_choice):
+    return common_choice["id"]
+
+
+def get_common_choice(id, commonchoices):
+    choice = list(filter(lambda a: id == get_id(a), commonchoices))
+    return choice[0]
+
+
+def get_choices(common_choices, choice_selections) -> List[Choice]:
+    retchoices = []
+    for c in choice_selections:
+        common_choice = get_common_choice(c["id"], common_choices)
+        retchoices.append(("multi_choice" if common_choice["multiple_choice"] else "single_choice", Choice(
+                                c["id"],
+                                name=common_choice["name"],
+                                description="",
+                                options=[
+                                    Option(
+                                        name=option["name"],
+                                        price=option["price"],
+                                        description="",
+                                        tags=[],
+                                        id_=option["name"]
+                                    ) for option in common_choice["options"]
+                                ]
+                            )
+                           ))
+    return retchoices
+
+
+def get_tags(index, jsondish) -> List[str]:
+    tags = []
+    if jsondish[index]["is_vegan"]:
+        tags.append("vegan")
+    if jsondish[index]["is_vegetarian"]:
+        tags.append("vegetarian")
+    if jsondish[index]["is_glutenfree"]:
+        tags.append("glutenfree")
+    return tags
